@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Affiche un service financier web en bulu sans toucher à son code.",
   "scripts": {
+    "import": "node tools/import.js",
     "pack": "node tools/build-pack.js",
     "check": "node tools/check-pack.js",
     "build": "node --disable-warning=ExperimentalWarning tools/compile.js",
