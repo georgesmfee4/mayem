@@ -1,0 +1,17 @@
+/* Signalement discret : aucun texte n'est ajouté dans la page, seules des marques visuelles. */
+[data-saf="unverified"], [data-saf="rejected"] {
+  text-decoration: underline dotted #b45309 1.5px;
+  text-underline-offset: 3px;
+}
+[data-saf="unverified"][data-saf-critical="1"], [data-saf="rejected"][data-saf-critical="1"] {
+  background: rgba(254, 243, 199, 0.65);
+}
+/* Contenu inédit : étiquette de catégorie validée (pseudo-élément, hors du texte de la page) */
+[data-saf-cat]::before {
+  content: attr(data-saf-cat) " · ";
+  font-weight: 700;
+  color: #92400e;
+}
+@media (prefers-color-scheme: dark) {
+  [data-saf-cat]::before { color: #fbbf24; }
+}
