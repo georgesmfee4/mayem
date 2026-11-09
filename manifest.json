@@ -9,16 +9,25 @@
         "<all_urls>"
       ],
       "js": [
-        "data/memory.js",
-        "src/protect.js",
-        "src/engine.js",
-        "src/dom.js"
+        "dom/entree.js"
       ],
       "css": [
-        "src/style.css"
+        "dom/style.css"
       ],
       "run_at": "document_idle",
       "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "core/*.js",
+        "dom/*.js",
+        "packs/bum/pack.json"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

@@ -4,9 +4,11 @@ Mayem affiche un service financier web en bulu sans toucher au code du service.
 Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de chaque session.
 
 ## Style
-- JavaScript moderne, sans TypeScript ni framework. Modules ES, une responsabilité par fichier.
-- Noms de variables et de fonctions en anglais, courts et parlants : `findAmounts`, `translateText`, `isFactOnly`.
-  Pas de jargon : `textNode` plutôt que `tn`, `rules` plutôt que `heuristicRegistry`.
+- TypeScript pour `core/` et `dom/`, sans framework. Uniquement des types effaçables (pas d'enum ni de namespace) :
+  `tools/compile.js` les retire avec Node, sans compilateur installé. `tools/` et `test/` restent en JavaScript.
+- Modules ES, une responsabilité par fichier. Aucune dépendance ajoutée.
+- Noms de variables et de fonctions en français, courts et parlants : `trouverMontants`, `traduire`, `queDesFaits`.
+  Pas de jargon : `noeud` plutôt que `n`, `regles` plutôt que `registreHeuristique`.
 - Fonctions courtes. Si une fonction ne tient pas sur un écran, la couper.
 - Pas d'abstraction « au cas où » : pas de classe, de fabrique ou de configuration tant qu'un deuxième usage réel n'existe pas.
 - Commentaires en français, rares, pour dire *pourquoi*, jamais pour répéter le code.
@@ -24,9 +26,9 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
 - Ne jamais lire ni modifier un champ de saisie.
 - Aucune requête réseau, aucun stockage des textes affichés.
 - Montants, dates, numéros, références, noms : jamais traduits. Une sortie dont les chiffres diffèrent de l'entrée est rejetée.
-- Seul le bulu validé par deux personnes s'affiche (`pipelineTest` à `false` pour la démo).
+- Seul le bulu validé par deux personnes s'affiche (`MODE_TEST` à `false` dans `dom/entree.ts` pour la démo).
 - Aucune dépendance payante. Toute dépendance ajoutée est déclarée dans `THIRD_PARTY.md`.
 
 ## Avant chaque commit
-- `node test/engine.test.cjs` passe.
-- `python tools/csv_to_memory.py` passe.
+- `npm test` passe.
+- `npm run pack` passe (il lance check-pack).

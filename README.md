@@ -25,18 +25,33 @@ Non testé : l'étape 5 (reçu), car elle demande de cliquer « Confirmer le tra
 - Le barème du protocole en ligne diffère du PDF : fonctionnement 25, **fidélité des traductions 20**, sécurité 20,
   intégration 15, accessibilité 10, innovation 10. La qualité linguistique est vérifiée **en plus** des 100 points.
 
+## Organisation
+
+```
+core/        moteur pur en TypeScript : reçoit une chaîne et un pack, rend un résultat
+dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM)
+packs/       schema.json + un dossier par langue (packs/bum/pack.json, généré)
+tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs)
+test/        tests node:test
+```
+
+Aucune dépendance : Node 22 suffit (types retirés par Node lui-même, `node:test` pour les tests).
+Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace).
+
 ## Tester
-1. Chrome → `chrome://extensions` → « Mode développeur » → « Charger l'extension non empaquetée » → ce dossier.
-2. Ouvrir `https://safinum.cm/hackathon-test?jury=1`. Le panneau jury permet de rejouer tous les contrôles ci-dessus.
-3. Le bouton en bas à gauche bascule bulu ⇄ original ; le bouton « i » affiche les compteurs et le contrôle des chiffres.
-4. Hors ligne : `cd mock-bank && python3 -m http.server 8000` (page d'essai construite autrement, pour prouver l'indépendance).
-5. Tests du moteur : `node test/engine.test.cjs` (tous les textes réels de la page, en français et en anglais).
+1. `npm run build` prépare l'extension dans `dist/`.
+2. Chrome → `chrome://extensions` → « Mode développeur » → « Charger l'extension non empaquetée » → le dossier `dist/`.
+3. Ouvrir `https://safinum.cm/hackathon-test?jury=1`. Le panneau jury permet de rejouer tous les contrôles ci-dessus.
+4. Le bouton en bas à gauche bascule bulu ⇄ original ; le bouton « i » affiche les compteurs et le contrôle des chiffres.
+5. Hors ligne : `cd mock-bank && python3 -m http.server 8000` (page d'essai construite autrement, pour prouver l'indépendance).
+6. Tests : `npm test` (tous les textes réels de la page, en français et en anglais, et les refus de check-pack).
 
 ## Faire valider le bulu
 1. `python3 tools/kit.py export` crée `kit-validation-bulu.xlsx` (mode d'emploi inclus). L'envoyer aux locuteurs, en commençant par les lignes P1.
 2. Fichier rempli reçu : `python3 tools/kit.py import fichier.xlsx`. Une ligne n'est validée que si « Traduit par » et « Relu par » portent deux noms différents.
-3. `python3 tools/csv_to_memory.py` (refuse les lignes dont les chiffres ou les champs `{…}` ne correspondent pas au français), puis recharger l'extension.
-4. Pour la démo finale : `pipelineTest: false` dans `src/engine.js`. Seules les traductions validées s'affichent.
+3. `npm run pack` écrit `packs/bum/pack.json`. Il refuse un pack invalide : champ manquant, champs `{…}` ou chiffres différents
+   entre le français et le bulu, ligne validée sans relecteur (ou relue par son traducteur). Puis `npm run build` et recharger l'extension.
+4. Pour la démo finale : `MODE_TEST = false` dans `dom/entree.ts`. Seules les traductions validées s'affichent.
 
 ## Garanties intégrées
 - On ne modifie que la valeur des textes existants : jamais de HTML injecté, jamais de nœud ajouté dans la page (compatible Vue/React).
@@ -49,5 +64,7 @@ Non testé : l'étape 5 (reçu), car elle demande de cliquer « Confirmer le tra
 ## Limites connues
 - Texte coupé par des balises (`Solde : <b>5 000 FCFA</b>`) : non géré (absent de la page officielle, à traiter pour d'autres services).
 - Le panneau jury est lui aussi traité quand ses textes figurent dans le corpus (sans effet sur les contrôles).
-- Repli IA pour le contenu inédit : point d'accroche `SAF.fallback` prévu, non branché (outils gratuits uniquement, à décider).
+- Repli IA pour le contenu inédit : non branché (outils gratuits uniquement, à décider).
+- Le pack et les modules sont déclarés `web_accessible_resources` (nécessaire pour les charger depuis le content script) :
+  une page peut donc détecter que l'extension est installée.
 - `<all_urls>` dans le manifeste : à restreindre au clic (`activeTab`) pour la version finale.

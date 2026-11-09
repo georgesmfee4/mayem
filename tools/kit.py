@@ -7,7 +7,7 @@
   python3 tools/kit.py import RETRAD     -> enregistre la retraduction reçue (retraduction.csv)
 
 Une ligne n'est marquée validée que si « Traduit par » ET « Relu par » sont remplis
-(deux personnes différentes). Ensuite : python3 tools/csv_to_memory.py
+(deux personnes différentes). Ensuite : npm run pack
 """
 import csv, pathlib, re, sys
 from openpyxl import Workbook, load_workbook
