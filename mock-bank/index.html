@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FauxBank — service financier simulé</title>
+<style>
+  :root { --teal:#0f4c5c; --ink:#16252b; --line:#cfdadd; --bg:#f3f6f7; --warn:#b45309; --warn-bg:#fef3c7; --bad:#b42318; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+  header { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:var(--teal); color:#fff; }
+  header h1 { margin:0; font-size:20px; }
+  main { max-width:480px; margin:20px auto; padding:0 16px 80px; }
+  .alert { max-width:480px; margin:16px auto 0; padding:10px 14px; background:var(--warn-bg); color:#78350f; border-left:4px solid var(--warn); }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px; }
+  h2 { margin:0 0 12px; font-size:20px; }
+  .label { margin:12px 0 2px; color:#4b6169; font-size:14px; }
+  .big { margin:0 0 12px; font-size:34px; font-weight:700; }
+  label { display:block; margin:12px 0 4px; font-size:14px; color:#4b6169; }
+  input { width:100%; padding:10px; border:1px solid var(--line); border-radius:6px; font:inherit; }
+  button { margin:12px 8px 0 0; padding:10px 16px; border:0; border-radius:8px; background:var(--teal); color:#fff; font:inherit; font-weight:600; cursor:pointer; }
+  button.ghost { background:#e6edef; color:var(--ink); }
+  button:focus-visible, input:focus-visible { outline:3px solid #f59e0b; outline-offset:2px; }
+  .error { color:var(--bad); font-weight:600; }
+  .ok { color:#067647; font-weight:600; }
+  footer { position:fixed; left:12px; bottom:12px; }
+  footer button { background:#444; font-size:13px; }
+</style>
+</head>
+<body>
+<header><h1>FauxBank</h1><span>Mon compte</span></header>
+<aside class="alert">Attention : ne partagez jamais votre code secret. Aucun agent ne vous le demandera.</aside>
+<main><div class="card" id="app"></div></main>
+<footer data-saf-ignore><button id="novel" type="button">[Jury] Injecter un message inédit</button></footer>
+
+<script>
+const BALANCE = 125000, FEE = 250;
+const fmt = (n) => n.toLocaleString('fr-FR') + ' FCFA';
+const app = document.getElementById('app');
+let tx = { phone: '', name: '', amount: 0 };
+
+function el(tag, props = {}, ...kids) { const e = Object.assign(document.createElement(tag), props); e.append(...kids); return e; }
+function field(id, labelText, props = {}) {
+  return [el('label', { htmlFor: id, textContent: labelText }), el('input', Object.assign({ id }, props))];
+}
+function show(...nodes) { app.replaceChildren(...nodes); }
+
+function home() {
+  show(
+    el('h2', { textContent: 'Bienvenue' }),
+    el('p', { className: 'label', textContent: 'Solde disponible' }),
+    el('p', { className: 'big', textContent: fmt(BALANCE) }),
+    el('p', { id: 'msg' }),
+    el('button', { textContent: 'Consulter le solde', onclick: () => { document.getElementById('msg').textContent = 'Votre solde est de ' + fmt(BALANCE); } }),
+    el('button', { textContent: "Envoyer de l'argent", onclick: form }),
+    el('button', { className: 'ghost', textContent: 'Historique des transactions' }),
+  );
+}
+
+function form(err) {
+  show(
+    el('h2', { textContent: "Envoyer de l'argent" }),
+    ...field('phone', 'Numéro du bénéficiaire', { value: tx.phone, placeholder: 'Numéro du bénéficiaire', inputMode: 'tel' }),
+    ...field('name', 'Nom du bénéficiaire', { value: tx.name }),
+    ...field('amount', 'Montant à envoyer', { value: tx.amount || '', inputMode: 'numeric' }),
+    el('p', { className: 'label', textContent: "Frais de l'opération : " + fmt(FEE) }),
+    el('p', { className: 'error', id: 'err', textContent: typeof err === 'string' ? err : '' }),
+    el('button', { textContent: 'Continuer', onclick: next }),
+    el('button', { className: 'ghost', textContent: 'Annuler', onclick: home }),
+  );
+}
+
+function next() {
+  tx.phone = document.getElementById('phone').value.trim();
+  tx.name = document.getElementById('name').value.trim() || 'Jean Mballa';
+  tx.amount = parseInt(document.getElementById('amount').value, 10) || 0;
+  const err = document.getElementById('err');
+  if (tx.phone.replace(/\D/g, '').length < 9) return (err.textContent = 'Numéro invalide');
+  if (tx.amount <= 0) return (err.textContent = 'Montant invalide');
+  if (tx.amount + FEE > BALANCE) return (err.textContent = 'Solde insuffisant');
+  recap();
+}
+
+function recap() {
+  show(
+    el('h2', { textContent: "Récapitulatif de l'opération" }),
+    el('p', { textContent: 'Vous allez envoyer ' + fmt(tx.amount) + ' à ' + tx.name }),
+    el('p', { textContent: 'Numéro du bénéficiaire : ' + tx.phone }),
+    el('p', { textContent: "Frais de l'opération : " + fmt(FEE) }),
+    el('p', { textContent: 'Total débité : ' + fmt(tx.amount + FEE) }),
+    el('p', { className: 'error', textContent: 'Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.' }),
+    el('button', { textContent: 'Confirmer', onclick: done }),
+    el('button', { className: 'ghost', textContent: 'Retour', onclick: form }),
+  );
+}
+
+function done() {
+  show(
+    el('h2', { className: 'ok', textContent: 'Opération réussie' }),
+    el('p', { textContent: "Référence de l'opération : TX-482913" }),
+    el('button', { textContent: "Retour à l'accueil", onclick: home }),
+  );
+}
+
+// Simule le « contenu inédit » que le jury peut introduire pendant la démonstration
+document.getElementById('novel').onclick = () => {
+  app.append(el('p', { className: 'alert', textContent: 'Avis : les frais de transfert vers un autre opérateur passent à 150 FCFA à partir de lundi.' }));
+};
+
+home();
+</script>
+</body>
+</html>

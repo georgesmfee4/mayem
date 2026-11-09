@@ -1,0 +1,7 @@
+node_modules/
+.output/
+.wxt/
+dist/
+*.zip
+__pycache__/
+retraduction-a-envoyer.xlsx
