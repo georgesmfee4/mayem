@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pack de langue Mayem",
+  "type": "object",
+  "required": ["langue", "nom", "version", "orthographe", "etiquettes", "glossaire", "phrases"],
+  "properties": {
+    "langue": { "type": "string", "description": "Code ISO 639-3, par exemple bum pour le bulu" },
+    "nom": { "type": "string" },
+    "version": { "type": "string" },
+    "orthographe": { "type": "string" },
+    "etiquettes": {
+      "type": "object",
+      "description": "Catégorie d'un message inédit -> id de la phrase qui sert d'étiquette",
+      "properties": {
+        "securite": { "type": "string" },
+        "erreur": { "type": "string" },
+        "frais": { "type": "string" },
+        "info": { "type": "string" }
+      }
+    },
+    "glossaire": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ref", "terme", "sens", "en", "bulu", "critique", "a_eviter", "traduit_par", "relu_par", "commentaire"],
+        "properties": {
+          "ref": { "type": "string" },
+          "terme": { "type": "string" },
+          "sens": { "type": "string" },
+          "en": { "type": "string" },
+          "bulu": { "type": "string" },
+          "critique": { "type": "boolean" },
+          "a_eviter": { "type": "string" },
+          "traduit_par": { "type": "string" },
+          "relu_par": { "type": "string" },
+          "commentaire": { "type": "string" }
+        }
+      }
+    },
+    "phrases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "fr", "en", "bulu", "critique", "traduit_par", "relu_par", "valide"],
+        "properties": {
+          "id": { "type": "string" },
+          "fr": { "type": "string" },
+          "en": { "type": "array", "items": { "type": "string" } },
+          "bulu": { "type": "string" },
+          "critique": { "type": "boolean" },
+          "traduit_par": { "type": "string" },
+          "relu_par": { "type": "string" },
+          "valide": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,5116 @@
+{
+  "langue": "bum",
+  "nom": "Bulu",
+  "version": "0.3.0",
+  "orthographe": "Alphabet de l'Église presbytérienne",
+  "etiquettes": {
+    "securite": "E02",
+    "erreur": "E01",
+    "frais": "G06"
+  },
+  "glossaire": [
+    {
+      "ref": "T01",
+      "terme": "solde",
+      "sens": "L'argent disponible sur le compte",
+      "en": "balance",
+      "bulu": "Mebal",
+      "critique": true,
+      "a_eviter": "Éviter 'Évôvôla' seul qui désigne le compte lui-même et non la somme disponible.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T02",
+      "terme": "frais",
+      "sens": "La somme prise par le service pour faire une opération",
+      "en": "fee / fees",
+      "bulu": "Minkuk",
+      "critique": true,
+      "a_eviter": "Éviter 'Aya'an' qui désigne plutôt le paiement lui-même.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T03",
+      "terme": "gratuit",
+      "sens": "Sans frais : rien à payer pour l’opération",
+      "en": "free",
+      "bulu": "Bua",
+      "critique": true,
+      "a_eviter": "Éviter les périphrases trop longues quand un bouton ou un badge court est requis.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T04",
+      "terme": "montant",
+      "sens": "La somme d'argent d'une opération",
+      "en": "amount",
+      "bulu": "abime moné",
+      "critique": true,
+      "a_eviter": "moné tout court car moné signifie argent, et l'utiliser pour designer le montant serait très déplacé",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T05",
+      "terme": "total débité / débiter",
+      "sens": "La somme retirée du compte (montant + frais)",
+      "en": "total debited / debit",
+      "bulu": "Mebal mate wulu",
+      "critique": true,
+      "a_eviter": "Mebal tout court qui est le montant, il faut une expression qui désigne que le solde ne sera plus le même (soustraction).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T06",
+      "terme": "compte",
+      "sens": "Le compte bancaire de la personne",
+      "en": "account",
+      "bulu": "Évôvôla moné",
+      "critique": false,
+      "a_eviter": "Éviter 'Alang' qui se rapporte au calcul ou à l'action de compter.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T07",
+      "terme": "transfert / envoyer de l’argent",
+      "sens": "Envoyer de l'argent à une autre personne",
+      "en": "transfer / send money",
+      "bulu": "Ntsili moné",
+      "critique": true,
+      "a_eviter": "nlomane moné (trop général, signifie juste expédier sans nuance de glissement ou transfert financier).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T08",
+      "terme": "bénéficiaire / destinataire",
+      "sens": "La personne qui reçoit l'argent",
+      "en": "beneficiary / recipient",
+      "bulu": "Nyô a ya’a",
+      "critique": true,
+      "a_eviter": "mote a nyong (moins précis techniquement pour une réception/accueil de fonds).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T09",
+      "terme": "numéro de téléphone",
+      "sens": "Le numéro de la personne qui reçoit",
+      "en": "phone number",
+      "bulu": "Nombor nsinga",
+      "critique": false,
+      "a_eviter": "nombor tout court (anglicisme brut incomplet sans la référence au téléphone/fil).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T10",
+      "terme": "référence",
+      "sens": "Le code qui identifie une opération (ex. SAF-2026-K3P9QZ)",
+      "en": "reference",
+      "bulu": "Mendém",
+      "critique": false,
+      "a_eviter": "Éviter 'Éyé’élé' qui fait référence à un indice ou une preuve physique externe.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T11",
+      "terme": "confirmer / valider",
+      "sens": "Action définitive : après, l'argent part",
+      "en": "confirm / validate",
+      "bulu": "Ntiñ",
+      "critique": true,
+      "a_eviter": "E kanesse (signifie plutôt approuver une idée ou dire oui, manque de la force du scellement d'une transaction irréversible).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T12",
+      "terme": "annuler",
+      "sens": "Abandonner l'opération (différent de modifier)",
+      "en": "cancel",
+      "bulu": "Futié",
+      "critique": true,
+      "a_eviter": "teke bò (signifie simplement 'ne pas faire', trop vague pour un bouton d'action système d'annulation).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T13",
+      "terme": "modifier",
+      "sens": "Revenir corriger les informations (différent de annuler)",
+      "en": "edit",
+      "bulu": "Tyendé",
+      "critique": true,
+      "a_eviter": "Éviter 'Fôngô' qui s'applique à la modification de forme physique ou structurelle profonde.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T14",
+      "terme": "continuer",
+      "sens": "Passer à l'étape suivante",
+      "en": "continue",
+      "bulu": "Kele ôsu",
+      "critique": true,
+      "a_eviter": "Éviter les écritures sans accents (kele ossu) pour préserver la lisibilité officielle.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T15",
+      "terme": "retour",
+      "sens": "Revenir à l'étape précédente",
+      "en": "back",
+      "bulu": "Bulan mvus",
+      "critique": false,
+      "a_eviter": "Éviter les graphies non harmonisées avec le dictionnaire de l'Église presbytérienne.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T16",
+      "terme": "vérifier",
+      "sens": "Contrôler avec attention avant d’agir",
+      "en": "verify / check",
+      "bulu": "Nyafombàn",
+      "critique": true,
+      "a_eviter": "Ne pas confondre avec un simple coup d'œil.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T17",
+      "terme": "alerte de sécurité / attention",
+      "sens": "Avertissement : il y a un risque",
+      "en": "security warning / warning",
+      "bulu": "Atye’é minlem",
+      "critique": true,
+      "a_eviter": "Éviter 'Mbenga' seul si l'on veut insister sur la vigilance du cœur des utilisateurs.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T18",
+      "terme": "erreur",
+      "sens": "Quelque chose n'a pas marché",
+      "en": "error",
+      "bulu": "Mvôngô",
+      "critique": true,
+      "a_eviter": "Nsem (à éviter absolument car nsem signifie péché/faute morale grave, totalement inadapté à une erreur système).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T19",
+      "terme": "code secret / code PIN",
+      "sens": "Le code personnel que l’on ne donne à personne",
+      "en": "secret code / PIN",
+      "bulu": "Nten bafili",
+      "critique": true,
+      "a_eviter": "neten bafili (correction orthographique nécessaire : nten bafili).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T20",
+      "terme": "jamais (ne… jamais)",
+      "sens": "Négation forte : en aucun cas",
+      "en": "never",
+      "bulu": "Amos dzing",
+      "critique": true,
+      "a_eviter": "Éviter 'Teké' seul qui est une négation simple et non absolue.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T21",
+      "terme": "ne… pas",
+      "sens": "Négation simple",
+      "en": "do not / not",
+      "bulu": "Teké",
+      "critique": true,
+      "a_eviter": "Ne pas confondre avec la négation absolue dans le temps.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T22",
+      "terme": "avant de…",
+      "sens": "Faire une chose en premier, puis l’autre",
+      "en": "before …",
+      "bulu": "Ôsusua na",
+      "critique": true,
+      "a_eviter": "Éviter 'Ôsu' seul qui indique simplement la direction devant.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T23",
+      "terme": "récapitulatif",
+      "sens": "Résumé de l'opération avant de confirmer",
+      "en": "summary",
+      "bulu": "Mamesse",
+      "critique": false,
+      "a_eviter": "Moins précis pour un condensé de données financières.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T24",
+      "terme": "reçu / effectué / succès",
+      "sens": "L'opération est terminée et a réussi",
+      "en": "receipt / completed / success",
+      "bulu": "mvaé",
+      "critique": true,
+      "a_eviter": "Éviter d'intervertir les trois termes dans les notifications d'état.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T25",
+      "terme": "opération",
+      "sens": "Une action sur le compte (transfert, paiement…)",
+      "en": "operation / transaction",
+      "bulu": "Ébômbo",
+      "critique": false,
+      "a_eviter": "Ansas / Asas (à éviter absolument car cela désigne une opération chirurgicale à l'hôpital).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T26",
+      "terme": "motif",
+      "sens": "Pourquoi on envoie l'argent",
+      "en": "reason",
+      "bulu": "Amvôm",
+      "critique": false,
+      "a_eviter": "Nlem (trop poétique ou imagé pour un champ de formulaire rigoureux).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T27",
+      "terme": "message important",
+      "sens": "Une information que le client doit lire",
+      "en": "important message",
+      "bulu": "Menda’an ntiñ",
+      "critique": true,
+      "a_eviter": "foé e ne nfi (moins formel pour une alerte d'application bancaire).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T28",
+      "terme": "banque / banque en ligne",
+      "sens": "La banque, et son service sur internet",
+      "en": "bank / online banking",
+      "bulu": "Nda moné",
+      "critique": false,
+      "a_eviter": "Báñet / Báñ (emprunts familiers de l'oral à éviter dans un glossaire écrit normé).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T29",
+      "terme": "paiement / facture / salaire",
+      "sens": "Lignes de l'historique du compte",
+      "en": "payment / bill / salary",
+      "bulu": "Éya’an",
+      "critique": false,
+      "a_eviter": "Meso'o me ésaé (trop long pour un libellé d'historique court).",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T30",
+      "terme": "Mobile Money",
+      "sens": "Garder « Mobile Money » si c’est le mot que tout le monde utilise",
+      "en": "Mobile Money",
+      "bulu": "Mobile Money",
+      "critique": false,
+      "a_eviter": "Ne pas traduire les marques ni les usages locaux officiels.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR01",
+      "terme": "ne… plus",
+      "sens": "« Vous ne pouvez plus annuler cette opération. »",
+      "en": "no longer",
+      "bulu": "... te kô…",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR02",
+      "terme": "personne (nul)",
+      "sens": "« Ne le donnez à personne. »",
+      "en": "nobody / anyone",
+      "bulu": "môt dzing",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR03",
+      "terme": "rien",
+      "sens": "« Rien n'a été débité. »",
+      "en": "nothing",
+      "bulu": "jôm dzing",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR04",
+      "terme": "aucun / aucune",
+      "sens": "« Aucun agent ne vous le demandera. »",
+      "en": "no / none",
+      "bulu": "dzing",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR05",
+      "terme": "sans",
+      "sens": "« Transfert sans frais. »",
+      "en": "without",
+      "bulu": "teké",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR06",
+      "terme": "oui",
+      "sens": "Réponse affirmative.",
+      "en": "yes",
+      "bulu": "Ôñ",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR07",
+      "terme": "non",
+      "sens": "Réponse négative.",
+      "en": "no",
+      "bulu": "Teké",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR08",
+      "terme": "si (condition)",
+      "sens": "« Si le numéro est faux, annulez. »",
+      "en": "if",
+      "bulu": "Nge",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR09",
+      "terme": "sauf / sauf si",
+      "sens": "« Gratuit, sauf vers une autre banque. »",
+      "en": "except / unless",
+      "bulu": "Mvok nge",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR10",
+      "terme": "après",
+      "sens": "« Après confirmation, l'argent part. »",
+      "en": "after",
+      "bulu": "A lot / mvus",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR11",
+      "terme": "quand / lorsque",
+      "sens": "« Quand vous recevez un code… »",
+      "en": "when",
+      "bulu": "Eyon…",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR12",
+      "terme": "jusqu'à",
+      "sens": "« Jusqu'à 5 000 FCFA. »",
+      "en": "up to / until",
+      "bulu": "Akeke kui…",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR13",
+      "terme": "à partir de",
+      "sens": "« À partir de lundi. »",
+      "en": "from / starting",
+      "bulu": "Tate… / A so",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR14",
+      "terme": "pendant",
+      "sens": "« Pendant la maintenance. »",
+      "en": "during",
+      "bulu": "Eyon… é ne",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR15",
+      "terme": "déjà",
+      "sens": "« Ce code a déjà été utilisé. »",
+      "en": "already",
+      "bulu": "valà / …ya",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR16",
+      "terme": "encore / toujours (= encore)",
+      "sens": "« L'opération est toujours en cours. »",
+      "en": "still / again",
+      "bulu": "…mfé",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR17",
+      "terme": "maintenant",
+      "sens": "« Réessayez maintenant. »",
+      "en": "now",
+      "bulu": "etódji'i",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR18",
+      "terme": "seulement / uniquement",
+      "sens": "« Seulement par l'application. »",
+      "en": "only",
+      "bulu": "vo'ove",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR19",
+      "terme": "au moins / minimum (min.)",
+      "sens": "Utilisé dans « min. 100 FCFA ».",
+      "en": "at least / minimum",
+      "bulu": "Osû",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "GR20",
+      "terme": "au plus / maximum (max.)",
+      "sens": "Utilisé dans « max. 2 500 FCFA ».",
+      "en": "at most / maximum",
+      "bulu": "Afap",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "GR21",
+      "terme": "plus de / moins de",
+      "sens": "« Plus de 50 000 FCFA. »",
+      "en": "more than / less than",
+      "bulu": "e lot pour plus de… / e tin pour moins de",
+      "critique": true,
+      "a_eviter": "Éviter de traduire « plus de / moins de » par un seul mot. « dañ » exprime notamment dépasser/surpasser ; le couple comparatif doit être validé en contexte chiffré.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR22",
+      "terme": "supérieur à / inférieur à",
+      "sens": "« Le montant doit être supérieur à zéro. »",
+      "en": "greater than / less than",
+      "bulu": "",
+      "critique": true,
+      "a_eviter": "Éviter un calque mot à mot de « supérieur / inférieur ». Pour une règle informatique, conserver les signes > et < si le contexte le permet.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR23",
+      "terme": "zéro",
+      "sens": "Écrit en lettres dans un message d'erreur de la page.",
+      "en": "zero",
+      "bulu": "Mvôk",
+      "critique": true,
+      "a_eviter": "Éviter de remplacer le zéro par une négation : « zéro » exprime une valeur numérique, pas « non » ni « rien ». Dans l'interface, conserver aussi le chiffre 0.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "GR24",
+      "terme": "obligatoire",
+      "sens": "Champ à remplir absolument.",
+      "en": "required",
+      "bulu": "e ne ntiñan",
+      "critique": true,
+      "a_eviter": "Éviter de confondre « obligatoire » avec « important » ou « nécessaire moralement ». Le sens ici est : champ qui doit impérativement être rempli.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR25",
+      "terme": "optionnel / facultatif",
+      "sens": "Champ qu'on peut laisser vide.",
+      "en": "optional",
+      "bulu": "teké abui nfi",
+      "critique": false,
+      "a_eviter": "Éviter de confondre « facultatif » avec « gratuit ». Le champ peut être laissé vide ; cela ne signifie pas que le service ne coûte rien.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR26",
+      "terme": "vous devez",
+      "sens": "« Vous devez confirmer les informations. »",
+      "en": "you must",
+      "bulu": "w'ayiane",
+      "critique": true,
+      "a_eviter": "Éviter un impératif direct quand le français exprime une obligation. La phrase doit garder la nuance « devoir », distincte de « pouvoir ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "GR27",
+      "terme": "vous pouvez / vous ne pouvez pas",
+      "sens": "Deux formes : écrire les deux, séparées par « / ».",
+      "en": "you can / you cannot",
+      "bulu": "W'ane pour Vous pouvez et W'avo’o ki (ne pas pouvoir)",
+      "critique": true,
+      "a_eviter": "Ne pas utiliser une seule forme pour « pouvoir » et « ne pas pouvoir ». La forme « vo’o » est attestée dans une construction d'incapacité ; faire valider l'affirmatif en Bene.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "GR28",
+      "terme": "impossible",
+      "sens": "« Opération impossible. »",
+      "en": "impossible / cannot",
+      "bulu": "Bivo'o de bô",
+      "critique": true,
+      "a_eviter": "Éviter de confondre « impossible » avec « échec » ou « erreur ». Le message décrit une impossibilité, pas nécessairement une opération déjà tentée.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI01",
+      "terme": "et",
+      "sens": "« Le nom et le numéro. »",
+      "en": "and",
+      "bulu": "ai",
+      "critique": false,
+      "a_eviter": "Éviter d'utiliser « ane » comme traduction automatique de tout « et » : il peut signifier « comme », « depuis », « quand » ou marquer un enchaînement. Pour une liste, la coordination doit être validée.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI02",
+      "terme": "ou",
+      "sens": "« Le nom ou le numéro. »",
+      "en": "or",
+      "bulu": "nge … nge (alternative)",
+      "critique": true,
+      "a_eviter": "Éviter le « nge » isolé comme équivalent universel de « ou » : la construction attestée fonctionne en paire pour présenter une alternative.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI03",
+      "terme": "mais",
+      "sens": "",
+      "en": "but",
+      "bulu": "ve",
+      "critique": false,
+      "a_eviter": "Éviter de forcer une conjonction unique pour « mais ». Une opposition peut se construire entre deux propositions ; faire valider la tournure Bene.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI04",
+      "terme": "donc",
+      "sens": "",
+      "en": "so / therefore",
+      "bulu": "ajô te (donc / à propos de ce fait, selon le contexte)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre avec « amu » qui signifie « parce que ». « Donc » marque ici une conséquence.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI05",
+      "terme": "car / parce que",
+      "sens": "",
+      "en": "because",
+      "bulu": "amu (parce que / à cause de)",
+      "critique": false,
+      "a_eviter": "Éviter de l'utiliser pour exprimer une conséquence (« donc »). « Amu » introduit une cause ou un motif.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI06",
+      "terme": "ni… ni",
+      "sens": "« Ni le code ni le mot de passe. »",
+      "en": "neither… nor",
+      "bulu": "Teké... teké...",
+      "critique": true,
+      "a_eviter": "Éviter de traduire « ni… ni » par deux négations françaises juxtaposées. Il faut conserver la portée de la négation sur les deux éléments.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI07",
+      "terme": "que (vérifiez que…)",
+      "sens": "« Vérifiez que le numéro est correct. »",
+      "en": "that",
+      "bulu": "na",
+      "critique": false,
+      "a_eviter": "Éviter de traiter « na » comme un mot équivalent à tous les « que ». Sa fonction dépend du verbe et de la construction de la phrase.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI08",
+      "terme": "pour / afin de (but)",
+      "sens": "« Pour envoyer de l'argent… »",
+      "en": "to / in order to",
+      "bulu": "asu ya",
+      "critique": false,
+      "a_eviter": "Éviter de confondre le « pour » de but avec le « à » qui désigne le destinataire d'un transfert.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI09",
+      "terme": "pour que",
+      "sens": "",
+      "en": "so that",
+      "bulu": "asu na",
+      "critique": false,
+      "a_eviter": "Éviter de traduire « pour que » par le seul « pour » français : il faut une proposition complète avec son sujet et son verbe.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI10",
+      "terme": "même si",
+      "sens": "« Même si quelqu'un vous appelle… »",
+      "en": "even if",
+      "bulu": "Ja'a nge",
+      "critique": true,
+      "a_eviter": "Éviter d'utiliser cette forme comme simple « si » dans toutes les phrases : elle peut introduire une concession ou une hypothèse.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI11",
+      "terme": "à (destinataire)",
+      "sens": "« Envoyer 10 000 FCFA à Jean. »",
+      "en": "to",
+      "bulu": "asu",
+      "critique": true,
+      "a_eviter": "Éviter d'ajouter systématiquement une préposition correspondant au « à » français. Le destinataire peut être intégré à la construction du verbe.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI12",
+      "terme": "de (appartenance)",
+      "sens": "« Le numéro de Jean. »",
+      "en": "of",
+      "bulu": "Ya",
+      "critique": false,
+      "a_eviter": "Éviter de traduire mécaniquement « de » : la relation de possession ou d'appartenance se marque par une construction génitivale et des accords.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI13",
+      "terme": "avec",
+      "sens": "",
+      "en": "with",
+      "bulu": "ai",
+      "critique": false,
+      "a_eviter": "Éviter de choisir un équivalent unique sans connaître la phrase : « avec » peut exprimer l'accompagnement, l'instrument ou la manière.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI14",
+      "terme": "sur",
+      "sens": "« Sur ce compte. »",
+      "en": "on",
+      "bulu": "a yôp",
+      "critique": false,
+      "a_eviter": "Éviter un calque de « sur » : distinguer la position physique, le sujet d'une information et le compte concerné.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI15",
+      "terme": "dans",
+      "sens": "« Dans l'application. »",
+      "en": "in",
+      "bulu": "étéi",
+      "critique": false,
+      "a_eviter": "Éviter de généraliser « été » à tous les emplois de « dans » : il désigne notamment l'intérieur ou l'inclusion spatiale.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "LI16",
+      "terme": "vers",
+      "sens": "« Vers un autre opérateur. »",
+      "en": "to / towards",
+      "bulu": "asu",
+      "critique": false,
+      "a_eviter": "Éviter de confondre la destination (« vers ») avec la provenance ou le destinataire. Une phrase complète est préférable à un mot isolé.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI17",
+      "terme": "par",
+      "sens": "« Par SMS. »",
+      "en": "by / via",
+      "bulu": "ai",
+      "critique": false,
+      "a_eviter": "Éviter une traduction unique de « par » : le moyen (SMS), l'agent et le passage par un service sont des relations différentes.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI18",
+      "terme": "entre",
+      "sens": "",
+      "en": "between",
+      "bulu": "zañ ya",
+      "critique": false,
+      "a_eviter": "Éviter un calque de « entre » sans préciser les deux éléments concernés ; la relation se construit dans la phrase.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI19",
+      "terme": "chez",
+      "sens": "« Chez un agent. »",
+      "en": "at (someone's place)",
+      "bulu": "Yá",
+      "critique": false,
+      "a_eviter": "Éviter de traduire « chez » par un mot signifiant uniquement « maison » lorsque le sens est « auprès d'un agent / au point de service ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LI20",
+      "terme": "comme",
+      "sens": "",
+      "en": "like / as",
+      "bulu": "ane / aval",
+      "critique": false,
+      "a_eviter": "Éviter de confondre comparaison (« comme ») et cause (« parce que »). Choisir selon la phrase entière.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP01",
+      "terme": "le / la / les (article)",
+      "sens": "Article défini.",
+      "en": "the",
+      "bulu": "aucun / -te (défini connu ou déjà mentionné)",
+      "critique": false,
+      "a_eviter": "Ne mettez pas automatiquement un équivalent de « le / la / les ». En bulu, le nom seul peut suffire ; -te sert surtout quand le référent est déjà connu ou repris.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "DP02",
+      "terme": "un / une / des (article)",
+      "sens": "Article indéfini.",
+      "en": "a / some",
+      "bulu": "aucun (nom seul ou quantifieur selon le sens)",
+      "critique": false,
+      "a_eviter": "Pas besoin d’ajouter un mot pour chaque « un / une / des ». Souvent, le nom suffit ; sinon on précise la quantité.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "DP03",
+      "terme": "ce / cette / ces",
+      "sens": "« Ce bénéficiaire. »",
+      "en": "this / these",
+      "bulu": "forme de classe : nyi / nyô / wu / ji / bi… ; -te pour le référent déjà mentionné",
+      "critique": true,
+      "a_eviter": "Ne gardez pas une seule forme pour « ce / cette / ces » : elle suit la classe du nom. « -te » renvoie plutôt à ce qui a déjà été mentionné.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP04",
+      "terme": "votre / vos",
+      "sens": "« Votre compte. » Forme polie retenue : « Wo ».",
+      "en": "your",
+      "bulu": "wo (vouvoiement retenu par l’application ; le possessif varie selon la classe)",
+      "critique": true,
+      "a_eviter": "« Wo » n’est pas un possessif passe-partout. La forme change avec la classe du nom ; gardez aussi le registre poli choisi pour l’interface.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP05",
+      "terme": "mon / ma / mes",
+      "sens": "",
+      "en": "my",
+      "bulu": "-am (1re personne ; accord de classe)",
+      "critique": false,
+      "a_eviter": "N’ajoutez pas -am machinalement. Il faut regarder la classe du nom, et parfois le possessif n’est même pas nécessaire.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP06",
+      "terme": "son / sa / ses",
+      "sens": "",
+      "en": "his / her",
+      "bulu": "-é (3e personne ; accord de classe)",
+      "critique": false,
+      "a_eviter": "Le bulu ne sépare pas « son » et « sa » comme le français. La classe du nom et le contexte font le travail.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP07",
+      "terme": "notre / nos",
+      "sens": "« Nos agents. »",
+      "en": "our",
+      "bulu": "-angan / -añ (1re personne du pluriel ; selon la classe)",
+      "critique": false,
+      "a_eviter": "Évitez une forme unique devant tous les noms : -angan / -añ prend les marques de classe qui conviennent.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP08",
+      "terme": "leur / leurs",
+      "sens": "",
+      "en": "their",
+      "bulu": "-ap (3e personne du pluriel ; selon la classe)",
+      "critique": false,
+      "a_eviter": "N’ajoutez pas un « s » français. Le pluriel et la classe se marquent autrement en bulu.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP09",
+      "terme": "je / moi",
+      "sens": "",
+      "en": "I / me",
+      "bulu": "me ; ma en position emphatique",
+      "critique": false,
+      "a_eviter": "« Me » ne se remplace pas partout par « ma ». La forme emphatique apparaît surtout en pause ou quand on insiste.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP10",
+      "terme": "tu / toi",
+      "sens": "",
+      "en": "you (familier)",
+      "bulu": "wo / ô (2e personne du singulier ; registre familier)",
+      "critique": false,
+      "a_eviter": "Ne mélangez pas le tutoiement avec le vouvoiement de l’application. Une fois le registre choisi, tenez-vous-y.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP11",
+      "terme": "il / elle",
+      "sens": "",
+      "en": "he / she",
+      "bulu": "nye ; a comme pronom de liaison devant le verbe",
+      "critique": false,
+      "a_eviter": "Ne lisez pas « a » comme un pronom autonome à chaque fois ; très souvent, c’est la liaison entre le sujet et le verbe.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP12",
+      "terme": "nous",
+      "sens": "",
+      "en": "we",
+      "bulu": "bi",
+      "critique": false,
+      "a_eviter": "Attention à ne pas échanger « bi » et « mi » : le premier correspond à « nous », le second à « vous » au pluriel.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP13",
+      "terme": "vous (sujet poli)",
+      "sens": "« Vous allez envoyer… »",
+      "en": "you (polite)",
+      "bulu": "wo (vouvoiement retenu par l’application) ; mi pour le pluriel grammatical",
+      "critique": true,
+      "a_eviter": "Dans cette interface, « wo » sert au vouvoiement. « Mi » reste le pronom pluriel grammatical ; ne les alternez pas au hasard.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP14",
+      "terme": "ils / elles",
+      "sens": "",
+      "en": "they",
+      "bulu": "be (3e personne du pluriel)",
+      "critique": false,
+      "a_eviter": "Si le locuteur fait partie du groupe, ce n’est plus « be » mais « bi ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP15",
+      "terme": "vous (complément)",
+      "sens": "« Nous vous appellerons. »",
+      "en": "you (object)",
+      "bulu": "wo (complément ; vérifier la place et le contexte)",
+      "critique": false,
+      "a_eviter": "La forme complément ne se déduit pas toujours de la forme sujet. Vérifiez la place du pronom et l’emphase de la phrase.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP16",
+      "terme": "le / la / les (pronom)",
+      "sens": "« Ne le partagez pas. » Critique : désigne le code.",
+      "en": "it / them",
+      "bulu": "pronom de classe : nye / wô / je / vi… selon le nom",
+      "critique": true,
+      "a_eviter": "Ne cherchez pas un seul mot pour « le / la / les ». Le pronom reprend la classe du nom, et parfois on peut simplement le laisser sous-entendu.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "DP17",
+      "terme": "tout / tous / toutes",
+      "sens": "",
+      "en": "all / every",
+      "bulu": "-se (tous / toutes ; accord de classe)",
+      "critique": false,
+      "a_eviter": "Ne mettez pas -se devant tout ce qui suit. L’accord de classe doit rester visible.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP18",
+      "terme": "chaque",
+      "sens": "« Chaque opération. »",
+      "en": "each",
+      "bulu": "aucun équivalent fixe (reformulation distributive selon le contexte)",
+      "critique": false,
+      "a_eviter": "« Chaque » distribue un par un. Ne le remplacez pas automatiquement par l’idée globale de « tous ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "DP19",
+      "terme": "autre",
+      "sens": "« Un autre opérateur. »",
+      "en": "other",
+      "bulu": "-fe / mfe (autre / d’autres ; accord de classe)",
+      "critique": false,
+      "a_eviter": "« Mfe » ne va pas tout seul quand le nom garde sa classe : choisissez la forme qui s’accorde avec lui.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "DP20",
+      "terme": "même (le même)",
+      "sens": "",
+      "en": "same",
+      "bulu": "Aval ôte",
+      "critique": false,
+      "a_eviter": "Ne traduisez pas « le même » par « un autre ». S’il faut marquer l’identité, dites-le dans la phrase ; il n’y a pas ici un équivalent unique.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "DP21",
+      "terme": "quelqu'un",
+      "sens": "« Si quelqu'un vous demande votre code… »",
+      "en": "someone",
+      "bulu": "môt",
+      "critique": true,
+      "a_eviter": "« Môt » veut dire une personne / quelqu’un selon le contexte. Ne le confondez pas avec « personne » ou « nul ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP01",
+      "terme": "qui ?",
+      "sens": "",
+      "en": "who?",
+      "bulu": "za ?",
+      "critique": false,
+      "a_eviter": "Éviter d'utiliser « za » pour demander une chose : il sert à demander « qui ? ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP02",
+      "terme": "quoi ? / que ?",
+      "sens": "",
+      "en": "what?",
+      "bulu": "jé ?",
+      "critique": false,
+      "a_eviter": "Éviter de confondre « jé ? » (quoi ?) et « za ? » (qui ?).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP03",
+      "terme": "combien ?",
+      "sens": "« Combien voulez-vous envoyer ? »",
+      "en": "how much?",
+      "bulu": "tañ aya ? (combien ? / quelle quantité ?)",
+      "critique": false,
+      "a_eviter": "Éviter de traduire « combien » par le seul mot d'une quantité ; la tournure interrogative complète est requise.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP04",
+      "terme": "quand ?",
+      "sens": "",
+      "en": "when?",
+      "bulu": "eyon evé ? (quand ?)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre une question sur le moment (« quand ? ») avec la conjonction « lorsque » dans une phrase.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP05",
+      "terme": "où ?",
+      "sens": "",
+      "en": "where?",
+      "bulu": "vé ? (où ?)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre « vé ? » (où ?) avec « mbé ? » (lequel ?).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP06",
+      "terme": "pourquoi ?",
+      "sens": "",
+      "en": "why?",
+      "bulu": "amu jé ? (pourquoi ?)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre la cause (« pourquoi ? ») avec la question sur la manière (« comment ? »).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP07",
+      "terme": "comment ?",
+      "sens": "",
+      "en": "how?",
+      "bulu": "aya ? (comment ?)",
+      "critique": false,
+      "a_eviter": "Éviter d'utiliser cette forme pour demander un lieu ou une personne.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP08",
+      "terme": "est-ce que… ? (marque de question)",
+      "sens": "Comment on transforme une phrase en question.",
+      "en": "question marker",
+      "bulu": "ye",
+      "critique": false,
+      "a_eviter": "Éviter de chercher un équivalent mot à mot de « est-ce que ». La question peut être marquée par l'intonation et la construction interrogative.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "QP09",
+      "terme": "veuillez / s'il vous plaît",
+      "sens": "« Veuillez renseigner le nom. »",
+      "en": "please",
+      "bulu": "Me ye'e wo",
+      "critique": false,
+      "a_eviter": "Éviter de traduire « veuillez » par un ordre sec. Utiliser une demande polie complète, adaptée au registre choisi dans l'application.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "QP10",
+      "terme": "merci",
+      "sens": "",
+      "en": "thank you",
+      "bulu": "akéva / akiba (merci / remercier)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre le remerciement avec une simple réponse affirmative.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP11",
+      "terme": "bonsoir",
+      "sens": "",
+      "en": "good evening",
+      "bulu": "mbôlô",
+      "critique": false,
+      "a_eviter": "Éviter de fabriquer un calque de « bonsoir ». Demander la formule de salutation réellement employée par les locuteurs Bene à cette heure.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "QP12",
+      "terme": "bienvenue",
+      "sens": "",
+      "en": "welcome",
+      "bulu": "mbamba sôane",
+      "critique": false,
+      "a_eviter": "Éviter une traduction littérale de « bienvenue » si elle ne correspond pas à la formule d'accueil naturelle en Bene.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "QP13",
+      "terme": "au revoir",
+      "sens": "",
+      "en": "goodbye",
+      "bulu": "Mvôm ôbômbô",
+      "critique": false,
+      "a_eviter": "Éviter de l'utiliser comme salutation d'arrivée : cette formule est associée au départ.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "QP14",
+      "terme": "désolé / pardon",
+      "sens": "",
+      "en": "sorry",
+      "bulu": "bia sili wo tsen",
+      "critique": false,
+      "a_eviter": "Éviter d'utiliser « jame » comme traduction automatique de « désolé » : le terme est attesté pour pardonner ou remettre une dette / un prix, pas nécessairement pour présenter des excuses.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "QP15",
+      "terme": "d'accord",
+      "sens": "",
+      "en": "OK",
+      "bulu": "É bômbô",
+      "critique": false,
+      "a_eviter": "Éviter de traduire « d'accord » par le simple « oui » si le message signifie que l'utilisateur a compris ou accepte une condition.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T31",
+      "terme": "argent",
+      "sens": "L'argent en général (moné est déjà choisi dans « compte »).",
+      "en": "money",
+      "bulu": "moné (argent)",
+      "critique": false,
+      "a_eviter": "Éviter « moné » seul pour désigner un montant précis : le glossaire distingue déjà l'argent en général du montant (T04).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T32",
+      "terme": "payer",
+      "sens": "Le verbe (le nom « paiement » est en T29).",
+      "en": "to pay",
+      "bulu": "ya'an (payer / régler)",
+      "critique": true,
+      "a_eviter": "Éviter de confondre le verbe « payer » avec le nom « paiement » déjà couvert par T29.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T33",
+      "terme": "recevoir",
+      "sens": "« Vous avez reçu 10 000 FCFA. »",
+      "en": "to receive",
+      "bulu": "ya'a (recevoir)",
+      "critique": true,
+      "a_eviter": "Éviter de confondre la personne bénéficiaire (« Nyô a ya'a » dans le glossaire) avec l'action de recevoir.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T34",
+      "terme": "retirer / retrait",
+      "sens": "Sortir de l'argent en espèces.",
+      "en": "withdraw / withdrawal",
+      "bulu": "Enôngnán ya moné",
+      "critique": true,
+      "a_eviter": "Éviter d'utiliser « futié » (annuler) ou « lôm » (envoyer) pour « retirer de l'argent ». Le retrait d'espèces doit être validé comme expression complète en Bene.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T35",
+      "terme": "déposer / dépôt",
+      "sens": "Mettre de l'argent sur le compte.",
+      "en": "deposit",
+      "bulu": "tele moné évôvôla (mettre de l'argent dans le compte ; périphrase)",
+      "critique": true,
+      "a_eviter": "Éviter de présenter cette périphrase comme un verbe unique déjà normalisé. Faire valider l'ordre des mots et les accords par un locuteur Bene.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T36",
+      "terme": "rembourser / remboursement",
+      "sens": "",
+      "en": "refund",
+      "bulu": "bulane moné",
+      "critique": true,
+      "a_eviter": "Éviter de confondre remboursement avec annulation (« futié »), succès (« mvaé ») ou remise de dette (« jame »). Il s'agit de rendre l'argent.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T37",
+      "terme": "commission",
+      "sens": "Même terme que « frais » (Minkuk) ? Si oui, écrire Minkuk.",
+      "en": "commission",
+      "bulu": "Minkuk (si commission = frais prélevés)",
+      "critique": true,
+      "a_eviter": "Éviter un terme différent si la commission est exactement le prélèvement déjà appelé « frais » (T02). Si elle rémunère un agent, le sens est différent et doit être validé.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T38",
+      "terme": "agent (Mobile Money)",
+      "sens": "La personne au point de service.",
+      "en": "agent",
+      "bulu": "Mot esaé",
+      "critique": true,
+      "a_eviter": "Éviter « môt a volô » sans validation : cela peut désigner une personne qui aide, pas nécessairement un agent officiel de point de service.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T39",
+      "terme": "client",
+      "sens": "",
+      "en": "customer",
+      "bulu": "Môt a ya'an esaé",
+      "critique": false,
+      "a_eviter": "Éviter de remplacer par « bénéficiaire » : un client n'est pas nécessairement la personne qui reçoit l'argent.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T40",
+      "terme": "opérateur",
+      "sens": "Orange, MTN… (les noms de marque restent tels quels).",
+      "en": "operator",
+      "bulu": "Nyô a wulu esaé",
+      "critique": false,
+      "a_eviter": "Éviter de traduire le nom d'un opérateur comme s'il s'agissait d'un agent humain. Les marques Orange et MTN restent inchangées.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T41",
+      "terme": "réseau",
+      "sens": "« Erreur réseau. »",
+      "en": "network",
+      "bulu": "nsinga",
+      "critique": false,
+      "a_eviter": "Éviter de le confondre avec l'application ou le service : une erreur réseau peut venir de l'opérateur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T42",
+      "terme": "service",
+      "sens": "« Le service est indisponible. »",
+      "en": "service",
+      "bulu": "ésaé",
+      "critique": false,
+      "a_eviter": "Éviter d'utiliser « ésaé » pour tout service numérique sans validation : le mot est aussi attesté au sens de travail / activité.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T43",
+      "terme": "application",
+      "sens": "",
+      "en": "app",
+      "bulu": "application",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom artificiel si les utilisateurs Bene emploient déjà « application » ou « appli ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T44",
+      "terme": "mettre à jour / mise à jour",
+      "sens": "",
+      "en": "update",
+      "bulu": "fiti bô beta'a",
+      "critique": false,
+      "a_eviter": "Éviter de réutiliser « Tyendé » (modifier une information) pour une mise à jour logicielle : ce sont deux actions différentes.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T45",
+      "terme": "carte bancaire",
+      "sens": "",
+      "en": "bank card",
+      "bulu": "Éfap ya nda moné",
+      "critique": false,
+      "a_eviter": "Éviter de traduire « carte » par un mot désignant une carte de jeu ou un papier quelconque sans préciser le contexte bancaire.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T46",
+      "terme": "mot de passe",
+      "sens": "",
+      "en": "password",
+      "bulu": "Nten bafili",
+      "critique": true,
+      "a_eviter": "Éviter de le confondre avec le code PIN T19 : le mot de passe peut être alphanumérique et n'a pas nécessairement quatre chiffres.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T47",
+      "terme": "code de confirmation",
+      "sens": "Le code reçu par SMS (différent du code secret T19 ?).",
+      "en": "confirmation code",
+      "bulu": "Nten bafili ya tsin",
+      "critique": true,
+      "a_eviter": "Éviter de le confondre avec le code secret / PIN T19 : ce code reçu par SMS sert à confirmer une action.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T48",
+      "terme": "message / SMS",
+      "sens": "« SMS » peut rester tel quel (choix de style).",
+      "en": "message / SMS",
+      "bulu": "Nten ya nsinga",
+      "critique": false,
+      "a_eviter": "Éviter de remplacer SMS par un terme désignant un appel vocal.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T49",
+      "terme": "lien (dans un message)",
+      "sens": "« Ne cliquez pas sur un lien inconnu. »",
+      "en": "link",
+      "bulu": "nsinga internet",
+      "critique": true,
+      "a_eviter": "Éviter de le confondre avec une référence de transaction T10 : un lien ouvre une page ou une ressource.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T50",
+      "terme": "appeler / appel",
+      "sens": "",
+      "en": "call",
+      "bulu": "Nloán",
+      "critique": true,
+      "a_eviter": "Éviter d'utiliser « bañete » comme équivalent automatique : la source le donne notamment pour envoyer chercher / appeler par message, pas pour tous les appels téléphoniques.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T51",
+      "terme": "appuyer / cliquer",
+      "sens": "",
+      "en": "tap / click",
+      "bulu": "Fiti ô yop",
+      "critique": false,
+      "a_eviter": "Éviter de réutiliser « Nyafombàn » (vérifier / examiner) pour « appuyer » ou « cliquer » : l'action tactile doit être traduite par une consigne complète.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T52",
+      "terme": "arnaque / fraude",
+      "sens": "",
+      "en": "scam / fraud",
+      "bulu": "mvôl (vol / fraude / atteinte aux biens ; sens large)",
+      "critique": true,
+      "a_eviter": "Éviter « nsem » : il signifie péché / faute morale dans les traductions déjà présentes et serait inadapté à une fraude informatique. Valider « mvôl » en Bene pour une arnaque numérique.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T53",
+      "terme": "faux / frauduleux",
+      "sens": "« Un faux agent. »",
+      "en": "fake",
+      "bulu": "ô ne te mbamba",
+      "critique": true,
+      "a_eviter": "Éviter « mbia » seul : il signifie plutôt mauvais / mal, pas nécessairement faux ou contrefait.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T54",
+      "terme": "inconnu",
+      "sens": "« Un numéro inconnu. »",
+      "en": "unknown",
+      "bulu": "ô ne te mbamban",
+      "critique": true,
+      "a_eviter": "Éviter « môt dzing » pour « inconnu » : cette proposition signifie « personne / nul », ce qui changerait complètement le sens de « numéro inconnu ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T55",
+      "terme": "bloquer / bloqué",
+      "sens": "« Votre compte est bloqué. »",
+      "en": "block / blocked",
+      "bulu": "fitiban",
+      "critique": true,
+      "a_eviter": "Éviter de traduire par « annuler » (« futié ») : bloquer un compte empêche son utilisation sans supprimer l'opération.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T56",
+      "terme": "plafond / limite",
+      "sens": "Montant maximum autorisé.",
+      "en": "limit",
+      "bulu": "Afap",
+      "critique": true,
+      "a_eviter": "Éviter de confondre le plafond autorisé avec la somme déjà débitée (T05) ou avec « jusqu'à » dans une durée.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T57",
+      "terme": "disponible",
+      "sens": "",
+      "en": "available",
+      "bulu": "é ne valé",
+      "critique": false,
+      "a_eviter": "Éviter de confondre « disponible » avec « réussi » (« mvaé ») : un service peut être disponible sans qu'une opération ait été effectuée.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T58",
+      "terme": "indisponible",
+      "sens": "",
+      "en": "unavailable",
+      "bulu": "é ndj'i bô",
+      "critique": false,
+      "a_eviter": "Éviter de confondre « indisponible » avec « erreur » (« mvôngô ») : l'indisponibilité décrit l'état du service.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T59",
+      "terme": "temporairement",
+      "sens": "",
+      "en": "temporarily",
+      "bulu": "Étódji'i",
+      "critique": false,
+      "a_eviter": "Éviter de traduire « temporairement » comme une durée définitive. L'expression doit préciser que l'état est limité dans le temps.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T60",
+      "terme": "maintenance",
+      "sens": "",
+      "en": "maintenance",
+      "bulu": "Ésaé kiti bô",
+      "critique": false,
+      "a_eviter": "Éviter de le confondre avec une panne : une maintenance peut être planifiée.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T61",
+      "terme": "en cours / en attente",
+      "sens": "L'opération n'est pas encore terminée.",
+      "en": "pending",
+      "bulu": "yangué mone nté",
+      "critique": true,
+      "a_eviter": "Éviter de traduire « en attente » par « réussi » ou « échoué » : l'opération n'est pas encore terminée.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T62",
+      "terme": "échec / échoué",
+      "sens": "L'opération n'a pas abouti.",
+      "en": "failed",
+      "bulu": "a kúya",
+      "critique": true,
+      "a_eviter": "Éviter d'employer « mvôngô » comme équivalent automatique de « échoué » : erreur, échec et indisponibilité sont trois états différents.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T63",
+      "terme": "réussi",
+      "sens": "Peut-être déjà couvert par T24 (mvaé) : le dire dans Commentaire.",
+      "en": "successful",
+      "bulu": "mvaé (réussi / succès ; cohérent avec T24)",
+      "critique": true,
+      "a_eviter": "Éviter d'alterner les formes de succès dans les notifications : reprendre la forme déjà retenue en T24.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T64",
+      "terme": "réessayer",
+      "sens": "",
+      "en": "try again",
+      "bulu": "beta bô",
+      "critique": false,
+      "a_eviter": "Éviter d'employer « beta » seul comme bouton « Réessayer » sans verbe : il exprime l'idée de refaire l'action.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T65",
+      "terme": "sécurisé",
+      "sens": "« Connexion sécurisée. »",
+      "en": "secure",
+      "bulu": "sécurisé (emprunt technique, provisoire)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre « sécurisé » avec « secret » (T19) : une connexion sécurisée est protégée, pas un code caché.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T66",
+      "terme": "nouveau / nouvelle",
+      "sens": "« Nouveau bénéficiaire. »",
+      "en": "new",
+      "bulu": "mfefé (nouveau ; à accorder avec le nom)",
+      "critique": true,
+      "a_eviter": "Éviter de l'utiliser comme adjectif invariable : les formes et accords dépendent de la classe du nom.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T67",
+      "terme": "historique",
+      "sens": "Liste des opérations passées.",
+      "en": "history",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de réutiliser « Mamesse » (récapitulatif) pour « historique » : l'historique est une liste d'opérations passées, pas un résumé avant confirmation.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T68",
+      "terme": "nom (d'une personne)",
+      "sens": "",
+      "en": "name",
+      "bulu": "jôé",
+      "critique": false,
+      "a_eviter": "Éviter de confondre le nom d'une personne avec le numéro de téléphone ou le nom commercial d'un agent.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T69",
+      "terme": "commerçant / marchand",
+      "sens": "",
+      "en": "merchant",
+      "bulu": "Môt a kuán",
+      "critique": false,
+      "a_eviter": "Éviter de le confondre avec « client » : le commerçant vend ou encaisse, le client achète.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T70",
+      "terme": "pourcentage / pour cent",
+      "sens": "« Frais de 1,5 %. »",
+      "en": "percent",
+      "bulu": "étun ya cent",
+      "critique": true,
+      "a_eviter": "Éviter d'inventer une unité ou de confondre le pourcentage avec le montant fixe des frais.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T71",
+      "terme": "instantané / immédiat",
+      "sens": "",
+      "en": "instant",
+      "bulu": "ana-ana (immédiatement / aussitôt) ou encore : awulu avôl",
+      "critique": false,
+      "a_eviter": "Éviter de confondre l'immédiateté avec la durée d'une seconde ou avec le statut « en cours ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T72",
+      "terme": "automatiquement",
+      "sens": "",
+      "en": "automatically",
+      "bulu": "étam",
+      "critique": false,
+      "a_eviter": "Éviter de forcer un adverbe unique pour « automatiquement ». Décrire l'action effectuée par le système sans intervention de l'utilisateur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T73",
+      "terme": "données personnelles",
+      "sens": "",
+      "en": "personal data",
+      "bulu": "Nten bafili ya môt",
+      "critique": true,
+      "a_eviter": "Éviter de traduire littéralement par « choses personnelles » : il s'agit de données qui permettent d'identifier ou de décrire une personne.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T74",
+      "terme": "pièce d'identité",
+      "sens": "",
+      "en": "ID document",
+      "bulu": "Nten éyé’élé ya môt",
+      "critique": false,
+      "a_eviter": "Éviter de réduire le terme à « nom » ou « numéro » : il désigne un document officiel.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T75",
+      "terme": "crédit téléphonique / recharge",
+      "sens": "",
+      "en": "airtime / top-up",
+      "bulu": "moné nsinga",
+      "critique": false,
+      "a_eviter": "Éviter de confondre le crédit téléphonique avec l'argent disponible sur le compte Mobile Money.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T76",
+      "terme": "épargne / épargner",
+      "sens": "",
+      "en": "savings / save",
+      "bulu": "Évôvôla moné (épargne) / Ba'ale moné (épargner)",
+      "critique": false,
+      "a_eviter": "Éviter « nyii » pour l'épargne financière : le verbe est attesté au sens de sauver / préserver une personne ou une chose.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T77",
+      "terme": "prêt / emprunter",
+      "sens": "",
+      "en": "loan / borrow",
+      "bulu": "ékôla (prêt, somme prêtée) ; kôlé (prêter / emprunter)",
+      "critique": true,
+      "a_eviter": "Éviter d'utiliser le verbe sans préciser le point de vue : la même forme peut couvrir prêter et emprunter selon les participants.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "T78",
+      "terme": "intérêt (d'un prêt)",
+      "sens": "",
+      "en": "interest",
+      "bulu": "Meso’o me moné",
+      "critique": true,
+      "a_eviter": "Éviter de traduire l'intérêt d'un prêt par « Minkuk » (frais) sans validation : les intérêts sont le coût du crédit, pas nécessairement des frais de transaction.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T79",
+      "terme": "dette",
+      "sens": "",
+      "en": "debt",
+      "bulu": "Évôl",
+      "critique": true,
+      "a_eviter": "Éviter d'utiliser « ékôla » comme synonyme automatique de dette : un prêt est l'argent prêté, une dette est l'obligation de le rembourser.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "T80",
+      "terme": "facture (à payer)",
+      "sens": "Si différent de T29.",
+      "en": "bill",
+      "bulu": "nten éya'an (facture / montant à payer ; cohérent avec T29)",
+      "critique": false,
+      "a_eviter": "Éviter de créer un doublon si la facture de cette ligne est le même type d'élément d'historique que T29.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP01",
+      "terme": "lundi",
+      "sens": "",
+      "en": "Monday",
+      "bulu": "Môs ôsu",
+      "critique": false,
+      "a_eviter": "Éviter d'inventer un nom bulu pour le lundi. Garder « lundi » comme emprunt français si c'est l'usage local Bene, puis faire confirmer à l'oral.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP02",
+      "terme": "mardi",
+      "sens": "",
+      "en": "Tuesday",
+      "bulu": "Môs bëbá",
+      "critique": false,
+      "a_eviter": "Éviter d'inventer un nom bulu pour le mardi. Garder « mardi » comme emprunt français si c'est l'usage local Bene, puis faire confirmer à l'oral.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP03",
+      "terme": "mercredi",
+      "sens": "",
+      "en": "Wednesday",
+      "bulu": "Môs bëlál",
+      "critique": false,
+      "a_eviter": "Éviter d'inventer un nom bulu pour le mercredi. Garder « mercredi » comme emprunt français si c'est l'usage local Bene, puis faire confirmer à l'oral.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP04",
+      "terme": "jeudi",
+      "sens": "",
+      "en": "Thursday",
+      "bulu": "Môs bënyuín",
+      "critique": false,
+      "a_eviter": "Éviter d'inventer un nom bulu pour le jeudi. Garder « jeudi » comme emprunt français si c'est l'usage local Bene, puis faire confirmer à l'oral.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP05",
+      "terme": "vendredi",
+      "sens": "",
+      "en": "Friday",
+      "bulu": "Môs bëtán",
+      "critique": false,
+      "a_eviter": "Éviter d'inventer un nom bulu pour le vendredi. Garder « vendredi » comme emprunt français si c'est l'usage local Bene, puis faire confirmer à l'oral.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP06",
+      "terme": "samedi",
+      "sens": "",
+      "en": "Saturday",
+      "bulu": "Môs sômba",
+      "critique": false,
+      "a_eviter": "Éviter d'inventer un nom bulu pour le samedi. Garder « samedi » comme emprunt français si c'est l'usage local Bene, puis faire confirmer à l'oral.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP07",
+      "terme": "dimanche",
+      "sens": "",
+      "en": "Sunday",
+      "bulu": "Môs sôndô",
+      "critique": false,
+      "a_eviter": "Éviter d'inventer un nom bulu pour le dimanche. Garder « dimanche » comme emprunt français si c'est l'usage local Bene, puis faire confirmer à l'oral.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP08",
+      "terme": "aujourd'hui",
+      "sens": "",
+      "en": "today",
+      "bulu": "den (aujourd'hui)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre avec « akiti » (demain) ou « añgô'é » (hier).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP09",
+      "terme": "hier",
+      "sens": "",
+      "en": "yesterday",
+      "bulu": "añgô'é (hier)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre avec « ñgô'é » dans l'expression « le soir » : la forme temporelle dépend du contexte.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP10",
+      "terme": "demain",
+      "sens": "",
+      "en": "tomorrow",
+      "bulu": "akiti (demain)",
+      "critique": false,
+      "a_eviter": "Éviter de le confondre avec « den » (aujourd'hui).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP11",
+      "terme": "matin",
+      "sens": "",
+      "en": "morning",
+      "bulu": "mam me tyé (le matin)",
+      "critique": false,
+      "a_eviter": "Éviter d'utiliser « tyé » seul si l'on veut précisément dire « le matin » : la locution fixe le moment.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP12",
+      "terme": "soir / ce soir",
+      "sens": "",
+      "en": "evening / tonight",
+      "bulu": "mam me ñgô'é (le soir)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre le soir avec « hier » (« añgô'é »).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP13",
+      "terme": "nuit",
+      "sens": "",
+      "en": "night",
+      "bulu": "alu (nuit)",
+      "critique": false,
+      "a_eviter": "Éviter d'utiliser ce mot pour « soir » si le message désigne la période avant la nuit.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP14",
+      "terme": "heure (à 22 h)",
+      "sens": "",
+      "en": "hour / o'clock",
+      "bulu": "awolo (heure ; emprunt ancien)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre l'unité « heure » avec une heure précise de l'horloge. Conserver les nombres en chiffres.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP15",
+      "terme": "minute",
+      "sens": "",
+      "en": "minute",
+      "bulu": "minute (emprunt français)",
+      "critique": false,
+      "a_eviter": "Éviter de fabriquer un mot pour une unité de temps si l'usage local conserve « minute ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP16",
+      "terme": "jour",
+      "sens": "",
+      "en": "day",
+      "bulu": "môs",
+      "critique": false,
+      "a_eviter": "Éviter de confondre « jour » (unité de calendrier) avec « den » (aujourd'hui) ou « tyé » (matin / début du jour selon la locution). La forme isolée doit être validée.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP17",
+      "terme": "semaine",
+      "sens": "",
+      "en": "week",
+      "bulu": "sôndo",
+      "critique": false,
+      "a_eviter": "Aucun équivalent Bene sûr pour « semaine » n'est attesté dans les références consultées. Éviter de fabriquer un composé ; conserver « semaine » si c'est l'usage local.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP18",
+      "terme": "mois",
+      "sens": "",
+      "en": "month",
+      "bulu": "ngôn",
+      "critique": false,
+      "a_eviter": "Aucun équivalent Bene sûr pour « mois » n'est attesté dans les références consultées. Éviter de fabriquer un mot ou de réutiliser « mbu » (année).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP19",
+      "terme": "année / an",
+      "sens": "",
+      "en": "year",
+      "bulu": "mbu (année)",
+      "critique": false,
+      "a_eviter": "Éviter de l'utiliser pour « mois » : il désigne une période annuelle.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "VB01",
+      "terme": "envoyer : ordre",
+      "sens": "« Envoyez l'argent. »",
+      "en": "",
+      "bulu": "Lômé moné.",
+      "critique": true,
+      "a_eviter": "Évitons d'utiliser \"bô nlomane\" dans un bouton d'ordre direct, la racine impérative pure \"lômé\" est plus compacte et naturelle pour l'utilisateur.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB02",
+      "terme": "envoyer : défense",
+      "sens": "« N'envoyez pas d'argent à un inconnu. »",
+      "en": "",
+      "bulu": "Te lôm moné asu môt ô ne te mbamban.",
+      "critique": true,
+      "a_eviter": "Nous devons proscrire \"mfe\" (autre) pour traduire inconnu, car cela fausse la sécurité en n'indiquant pas le défaut d'identification.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB03",
+      "terme": "envoyer : passé",
+      "sens": "« Vous avez envoyé 10 000 FCFA. »",
+      "en": "",
+      "bulu": "Wo lômeya 10 000 FCFA.",
+      "critique": true,
+      "a_eviter": "Évitons d'omettre le suffixe accompli \"-ya\" qui confirme formellement au client que les fonds ont quitté son compte.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB04",
+      "terme": "envoyer : futur proche",
+      "sens": "« Vous allez envoyer 10 000 FCFA. »",
+      "en": "",
+      "bulu": "Wo ke lôm 10 000 FCFA.",
+      "critique": true,
+      "a_eviter": "Nous écartons les formes descriptives longues au futur, la structure avec le verbe aller \"Wo ke...\" maintient l'action fluide.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB05",
+      "terme": "envoyer : passif",
+      "sens": "« L'argent a été envoyé. »",
+      "en": "",
+      "bulu": "Moné ô lômbanéya.",
+      "critique": true,
+      "a_eviter": "Bannissons la tournure active si le système confirme l'état du réseau, la forme passive \"-banéya\" est indispensable ici.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB06",
+      "terme": "recevoir : passé",
+      "sens": "« Vous avez reçu 10 000 FCFA. »",
+      "en": "",
+      "bulu": "Wo ya'aya 10 000 FCFA.",
+      "critique": true,
+      "a_eviter": "Excluons le verbe \"nông\" (prendre) qui s'applique à une extraction volontaire et non à l'accueil passif d'un dépôt entrant.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB07",
+      "terme": "recevoir : futur",
+      "sens": "« Le bénéficiaire recevra l'argent. »",
+      "en": "",
+      "bulu": "Nyô a ya'a a ke ya'a moné.",
+      "critique": true,
+      "a_eviter": "Nous évitons d'oublier le sujet répété, la syntaxe Bene exige de structurer la proposition de manière complète pour le futur.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB08",
+      "terme": "recevoir : passé (3e personne)",
+      "sens": "« Le bénéficiaire a reçu l'argent. »",
+      "en": "",
+      "bulu": "Nyô a ya'a ô ya'aya moné.",
+      "critique": true,
+      "a_eviter": "Évitons la confusion de classe nominale, le connecteur de temps doit être accordé avec le profil de l'utilisateur.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB09",
+      "terme": "payer : ordre",
+      "sens": "« Payez votre facture. »",
+      "en": "",
+      "bulu": "Ya'a nten éya'an wôé.",
+      "critique": true,
+      "a_eviter": "Nous proscrivons le mot seul \"facture\", l'expression technique complète \"nten éya'an\" (papier du paiement) est obligatoire.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB10",
+      "terme": "payer : passé",
+      "sens": "« Vous avez payé 7 500 FCFA. »",
+      "en": "",
+      "bulu": "Wo ya'aya 7 500 FCFA.",
+      "critique": true,
+      "a_eviter": "Évitons d'employer \"bô éya'an\", le verbe conjugué à l'accompli \"wo ya'aya\" est plus direct pour un reçu de paiement.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB11",
+      "terme": "confirmer : ordre",
+      "sens": "« Confirmez le transfert. »",
+      "en": "",
+      "bulu": "Ntiñ ntsili moné.",
+      "critique": true,
+      "a_eviter": "Nous proscrivons \"kanesse\" (approuver oralement) qui manque de la force technique et irréversible du scellement marqué par \"ntiñ\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB12",
+      "terme": "confirmer : défense",
+      "sens": "« Ne confirmez pas si le nom est faux. »",
+      "en": "",
+      "bulu": "Te ntiñ nge jôé é ne te mbamba.",
+      "critique": true,
+      "a_eviter": "Nous écartons toute négation complexe, le mot d'ordre de sécurité doit s'ouvrir par \"Te...\" suivi immédiatement de l'action.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB13",
+      "terme": "confirmer : passé",
+      "sens": "« Vous avez confirmé le transfert. »",
+      "en": "",
+      "bulu": "Wo ntiñaneya ntsili moné.",
+      "critique": true,
+      "a_eviter": "Bannissons les formes floues, le suffixe de passé accompli attaché à la racine du verbe montre que l'action est irréversible.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB14",
+      "terme": "annuler : ordre",
+      "sens": "« Annulez l'opération. »",
+      "en": "",
+      "bulu": "Futié ébômbo.",
+      "critique": true,
+      "a_eviter": "Nous refusons le terme \"teke bô\", trop vague pour un bouton d'action système qui doit déclencher l'effacement de la tâche.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB15",
+      "terme": "annuler : impossibilité",
+      "sens": "« Vous ne pouvez pas annuler. »",
+      "en": "",
+      "bulu": "Wo te kô futié.",
+      "critique": true,
+      "a_eviter": "Nous n'acceptons pas la négation simple \"wo teké futié\", l'auxiliaire répétitif \"kô\" est obligatoire pour marquer l'impossibilité temporelle.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB16",
+      "terme": "annuler : passif",
+      "sens": "« L'opération a été annulée. »",
+      "en": "",
+      "bulu": "Ébômbo é futiébanéya.",
+      "critique": true,
+      "a_eviter": "Évitons les périphrases descriptives, la voix passive avec le suffixe \"-banéya\" indique clairement l'état finalisé par le système.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB17",
+      "terme": "vérifier : ordre",
+      "sens": "« Vérifiez le numéro. »",
+      "en": "",
+      "bulu": "Nyafombàn nombor nsinga.",
+      "critique": true,
+      "a_eviter": "Nous écartons le verbe simple \"fombô\" (regarder) qui n'exprime pas le contrôle minutieux et vigilant attendu avant d'agir.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB18",
+      "terme": "vérifier : passé",
+      "sens": "« J'ai vérifié le numéro. »",
+      "en": "",
+      "bulu": "Me nyafombâneya nombor nsinga.",
+      "critique": true,
+      "a_eviter": "Évitons la première personne du pluriel si l'utilisateur agit seul, l'engagement se signe à la première personne \"Me...\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB19",
+      "terme": "modifier : ordre",
+      "sens": "« Modifiez le montant. »",
+      "en": "",
+      "bulu": "Tyendé abime moné.",
+      "critique": true,
+      "a_eviter": "Nous devons exclure le mot \"fôngô\" qui s'applique aux structures physiques, la modification d'une valeur numérique est un \"tyendé\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB20",
+      "terme": "partager : défense",
+      "sens": "« Ne partagez pas votre code. »",
+      "en": "",
+      "bulu": "Te yôlé nten bafili wôé.",
+      "critique": true,
+      "a_eviter": "Nous proscrivons l'usage de \"partager\" au sens de diviser des parts, la confidentialité d'un code s'exprime par le secret parlé.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB21",
+      "terme": "partager : défense absolue",
+      "sens": "« Ne partagez jamais votre code. »",
+      "en": "",
+      "bulu": "Amos dzing te yôlé nten bafili wôé.",
+      "critique": true,
+      "a_eviter": "Bannissons la négation simple, l'expression d'exclusion temporelle absolue \"Amos dzing\" doit verrouiller la phrase.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB22",
+      "terme": "donner : défense",
+      "sens": "« Ne donnez votre code à personne. »",
+      "en": "",
+      "bulu": "Te va'a nten bafili wôé môt dzing.",
+      "critique": true,
+      "a_eviter": "Nous interdisons l'absence du pronom d'exclusion, \"môt dzing\" doit impérativement clore la structure pour signifier \"personne\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB23",
+      "terme": "saisir : ordre",
+      "sens": "« Saisissez votre code PIN. »",
+      "en": "",
+      "bulu": "Fidi nten bafili wôé.",
+      "critique": false,
+      "a_eviter": "Nous évitons l'emprunt barbare \"saisir\", le fait d'entrer un code sur un pavé numérique s'assimile à l'action de presser.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB24",
+      "terme": "retirer : ordre",
+      "sens": "« Retirez votre argent chez un agent. »",
+      "en": "",
+      "bulu": "Nôngé moné wôé yá môt ésaé.",
+      "critique": true,
+      "a_eviter": "Bannissons le mot \"vaa\" (enlever), pour une extraction de cash sécurisante au guichet nous devons utiliser la racine \"nôngé\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB25",
+      "terme": "retirer : passé",
+      "sens": "« Vous avez retiré 20 000 FCFA. »",
+      "en": "",
+      "bulu": "Wo nôngéya 20 000 FCFA.",
+      "critique": true,
+      "a_eviter": "Évitons d'oublier la liaison, la notification d'un débit réel doit utiliser le verbe d'extraction financière à l'accompli.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB26",
+      "terme": "déposer : passé",
+      "sens": "« Vous avez déposé 20 000 FCFA. »",
+      "en": "",
+      "bulu": "Wo fídíya 20 000 FCFA.",
+      "critique": true,
+      "a_eviter": "Nous proscrivons le terme \"bô dépôt\", la racine authentique du verbe introduire ou stocker en sécurité est \"fídíya\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB27",
+      "terme": "attendre : ordre",
+      "sens": "« Attendez quelques minutes. »",
+      "en": "",
+      "bulu": "Lolo ôsu jô'é biye bi lôt.",
+      "critique": false,
+      "a_eviter": "Nous écartons les traductions mot à mot de \"minutes\", l'expression fluide invite à patienter pour laisser passer le traitement.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB28",
+      "terme": "réessayer : ordre",
+      "sens": "« Réessayez plus tard. »",
+      "en": "",
+      "bulu": "Kiti bô jô mvus.",
+      "critique": false,
+      "a_eviter": "Évitons d'écrire \"réessayer\" en français, la structure autonome de réajustement dans le temps s'exprime par \"Kiti bô...\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB29",
+      "terme": "appeler : défense",
+      "sens": "« Ne rappelez pas un numéro inconnu. »",
+      "en": "",
+      "bulu": "Te kiti loñé nombor nsinga ô ne te mbamban.",
+      "critique": true,
+      "a_eviter": "Nous excluons le verbe \"loñ\" seul, la notion de réitération ou de rappel nécessite l'adjonction de l'auxiliaire \"kiti\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB30",
+      "terme": "appeler : futur (négation absolue)",
+      "sens": "« Nous ne vous appellerons jamais pour demander votre code. »",
+      "en": "",
+      "bulu": "Bia te kô loñ wo amos dzing asu na bia sil wo nten bafili wôé.",
+      "critique": true,
+      "a_eviter": "Nous proscrivons les structures courtes, la sécurité anti-arnaque exige d'expliciter le but pour détruire toute tentative de fraude.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB31",
+      "terme": "demander : futur négatif",
+      "sens": "« Aucun agent ne vous demandera votre code. »",
+      "en": "",
+      "bulu": "Môt ésaé dzing a te kô sil wo code wôé.",
+      "critique": true,
+      "a_eviter": "Nous proscrivons le placement de \"dzing\" en début de membre de phrase, le génie de la langue bulu exige qu'il suive le nom.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB32",
+      "terme": "cliquer : défense",
+      "sens": "« Ne cliquez pas sur ce lien. »",
+      "en": "",
+      "bulu": "Te klik ô yôp nsinga Internet ôyo.",
+      "critique": true,
+      "a_eviter": "Nous évitons la confusion avec un bouton, l'action de cliquer sur une URL web doit désigner le support du réseau \"nsinga\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB33",
+      "terme": "être : état",
+      "sens": "« Le service est indisponible. »",
+      "en": "",
+      "bulu": "Ésaé é ne te mbôan.",
+      "critique": false,
+      "a_eviter": "Bannissons les mots liés à la fatigue humaine ou à la maladie comme \"alêm\", l'indisponibilité d'un serveur est \"te mbôan\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB34",
+      "terme": "avoir : possession",
+      "sens": "« Vous avez un nouveau message. »",
+      "en": "",
+      "bulu": "Beta'a foé é ne asu jôé.",
+      "critique": false,
+      "a_eviter": "Nous évitons la traduction littérale du verbe avoir, en bulu la notification d'information se structure par la présence du message.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "VB35",
+      "terme": "devoir : obligation",
+      "sens": "« Vous devez vérifier le numéro. »",
+      "en": "",
+      "bulu": "Wo yian nyafombàn nombor nsinga.",
+      "critique": true,
+      "a_eviter": "Nous proscrivons les formulations faibles, le devoir impératif dicté par le système financier s'exprime par \"Wo yian...\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM01",
+      "terme": "le compte : singulier",
+      "sens": "le compte",
+      "en": "",
+      "bulu": "Évôvôla moné",
+      "critique": false,
+      "a_eviter": "Nous devons éviter d'utiliser le mot seul \"moné\" (argent) pour un compte, l'expression \"évôvôla moné\" désigne précisément le réceptacle financier.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM02",
+      "terme": "les comptes : pluriel",
+      "sens": "les comptes",
+      "en": "",
+      "bulu": "Mevôvôla me moné",
+      "critique": false,
+      "a_eviter": "Évitons de calquer le pluriel français ; en bulu, le passage du singulier \"é-\" au pluriel \"me-\" modifie radicalement le préfixe de classe nominale.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM03",
+      "terme": "le montant : singulier",
+      "sens": "le montant",
+      "en": "",
+      "bulu": "Abime moné",
+      "critique": false,
+      "a_eviter": "Nous proscrivons l'usage du mot \"abtok\" (petit) ou \"anen\" (grand) de manière brute, le montant arithmétique exact se traduit par \"abime moné\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM04",
+      "terme": "2 montants : pluriel avec un nombre",
+      "sens": "2 montants",
+      "en": "",
+      "bulu": "Abime moné bëbá",
+      "critique": false,
+      "a_eviter": "Nous constatons qu'avec un chiffre, le mot \"abime\" conserve sa racine singulière et que c'est le numéral qui prend la marque d'accord de classe \"bë-\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM05",
+      "terme": "le bénéficiaire : singulier",
+      "sens": "le bénéficiaire",
+      "en": "",
+      "bulu": "Nyô a ya’a",
+      "critique": false,
+      "a_eviter": "Nous écartons la formulation longue \"môt a nyong\" dans les interfaces étroites, la forme courte \"nyô a ya'a\" est beaucoup plus fluide.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM06",
+      "terme": "les bénéficiaires : pluriel",
+      "sens": "les bénéficiaires",
+      "en": "",
+      "bulu": "Bô ba ya’a",
+      "critique": false,
+      "a_eviter": "Évitons l'erreur d'accord : le pronom relatif singulier \"nyô\" se transforme impérativement au pluriel en \"bô\" pour désigner les personnes qui reçoivent.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM07",
+      "terme": "l'opération : singulier",
+      "sens": "l'opération",
+      "en": "",
+      "bulu": "Ébômbo",
+      "critique": false,
+      "a_eviter": "Nous interdisons absolument le mot \"asas\" issu du domaine médical hospitalier (chirurgie), une transaction financière sur l'écran se dit \"ébômbo\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM08",
+      "terme": "les opérations : pluriel",
+      "sens": "les opérations",
+      "en": "",
+      "bulu": "Mebômbo",
+      "critique": false,
+      "a_eviter": "Évitons d'oublier la mutation du préfixe de classe nominale, le singulier \"é-\" devient \"me-\" au pluriel pour former correctement \"mebômbo\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM09",
+      "terme": "le numéro : singulier",
+      "sens": "le numéro",
+      "en": "",
+      "bulu": "Nombor nsinga",
+      "critique": false,
+      "a_eviter": "Nous rejetons l'anglicisme brut \"nombor\" seul, l'association avec \"nsinga\" (le fil/le téléphone) est requise pour la clarté de l'utilisateur.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM10",
+      "terme": "les numéros : pluriel",
+      "sens": "les numéros",
+      "en": "",
+      "bulu": "Menombor me nsinga",
+      "critique": false,
+      "a_eviter": "Nous devons veiller à accorder le connecteur d'appartenance \"me\" avec le nouveau préfixe pluriel \"me-\", sous peine de briser la syntaxe naturelle.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM11",
+      "terme": "le message : singulier",
+      "sens": "le message",
+      "en": "",
+      "bulu": "Foé",
+      "critique": false,
+      "a_eviter": "Nous éliminons l'emprunt direct \"message\", le mot authentique \"foé\" exprime parfaitement l'information textuelle reçue par le client.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM12",
+      "terme": "les messages : pluriel",
+      "sens": "les messages",
+      "en": "",
+      "bulu": "Mefoé",
+      "critique": false,
+      "a_eviter": "Bannissons l'ajout d'une marque écrite \"-s\" à la fin du mot, le pluriel bulu s'effectue exclusivement par l'ajout du préfixe de classe \"me-\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM13",
+      "terme": "la banque : singulier",
+      "sens": "la banque",
+      "en": "",
+      "bulu": "Nda moné",
+      "critique": false,
+      "a_eviter": "Nous proscrivons l'argot familier oral \"bañ\" ou \"bañet\", la désignation officielle d'une institution financière écrite est \"nda moné\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM14",
+      "terme": "les banques : pluriel",
+      "sens": "les banques",
+      "en": "",
+      "bulu": "Menda me moné",
+      "critique": false,
+      "a_eviter": "Nous traduisons le pluriel de la maison par \"menda\", modifiant la racine singulière \"nda\" pour s'accorder proprement avec le génie de la langue.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM15",
+      "terme": "l'agent : singulier",
+      "sens": "l'agent",
+      "en": "",
+      "bulu": "Môt ésaé",
+      "critique": false,
+      "a_eviter": "Évitons l'anglicisme \"agent\", l'expression authentique et professionnelle \"môt ésaé\" (homme de travail) valorise la qualité de l'application.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM16",
+      "terme": "les agents : pluriel",
+      "sens": "les agents",
+      "en": "",
+      "bulu": "Bôt b’ésaé",
+      "critique": false,
+      "a_eviter": "Nous devons transformer le singulier \"môt\" en pluriel \"bô\", l'accord de la catégorie humaine exige l'élision \"bô b'ésaé\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM17",
+      "terme": "la personne : singulier",
+      "sens": "la personne",
+      "en": "",
+      "bulu": "Môt",
+      "critique": false,
+      "a_eviter": "Nous évitons l'usage du mot \"nyô\" lorsqu'on parle d'un être humain de manière générale, le terme standardisé de référence est \"môt\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM18",
+      "terme": "les personnes : pluriel",
+      "sens": "les personnes",
+      "en": "",
+      "bulu": "Bôt b’ésaé",
+      "critique": false,
+      "a_eviter": "Bannissons l'erreur d'accorder \"môt\" avec un suffixe, le groupe humain au pluriel devient de façon totalement irrégulière \"bô\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM19",
+      "terme": "le jour : singulier",
+      "sens": "le jour",
+      "en": "",
+      "bulu": "Môs",
+      "critique": false,
+      "a_eviter": "Ne confondons pas \"môs\" (le jour de la semaine / la date) avec \"alu\" (la nuit), la distinction est essentielle pour l'historique bancaire.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM20",
+      "terme": "les jours : pluriel",
+      "sens": "les jours",
+      "en": "",
+      "bulu": "Mimôs",
+      "critique": false,
+      "a_eviter": "Nous appliquons le redoublement de la particule de classe \"më-\" spécifique à ce mot pour former un pluriel harmonieux et correct.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM21",
+      "terme": "le code : singulier",
+      "sens": "le code",
+      "en": "",
+      "bulu": "Nten bafili",
+      "critique": false,
+      "a_eviter": "Nous proscrivons l'écriture sans accents \"neten bafili\", la graphie officielle de l'Église presbytérienne impose le mot court \"nten\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM22",
+      "terme": "les codes : pluriel",
+      "sens": "les codes",
+      "en": "",
+      "bulu": "Menten me bafili",
+      "critique": false,
+      "a_eviter": "Nous devons appliquer le préfixe pluriel \"men-\" à la racine \"nten\" et accorder le connecteur \"me\" pour lier les secrets qui suivent.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM23",
+      "terme": "ce compte : démonstratif, singulier",
+      "sens": "ce compte",
+      "en": "",
+      "bulu": "Évôvôla moné ôyo",
+      "critique": false,
+      "a_eviter": "Nous rappelons que le démonstratif \"ôyo\" se place obligatoirement après le nom en bulu, contrairement au français où il se situe avant.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM24",
+      "terme": "ces comptes : démonstratif, pluriel",
+      "sens": "ces comptes",
+      "en": "",
+      "bulu": "Mevôvôla me moné mance",
+      "critique": false,
+      "a_eviter": "Nous devons accorder le démonstratif au pluriel qui devient \"mance\" pour suivre l'harmonisation de la classe nominale des comptes.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM25",
+      "terme": "votre compte : possessif, singulier",
+      "sens": "votre compte",
+      "en": "",
+      "bulu": "Évôvôla moné wôé",
+      "critique": true,
+      "a_eviter": "Conformément à notre choix de politesse \"Wo\", nous utilisons le possessif singulier \"wôé\" (ton compte de respect) pour le client.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM26",
+      "terme": "vos comptes : possessif, pluriel",
+      "sens": "vos comptes",
+      "en": "",
+      "bulu": "Mevôvôla me moné môé",
+      "critique": true,
+      "a_eviter": "Nous veillons à modifier le possessif qui passe de \"wôé\" à \"môé\" pour s'accorder avec la classe pluriel \"me-\" des comptes ouverts.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM27",
+      "terme": "un nouveau bénéficiaire : adjectif, singulier",
+      "sens": "un nouveau bénéficiaire",
+      "en": "",
+      "bulu": "Beta'a Nyô a ya’a",
+      "critique": false,
+      "a_eviter": "Nous positionnons l'adjectif de nouveauté \"beta'a\" avant le nom, ce qui constitue une exception notable dans la syntaxe bulu.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM28",
+      "terme": "de nouveaux bénéficiaires : adjectif, pluriel",
+      "sens": "de nouveaux bénéficiaires",
+      "en": "",
+      "bulu": "Beta'a Bô ba ya’a",
+      "critique": false,
+      "a_eviter": "Nous remarquons que l'adjectif \"beta'a\" est invariable dans cette structure, c'est le groupe nominal suivant qui prend la marque du pluriel.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM29",
+      "terme": "le montant est invalide : accord du verbe, singulier",
+      "sens": "le montant est invalide",
+      "en": "",
+      "bulu": "Abime moné ô ne te mbamba",
+      "critique": true,
+      "a_eviter": "Nous traduisons l'invalidité par la structure relative négative \"ô ne te mbamba\", le connecteur \"ô\" s'accordant avec le montant.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM30",
+      "terme": "les montants sont invalides : accord du verbe, pluriel",
+      "sens": "les montants sont invalides",
+      "en": "",
+      "bulu": "Abime moné bëbá bë ne te mbamba",
+      "critique": true,
+      "a_eviter": "Nous ajustons le verbe être au pluriel qui devient \"bë ne\" pour s'accorder avec la présence des multiples montants chiffrés.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM31",
+      "terme": "ce bénéficiaire a reçu l'argent : accord, singulier",
+      "sens": "ce bénéficiaire a reçu l'argent",
+      "en": "",
+      "bulu": "Nyô a ya’a ô ya’aya moné",
+      "critique": false,
+      "a_eviter": "Nous veillons à intégrer le pronom de liaison de classe \"ô\" devant le verbe pour marquer l'accomplissement de l'action par le sujet.",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NM32",
+      "terme": "ces bénéficiaires ont reçu l'argent : accord, pluriel",
+      "sens": "ces bénéficiaires ont reçu l'argent",
+      "en": "",
+      "bulu": "Bô ba ya’a bë ya’aya moné",
+      "critique": false,
+      "a_eviter": "Nous modifions le pronom de liaison qui devient \"bë\" pour s'accorder harmonieusement avec le sujet collectif pluriel \"Bô\".",
+      "traduit_par": "Georges",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "NB01",
+      "terme": "un",
+      "sens": "",
+      "en": "",
+      "bulu": "jia (un ; nombre cardinal)",
+      "critique": false,
+      "a_eviter": "Éviter de l'utiliser sans vérifier l'accord quand le nombre accompagne un nom : certaines formes changent selon la classe nominale.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB02",
+      "terme": "deux",
+      "sens": "",
+      "en": "",
+      "bulu": "baé (deux)",
+      "critique": false,
+      "a_eviter": "Éviter de supposer que le nombre reste identique devant tous les noms ; le numéral peut prendre la marque de classe.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB03",
+      "terme": "trois",
+      "sens": "",
+      "en": "",
+      "bulu": "la (trois)",
+      "critique": false,
+      "a_eviter": "Éviter de généraliser cette forme à toutes les constructions numérales sans accord.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB04",
+      "terme": "quatre",
+      "sens": "",
+      "en": "",
+      "bulu": "nyin (quatre)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre avec les formes adaptées à un nom de classe particulière.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB05",
+      "terme": "cinq",
+      "sens": "",
+      "en": "",
+      "bulu": "tan (cinq)",
+      "critique": false,
+      "a_eviter": "Éviter d'ajouter mécaniquement le pluriel français en -s.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB06",
+      "terme": "six",
+      "sens": "",
+      "en": "",
+      "bulu": "saman (six)",
+      "critique": false,
+      "a_eviter": "Éviter d'ajouter mécaniquement le pluriel français en -s.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB07",
+      "terme": "sept",
+      "sens": "",
+      "en": "",
+      "bulu": "zañgwa (sept)",
+      "critique": false,
+      "a_eviter": "Éviter d'ajouter mécaniquement le pluriel français en -s.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB08",
+      "terme": "huit",
+      "sens": "",
+      "en": "",
+      "bulu": "ñwom / mwom (huit)",
+      "critique": false,
+      "a_eviter": "Les deux variantes sont relevées dans la source lexicographique ; faire choisir une seule forme en Bene après validation orale.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB09",
+      "terme": "neuf",
+      "sens": "",
+      "en": "",
+      "bulu": "ébu (neuf)",
+      "critique": false,
+      "a_eviter": "Éviter d'ajouter mécaniquement le pluriel français en -s.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB10",
+      "terme": "dix",
+      "sens": "",
+      "en": "",
+      "bulu": "awôm (dix)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre le nombre cardinal avec la forme qui accompagne un nom particulier.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB11",
+      "terme": "vingt",
+      "sens": "",
+      "en": "",
+      "bulu": "mewôm (vingt)",
+      "critique": false,
+      "a_eviter": "Éviter d'utiliser « awôm » (dix) à la place de vingt.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB12",
+      "terme": "cent",
+      "sens": "",
+      "en": "",
+      "bulu": "ntet (cent)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre avec « akutu » (mille).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB13",
+      "terme": "mille",
+      "sens": "",
+      "en": "",
+      "bulu": "akutu (mille)",
+      "critique": false,
+      "a_eviter": "Éviter de confondre avec « ntet » (cent).",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB14",
+      "terme": "million",
+      "sens": "",
+      "en": "",
+      "bulu": "million (emprunt à conserver provisoirement)",
+      "critique": false,
+      "a_eviter": "Éviter de fabriquer un grand nombre sans validation : garder « million » jusqu'à confirmation d'une forme Bene usuelle.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB15",
+      "terme": "premier / deuxième",
+      "sens": "Ordinaux.",
+      "en": "",
+      "bulu": "deuxième : baa ; premier : fo'ok",
+      "critique": false,
+      "a_eviter": "Éviter de supposer que l'ordinal se forme toujours par simple ajout d'un suffixe français.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB16",
+      "terme": "une fois / deux fois",
+      "sens": "« Code faux deux fois. »",
+      "en": "",
+      "bulu": "ake da (une fois) / meke mebaé (deux fois)",
+      "critique": false,
+      "a_eviter": "Éviter de traduire « fois » isolément : la fréquence se construit avec une forme verbale nominalisée et le nombre.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "NB17",
+      "terme": "francs CFA (à l'oral)",
+      "sens": "Comment on dit « FCFA » en parlant.",
+      "en": "",
+      "bulu": "franc CFA (à conserver)",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom local de la monnaie ; conserver la dénomination officielle « franc CFA ».",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": "Proposition fondée sur des ressources Bulu générales ; validation spécifique de la variante Bene requise avant approbation finale."
+    },
+    {
+      "ref": "TP20",
+      "terme": "janvier",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « janvier » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP21",
+      "terme": "février",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « février » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP22",
+      "terme": "mars",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « mars » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP23",
+      "terme": "avril",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « avril » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP24",
+      "terme": "mai",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « mai » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP25",
+      "terme": "juin",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « juin » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP26",
+      "terme": "juillet",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « juillet » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP27",
+      "terme": "août",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « août » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP28",
+      "terme": "septembre",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « septembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP29",
+      "terme": "octobre",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « octobre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP30",
+      "terme": "novembre",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « novembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "TP31",
+      "terme": "décembre",
+      "sens": "",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « décembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ01",
+      "terme": "j'envoie",
+      "sens": "Présent",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ02",
+      "terme": "tu envoies",
+      "sens": "Présent",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ03",
+      "terme": "il / elle envoie",
+      "sens": "Présent",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ04",
+      "terme": "nous envoyons",
+      "sens": "Présent",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ05",
+      "terme": "vous envoyez",
+      "sens": "Présent",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ06",
+      "terme": "ils / elles envoient",
+      "sens": "Présent",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ07",
+      "terme": "j'ai envoyé",
+      "sens": "Passé",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ08",
+      "terme": "tu as envoyé",
+      "sens": "Passé",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ09",
+      "terme": "il / elle a envoyé",
+      "sens": "Passé",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ10",
+      "terme": "nous avons envoyé",
+      "sens": "Passé",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ11",
+      "terme": "vous avez envoyé",
+      "sens": "Passé",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ12",
+      "terme": "ils / elles ont envoyé",
+      "sens": "Passé",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ13",
+      "terme": "j'enverrai",
+      "sens": "Futur",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ14",
+      "terme": "tu enverras",
+      "sens": "Futur",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ15",
+      "terme": "il / elle enverra",
+      "sens": "Futur",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ16",
+      "terme": "nous enverrons",
+      "sens": "Futur",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ17",
+      "terme": "vous enverrez",
+      "sens": "Futur",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ18",
+      "terme": "ils / elles enverront",
+      "sens": "Futur",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ19",
+      "terme": "je n'envoie pas",
+      "sens": "Négation",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ20",
+      "terme": "tu n'envoies pas",
+      "sens": "Négation",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ21",
+      "terme": "il / elle n'envoie pas",
+      "sens": "Négation",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ22",
+      "terme": "nous n'envoyons pas",
+      "sens": "Négation",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ23",
+      "terme": "vous n'envoyez pas",
+      "sens": "Négation",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ24",
+      "terme": "ils / elles n'envoient pas",
+      "sens": "Négation",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ25",
+      "terme": "je n'ai pas envoyé",
+      "sens": "Passé négatif",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ26",
+      "terme": "vous n'avez pas envoyé",
+      "sens": "Passé négatif",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ27",
+      "terme": "envoie ! / envoyez !",
+      "sens": "Impératif",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "CJ28",
+      "terme": "n'envoie pas ! / n'envoyez pas !",
+      "sens": "Impératif négatif",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "Ne pas calquer la conjugaison française. Les temps et la négation se construisent avec des auxiliaires et des formes verbales ; paradigme Bene à valider par un locuteur.",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG01",
+      "terme": "Variante du traducteur",
+      "sens": "Yembana, Yelinda, Yengono, Bene ou autre ? Où l'avez-vous apprise ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG02",
+      "terme": "Variante du relecteur",
+      "sens": "Même question pour la personne qui relit.",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG03",
+      "terme": "Classes de noms",
+      "sens": "Combien de paires singulier / pluriel ? Un exemple de nom par paire.",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG04",
+      "terme": "Préfixes de classe",
+      "sens": "Quelles marques changent du singulier au pluriel (ex. mo- / be-) ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG05",
+      "terme": "Accord",
+      "sens": "Quels mots changent selon la classe du nom : adjectifs, possessifs, démonstratifs, verbe ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG06",
+      "terme": "Ordre des mots",
+      "sens": "Sujet – verbe – objet comme en français ? Où se place l'adjectif ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG07",
+      "terme": "Place de la négation",
+      "sens": "Avant le verbe, après, en deux morceaux ?",
+      "en": "",
+      "bulu": "",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG08",
+      "terme": "Question",
+      "sens": "Par l'intonation, une particule, un changement d'ordre ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG09",
+      "terme": "Temps du verbe",
+      "sens": "Comment marque-t-on passé, présent, futur : préfixe, particule, ton ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG10",
+      "terme": "Suffixes du verbe",
+      "sens": "Faire faire, faire pour quelqu'un, se faire : un exemple de chaque si cela existe.",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG11",
+      "terme": "Noms tirés des verbes",
+      "sens": "Envoyer → envoi, payer → paiement : quelle marque ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG12",
+      "terme": "Tons",
+      "sens": "Combien de tons ? Deux mots qui ne diffèrent que par le ton (paire minimale) ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG13",
+      "terme": "Emprunts",
+      "sens": "Comment un mot français est adapté (ex. nombor, moné) ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG14",
+      "terme": "Lettres spéciales",
+      "sens": "Liste complète des lettres utilisées à l'écrit (ô, ñ…).",
+      "en": "",
+      "bulu": "",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG15",
+      "terme": "Apostrophe",
+      "sens": "Quelle apostrophe : ’ (typographique) ou ' (droite) ? Une seule partout.",
+      "en": "",
+      "bulu": "",
+      "critique": true,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    },
+    {
+      "ref": "LG16",
+      "terme": "Majuscules et ponctuation",
+      "sens": "Majuscule en début de phrase ? « : » et « ? » comme en français ?",
+      "en": "",
+      "bulu": "",
+      "critique": false,
+      "a_eviter": "",
+      "traduit_par": "",
+      "relu_par": "",
+      "commentaire": ""
+    }
+  ],
+  "phrases": [
+    {
+      "id": "G01",
+      "fr": "Environnement de test — données fictives, aucune transaction réelle.",
+      "en": [
+        "Test environment — fictional data, no real transaction."
+      ],
+      "bulu": "Nlam a test — biye bi ke ben, Teké Ébômbo ya moné.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G02",
+      "fr": "Protocole de test",
+      "en": [
+        "Test protocol"
+      ],
+      "bulu": "Mvele a test",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G03",
+      "fr": "Retour au hackathon",
+      "en": [
+        "Back to hackathon"
+      ],
+      "bulu": "Bulan a hackathon",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G04",
+      "fr": "Banque en ligne",
+      "en": [
+        "Online banking"
+      ],
+      "bulu": "Nda moné",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G05",
+      "fr": "Solde",
+      "en": [
+        "Balance"
+      ],
+      "bulu": "Mebal",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G06",
+      "fr": "Frais",
+      "en": [
+        "Fee",
+        "Fees"
+      ],
+      "bulu": "Minkuk",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G07",
+      "fr": "Bénéficiaire",
+      "en": [
+        "Beneficiary"
+      ],
+      "bulu": "Nyô a ya’a",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G08",
+      "fr": "Récapitulatif",
+      "en": [
+        "Summary"
+      ],
+      "bulu": "Mamesse",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G09",
+      "fr": "Confirmation",
+      "en": [
+        "Confirmation"
+      ],
+      "bulu": "Ntiñ",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "G10",
+      "fr": "Safinum Pay — environnement de démonstration. Ne saisissez aucune donnée personnelle réelle.",
+      "en": [
+        "Safinum Pay — demonstration environment. Do not enter real personal data."
+      ],
+      "bulu": "Safinum Pay — nlam a démonstration. Teké yôlé biye ya môt ya ben.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A01",
+      "fr": "Votre compte",
+      "en": [
+        "Your account"
+      ],
+      "bulu": "Évôvôla moné ya èn jôé",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A02",
+      "fr": "Bonjour, {name}",
+      "en": [
+        "Hello, {name}"
+      ],
+      "bulu": "Mbolo, {name}",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A03",
+      "fr": "Bonjour",
+      "en": [
+        "Hello"
+      ],
+      "bulu": "Mbolo",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A04",
+      "fr": "Consultez votre solde et lancez un transfert en toute sécurité.",
+      "en": [
+        "Check your balance and start a secure transfer."
+      ],
+      "bulu": "Yené Mebal ya èn jôé, kele ôsu Ntsili moné a Atye’é minlem.",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A05",
+      "fr": "Solde disponible",
+      "en": [
+        "Available balance"
+      ],
+      "bulu": "Mebal",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A06",
+      "fr": "Numéro de compte : {account}",
+      "en": [
+        "Account number: {account}"
+      ],
+      "bulu": "Nombor ya Évôvôla moné : {account}",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A07",
+      "fr": "Numéro de compte",
+      "en": [
+        "Account number"
+      ],
+      "bulu": "Nombor ya Évôvôla moné",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A08",
+      "fr": "Compte courant",
+      "en": [
+        "Current account"
+      ],
+      "bulu": "Évôvôla moné",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A09",
+      "fr": "Effectuer un transfert",
+      "en": [
+        "Make a transfer"
+      ],
+      "bulu": "Ntsili moné",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A10",
+      "fr": "Consulter les frais",
+      "en": [
+        "View fees"
+      ],
+      "bulu": "Yené Minkuk",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A11",
+      "fr": "Transactions récentes",
+      "en": [
+        "Recent transactions"
+      ],
+      "bulu": "Ébômbo ya môs a môs",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A12",
+      "fr": "Paiement marchand",
+      "en": [
+        "Merchant payment"
+      ],
+      "bulu": "Éya’an ya môt",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A13",
+      "fr": "Salaire reçu",
+      "en": [
+        "Salary received"
+      ],
+      "bulu": "Mfaka",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A14",
+      "fr": "Transfert reçu",
+      "en": [
+        "Transfer received"
+      ],
+      "bulu": "Ntsili moné",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "A15",
+      "fr": "Facture électricité",
+      "en": [
+        "Electricity bill"
+      ],
+      "bulu": "Nten éya’an",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "S01",
+      "fr": "Sécurité",
+      "en": [
+        "Security"
+      ],
+      "bulu": "Atye’é minlem",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "S02",
+      "fr": "Vérifiez toujours le nom et le numéro du bénéficiaire avant de confirmer un transfert.",
+      "en": [
+        "Always verify the beneficiary name and number before confirming a transfer."
+      ],
+      "bulu": "Nyafombàn jôé na Nombor nsinga ya Nyô a ya’a, Ôsusua na Ntiñ Ntsili moné.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "S03",
+      "fr": "Connexion sécurisée",
+      "en": [
+        "Secure connection"
+      ],
+      "bulu": "Atye’é minlem",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F01",
+      "fr": "Frais de transfert",
+      "en": [
+        "Transfer fees"
+      ],
+      "bulu": "Minkuk ya Ntsili moné",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F02",
+      "fr": "Choisissez le type de transfert et le montant. Les frais sont calculés automatiquement.",
+      "en": [
+        "Choose the transfer type and amount. Fees are calculated automatically."
+      ],
+      "bulu": "Ntôban ya Ntsili moné na Mbor. Minkuk bi yôlé wôga.",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F03",
+      "fr": "Type d'opération",
+      "en": [
+        "Operation type"
+      ],
+      "bulu": "Ébômbo",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F04",
+      "fr": "Compte Safinum",
+      "en": [
+        "Safinum account"
+      ],
+      "bulu": "Évôvôla moné Safinum",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F05",
+      "fr": "Transfert instantané et gratuit",
+      "en": [
+        "Instant, free transfer"
+      ],
+      "bulu": "Ntsili moné, Bua",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F06",
+      "fr": "Mobile Money",
+      "en": [
+        "Mobile Money"
+      ],
+      "bulu": "Mobile Money",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F07",
+      "fr": "Frais de {percent} (min. {amount_1}, max. {amount_2})",
+      "en": [
+        "{percent} fee (min. {amount_1}, max. {amount_2})"
+      ],
+      "bulu": "Minkuk ya {percent} (min. {amount_1}, max. {amount_2})",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F08",
+      "fr": "Autre banque",
+      "en": [
+        "Other bank"
+      ],
+      "bulu": "Nda moné éziñ",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F09",
+      "fr": "Montant à envoyer",
+      "en": [
+        "Amount to send"
+      ],
+      "bulu": "Abime moné ya Ntsili moné",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F10",
+      "fr": "Gratuit",
+      "en": [
+        "Free"
+      ],
+      "bulu": "Bua",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F11",
+      "fr": "Total à débiter",
+      "en": [
+        "Total to debit"
+      ],
+      "bulu": "Mebal mate wulu",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F12",
+      "fr": "Solde après opération",
+      "en": [
+        "Balance after transfer"
+      ],
+      "bulu": "Mebal na mbus Ébômbo",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F13",
+      "fr": "Continuer",
+      "en": [
+        "Continue"
+      ],
+      "bulu": "Kele ôsu",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "F14",
+      "fr": "Retour",
+      "en": [
+        "Back"
+      ],
+      "bulu": "Bulan mvus",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "B01",
+      "fr": "Renseignez les informations du destinataire. Vérifiez toujours le numéro avant de valider.",
+      "en": [
+        "Enter the recipient details. Always verify the number before confirming."
+      ],
+      "bulu": "Yôlé biye ya Nyô a ya’a. Nyafombàn Nombor nsinga Ôsusua na Ntiñ.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "B02",
+      "fr": "Ce bénéficiaire n'a jamais été utilisé sur ce compte. Vérifiez le numéro avant de continuer.",
+      "en": [
+        "This beneficiary has never been used on this account. Verify the number before continuing."
+      ],
+      "bulu": "Nyô a ya’a oyo Amos dzing a kôban a Évôvôla moné oyo. Nyafombàn Nombor nsinga Ôsusua na Kele ôsu.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "B03",
+      "fr": "Nom du bénéficiaire",
+      "en": [
+        "Beneficiary name"
+      ],
+      "bulu": "Jôé ya Nyô a ya’a",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "B04",
+      "fr": "Numéro de téléphone",
+      "en": [
+        "Phone number"
+      ],
+      "bulu": "Nombor nsinga",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "B05",
+      "fr": "Motif du transfert",
+      "en": [
+        "Transfer reason"
+      ],
+      "bulu": "Amvôm ya Ntsili moné",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "B06",
+      "fr": "Note (optionnel)",
+      "en": [
+        "Note (optional)"
+      ],
+      "bulu": "Note (Teké ntiñ)",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "B07",
+      "fr": "J'ai vérifié le nom et le numéro du bénéficiaire.",
+      "en": [
+        "I have verified the beneficiary name and phone number."
+      ],
+      "bulu": "Ma Nyafombàn jôé na Nombor nsinga ya Nyô a ya’a.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R01",
+      "fr": "Vérifiez les informations avant de confirmer le transfert.",
+      "en": [
+        "Check the details before confirming the transfer."
+      ],
+      "bulu": "Nyafombàn biye Ôsusua na Ntiñ Ntsili moné.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R02",
+      "fr": "Montant",
+      "en": [
+        "Amount"
+      ],
+      "bulu": "Abime moné",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R03",
+      "fr": "Total débité",
+      "en": [
+        "Total debited"
+      ],
+      "bulu": "Mebal mate wulu",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R04",
+      "fr": "Téléphone",
+      "en": [
+        "Phone"
+      ],
+      "bulu": "Nombor nsinga",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R05",
+      "fr": "Référence",
+      "en": [
+        "Reference"
+      ],
+      "bulu": "Mendém",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R06",
+      "fr": "Opération",
+      "en": [
+        "Operation"
+      ],
+      "bulu": "Ébômbo",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R07",
+      "fr": "Je confirme que les informations ci-dessus sont correctes.",
+      "en": [
+        "I confirm the information above is correct."
+      ],
+      "bulu": "Ma Ntiñ nge biye bi ke mbamba.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R08",
+      "fr": "Modifier",
+      "en": [
+        "Edit"
+      ],
+      "bulu": "Tyendé",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "R09",
+      "fr": "Confirmer le transfert",
+      "en": [
+        "Confirm transfer"
+      ],
+      "bulu": "Ntiñ Ntsili moné",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "C01",
+      "fr": "Transfert effectué",
+      "en": [
+        "Transfer completed"
+      ],
+      "bulu": "Ntsili moné mvaé",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "C02",
+      "fr": "Votre transfert a été envoyé avec succès.",
+      "en": [
+        "Your transfer has been sent successfully."
+      ],
+      "bulu": "Ntsili moné ya èn jôé mvaé.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "C03",
+      "fr": "Statut",
+      "en": [
+        "Status"
+      ],
+      "bulu": "Mvaé",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "C04",
+      "fr": "Succès",
+      "en": [
+        "Success"
+      ],
+      "bulu": "Mvaé",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "C05",
+      "fr": "Nouveau transfert",
+      "en": [
+        "New transfer"
+      ],
+      "bulu": "Ntsili moné beta’a",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E01",
+      "fr": "Une erreur est survenue",
+      "en": [
+        "An error occurred"
+      ],
+      "bulu": "Mvôngô e sili.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E02",
+      "fr": "Alerte de sécurité",
+      "en": [
+        "Security warning"
+      ],
+      "bulu": "Atye’é minlem",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E03",
+      "fr": "Fermer",
+      "en": [
+        "Dismiss"
+      ],
+      "bulu": "Futié",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E04",
+      "fr": "Message important",
+      "en": [
+        "Important message"
+      ],
+      "bulu": "Menda’an ntiñ",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E05",
+      "fr": "Le montant doit être supérieur à zéro.",
+      "en": [
+        "The amount must be greater than zero."
+      ],
+      "bulu": "Abime moné Teké momo.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E06",
+      "fr": "Solde insuffisant pour effectuer ce transfert.",
+      "en": [
+        "Insufficient balance for this transfer."
+      ],
+      "bulu": "Mebal Teké njalan asu Ntsili moné.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E07",
+      "fr": "Veuillez renseigner le nom et le numéro du bénéficiaire.",
+      "en": [
+        "Please provide the beneficiary name and phone number."
+      ],
+      "bulu": "Yôlé jôé na Nombor nsinga ya Nyô a ya’a.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E08",
+      "fr": "Alerte de sécurité : vérifiez le numéro du bénéficiaire avant de continuer.",
+      "en": [
+        "Security warning: verify the beneficiary phone number before continuing."
+      ],
+      "bulu": "Atye’é minlem: Nyafombàn Nombor nsinga ya Nyô a ya’a Ôsusua na Kele ôsu.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E09",
+      "fr": "Alerte de sécurité : ce bénéficiaire n'a jamais été utilisé sur ce compte.",
+      "en": [
+        "Security warning: this beneficiary has never been used on this account."
+      ],
+      "bulu": "Atye’é minlem: Nyô a ya’a oyo Amos dzing a kôban a Évôvôla moné oyo.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E10",
+      "fr": "Erreur réseau : le service est temporairement indisponible. Réessayez.",
+      "en": [
+        "Network error: the service is temporarily unavailable. Please try again."
+      ],
+      "bulu": "Mvôngô ya nsinga: teké e ke. Kele ôsu.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "E11",
+      "fr": "Vous devez confirmer les informations avant de valider le transfert.",
+      "en": [
+        "You must confirm the details before validating the transfer."
+      ],
+      "bulu": "A ye Ntiñ biye Ôsusua na Ntiñ Ntsili moné.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X01",
+      "fr": "Bienvenue",
+      "en": [
+        "Welcome"
+      ],
+      "bulu": "Mbolo",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X02",
+      "fr": "Mon compte",
+      "en": [
+        "My account"
+      ],
+      "bulu": "Évôvôla moné",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X03",
+      "fr": "Retour à l'accueil",
+      "en": [
+        "Back to home"
+      ],
+      "bulu": "Bulan a nda",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X04",
+      "fr": "Annuler",
+      "en": [
+        "Cancel"
+      ],
+      "bulu": "Futié",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X05",
+      "fr": "Déconnexion",
+      "en": [
+        "Log out"
+      ],
+      "bulu": "Bulan mvus",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X06",
+      "fr": "Historique des transactions",
+      "en": [
+        "Transaction history"
+      ],
+      "bulu": "Mamesse ya Ébômbo",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X07",
+      "fr": "Consulter le solde",
+      "en": [
+        "Check balance"
+      ],
+      "bulu": "Yené Mebal",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X08",
+      "fr": "Votre solde est de {amount}",
+      "en": [
+        "Your balance is {amount}"
+      ],
+      "bulu": "Mebal ya èn jôé: {amount}",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X09",
+      "fr": "Envoyer de l'argent",
+      "en": [
+        "Send money"
+      ],
+      "bulu": "Ntsili moné",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X10",
+      "fr": "Numéro du bénéficiaire",
+      "en": [
+        "Beneficiary number"
+      ],
+      "bulu": "Nombor nsinga ya Nyô a ya’a",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X11",
+      "fr": "Numéro du bénéficiaire : {phone}",
+      "en": [
+        "Beneficiary number: {phone}"
+      ],
+      "bulu": "Nombor nsinga ya Nyô a ya’a : {phone}",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X12",
+      "fr": "Frais de l'opération : {amount}",
+      "en": [
+        "Transaction fee: {amount}"
+      ],
+      "bulu": "Minkuk ya Ébômbo : {amount}",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X13",
+      "fr": "Vous allez envoyer {amount} à {name}",
+      "en": [
+        "You are about to send {amount} to {name}"
+      ],
+      "bulu": "Ntsili moné {amount} asu {name}",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X14",
+      "fr": "Total débité : {amount}",
+      "en": [
+        "Total debited: {amount}"
+      ],
+      "bulu": "Mebal mate wulu : {amount}",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X15",
+      "fr": "Confirmer",
+      "en": [
+        "Confirm"
+      ],
+      "bulu": "Ntiñ",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X16",
+      "fr": "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.",
+      "en": [
+        "Check the beneficiary's name and number before confirming. A confirmed transaction cannot be cancelled."
+      ],
+      "bulu": "Nyafombàn jôé na Nombor nsinga ya Nyô a ya’a Ôsusua na Ntiñ. Ébômbo ntiñ Teké Futié.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X17",
+      "fr": "Opération réussie",
+      "en": [
+        "Transaction successful"
+      ],
+      "bulu": "Ébômbo mvaé",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X18",
+      "fr": "Opération en cours de traitement",
+      "en": [
+        "Transaction in progress"
+      ],
+      "bulu": "Ébômbo e ke ôsu",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X19",
+      "fr": "Référence de l'opération : {ref}",
+      "en": [
+        "Transaction reference: {ref}"
+      ],
+      "bulu": "Mendém ya Ébômbo : {ref}",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X20",
+      "fr": "Solde insuffisant",
+      "en": [
+        "Insufficient balance"
+      ],
+      "bulu": "Mebal Teké njalan",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X21",
+      "fr": "Numéro invalide",
+      "en": [
+        "Invalid number"
+      ],
+      "bulu": "Nombor nsinga Teké mbamba",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X22",
+      "fr": "Une erreur est survenue. Veuillez réessayer.",
+      "en": [
+        "An error occurred. Please try again."
+      ],
+      "bulu": "Mvôngô e sili. Kele ôsu.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X23",
+      "fr": "Montant invalide",
+      "en": [
+        "Invalid amount"
+      ],
+      "bulu": "Abime moné Teké mbamba",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X24",
+      "fr": "Attention : ne partagez jamais votre code secret. Aucun agent ne vous le demandera.",
+      "en": [
+        "Warning: never share your secret code. No agent will ever ask you for it."
+      ],
+      "bulu": "Atye’é minlem: Amos dzing yôlé Nten bafili. Momo a ye soé a wo.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X25",
+      "fr": "Saisissez votre code PIN",
+      "en": [
+        "Enter your PIN"
+      ],
+      "bulu": "Yôlé Nten bafili ya èn jôé",
+      "critique": false,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X26",
+      "fr": "Votre code de confirmation est {code}. Ne le partagez avec personne.",
+      "en": [
+        "Your confirmation code is {code}. Do not share it with anyone."
+      ],
+      "bulu": "Nten bafili ya Ntiñ a {code}. Teké yôlé asu môt.",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X27",
+      "fr": "Cette opération est irréversible",
+      "en": [
+        "This transaction is irreversible"
+      ],
+      "bulu": "Ébômbo oyo Teké Futié",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    },
+    {
+      "id": "X28",
+      "fr": "Récapitulatif de l'opération",
+      "en": [
+        "Transaction summary"
+      ],
+      "bulu": "Mamesse ya Ébômbo",
+      "critique": true,
+      "traduit_par": "georges",
+      "relu_par": "",
+      "valide": false
+    }
+  ]
+}
