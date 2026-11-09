@@ -1,0 +1,103 @@
+﻿id,priorite,ecran,element,critique,champ_fait,fr,en,bulu,valide_par,valide,consigne
+G01,P1,Toutes,Bandeau d'avertissement,1,0,"Environnement de test — données fictives, aucune transaction réelle.","Test environment — fictional data, no real transaction.","Nlam a test — biye bi ke ben, Teké Ébômbo ya moné.",georges,,
+G02,P1,Toutes,Lien,0,0,Protocole de test,Test protocol,Mvele a test,georges,,
+G03,P1,Toutes,Lien,0,0,Retour au hackathon,Back to hackathon,Bulan a hackathon,georges,,
+G04,P1,Toutes,Sous-titre sous le nom du service,0,0,Banque en ligne,Online banking,Nda moné,georges,,
+G05,P1,Toutes,Étape du parcours,0,0,Solde,Balance,Mebal,georges,,
+G06,P1,Toutes,Étape du parcours + libellé de champ,1,1,Frais,Fee | Fees,Minkuk,georges,,Même mot pour l'étape et pour la ligne des frais
+G07,P1,Toutes,"Étape, titre et libellé de champ",1,1,Bénéficiaire,Beneficiary,Nyô a ya’a,georges,,La personne qui reçoit l'argent
+G08,P1,Toutes,Étape et titre,0,0,Récapitulatif,Summary,Mamesse,georges,,Résumé de l'opération avant confirmation
+G09,P1,Toutes,Étape du parcours,0,0,Confirmation,Confirmation,Ntiñ,georges,,
+G10,P1,Toutes,Pied de page,1,0,Safinum Pay — environnement de démonstration. Ne saisissez aucune donnée personnelle réelle.,Safinum Pay — demonstration environment. Do not enter real personal data.,Safinum Pay — nlam a démonstration. Teké yôlé biye ya môt ya ben.,georges,,« Safinum Pay » est un nom de marque : à garder tel quel
+A01,P1,1. Solde,Titre,0,0,Votre compte,Your account,Évôvôla moné ya èn jôé,georges,,
+A02,P1,1. Solde,Salutation,0,0,"Bonjour, {name}","Hello, {name}","Mbolo, {name}",georges,,"{name} = prénom du client : ne pas traduire, garder {name}"
+A03,P1,1. Solde,Salutation seule,0,0,Bonjour,Hello,Mbolo,georges,,
+A04,P1,1. Solde,Sous-titre,0,0,Consultez votre solde et lancez un transfert en toute sécurité.,Check your balance and start a secure transfer.,"Yené Mebal ya èn jôé, kele ôsu Ntsili moné a Atye’é minlem.",georges,,
+A05,P1,1. Solde,Libellé au-dessus du solde,1,1,Solde disponible,Available balance,Mebal,georges,,
+A06,P1,1. Solde,Numéro de compte,1,0,Numéro de compte : {account},Account number: {account},Nombor ya Évôvôla moné : {account},georges,,{account} = numéro de compte : ne pas traduire
+A07,P1,1. Solde,Libellé seul,0,1,Numéro de compte,Account number,Nombor ya Évôvôla moné,georges,,
+A08,P1,1. Solde,Type de compte,0,0,Compte courant,Current account,Évôvôla moné,georges,,
+A09,P1,1. Solde,Bouton,1,0,Effectuer un transfert,Make a transfer,Ntsili moné,georges,,Envoyer de l'argent à quelqu'un
+A10,P1,1. Solde,Bouton,0,0,Consulter les frais,View fees,Yené Minkuk,georges,,
+A11,P1,1. Solde,Titre,0,0,Transactions récentes,Recent transactions,Ébômbo ya môs a môs,georges,,
+A12,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Paiement marchand,Merchant payment,Éya’an ya môt,georges,,Paiement chez un commerçant
+A13,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Salaire reçu,Salary received,Mfaka,georges,,
+A14,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Transfert reçu,Transfer received,Ntsili moné,georges,,
+A15,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Facture électricité,Electricity bill,Nten éya’an,georges,,
+S01,P1,Toutes,"Encadré latéral, titre",0,0,Sécurité,Security,Atye’é minlem,georges,,
+S02,P1,Toutes,"Encadré latéral, conseil",1,0,Vérifiez toujours le nom et le numéro du bénéficiaire avant de confirmer un transfert.,Always verify the beneficiary name and number before confirming a transfer.,"Nyafombàn jôé na Nombor nsinga ya Nyô a ya’a, Ôsusua na Ntiñ Ntsili moné.",georges,,Avertissement de sécurité : le sens doit rester aussi fort
+S03,P1,Toutes,Encadré latéral,0,0,Connexion sécurisée,Secure connection,Atye’é minlem,georges,,
+F01,P1,2. Frais,Titre,0,0,Frais de transfert,Transfer fees,Minkuk ya Ntsili moné,georges,,
+F02,P1,2. Frais,Sous-titre,0,0,Choisissez le type de transfert et le montant. Les frais sont calculés automatiquement.,Choose the transfer type and amount. Fees are calculated automatically.,Ntôban ya Ntsili moné na Mbor. Minkuk bi yôlé wôga.,georges,,
+F03,P1,2. Frais,Libellé de liste,0,0,Type d'opération,Operation type,Ébômbo,georges,,
+F04,P1,2. Frais,Choix de la liste,0,0,Compte Safinum,Safinum account,Évôvôla moné Safinum,georges,,« Safinum » est un nom de marque
+F05,P1,2. Frais,Description du choix,1,0,Transfert instantané et gratuit,"Instant, free transfer","Ntsili moné, Bua",georges,,« gratuit » = sans frais : sens critique
+F06,P1,2. Frais,Choix de la liste,0,0,Mobile Money,Mobile Money,Mobile Money,georges,,Peut rester tel quel si c'est l'usage courant
+F07,P1,2. Frais,Description du choix,1,0,"Frais de {percent} (min. {amount_1}, max. {amount_2})","{percent} fee (min. {amount_1}, max. {amount_2})","Minkuk ya {percent} (min. {amount_1}, max. {amount_2})",georges,,"Garder {percent}, {amount_1}, {amount_2}. min. = au minimum, max. = au maximum"
+F08,P1,2. Frais,Choix de la liste,0,0,Autre banque,Other bank,Nda moné éziñ,georges,,
+F09,P1,2. Frais,Libellé de champ,1,0,Montant à envoyer,Amount to send,Abime moné ya Ntsili moné,georges,,
+F10,P1,2. Frais,Badge à côté des frais,1,0,Gratuit,Free,Bua,georges,,Sans frais : sens critique
+F11,P1,2. Frais,Libellé de ligne,1,1,Total à débiter,Total to debit,Mebal mate wulu,georges,,Somme qui sera retirée du compte
+F12,P1,2. Frais,Libellé de ligne,1,1,Solde après opération,Balance after transfer,Mebal na mbus Ébômbo,georges,,
+F13,P1,Toutes,Bouton,1,0,Continuer,Continue,Kele ôsu,georges,,Passer à l'étape suivante
+F14,P1,Toutes,Bouton,0,0,Retour,Back,Bulan mvus,georges,,Revenir à l'étape précédente
+B01,P1,3. Bénéficiaire,Sous-titre,1,0,Renseignez les informations du destinataire. Vérifiez toujours le numéro avant de valider.,Enter the recipient details. Always verify the number before confirming.,Yôlé biye ya Nyô a ya’a. Nyafombàn Nombor nsinga Ôsusua na Ntiñ.,georges,,
+B02,P1,3. Bénéficiaire,Alerte,1,0,Ce bénéficiaire n'a jamais été utilisé sur ce compte. Vérifiez le numéro avant de continuer.,This beneficiary has never been used on this account. Verify the number before continuing.,Nyô a ya’a oyo Amos dzing a kôban a Évôvôla moné oyo. Nyafombàn Nombor nsinga Ôsusua na Kele ôsu.,georges,,Avertissement de sécurité : le sens doit rester aussi fort
+B03,P1,3. Bénéficiaire,Libellé de champ,0,0,Nom du bénéficiaire,Beneficiary name,Jôé ya Nyô a ya’a,georges,,
+B04,P1,3. Bénéficiaire,Libellé de champ,0,1,Numéro de téléphone,Phone number,Nombor nsinga,georges,,
+B05,P1,3. Bénéficiaire,Libellé de champ,0,0,Motif du transfert,Transfer reason,Amvôm ya Ntsili moné,georges,,Pourquoi on envoie l'argent
+B06,P1,3. Bénéficiaire,Libellé de champ,0,0,Note (optionnel),Note (optional),Note (Teké ntiñ),georges,,optionnel = pas obligatoire
+B07,P1,3. Bénéficiaire,Case à cocher,1,0,J'ai vérifié le nom et le numéro du bénéficiaire.,I have verified the beneficiary name and phone number.,Ma Nyafombàn jôé na Nombor nsinga ya Nyô a ya’a.,georges,,Engagement de l'utilisateur : sens critique
+R01,P1,4. Récapitulatif,Sous-titre,1,0,Vérifiez les informations avant de confirmer le transfert.,Check the details before confirming the transfer.,Nyafombàn biye Ôsusua na Ntiñ Ntsili moné.,georges,,
+R02,P1,4 et 5,Libellé de ligne,1,1,Montant,Amount,Abime moné,georges,,
+R03,P1,4 et 5,Libellé de ligne,1,1,Total débité,Total debited,Mebal mate wulu,georges,,Somme retirée du compte (montant + frais)
+R04,P1,4. Récapitulatif,Libellé de ligne,0,1,Téléphone,Phone,Nombor nsinga,georges,,
+R05,P1,4 et 5,Libellé de ligne,0,1,Référence,Reference,Mendém,georges,,Code qui identifie l'opération
+R06,P1,4. Récapitulatif,Libellé de ligne,0,0,Opération,Operation,Ébômbo,georges,,Type d'opération
+R07,P1,4. Récapitulatif,Case à cocher,1,0,Je confirme que les informations ci-dessus sont correctes.,I confirm the information above is correct.,Ma Ntiñ nge biye bi ke mbamba.,georges,,Engagement de l'utilisateur : sens critique
+R08,P1,4. Récapitulatif,Bouton,1,0,Modifier,Edit,Tyendé,georges,,Revenir corriger les informations (ne pas confondre avec annuler)
+R09,P1,4. Récapitulatif,Bouton,1,0,Confirmer le transfert,Confirm transfer,Ntiñ Ntsili moné,georges,,Action définitive : l'argent part
+C01,P1,5. Reçu,Titre,1,0,Transfert effectué,Transfer completed,Ntsili moné mvaé,georges,,
+C02,P1,5. Reçu,Sous-titre,1,0,Votre transfert a été envoyé avec succès.,Your transfer has been sent successfully.,Ntsili moné ya èn jôé mvaé.,georges,,
+C03,P1,5. Reçu,Libellé de ligne,0,0,Statut,Status,Mvaé,georges,,État de l'opération
+C04,P1,5. Reçu,Valeur du statut,1,0,Succès,Success,Mvaé,georges,,L'opération a réussi
+C05,P1,5. Reçu,Bouton,0,0,Nouveau transfert,New transfer,Ntsili moné beta’a,georges,,
+E01,P1,Erreurs,Titre d'erreur,1,0,Une erreur est survenue,An error occurred,Mvôngô e sili.,georges,,
+E02,P1,Erreurs,Titre d'alerte,1,0,Alerte de sécurité,Security warning,Atye’é minlem,georges,,Doit rester un avertissement fort
+E03,P1,Erreurs,Bouton fermer (lu par les lecteurs d'écran),0,0,Fermer,Dismiss,Futié,georges,,Fermer le message
+E04,P1,Messages,Étiquette au-dessus d'un message,1,0,Message important,Important message,Menda’an ntiñ,georges,,
+E05,P1,Erreurs,Message AMOUNT_001,1,0,Le montant doit être supérieur à zéro.,The amount must be greater than zero.,Abime moné Teké momo.,georges,,
+E06,P1,Erreurs,Message AMOUNT_002,1,0,Solde insuffisant pour effectuer ce transfert.,Insufficient balance for this transfer.,Mebal Teké njalan asu Ntsili moné.,georges,,
+E07,P1,Erreurs,Message BENEFICIARY_001,1,0,Veuillez renseigner le nom et le numéro du bénéficiaire.,Please provide the beneficiary name and phone number.,Yôlé jôé na Nombor nsinga ya Nyô a ya’a.,georges,,
+E08,P1,Erreurs,Message SECURITY_001,1,0,Alerte de sécurité : vérifiez le numéro du bénéficiaire avant de continuer.,Security warning: verify the beneficiary phone number before continuing.,Atye’é minlem: Nyafombàn Nombor nsinga ya Nyô a ya’a Ôsusua na Kele ôsu.,georges,,Avertissement de sécurité : le sens doit rester aussi fort
+E09,P1,Erreurs,Message SECURITY_002,1,0,Alerte de sécurité : ce bénéficiaire n'a jamais été utilisé sur ce compte.,Security warning: this beneficiary has never been used on this account.,Atye’é minlem: Nyô a ya’a oyo Amos dzing a kôban a Évôvôla moné oyo.,georges,,Avertissement de sécurité : le sens doit rester aussi fort
+E10,P1,Erreurs,Message NETWORK_001,1,0,Erreur réseau : le service est temporairement indisponible. Réessayez.,Network error: the service is temporarily unavailable. Please try again.,Mvôngô ya nsinga: teké e ke. Kele ôsu.,georges,,
+E11,P1,Erreurs,Message CONFIRM_001,1,0,Vous devez confirmer les informations avant de valider le transfert.,You must confirm the details before validating the transfer.,A ye Ntiñ biye Ôsusua na Ntiñ Ntsili moné.,georges,,
+X01,P2,Autres services,Titre,0,0,Bienvenue,Welcome,Mbolo,georges,,
+X02,P2,Autres services,Menu,0,0,Mon compte,My account,Évôvôla moné,georges,,
+X03,P2,Autres services,Bouton,0,0,Retour à l'accueil,Back to home,Bulan a nda,georges,,
+X04,P2,Autres services,Bouton,1,0,Annuler,Cancel,Futié,georges,,Abandonner l'opération (ne pas confondre avec modifier)
+X05,P2,Autres services,Menu,0,0,Déconnexion,Log out,Bulan mvus,georges,,
+X06,P2,Autres services,Menu,0,0,Historique des transactions,Transaction history,Mamesse ya Ébômbo,georges,,
+X07,P2,Autres services,Bouton,0,0,Consulter le solde,Check balance,Yené Mebal,georges,,
+X08,P2,Autres services,Message,1,0,Votre solde est de {amount},Your balance is {amount},Mebal ya èn jôé: {amount},georges,,Garder {amount}
+X09,P2,Autres services,Bouton,1,0,Envoyer de l'argent,Send money,Ntsili moné,georges,,
+X10,P2,Autres services,Libellé,0,1,Numéro du bénéficiaire,Beneficiary number,Nombor nsinga ya Nyô a ya’a,georges,,
+X11,P2,Autres services,Ligne,1,0,Numéro du bénéficiaire : {phone},Beneficiary number: {phone},Nombor nsinga ya Nyô a ya’a : {phone},georges,,Garder {phone}
+X12,P2,Autres services,Ligne,1,0,Frais de l'opération : {amount},Transaction fee: {amount},Minkuk ya Ébômbo : {amount},georges,,Garder {amount}
+X13,P2,Autres services,Récapitulatif,1,0,Vous allez envoyer {amount} à {name},You are about to send {amount} to {name},Ntsili moné {amount} asu {name},georges,,Garder {amount} et {name}
+X14,P2,Autres services,Ligne,1,0,Total débité : {amount},Total debited: {amount},Mebal mate wulu : {amount},georges,,Garder {amount}
+X15,P2,Autres services,Bouton,1,0,Confirmer,Confirm,Ntiñ,georges,,Action définitive
+X16,P2,Autres services,Avertissement,1,0,Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.,Check the beneficiary's name and number before confirming. A confirmed transaction cannot be cancelled.,Nyafombàn jôé na Nombor nsinga ya Nyô a ya’a Ôsusua na Ntiñ. Ébômbo ntiñ Teké Futié.,georges,,
+X17,P2,Autres services,Statut,0,0,Opération réussie,Transaction successful,Ébômbo mvaé,georges,,
+X18,P2,Autres services,Statut,0,0,Opération en cours de traitement,Transaction in progress,Ébômbo e ke ôsu,georges,,
+X19,P2,Autres services,Ligne,0,0,Référence de l'opération : {ref},Transaction reference: {ref},Mendém ya Ébômbo : {ref},georges,,Garder {ref}
+X20,P2,Autres services,Erreur,1,0,Solde insuffisant,Insufficient balance,Mebal Teké njalan,georges,,
+X21,P2,Autres services,Erreur,1,0,Numéro invalide,Invalid number,Nombor nsinga Teké mbamba,georges,,
+X22,P2,Autres services,Erreur,1,0,Une erreur est survenue. Veuillez réessayer.,An error occurred. Please try again.,Mvôngô e sili. Kele ôsu.,georges,,
+X23,P2,Autres services,Erreur,1,0,Montant invalide,Invalid amount,Abime moné Teké mbamba,georges,,
+X24,P2,Autres services,Avertissement,1,0,Attention : ne partagez jamais votre code secret. Aucun agent ne vous le demandera.,Warning: never share your secret code. No agent will ever ask you for it.,Atye’é minlem: Amos dzing yôlé Nten bafili. Momo a ye soé a wo.,georges,,Avertissement anti-arnaque : sens critique
+X25,P2,Autres services,Libellé,0,0,Saisissez votre code PIN,Enter your PIN,Yôlé Nten bafili ya èn jôé,georges,,
+X26,P2,Autres services,SMS,1,0,Votre code de confirmation est {code}. Ne le partagez avec personne.,Your confirmation code is {code}. Do not share it with anyone.,Nten bafili ya Ntiñ a {code}. Teké yôlé asu môt.,georges,,Garder {code}
+X27,P2,Autres services,Avertissement,1,0,Cette opération est irréversible,This transaction is irreversible,Ébômbo oyo Teké Futié,georges,,
+X28,P2,Autres services,Titre,1,0,Récapitulatif de l'opération,Transaction summary,Mamesse ya Ébômbo,georges,,
