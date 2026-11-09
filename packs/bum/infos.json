@@ -1,0 +1,11 @@
+{
+  "langue": "bum",
+  "nom": "Bulu",
+  "version": "0.3.0",
+  "orthographe": "Alphabet de l'Église presbytérienne",
+  "etiquettes": {
+    "securite": "E02",
+    "erreur": "E01",
+    "frais": "G06"
+  }
+}
