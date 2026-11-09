@@ -10,7 +10,10 @@ Une ligne n'est marquée validée que si « Traduit par » ET « Relu par » son
 (deux personnes différentes). Ensuite : npm run pack
 """
 import csv, pathlib, re, sys
-from openpyxl import Workbook, load_workbook
+try:
+    from openpyxl import Workbook, load_workbook
+except ImportError:
+    sys.exit("openpyxl manque. L'installer une fois : python -m pip install openpyxl")
 from openpyxl.styles import Alignment, Font, PatternFill
 
 root = pathlib.Path(__file__).resolve().parent.parent
@@ -178,12 +181,53 @@ def backtranslation(path):
     wb.save(out)
     print(f'{n} phrases critiques -> {out} (à envoyer à une personne qui n’a pas vu le français)')
 
+def bulu_column(header):
+    """Indices des colonnes bulu, traducteur et relecteur, quel que soit le nom donné par les locuteurs."""
+    find = lambda *starts: next((i for i, h in enumerate(header) if h.strip().lower().startswith(starts)), None)
+    return find('terme bulu', 'traduction bulu'), find('traduit par', 'choisi par'), find('relu par')
+
+def import_glossary(wb):
+    """Reporte le glossaire du tableur. Une case bulu vide n'efface jamais un terme déjà traduit :
+    un kit fraîchement exporté a un glossaire vierge, il ne doit pas vider glossaire.csv."""
+    path = root / 'glossaire.csv'
+    old = {}
+    if path.exists():
+        with open(path, encoding='utf-8-sig', newline='') as f:
+            old_rows = list(csv.reader(f))
+        if old_rows:
+            b, t, r = bulu_column(old_rows[0])
+            for row in old_rows[1:]:
+                if row and b is not None and len(row) > b and row[b].strip():
+                    old[row[0].strip()] = (row[b], row[t] if t is not None else '', row[r] if r is not None else '')
+    n = sheet_to_csv(wb, 'Glossaire', path)
+    with open(path, encoding='utf-8-sig', newline='') as f:
+        rows = list(csv.reader(f))
+    if not rows:
+        return n
+    b, t, r = bulu_column(rows[0])
+    kept = 0
+    for row in rows[1:]:
+        ref = row[0].strip() if row else ''
+        if b is not None and ref in old and not row[b].strip():
+            row[b] = old[ref][0]
+            if t is not None and not row[t].strip(): row[t] = old[ref][1]
+            if r is not None and not row[r].strip(): row[r] = old[ref][2]
+            kept += 1
+    with open(path, 'w', encoding='utf-8-sig', newline='') as f:
+        csv.writer(f).writerows(rows)
+    if kept:
+        print(f'glossaire : {kept} terme(s) vide(s) dans le tableur, traduction existante conservée')
+    return n
+
 def import_(path):
     full = load_workbook(path, data_only=True)
-    print(f"glossaire : {sheet_to_csv(full, 'Glossaire', root / 'glossaire.csv')} termes -> glossaire.csv")
+    print(f"glossaire : {import_glossary(full)} termes -> glossaire.csv")
     print(f"style : {sheet_to_csv(full, 'Choix de style', root / 'style.csv')} réponses -> style.csv")
     if 'Retraduction' in full.sheetnames:
         print(f"retraduction : {sheet_to_csv(full, 'Retraduction', root / 'retraduction.csv')} lignes -> retraduction.csv")
+        return
+    if 'À traduire' not in full.sheetnames:
+        print("pas d'onglet « À traduire » : seuls le glossaire et le style ont été importés")
         return
     ws = load_workbook(path, read_only=True)['À traduire']
     filled = {}
@@ -193,9 +237,13 @@ def import_(path):
             filled[str(rid).strip()] = (str(bu).strip(), (by or '').strip(), (rev or '').strip())
     rows = list(csv.DictReader(open(CORPUS, encoding='utf-8-sig', newline='')))
     n_valid = 0
+    changes = []
     for r in rows:
         if r['id'] in filled:
             bu, by, rev = filled[r['id']]
+            # Un fichier plus ancien que corpus.csv écraserait des corrections récentes : on montre tout
+            if r['bulu'] and r['bulu'] != bu:
+                changes.append(f"  {r['id']} : « {r['bulu']} » -> « {bu} »")
             r['bulu'] = bu
             ok = bool(by and rev and by.lower() != rev.lower())
             r['valide_par'] = f'{by} / relu par {rev}' if ok else by
@@ -206,6 +254,10 @@ def import_(path):
         w.writeheader()
         w.writerows(rows)
     print(f'{len(filled)} traductions importées, {n_valid} validées par deux personnes -> {CORPUS}')
+    if changes:
+        print(f'{len(changes)} traduction(s) bulu modifiée(s) :')
+        print('\n'.join(changes))
+        print('Si un changement est un retour en arrière : git checkout corpus.csv, puis corriger le tableur.')
 
 if __name__ == '__main__':
     if len(sys.argv) >= 2 and sys.argv[1] == 'export':
