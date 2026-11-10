@@ -16,8 +16,15 @@ const EN_LIGNE = new Set(['A', 'ABBR', 'B', 'BDI', 'BDO', 'CITE', 'DATA', 'EM', 
 
 let pack: Pack;
 let options: Options;
-let ui: Interface;
+let ui: Interface | null = null;
 let afficheBulu = true;
+let observateur: MutationObserver;
+// Le document et chaque Shadow DOM ouvert déjà parcouru
+const racines: (Document | ShadowRoot)[] = [];
+
+// Feuille de style.css, intégrée par tools/compile.js : le style injecté dans le document
+// ne traverse pas la frontière d'un Shadow DOM
+declare const STYLE_PAGE: string;
 // nœud texte -> texte d'origine et texte traduit, pour pouvoir revenir en arrière
 const ecrits = new Map<Text, { origine: string; traduit: string }>();
 
@@ -124,15 +131,50 @@ function traiterAttributs(el: Element) {
   }
 }
 
+function traiterElement(el: Element) {
+  traiterAttributs(el);
+  if (el.shadowRoot && !dansNotreUi(el)) entrerOmbre(el.shadowRoot);
+}
+
 function parcourir(racine: Node) {
   if (racine.nodeType === Node.TEXT_NODE) return traiterTexte(racine as Text);
-  if (racine.nodeType !== Node.ELEMENT_NODE || dansNotreUi(racine as Element)) return;
-  traiterAttributs(racine as Element);
+  const fragment = racine.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
+  if (!fragment && (racine.nodeType !== Node.ELEMENT_NODE || dansNotreUi(racine as Element))) return;
+  if (!fragment) traiterElement(racine as Element);
   const marcheur = document.createTreeWalker(racine, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
   for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
     if (n.nodeType === Node.TEXT_NODE) traiterTexte(n as Text);
-    else traiterAttributs(n as Element);
+    else traiterElement(n as Element);
   }
+}
+
+// Shadow DOM ouvert : parcouru et surveillé comme le document. Un Shadow DOM fermé
+// est inaccessible à toute extension.
+function entrerOmbre(ombre: ShadowRoot) {
+  if (racines.includes(ombre)) return;
+  racines.push(ombre);
+  try {
+    const feuille = new CSSStyleSheet();
+    feuille.replaceSync(STYLE_PAGE);
+    ombre.adoptedStyleSheets = [...ombre.adoptedStyleSheets, feuille];
+  } catch {
+    // Navigateur sans feuilles adoptables : la traduction marche, sans étiquette visible
+  }
+  observer(ombre);
+  parcourir(ombre);
+}
+
+function observer(racine: Node) {
+  observateur.observe(racine, {
+    childList: true, subtree: true, characterData: true,
+    attributes: true, attributeFilter: ATTRIBUTS,
+  });
+}
+
+// Bascule envoyée aux cadres enfants : chacun a sa propre copie de Mayem, sans bouton.
+// Le message ne porte qu'un booléen ; une page qui l'imiterait ne ferait que basculer l'affichage.
+function prevenirCadres(bulu: boolean) {
+  for (let i = 0; i < window.frames.length; i++) window.frames[i].postMessage({ mayem: bulu }, '*');
 }
 
 function basculer(bulu: boolean) {
@@ -142,12 +184,13 @@ function basculer(bulu: boolean) {
     else noeud.nodeValue = bulu ? e.traduit : e.origine;
   }
   const selecteur = ATTRIBUTS.map((nom) => `[data-mayem-origine-${nom}]`).join(',');
-  document.querySelectorAll(selecteur).forEach((el) => {
+  racines.flatMap((racine) => [...racine.querySelectorAll(selecteur)]).forEach((el) => {
     for (const nom of ATTRIBUTS) {
       const valeur = el.getAttribute(`data-mayem-${bulu ? 'traduit' : 'origine'}-${nom}`);
       if (valeur !== null) el.setAttribute(nom, valeur);
     }
   });
+  prevenirCadres(bulu);
 }
 
 // Compteurs recalculés à partir de la page, avec un vrai contrôle des chiffres de chaque texte traduit
@@ -163,7 +206,7 @@ function prevoirCompteurs() {
       traduits++;
       if (/\d/.test(e.origine)) memesChiffres(e.origine, e.traduit) ? verifies++ : ecarts++;
     }
-    const conserves = document.querySelectorAll('[data-mayem="non_verifie"],[data-mayem="rejete"]').length;
+    const conserves = racines.reduce((n, racine) => n + racine.querySelectorAll('[data-mayem="non_verifie"],[data-mayem="rejete"]').length, 0);
     const chiffres = ecarts ? `${ecarts} écart(s) !` : `${verifies} ✓`;
     ui?.afficherCompteurs({ traduits, conserves, chiffres });
   });
@@ -171,23 +214,29 @@ function prevoirCompteurs() {
 
 // Nouveau clic sur l'icône une fois Mayem lancé : original <-> bulu
 export function inverser() {
-  ui.inverser();
+  if (ui) ui.inverser();
+  else basculer(!afficheBulu);
 }
 
 export function demarrer(lePack: Pack, lesOptions: Options) {
   pack = lePack;
   options = lesOptions;
-  ui = creerInterface(!!options.test, basculer);
-  parcourir(document.body);
-  new MutationObserver((mutations) => {
+  // Un seul bouton, dans la page principale ; un cadre suit la bascule de son parent
+  if (window === window.top) ui = creerInterface(!!options.test, basculer);
+  else {
+    window.addEventListener('message', (evenement) => {
+      if (evenement.source === window.parent && typeof evenement.data?.mayem === 'boolean') basculer(evenement.data.mayem);
+    });
+  }
+  observateur = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'characterData') traiterTexte(m.target as Text);
       else if (m.type === 'attributes') traiterAttributs(m.target as Element);
       else m.addedNodes.forEach(parcourir);
     }
-  }).observe(document.body, {
-    childList: true, subtree: true, characterData: true,
-    attributes: true, attributeFilter: ATTRIBUTS,
   });
+  racines.push(document);
+  observer(document.body);
+  parcourir(document.body);
   prevoirCompteurs();
 }

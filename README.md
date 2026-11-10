@@ -46,8 +46,12 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
    Après un rechargement de la page, recliquer.
 4. Un nouveau clic sur l'icône, ou le bouton en bas à gauche, bascule bulu ⇄ original ; le bouton « i » affiche
    les compteurs et le contrôle des chiffres.
-5. Hors ligne : `cd mock-bank && python3 -m http.server 8000` (page d'essai construite autrement, pour prouver l'indépendance).
-   `fixtures/balises.html` : textes coupés par des balises et messages de plusieurs phrases.
+5. Pages d'essai construites autrement, pour prouver l'indépendance : `python -m http.server 8000` à la racine,
+   puis `http://127.0.0.1:8000/fixtures/<page>.html` et un clic sur l'icône.
+   - `simple.html` : HTML simple ; `balises.html` : textes coupés par des balises, messages de plusieurs phrases ;
+   - `react.html` : rendu par état à la React (nœuds recréés, valeurs mises à jour sur place), en anglais,
+     montants au format anglais (`XAF 25,000.00`) ;
+   - `iframe.html` : formulaire dans un cadre du même site ; `shadow.html` : composants à Shadow DOM, dont un ajouté plus tard.
 6. Tests : `npm test` (tous les textes réels de la page, en français et en anglais, et les refus de check-pack).
 
 ## Faire valider le bulu
@@ -89,9 +93,13 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
   valeurs, l'original reste.
 - Contenu inédit : original conservé + étiquette de catégorie validée affichée en CSS, hors du texte de la page.
 - Interface de l'extension dans un Shadow DOM séparé, utilisable au clavier.
+- Shadow DOM ouverts parcourus et surveillés comme la page ; cadres du même site traduits, un seul bouton
+  (celui de la page principale bascule aussi les cadres).
 
 ## Limites connues
 - Texte coupé par des balises : traduit seulement si la phrase entière est dans le corpus (« Votre solde est de {amount} »).
 - Le panneau jury est lui aussi traité quand ses textes figurent dans le corpus (sans effet sur les contrôles).
 - Repli IA pour le contenu inédit : non branché (outils gratuits uniquement, à décider).
 - Un iframe d'un autre site que l'onglet n'est pas traduit : le clic (`activeTab`) ne donne accès qu'au site de l'onglet.
+- Un Shadow DOM fermé (`mode: 'closed'`) est inaccessible à toute extension : son texte reste en français.
+- Les compteurs du bouton ne comptent que la page principale, pas les cadres.

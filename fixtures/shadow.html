@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Essai : composants à Shadow DOM</title>
+  <style>body { font-family: sans-serif; max-width: 40rem; margin: 2rem auto; }</style>
+</head>
+<body>
+  <!-- Composants web : textes dans des Shadow DOM ouverts, l'un ajouté plus tard, et un fermé -->
+  <h1>Votre compte</h1>
+  <carte-solde id="ouvert"></carte-solde>
+  <carte-solde id="ferme" data-mode="closed"></carte-solde>
+  <script>
+    class CarteSolde extends HTMLElement {
+      connectedCallback() {
+        if (this.racine) return;
+        this.racine = this.attachShadow({ mode: this.dataset.mode === 'closed' ? 'closed' : 'open' });
+        const titre = document.createElement('h2');
+        titre.textContent = 'Solde disponible';
+        const solde = document.createElement('p');
+        solde.append('Votre solde est de ', Object.assign(document.createElement('b'), { textContent: '25 000 FCFA' }));
+        const alerte = document.createElement('p');
+        alerte.textContent = 'Un message que personne n’a encore traduit pour votre sécurité.';
+        const bouton = document.createElement('button');
+        bouton.title = 'Effectuer un transfert';
+        bouton.textContent = 'Continuer';
+        this.racine.append(titre, solde, alerte, bouton);
+      }
+    }
+    customElements.define('carte-solde', CarteSolde);
+    // Composant ajouté après le chargement, comme une fenêtre ouverte par le service
+    setTimeout(() => document.body.append(Object.assign(document.createElement('carte-solde'), { id: 'tardif' })), 1000);
+  </script>
+</body>
+</html>
