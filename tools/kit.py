@@ -106,7 +106,7 @@ GUIDE = [
     "ÉTAPE 3 — Pour les lignes « Critique = Oui », une troisième personne recevra un fichier séparé, avec seulement",
     "   le bulu, et le retraduira en français sans voir l'original. On comparera ensuite les deux sens.",
     "",
-    "Votre accord : en remplissant ce fichier, vous acceptez d'être cité comme traducteur ou relecteur dans le dossier du projet.",
+    "Les traductions produites pour Mayem appartiennent à l'équipe Mayem. Vos noms servent uniquement à la double validation interne et ne sont jamais publiés.",
 ]
 
 def export():

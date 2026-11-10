@@ -16,6 +16,7 @@ import { stripTypeScriptTypes } from 'node:module';
 import { verifierPack } from './check-pack.js';
 import { choisirLangue, dossier, langues, racine } from './langues.js';
 import { packPseudo } from './pseudo.js';
+import { versPublic } from './public.js';
 
 const enPseudo = process.argv.includes('--pseudo');
 const demandees = process.argv.slice(2).filter((argument) => argument !== '--pseudo');
@@ -59,7 +60,8 @@ function bibliotheque() {
 }
 
 const choisies = demandees.length ? demandees.map(choisirLangue) : langues();
-const vrais = choisies.map((langue) => JSON.parse(readFileSync(dossier(langue) + 'pack.json', 'utf8')));
+// Ce qui est distribué (extension, script intégré) ne contient aucun nom de traducteur : version publique
+const vrais = await Promise.all(choisies.map((langue) => versPublic(JSON.parse(readFileSync(dossier(langue) + 'pack.json', 'utf8')))));
 const packs = enPseudo ? [await packPseudo(vrais[0])] : vrais;
 const erreurs = packs.flatMap((pack) => verifierPack(pack).map((erreur) => `${pack.langue} : ${erreur}`));
 if (erreurs.length || !packs.length) {

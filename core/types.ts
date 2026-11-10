@@ -36,6 +36,9 @@ export interface Pack {
   version: string;
   date: string;
   empreinte: string;
+  // Titulaire des droits et conditions d'utilisation (facultatifs)
+  producteur?: string;
+  droits?: string;
   orthographe: string;
   // Catégorie d'un message inédit -> id de la phrase qui sert d'étiquette
   etiquettes: Partial<Record<Categorie, string>>;

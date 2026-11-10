@@ -108,3 +108,12 @@ test('le script à intégrer (dist-web/mayem.js) se construit, léger et sans no
   assert.ok(code.length < 400_000, `${code.length} octets`);
   assert.doesNotMatch(readFileSync(new URL('dom/web.ts', racine), 'utf8'), /\bbum\b/);
 });
+
+test('ce qui est distribué (extension, script intégré) ne contient aucun nom de traducteur', async () => {
+  const { nomsInternes } = await import(new URL('tools/public.js', racine));
+  const prenoms = nomsInternes(lire('packs/bum/pack.json')).flatMap((nom) => nom.split(/\s*(?:,|\/|&|\bet\b)\s*/i)).filter((n) => n.length > 2);
+  for (const fichier of ['dist/packs/bum/pack.json', 'dist-web/mayem.js']) {
+    const texte = readFileSync(new URL(fichier, racine), 'utf8').toLowerCase();
+    assert.deepEqual(prenoms.filter((nom) => texte.includes(nom.toLowerCase())), [], fichier);
+  }
+});
