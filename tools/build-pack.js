@@ -2,11 +2,13 @@
 // Usage : npm run pack [-- <langue>] (la langue est facultative s'il n'y en a qu'une)
 // Le pack n'est écrit que s'il passe check-pack : un pack invalide ne remplace jamais le bon.
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { lireCsv } from './csv.js';
 import { verifierPack } from './check-pack.js';
 import { controler } from '../core/controle.ts';
+import { empreinte } from '../core/empreinte.ts';
 import { choisirLangue, dossier } from './langues.js';
+import { differences, entreeJournal, versionSuivante } from './versions.js';
 
 const langue = choisirLangue(process.argv[2]);
 const ici = dossier(langue);
@@ -130,11 +132,14 @@ function expliquer(erreur, phrases) {
   return `${erreur}\n    fr   : ${phrase.fr}\n    bulu : ${phrase.bulu || '(vide)'}`;
 }
 
-const pack = {
-  ...JSON.parse(lire('infos.json')),
-  glossaire: lireGlossaire(),
-  phrases: lirePhrases(),
-};
+const { langue: code, nom, orthographe, etiquettes } = JSON.parse(lire('infos.json'));
+const contenu = { glossaire: lireGlossaire(), phrases: lirePhrases() };
+const ancien = existsSync(ici + 'pack.json') ? JSON.parse(lire('pack.json')) : null;
+const changements = differences(ancien, contenu);
+const version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
+const date = version === ancien?.version && ancien.date ? ancien.date : new Date().toISOString().slice(0, 10);
+const pack = { langue: code, nom, version, date, empreinte: '', orthographe, etiquettes, ...contenu };
+pack.empreinte = await empreinte(pack);
 if (!erreurs.length) erreurs.push(...verifierPack(pack));
 
 if (erreurs.length) {
@@ -144,6 +149,7 @@ if (erreurs.length) {
   process.exit(1);
 }
 writeFileSync(ici + 'pack.json', JSON.stringify(pack, null, 2) + '\n');
+archiver();
 const validees = pack.phrases.filter((p) => p.valide).length;
 const termes = pack.glossaire.filter((t) => t.bulu).length;
 const retraduites = pack.phrases.filter((p) => p.retraduction).length;
@@ -153,3 +159,19 @@ if (perimees.length) {
 }
 const aRelire = controler(pack);
 if (aRelire.length) console.log(`${aRelire.length} points à faire relire (glossaire, cohérence, négations) : npm run controle`);
+
+// Chaque version reste disponible (packs/<langue>/versions/) et le journal dit ce qui a changé
+function archiver() {
+  const archive = `${ici}versions/${version}.json`;
+  if (existsSync(archive)) return;
+  mkdirSync(ici + 'versions', { recursive: true });
+  writeFileSync(archive, JSON.stringify(pack, null, 2) + '\n');
+  const journal = ici + 'CHANGELOG.md';
+  const entree = ancien?.date
+    ? entreeJournal(version, date, changements)
+    : `## ${version} (${date})\n- Première version suivie : ${pack.phrases.length} phrases, ${pack.glossaire.length} termes`;
+  const titre = `# Journal du pack ${nom} (${code})\n\nUne correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.\n`;
+  const avant = existsSync(journal) ? readFileSync(journal, 'utf8').slice(titre.length) : '';
+  writeFileSync(journal, `${titre}\n${entree}\n${avant}`);
+  console.log(`Version ${version} : packs/${code}/versions/${version}.json, journal dans packs/${code}/CHANGELOG.md`);
+}

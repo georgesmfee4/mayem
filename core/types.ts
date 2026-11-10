@@ -32,7 +32,10 @@ export type Categorie = 'securite' | 'erreur' | 'frais' | 'info';
 export interface Pack {
   langue: string;
   nom: string;
+  // Augmentée par tools/build-pack.js à chaque changement ; date du changement (AAAA-MM-JJ)
   version: string;
+  date: string;
+  empreinte: string;
   orthographe: string;
   // Catégorie d'un message inédit -> id de la phrase qui sert d'étiquette
   etiquettes: Partial<Record<Categorie, string>>;
