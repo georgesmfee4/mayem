@@ -2,7 +2,7 @@
 // Usage : node tools/build-pack.js
 // Le pack n'est écrit que s'il passe check-pack : un pack invalide ne remplace jamais le bon.
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { lireCsv } from './csv.js';
 import { verifierPack } from './check-pack.js';
@@ -27,14 +27,21 @@ const COLONNES_GLOSSAIRE = {
   commentaire: ['commentaire'],
 };
 const COLONNES_CORPUS = ['id', 'fr', 'en', 'bulu', 'critique', 'valide_par', 'valide'];
+// retraduction.csv vient de tools/kit.py import (fichier de retraduction rempli)
+const COLONNES_RETRADUCTION = {
+  ref: ['réf'],
+  bulu: ['texte bulu'],
+  texte: ['votre traduction'],
+  par: ['traduit par'],
+};
 
 const erreurs = [];
 
 // Pour chaque champ, l'en-tête réel du fichier ; une colonne introuvable est une erreur,
 // sinon le bulu du glossaire arriverait vide sans que personne ne le voie
-function trouverColonnes(entetes, fichier) {
+function trouverColonnes(entetes, fichier, colonnes) {
   const correspondance = {};
-  for (const [champ, debuts] of Object.entries(COLONNES_GLOSSAIRE)) {
+  for (const [champ, debuts] of Object.entries(colonnes)) {
     const entete = entetes.find((e) => debuts.some((d) => e.trim().toLowerCase().startsWith(d)));
     if (entete) correspondance[champ] = entete;
     else erreurs.push(`${fichier} : colonne « ${champ} » introuvable (en-têtes : ${entetes.join(', ')})`);
@@ -48,14 +55,45 @@ function personnes(validePar) {
   return { traduit_par: traduit_par.trim(), relu_par: relu_par.trim() };
 }
 
+// Apostrophes et espaces varient d'un tableur à l'autre sans changer le texte
+const comparable = (texte) => texte.replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
+
+// id -> { bulu, texte, par } ; vide tant qu'aucune retraduction n'a été importée
+function lireRetraductions() {
+  if (!existsSync(racine + 'retraduction.csv')) return new Map();
+  const lignes = lireCsv(lire('retraduction.csv'));
+  if (!lignes.length) return new Map();
+  const colonnes = trouverColonnes(Object.keys(lignes[0]), 'retraduction.csv', COLONNES_RETRADUCTION);
+  const cellule = (ligne, champ) => (ligne[colonnes[champ]] || '').trim();
+  return new Map(lignes
+    .filter((l) => cellule(l, 'ref') && cellule(l, 'texte'))
+    .map((l) => [cellule(l, 'ref'), { bulu: cellule(l, 'bulu'), texte: cellule(l, 'texte'), par: cellule(l, 'par') }]));
+}
+
+const retraductions = lireRetraductions();
+const perimees = [];
+
+// Une retraduction ne vaut que pour le bulu qui a été lu : si la phrase a changé depuis, on l'écarte
+function retraductionDe(id, bulu) {
+  const r = retraductions.get(id);
+  if (!r) return { retraduit_par: '', retraduction: '' };
+  if (comparable(r.bulu) !== comparable(bulu)) {
+    perimees.push(id);
+    return { retraduit_par: '', retraduction: '' };
+  }
+  return { retraduit_par: r.par, retraduction: r.texte };
+}
+
 function versPhrase(ligne) {
+  const bulu = (ligne.bulu || '').trim();
   return {
     id: ligne.id.trim(),
     fr: ligne.fr.trim(),
     en: (ligne.en || '').split('|').map((e) => e.trim()).filter(Boolean),
-    bulu: (ligne.bulu || '').trim(),
+    bulu,
     critique: ligne.critique.trim() === '1',
     ...personnes(ligne.valide_par),
+    ...retraductionDe(ligne.id.trim(), bulu),
     valide: oui(ligne.valide),
   };
 }
@@ -63,7 +101,7 @@ function versPhrase(ligne) {
 function lireGlossaire() {
   const lignes = lireCsv(lire('glossaire.csv'));
   if (!lignes.length) return [];
-  const colonnes = trouverColonnes(Object.keys(lignes[0]), 'glossaire.csv');
+  const colonnes = trouverColonnes(Object.keys(lignes[0]), 'glossaire.csv', COLONNES_GLOSSAIRE);
   const cellule = (ligne, champ) => (ligne[colonnes[champ]] || '').trim();
   return lignes
     .map((ligne) => {
@@ -106,4 +144,8 @@ if (erreurs.length) {
 writeFileSync(racine + 'packs/bum/pack.json', JSON.stringify(pack, null, 2) + '\n');
 const validees = pack.phrases.filter((p) => p.valide).length;
 const termes = pack.glossaire.filter((t) => t.bulu).length;
-console.log(`${pack.phrases.length} phrases (${validees} validées), ${pack.glossaire.length} termes (${termes} traduits) -> packs/bum/pack.json`);
+const retraduites = pack.phrases.filter((p) => p.retraduction).length;
+console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduites} retraduites), ${pack.glossaire.length} termes (${termes} traduits) -> packs/bum/pack.json`);
+if (perimees.length) {
+  console.log(`Retraduction à refaire (le bulu a changé depuis) : ${perimees.join(', ')}`);
+}

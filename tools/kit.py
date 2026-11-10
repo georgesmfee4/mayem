@@ -225,8 +225,11 @@ def import_(path):
     except PermissionError:
         # Excel verrouille le fichier tant qu'il est ouvert
         sys.exit(f"{path} est ouvert dans Excel : l'enregistrer, le fermer, puis relancer l'import.")
-    print(f"glossaire : {import_glossary(full)} termes -> glossaire.csv")
-    print(f"style : {sheet_to_csv(full, 'Choix de style', root / 'style.csv')} réponses -> style.csv")
+    # Un fichier de retraduction n'a ni glossaire ni style : ne pas annoncer « 0 termes »
+    if 'Glossaire' in full.sheetnames:
+        print(f"glossaire : {import_glossary(full)} termes -> glossaire.csv")
+    if 'Choix de style' in full.sheetnames:
+        print(f"style : {sheet_to_csv(full, 'Choix de style', root / 'style.csv')} réponses -> style.csv")
     if 'Retraduction' in full.sheetnames:
         print(f"retraduction : {sheet_to_csv(full, 'Retraduction', root / 'retraduction.csv')} lignes -> retraduction.csv")
         return
