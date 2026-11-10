@@ -9,6 +9,8 @@
     "version": { "type": "string", "description": "Version sémantique : correction -> 0.0.x, phrase ou terme ajouté ou retiré -> 0.x.0" },
     "date": { "type": "string", "description": "Date de la version, AAAA-MM-JJ" },
     "empreinte": { "type": "string", "description": "sha256- suivi du SHA-256 du pack sérialisé sans ce champ (core/empreinte.ts)" },
+    "producteur": { "type": "string", "description": "Titulaire des droits sur les données (Équipe Mayem)" },
+    "droits": { "type": "string", "description": "Conditions d'utilisation : tous droits réservés, voir la documentation de l'API" },
     "orthographe": { "type": "string" },
     "etiquettes": {
       "type": "object",

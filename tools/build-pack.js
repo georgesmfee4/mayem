@@ -133,13 +133,13 @@ function expliquer(erreur, phrases) {
   return `${erreur}\n    fr   : ${phrase.fr}\n    bulu : ${phrase.bulu || '(vide)'}`;
 }
 
-const { langue: code, nom, orthographe, etiquettes } = JSON.parse(lire('infos.json'));
+const { langue: code, nom, producteur, droits, orthographe, etiquettes } = JSON.parse(lire('infos.json'));
 const contenu = { glossaire: lireGlossaire(), phrases: lirePhrases() };
 const ancien = existsSync(ici + 'pack.json') ? JSON.parse(lire('pack.json')) : null;
-const changements = differences(ancien, contenu);
+const changements = differences(ancien, { ...contenu, nom, producteur, droits, orthographe, etiquettes });
 const version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
 const date = version === ancien?.version && ancien.date ? ancien.date : new Date().toISOString().slice(0, 10);
-const pack = { langue: code, nom, version, date, empreinte: '', orthographe, etiquettes, ...contenu };
+const pack = { langue: code, nom, version, date, empreinte: '', producteur, droits, orthographe, etiquettes, ...contenu };
 pack.empreinte = await empreinte(pack);
 if (!erreurs.length) erreurs.push(...verifierPack(pack));
 
