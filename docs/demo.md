@@ -16,6 +16,7 @@
 | 1:15 | Bascule bulu ⇄ original (bouton ou nouveau clic) ; un champ de saisie reste intact | Sécurité 20 |
 | 1:45 | Panneau jury : contenu inédit injecté -> original conservé, étiquette validée et termes critiques en glose ; jamais de phrase inventée | Fidélité 20 |
 | 2:30 | `fixtures/react.html` (anglais, écrans recréés) et `shadow.html` : même extension, aucun réglage par site | Intégration 15 |
+| 3:00 | `fixtures/integre.html` dans un profil sans extension : la même traduction, par une seule balise `<script>` | Intégration 15 |
 | 3:15 | Pack modifié à la main : refusé par l'empreinte, page intacte (test `securite` ou démonstration) | Sécurité 20 |
 | 3:45 | `docs/API.md` : packs versionnés, exports TMX/XLIFF/TBX/i18next/Android, moteur en bibliothèque, inventaire d'un nouveau service | Intégration 15, Innovation 10 |
 | 4:30 | Navigation au clavier, `lang="bum"` sur les textes traduits, débordements surveillés en 375 px | Accessibilité 10 |

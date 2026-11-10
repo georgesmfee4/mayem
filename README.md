@@ -170,6 +170,9 @@ Deux rôles séparés (détails : `docs/API.md`) :
 - **Distribution des données** : `npm run export -- <langue>` produit TMX, XLIFF, TBX, i18next et Android ;
   `npm run api` prépare `api/` (index, packs versionnés avec empreinte, exports), à servir par un
   hébergement statique gratuit. Rien n'est mis en ligne automatiquement.
+- **Intégration en une ligne** : `dist-web/mayem.js`, à inclure par un service dans ses pages
+  (`<script src="mayem.js" integrity="…" data-langue="bum" defer>`), sans extension côté client ; packs
+  embarqués, mêmes garanties (page d'essai `fixtures/integre.html`, réglages dans `docs/API.md`).
 - **Traduction** : toujours locale. `npm run build` produit aussi `dist-lib/mayem-core.js`, le moteur seul
   en module ES sans dépendance (site, appli, serveur). Aucun texte affiché ne quitte l'appareil.
 
