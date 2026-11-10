@@ -1,15 +1,16 @@
-// corpus.csv + glossaire.csv + packs/bum/infos.json -> packs/bum/pack.json
-// Usage : node tools/build-pack.js
+// packs/<langue>/ : corpus.csv + glossaire.csv + infos.json -> pack.json
+// Usage : npm run pack [-- <langue>] (la langue est facultative s'il n'y en a qu'une)
 // Le pack n'est écrit que s'il passe check-pack : un pack invalide ne remplace jamais le bon.
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { lireCsv } from './csv.js';
 import { verifierPack } from './check-pack.js';
 import { controler } from '../core/controle.ts';
+import { choisirLangue, dossier } from './langues.js';
 
-const racine = fileURLToPath(new URL('..', import.meta.url));
-const lire = (chemin) => readFileSync(racine + chemin, 'utf8');
+const langue = choisirLangue(process.argv[2]);
+const ici = dossier(langue);
+const lire = (nom) => readFileSync(ici + nom, 'utf8');
 const oui = (v) => ['1', 'oui', 'yes', 'x'].includes((v || '').trim().toLowerCase());
 
 // Les locuteurs renomment parfois les en-têtes du tableur (le kit dit « TERME BULU APPROUVÉ »
@@ -61,7 +62,7 @@ const comparable = (texte) => texte.replace(/[’‘]/g, "'").replace(/\s+/g, ' 
 
 // id -> { bulu, texte, par } ; vide tant qu'aucune retraduction n'a été importée
 function lireRetraductions() {
-  if (!existsSync(racine + 'retraduction.csv')) return new Map();
+  if (!existsSync(ici + 'retraduction.csv')) return new Map();
   const lignes = lireCsv(lire('retraduction.csv'));
   if (!lignes.length) return new Map();
   const colonnes = trouverColonnes(Object.keys(lignes[0]), 'retraduction.csv', COLONNES_RETRADUCTION);
@@ -130,7 +131,7 @@ function expliquer(erreur, phrases) {
 }
 
 const pack = {
-  ...JSON.parse(lire('packs/bum/infos.json')),
+  ...JSON.parse(lire('infos.json')),
   glossaire: lireGlossaire(),
   phrases: lirePhrases(),
 };
@@ -139,14 +140,14 @@ if (!erreurs.length) erreurs.push(...verifierPack(pack));
 if (erreurs.length) {
   console.error(erreurs.map((e) => expliquer(e, pack.phrases)).join('\n'));
   console.error(`\n${erreurs.length} problème(s). Pack non écrit : l'ancien reste en place.`);
-  console.error('Corriger corpus.csv (ou le tableur puis réimporter) et relancer.');
+  console.error(`Corriger packs/${langue}/corpus.csv (ou le tableur puis réimporter) et relancer.`);
   process.exit(1);
 }
-writeFileSync(racine + 'packs/bum/pack.json', JSON.stringify(pack, null, 2) + '\n');
+writeFileSync(ici + 'pack.json', JSON.stringify(pack, null, 2) + '\n');
 const validees = pack.phrases.filter((p) => p.valide).length;
 const termes = pack.glossaire.filter((t) => t.bulu).length;
 const retraduites = pack.phrases.filter((p) => p.retraduction).length;
-console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduites} retraduites), ${pack.glossaire.length} termes (${termes} traduits) -> packs/bum/pack.json`);
+console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduites} retraduites), ${pack.glossaire.length} termes (${termes} traduits) -> packs/${langue}/pack.json`);
 if (perimees.length) {
   console.log(`Retraduction à refaire (le bulu a changé depuis) : ${perimees.join(', ')}`);
 }

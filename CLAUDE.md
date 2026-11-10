@@ -18,6 +18,8 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
 ## Indépendance vis-à-vis de la page de test
 - Aucun nom de domaine, sélecteur CSS, classe ou texte propre à safinum.cm dans le code.
 - Les phrases à traduire vivent dans le pack de langue (`packs/<langue>/`), jamais dans le code.
+- Aucun code de langue (`bum`…) dans `core/`, `dom/` ni `tools/` : une langue = un dossier `packs/<code>/`.
+  Seuls les tests du bulu nomment `bum`.
 - Ce qui est propre à un service va dans un profil JSON optionnel (`profiles/`). Sans profil, tout doit fonctionner.
 - Le moteur (`core/`) ne touche ni au DOM ni au réseau : il reçoit une chaîne, il rend un résultat.
 - Chaque fonctionnalité est testée sur les pages d'essai de `fixtures/` (HTML simple, React, iframe, Shadow DOM), pas seulement sur la page officielle.

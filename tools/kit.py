@@ -6,6 +6,8 @@
   python3 tools/kit.py retraduction      -> retraduction-a-envoyer.xlsx (bulu seul, pour une 3e personne)
   python3 tools/kit.py import RETRAD     -> enregistre la retraduction reçue (retraduction.csv)
 
+Les fichiers de la langue sont dans packs/<langue>/. S'il y a plusieurs langues : --langue <code>.
+
 Une ligne n'est marquée validée que si « Traduit par » ET « Relu par » sont remplis
 (deux personnes différentes). Ensuite : npm run pack
 """
@@ -17,7 +19,23 @@ except ImportError:
 from openpyxl.styles import Alignment, Font, PatternFill
 
 root = pathlib.Path(__file__).resolve().parent.parent
-CORPUS = root / 'corpus.csv'
+
+def choisir_langue(args):
+    """Langue donnée par --langue (retirée des arguments), ou la seule présente dans packs/."""
+    presentes = sorted(p.parent.name for p in (root / 'packs').glob('*/infos.json'))
+    if '--langue' in args:
+        i = args.index('--langue')
+        code = args[i + 1] if i + 1 < len(args) else ''
+        del args[i:i + 2]
+        if code in presentes:
+            return code
+        sys.exit(f"Langue inconnue : {code}. Présentes : {', '.join(presentes)}")
+    if len(presentes) == 1:
+        return presentes[0]
+    sys.exit(f"Plusieurs langues ({', '.join(presentes)}) : ajouter --langue <code>")
+
+DOSSIER = root / 'packs' / choisir_langue(sys.argv)
+CORPUS = DOSSIER / 'corpus.csv'
 FIELDS = ['id', 'priorite', 'ecran', 'element', 'critique', 'champ_fait', 'fr', 'en', 'bulu', 'valide_par', 'valide', 'consigne']
 HEAD = ['Réf.', 'Priorité', 'Écran', 'Où apparaît le texte', 'Critique (argent ou sécurité)',
         'Texte français', 'Texte anglais', 'À savoir', 'TRADUCTION BULU', 'Traduit par', 'Relu par', 'Commentaire / doute']
@@ -189,7 +207,7 @@ def bulu_column(header):
 def import_glossary(wb):
     """Reporte le glossaire du tableur. Une case bulu vide n'efface jamais un terme déjà traduit :
     un kit fraîchement exporté a un glossaire vierge, il ne doit pas vider glossaire.csv."""
-    path = root / 'glossaire.csv'
+    path = DOSSIER / 'glossaire.csv'
     old = {}
     if path.exists():
         with open(path, encoding='utf-8-sig', newline='') as f:
@@ -229,9 +247,9 @@ def import_(path):
     if 'Glossaire' in full.sheetnames:
         print(f"glossaire : {import_glossary(full)} termes -> glossaire.csv")
     if 'Choix de style' in full.sheetnames:
-        print(f"style : {sheet_to_csv(full, 'Choix de style', root / 'style.csv')} réponses -> style.csv")
+        print(f"style : {sheet_to_csv(full, 'Choix de style', DOSSIER / 'style.csv')} réponses -> style.csv")
     if 'Retraduction' in full.sheetnames:
-        print(f"retraduction : {sheet_to_csv(full, 'Retraduction', root / 'retraduction.csv')} lignes -> retraduction.csv")
+        print(f"retraduction : {sheet_to_csv(full, 'Retraduction', DOSSIER / 'retraduction.csv')} lignes -> retraduction.csv")
         return
     if 'À traduire' not in full.sheetnames:
         print("pas d'onglet « À traduire » : seuls le glossaire et le style ont été importés")
@@ -264,7 +282,7 @@ def import_(path):
     if changes:
         print(f'{len(changes)} traduction(s) bulu modifiée(s) :')
         print('\n'.join(changes))
-        print('Si un changement est un retour en arrière : git checkout corpus.csv, puis corriger le tableur.')
+        print('Si un changement est un retour en arrière : git checkout packs/<langue>/corpus.csv, puis corriger le tableur.')
 
 if __name__ == '__main__':
     if len(sys.argv) >= 2 and sys.argv[1] == 'export':

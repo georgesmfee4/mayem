@@ -30,7 +30,8 @@ Non testé : l'étape 5 (reçu), car elle demande de cliquer « Confirmer le tra
 ```
 core/        moteur pur en TypeScript : reçoit une chaîne et un pack, rend un résultat ; verifier.ts contrôle un pack
 dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM) ; fond.ts injecte au clic
-packs/       schema.json + un dossier par langue (packs/bum/pack.json, généré)
+packs/       schema.json + un dossier par langue : packs/<code>/ (infos.json, corpus.csv, glossaire.csv,
+             retraduction.csv, pack.json généré). Aucun outil ne connaît une langue par son nom.
 tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs)
 test/        tests node:test
 e2e/         tests Playwright dans Chromium, extension chargée
@@ -42,7 +43,8 @@ Seuls les tests navigateur utilisent Playwright (gratuit, `devDependencies`).
 Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace).
 
 ## Tester
-1. `npm run build` prépare l'extension dans `dist/`.
+1. `npm run build` prépare l'extension dans `dist/`, avec toutes les langues de `packs/`
+   (`npm run build -- bum` pour n'en garder qu'une ; la première est celle proposée au clic).
 2. Chrome → `chrome://extensions` → « Mode développeur » → « Charger l'extension non empaquetée » → le dossier `dist/`.
 3. Ouvrir `https://safinum.cm/hackathon-test?jury=1`, puis **cliquer sur l'icône Mayem** (épinglez-la dans la barre
    d'outils). Rien ne se passe avant ce clic. Le parcours reste dans la même page : un clic suffit pour les étapes 1 à 5.
@@ -67,10 +69,11 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 
 1. `python tools/kit.py export` crée `kit-validation-bulu.xlsx` (mode d'emploi inclus). L'envoyer aux locuteurs, en commençant par les lignes P1.
 2. Fichier rempli reçu (le fermer dans Excel d'abord) : `npm run import -- fichier.xlsx`.
-   - Les traductions vont dans `corpus.csv`, le glossaire dans `glossaire.csv`, puis le pack est reconstruit.
+   - Les traductions vont dans `packs/<langue>/corpus.csv`, le glossaire dans `glossaire.csv`, puis le pack est reconstruit.
+   - S'il y a plusieurs langues : `npm run import -- fichier.xlsx <langue>` (et `--langue <code>` pour `kit.py`).
    - Une ligne n'est validée que si « Traduit par » et « Relu par » portent deux noms différents.
    - Chaque traduction bulu remplacée est affichée (ancien -> nouveau) : un tableur plus ancien que `corpus.csv`
-     se voit tout de suite. Pour annuler : `git checkout corpus.csv glossaire.csv`.
+     se voit tout de suite. Pour annuler : `git checkout packs/<langue>/`.
    - Une case vide du glossaire n'efface jamais un terme déjà traduit.
    - Les en-têtes du tableur peuvent être renommés (« TERME BULU APPROUVÉ » ou « TRADUCTION BULU »,
      « Choisi par » ou « Traduit par ») ; une colonne introuvable est signalée.

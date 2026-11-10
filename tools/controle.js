@@ -1,12 +1,12 @@
 // Liste les traductions validées à faire relire : glossaire, cohérence, négations.
-// Usage : npm run controle [-- packs/bum/pack.json]
+// Usage : npm run controle [-- <langue> | chemin/pack.json]
 // Ne bloque rien : les règles sont dans core/controle.ts, le refus des chiffres dans core/verifier.ts.
 
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { controler } from '../core/controle.ts';
+import { cheminPack } from './langues.js';
 
-const racine = fileURLToPath(new URL('..', import.meta.url));
 const TITRES = {
   glossaire: 'Terme du glossaire absent',
   coherence: 'Cohérence',
@@ -25,7 +25,7 @@ export function rapport(points) {
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  const fichier = process.argv[2] || racine + 'packs/bum/pack.json';
+  const fichier = cheminPack(process.argv[2]);
   const points = controler(JSON.parse(readFileSync(fichier, 'utf8')));
   console.log(points.length ? `${points.length} points à faire relire par les locuteurs :${rapport(points)}` : 'Aucun point à relire.');
 }
