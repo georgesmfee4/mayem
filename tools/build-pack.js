@@ -6,6 +6,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { lireCsv } from './csv.js';
 import { verifierPack } from './check-pack.js';
+import { controler } from '../core/controle.ts';
 
 const racine = fileURLToPath(new URL('..', import.meta.url));
 const lire = (chemin) => readFileSync(racine + chemin, 'utf8');
@@ -149,3 +150,5 @@ console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduite
 if (perimees.length) {
   console.log(`Retraduction à refaire (le bulu a changé depuis) : ${perimees.join(', ')}`);
 }
+const aRelire = controler(pack);
+if (aRelire.length) console.log(`${aRelire.length} points à faire relire (glossaire, cohérence, négations) : npm run controle`);
