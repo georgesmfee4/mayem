@@ -1,4 +1,5 @@
-// Interface publique du moteur Mayem : ce que d'autres projets peuvent appeler (docs/API.md).
+// Interface du moteur Mayem : ce que les services autorisés par l'équipe Mayem peuvent appeler (docs/API.md).
+// © Équipe Mayem, tous droits réservés (LICENSE).
 // Tout est pur : une chaîne et un pack en entrée, un résultat en sortie ; ni DOM, ni réseau.
 // tools/compile.js en fait dist-lib/mayem-core.js, un module ES sans dépendance.
 

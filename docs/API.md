@@ -13,6 +13,9 @@ Traduction (toujours sur l'appareil : aucun texte affiché ne quitte l'appareil)
 Un service qui veut le bulu (ou toute autre langue de `packs/`) prend le pack et le moteur ; un outil
 de traduction ou un grand moteur prend les exports. Personne ne réécrit rien.
 
+**Code et données : © Équipe Mayem, tous droits réservés** (`LICENSE`, `packs/LICENCE.md`). Tout usage se fait
+dans le cadre d'un accord avec l'équipe Mayem : les fichiers officiels s'utilisent tels quels, sans modification.
+
 ## 1. Les données
 
 ### Pack (`pack.json`, contrat : `packs/schema.json`)
@@ -20,10 +23,11 @@ de traduction ou un grand moteur prend les exports. Personne ne réécrit rien.
 | Champ | Sens |
 |---|---|
 | `langue`, `nom` | Code ISO 639-3 (`bum`) et nom de la langue |
+| `producteur`, `droits` | « Équipe Mayem », « Tous droits réservés » |
 | `version`, `date` | Version sémantique : correction → `0.3.1`, phrase ou terme ajouté ou retiré → `0.4.0` |
 | `empreinte` | `sha256-…` du pack sans ce champ (`empreinte()` ci-dessous) : vérifier avant usage |
-| `phrases[]` | `id` stable (clé de traduction), `fr`, `en[]`, `bulu` (texte dans la langue du pack, nom historique), `critique`, `traduit_par`, `relu_par`, `retraduit_par`, `retraduction`, `valide` |
-| `glossaire[]` | Terminologie : `ref`, `terme`, `sens`, `bulu`, `a_eviter`, `critique`, auteurs |
+| `phrases[]` | `id` stable (clé de traduction), `fr`, `en[]`, `bulu` (texte dans la langue du pack, nom historique), `critique`, `traduit_par`, `relu_par`, `retraduit_par` (codes des relecteurs Mayem, jamais leurs noms), `retraduction`, `valide` |
+| `glossaire[]` | Terminologie : `ref`, `terme`, `sens`, `bulu`, `a_eviter`, `critique`, codes des relecteurs |
 
 Règles garanties par `verifierPack` : mêmes champs `{…}` et mêmes chiffres en français et en bulu ;
 une phrase `valide` a été traduite et relue par deux personnes différentes. **N'afficher que les phrases
@@ -35,20 +39,28 @@ une phrase `valide` a été traduite et relue par deux personnes différentes. *
 
 | Fichier | Format | Pour |
 |---|---|---|
-| `<langue>.tmx` | TMX 1.4, avec auteurs et retraduction en propriétés | Mémoires de traduction, entraînement de moteurs |
+| `<langue>.tmx` | TMX 1.4, retraduction en propriété, mention des droits Mayem | Mémoires de traduction, entraînement de moteurs |
 | `<langue>.xlf` | XLIFF 1.2, unités approuvées | Outils de traduction et chaînes de localisation |
 | `glossaire.tbx` | TBX-Basic (ISO 30042) | Bases terminologiques |
 | `i18next/fr.json`, `i18next/<langue>.json` | i18next v4, `{{champ}}` | Sites et applis web |
 | `android/values/…`, `android/values-b+<langue>/strings.xml` | Ressources Android, `%1$s` | Applis Android |
 
-Seules les phrases validées sortent. Licence des données : `packs/LICENCE.md` (CC BY 4.0 après accord des locuteurs).
+Seules les phrases validées sortent. Chaque fichier porte la mention « © Équipe Mayem — Tous droits réservés ».
+
+## Conditions d'utilisation
+- Les données appartiennent à l'équipe Mayem, tous droits réservés (`packs/LICENCE.md`). Elles s'utilisent
+  selon ces conditions et celles du contrat d'accès à l'API ; l'accès pourra devenir payant.
+- Pas de copie, de revente, de redistribution ni d'entraînement d'un système de traduction sans accord écrit.
+- Mention obligatoire : « Données linguistiques : Équipe Mayem ».
+- Aucune donnée personnelle : chaque phrase est validée par deux relecteurs de l'équipe, désignés par des codes
+  (`Mayem-1`…) ; leurs noms ne sont jamais fournis.
 
 ### API statique (`npm run api`)
 
 `api/` est un dossier de fichiers, à servir par n'importe quel hébergement statique gratuit :
 
 ```
-api/index.json                       langues, versions, empreintes, licence, liens
+api/index.json                       langues, versions, empreintes, producteur, droits, liens
 api/schema.json                      contrat des packs
 api/packs/<langue>/latest.json       dernière version
 api/packs/<langue>/<version>.json    versions figées (citer une version précise)
@@ -56,12 +68,15 @@ api/exports/<langue>/…               formats standards
 ```
 
 Un client télécharge `index.json`, choisit une langue et une version, télécharge le pack et
-**recalcule son empreinte** avant de l'utiliser. La mise en ligne est une décision humaine : la licence
-affichée reste « réservée » tant que tous les locuteurs nommés n'ont pas signé (`packs/<langue>/accords.json`).
+**recalcule son empreinte** avant de l'utiliser. Aujourd'hui ce sont des fichiers statiques ; l'accès payant
+(clé par client) se fera devant ces mêmes fichiers, sans changer leur format. La mise en ligne reste une
+décision de l'équipe Mayem.
 
 ## 2. Intégrer Mayem dans un site, en une ligne (`dist-web/mayem.js`)
 
-Pour un service qui veut proposer la langue à ses clients sans leur demander d'installer d'extension.
+Pour un service autorisé par l'équipe Mayem qui veut proposer la langue à ses clients sans leur demander
+d'installer d'extension. Le fichier s'utilise tel quel : le modifier rompt l'accord, et l'attribut `integrity`
+empêche de toute façon le navigateur de l'exécuter.
 `npm run build` produit le fichier et affiche sa valeur `integrity` :
 
 ```html
@@ -101,6 +116,7 @@ feuille adoptée.
 ## 3. Le moteur (`dist-lib/mayem-core.js`, construit par `npm run build`)
 
 Module ES sans dépendance, pour navigateur, Node, React Native ou serveur. Fonctions pures : ni DOM, ni réseau.
+Réservé aux services autorisés par l'équipe Mayem, à utiliser sans modification.
 
 ```js
 import { traduire, verifierPack, empreinte } from './mayem-core.js';

@@ -1,26 +1,27 @@
-# Licence des données linguistiques
+# Droits sur les données linguistiques Mayem
 
-Le code de Mayem est sous licence Apache 2.0 (`LICENSE` à la racine). Les données de ce dossier
-(phrases, glossaires, retraductions, packs et exports) sont l'œuvre des locuteurs qui les ont traduites
-et relues : elles ont leur propre licence.
+**© Équipe Mayem. Tous droits réservés.**
 
-## Licence prévue : CC BY 4.0
+Les données de ce dossier et tout ce qui en est tiré (phrases, glossaires, retraductions, packs, exports,
+fichiers servis par l'API) sont produites par l'équipe Mayem et lui appartiennent. L'équipe Mayem détient
+l'ensemble des droits de propriété intellectuelle du projet.
 
-[Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/deed.fr) :
-tout service, y compris commercial, peut copier, adapter et intégrer ces données, à condition de citer
-leurs auteurs et d'indiquer les modifications.
+## Utilisation par un service ou un partenaire
+- Les données s'utilisent **uniquement selon les conditions de l'API Mayem** (`docs/API.md`). L'accès à l'API
+  pourra devenir payant.
+- Sans accord écrit de l'équipe Mayem, il est interdit de copier, revendre, redistribuer ou republier les
+  données, et de s'en servir pour entraîner ou améliorer un système de traduction.
+- Toute utilisation autorisée mentionne : « Données linguistiques : Équipe Mayem ».
+- Une traduction modifiée par un tiers n'est plus une donnée Mayem validée et ne doit pas être présentée comme telle.
 
-**Elle ne s'applique qu'une fois l'accord signé par chaque contributeur** (`docs/accord-locuteurs.md`).
-D'ici là, les données ne servent qu'au projet Mayem et ne sont pas publiées ailleurs.
+## Traducteurs et validation
+- Chaque traduction est validée **en interne** par deux personnes différentes de l'équipe, et les phrases
+  critiques sont retraduites par une troisième. Ce mécanisme sert la fidélité des données ; il ne donne lieu
+  à aucune mention publique.
+- Les noms des traducteurs restent internes à l'équipe Mayem. Ils ne figurent dans **rien de ce qui est
+  distribué** : extension, script intégré, API, exports. Ils y sont remplacés par des codes (« Mayem-1 »…)
+  qui permettent de vérifier la règle des deux personnes sans dire qui (`tools/public.js`).
 
-## Citer les données
-
-> Pack bulu Mayem, version 0.3.0, par les locuteurs nommés dans chaque phrase
-> (`traduit_par`, `relu_par`, `retraduit_par`), CC BY 4.0.
-
-La version et l'empreinte figurent dans chaque `pack.json` ; `CHANGELOG.md` dit ce qui a changé.
-
-## Ce que la licence ne change pas
-
-- Une traduction n'est affichée que si deux personnes différentes l'ont validée.
-- Un service qui modifie une traduction doit le signaler : la phrase modifiée n'est plus « validée par » ses auteurs.
+## Le code
+Le code du moteur, de l'extension et du script intégré appartient lui aussi à l'équipe Mayem, tous droits
+réservés (`LICENSE`) : il s'utilise sans modification, dans le cadre d'un accord avec l'équipe.

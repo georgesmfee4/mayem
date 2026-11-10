@@ -14,3 +14,5 @@ packs/*/a-traduire.csv
 dist-pseudo/
 dist-web/
 dist-refus/
+packs/*/relecture.csv
+relecture-*.xlsx

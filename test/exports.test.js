@@ -42,9 +42,11 @@ test('phrase non validée et terme sans traduction : jamais exportés', () => {
   for (const texte of Object.values(fichiers)) assert.doesNotMatch(texte, /Brouillon|Pas validé|>vide</);
 });
 
-test('TMX et XLIFF : provenance, langue et caractères échappés', () => {
-  assert.match(fichiers['xx.tmx'], /<tu tuid="P2">[\s\S]*x-relu-par">B<[\s\S]*xml:lang="xx"><seg>Bo'o &amp; &quot;mvae&quot;<\/seg>/);
-  assert.match(fichiers['xx.xlf'], /target-language="xx"[\s\S]*<trans-unit id="P1" approved="yes">/);
+test('TMX et XLIFF : droits Mayem, aucune personne, langue et caractères échappés', () => {
+  assert.match(fichiers['xx.tmx'], /x-droits">© Équipe Mayem — Tous droits réservés/);
+  assert.match(fichiers['xx.tmx'], /<tu tuid="P2">[\s\S]*xml:lang="xx"><seg>Bo'o &amp; &quot;mvae&quot;<\/seg>/);
+  assert.doesNotMatch(fichiers['xx.tmx'], /traduit-par|relu-par/);
+  assert.match(fichiers['xx.xlf'], /target-language="xx"[\s\S]*<trans-unit id="P1" approved="yes">[\s\S]*deux relecteurs de l'équipe Mayem/);
 });
 
 test('TBX : chaque forme est un terme, la mise en garde une note', () => {

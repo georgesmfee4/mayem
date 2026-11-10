@@ -38,6 +38,8 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
   une phrase inconnue reste dans sa langue d'origine (étiquette et gloses en CSS).
 - Seul le bulu validé par deux personnes s'affiche (`MODE_TEST` à `false` dans `dom/entree.ts` pour la démo).
 - Aucune dépendance payante. Toute dépendance ajoutée est déclarée dans `THIRD_PARTY.md`.
+- Code et données : © Équipe Mayem, tous droits réservés (`LICENSE`), aucune licence libre. Aucun nom de traducteur dans ce qui est distribué ou publié
+  (dist/, dist-web/, api/, exports) : passer par `versPublic` (`tools/public.js`). Les noms restent internes.
 
 ## Avant chaque commit
 - `npm test` passe.

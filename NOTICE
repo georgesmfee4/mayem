@@ -1,5 +1,6 @@
 Mayem
-Copyright 2026 georgesmfee4 et les contributeurs de Mayem
+Copyright 2026 Équipe Mayem. Tous droits réservés.
 
-Le code est sous licence Apache 2.0 (fichier LICENSE).
-Les données linguistiques de packs/ ont leur propre licence : packs/LICENCE.md.
+Le code (moteur, extension, script intégré, outils) et les données linguistiques (packs/ et tout ce qui
+en est tiré) appartiennent à l'équipe Mayem : voir LICENSE et packs/LICENCE.md.
+Les outils tiers de développement et de test sont listés dans THIRD_PARTY.md.
