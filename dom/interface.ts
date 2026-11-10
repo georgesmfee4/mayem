@@ -3,7 +3,7 @@
 
 export const ID_HOTE = 'mayem-host';
 
-export interface Compteurs { traduits: number; conserves: number; chiffres: string }
+export interface Compteurs { traduits: number; conserves: number; chiffres: string; debordements: number }
 export interface Langue { langue: string; nom: string }
 export interface Actions {
   // true quand la traduction doit être affichée, false pour l'original
@@ -59,6 +59,7 @@ function gabarit(modeTest: boolean): string {
           <dt>Textes traduits</dt><dd id="n-ok">0</dd>
           <dt>Originaux conservés</dt><dd id="n-orig" class="warn">0</dd>
           <dt>Chiffres vérifiés</dt><dd id="n-facts" class="ok">0</dd>
+          <dt>Débordements</dt><dd id="n-deb">0</dd>
         </dl>
         <label class="option"><input type="checkbox" id="gloses" checked> Termes reconnus dans les phrases non traduites</label>
         ${avisTest}
@@ -123,7 +124,9 @@ export function creerInterface(modeTest: boolean, langues: Langue[], courante: L
 
   return {
     inverser,
-    afficherCompteurs({ traduits, conserves, chiffres }) {
+    afficherCompteurs({ traduits, conserves, chiffres, debordements }) {
+      trouver('n-deb').textContent = String(debordements);
+      trouver('n-deb').className = debordements ? 'warn' : 'ok';
       trouver('n-ok').textContent = String(traduits);
       trouver('n-orig').textContent = String(conserves);
       trouver('n-facts').textContent = chiffres;

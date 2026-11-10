@@ -1,7 +1,8 @@
 // Construit l'extension, puis deux copies pour les tests (le vrai manifeste n'est pas touché) :
 // - avec l'accès à 127.0.0.1, car sans clic réel sur l'icône activeTab ne donne rien ;
 // - la même avec un pack modifié à la main, qui doit être refusé ;
-// - la même avec une deuxième langue d'essai, « zzz », pour le changement de langue.
+// - la même avec une deuxième langue d'essai, « zzz », pour le changement de langue ;
+// - la version pseudo (npm run build:pseudo), pour les débordements.
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -12,9 +13,9 @@ import { fileURLToPath } from 'node:url';
 const racine = fileURLToPath(new URL('..', import.meta.url));
 export const DOSSIER = join(tmpdir(), 'mayem-essai');
 
-function copier(nom, changerPack, changerDossier) {
+function copier(nom, changerPack, changerDossier, source = 'dist') {
   const dossier = join(DOSSIER, nom);
-  cpSync(racine + 'dist', dossier, { recursive: true });
+  cpSync(racine + source, dossier, { recursive: true });
   const manifeste = JSON.parse(readFileSync(join(dossier, 'manifest.json'), 'utf8'));
   manifeste.host_permissions = ['http://127.0.0.1/*'];
   writeFileSync(join(dossier, 'manifest.json'), JSON.stringify(manifeste, null, 2));
@@ -41,12 +42,18 @@ function ajouterLangueEssai(dossier) {
   writeFileSync(join(dossier, 'packs/index.json'), JSON.stringify([...sommaire, { langue: 'zzz', nom: 'Essai', version: essai.version }]));
 }
 
-export default function preparer() {
-  const construction = spawnSync(process.execPath, ['--experimental-strip-types', '--disable-warning=ExperimentalWarning', 'tools/compile.js'], { cwd: racine, encoding: 'utf8' });
+function construire(...options) {
+  const construction = spawnSync(process.execPath, ['--experimental-strip-types', '--disable-warning=ExperimentalWarning', 'tools/compile.js', ...options], { cwd: racine, encoding: 'utf8' });
   if (construction.status !== 0) throw new Error(construction.stderr);
+}
+
+export default function preparer() {
+  construire();
+  construire('--pseudo');
   rmSync(DOSSIER, { recursive: true, force: true });
   copier('bonne');
   // Un chiffre ajouté au bulu de X08 (« Votre solde est de {amount} »)
   copier('pack-modifie', (pack) => (pack.phrases.find((p) => p.id === 'X08').bulu += ' 500'));
   copier('deux-langues', null, ajouterLangueEssai);
+  copier('pseudo', null, null, 'dist-pseudo');
 }

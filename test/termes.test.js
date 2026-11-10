@@ -17,6 +17,7 @@ const pack = {
     terme('T5', 'annuler', 'Fetek', 'A', 'a'), // relu par son traducteur
     terme('T6', 'retour', 'Bula', 'A', ''), // pas relu
     terme('T7', 'montant', 'Somme (à accorder)'), // explication, pas un terme
+    { ...terme('G1', 'aucun / aucune', 'Dzing'), sens: '« Aucun agent ne vous le demandera. »' }, // mot grammatical
   ],
 };
 const sortie = (texte) => traduire(texte, pack)?.sortie ?? null;
@@ -39,6 +40,11 @@ test('terme non relu, relu par son traducteur ou expliqué : jamais utilisé', (
   assert.equal(sortie('Annuler'), null);
   assert.equal(sortie('Retour'), null);
   assert.equal(sortie('Montant'), null);
+});
+
+test('mot grammatical : traduit seul comme libellé, jamais glosé dans une phrase', () => {
+  assert.equal(sortie('Aucun'), 'Dzing');
+  assert.deepEqual(gloses('Aucun solde disponible pour le moment'), ['solde=Zolo']);
 });
 
 test('phrase inconnue : non traduite, termes signalés, le plus long d’abord, sans doublon', () => {

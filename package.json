@@ -15,6 +15,7 @@
     "inventaire": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js",
     "couverture": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js fixtures/simple.html fixtures/balises.html fixtures/react.html fixtures/iframe.html fixtures/shadow.html",
     "build": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js",
+    "build:pseudo": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js --pseudo",
     "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test",
     "test:navigateur": "playwright test"
   },
