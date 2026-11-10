@@ -88,6 +88,10 @@ Pour un service qui veut proposer la langue à ses clients sans leur demander d'
 | `inverser()` | Traduction ⇄ original |
 | `choisirLangue(code)` | Change de langue sans recharger |
 | `langues()` | `[{ langue, nom }]` des langues embarquées |
+| `etat()` | `{ actif, refus }` : `refus` donne la raison si le pack a été refusé |
+
+Un pack refusé émet aussi l'événement `mayem-refus` sur `document` (`detail : { langue, raisons }`) :
+le service peut afficher son propre message.
 
 **Politique de sécurité (CSP)** : autoriser le script lui-même (`script-src` avec son origine ou son hash).
 Le bouton de Mayem vit dans un Shadow DOM avec sa propre balise `<style>` : si `style-src` interdit le style

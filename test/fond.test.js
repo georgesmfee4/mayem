@@ -22,10 +22,15 @@ function charger(pack) {
   };
   let clic;
   let message;
-  const etat = { injections: 0, erreurs: [] };
+  const etat = { injections: 0, erreurs: [], badge: null, titre: null };
   const chrome = {
     runtime: { id: 'mayem', getURL: (chemin) => chemin, onMessage: { addListener: (rappel) => (message = rappel) } },
-    action: { onClicked: { addListener: (rappel) => (clic = rappel) } },
+    action: {
+      onClicked: { addListener: (rappel) => (clic = rappel) },
+      setBadgeText: async ({ text }) => { etat.badge = text; },
+      setBadgeBackgroundColor: async () => {},
+      setTitle: async ({ title }) => { etat.titre = title; },
+    },
     scripting: { insertCSS: async () => etat.injections++, executeScript: async () => etat.injections++ },
   };
   const fetch = async (chemin) => ({ json: async () => structuredClone(fichiers[chemin]) });
@@ -44,6 +49,17 @@ test('le pack actuel est injecté', async () => {
   const { injections, erreurs } = await cliquer(lire('packs/bum/pack.json'));
   assert.deepEqual(erreurs, []);
   assert.equal(injections, 3);
+});
+
+test('refus visible sur l’icône, effacé au clic suivant avec un bon pack', async () => {
+  const pack = lire('packs/bum/pack.json');
+  const bon = await cliquer(pack);
+  assert.equal(bon.badge, '');
+  assert.equal(bon.titre, '');
+  pack.phrases.find((p) => p.id === 'X08').bulu += ' 500';
+  const refus = await cliquer(pack);
+  assert.equal(refus.badge, '!');
+  assert.match(refus.titre, /pack refusé, page laissée intacte\.\nX08 : les chiffres du bulu diffèrent/);
 });
 
 test('un chiffre ajouté au bulu : rien n\'est injecté', async () => {
