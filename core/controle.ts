@@ -10,6 +10,8 @@ export interface Point {
   type: 'glossaire' | 'coherence' | 'negation';
   ids: string[];
   message: string;
+  // Glossaire et négation : le mot français repéré et la forme attendue du glossaire
+  terme?: { ref: string; fr: string; attendu: string };
 }
 
 // Comparaison large : casse, apostrophes, espaces et accents ignorés (le glossaire et
@@ -46,7 +48,7 @@ function controlerGlossaire(phrases: Phrase[], glossaire: Terme[]): Point[] {
       for (const phrase of phrases) {
         if (!contientMot(phrase.fr, francais)) continue;
         if (attendus.some((bulu) => comparable(phrase.bulu).includes(comparable(bulu)))) continue;
-        points.push({ type: 'glossaire', ids: [phrase.id], message: `« ${francais} » → « ${terme.bulu} » (${terme.ref}) absent : ${phrase.fr} => ${phrase.bulu}` });
+        points.push({ type: 'glossaire', ids: [phrase.id], message: `« ${francais} » → « ${terme.bulu} » (${terme.ref}) absent : ${phrase.fr} => ${phrase.bulu}`, terme: { ref: terme.ref, fr: francais, attendu: terme.bulu } });
       }
     }
   }
@@ -89,7 +91,7 @@ function controlerNegations(phrases: Phrase[], glossaire: Terme[]): Point[] {
     if (!terme) continue;
     const attendus = formes(terme.bulu).map(comparable).filter(Boolean);
     if (attendus.some((bulu) => comparable(phrase.bulu).includes(bulu))) continue;
-    points.push({ type: 'negation', ids: [phrase.id], message: `négation « ${trouvee![1]} » → « ${terme.bulu} » (${terme.ref}) absente : ${phrase.fr} => ${phrase.bulu}` });
+    points.push({ type: 'negation', ids: [phrase.id], message: `négation « ${trouvee![1]} » → « ${terme.bulu} » (${terme.ref}) absente : ${phrase.fr} => ${phrase.bulu}`, terme: { ref: terme.ref, fr: trouvee![1], attendu: terme.bulu } });
   }
   return points;
 }

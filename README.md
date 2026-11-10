@@ -103,6 +103,13 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
    - cohérence : même bulu pour des sens différents, même français ou même terme traduit de deux façons ;
    - négation du français (ne… pas, jamais, aucun, personne, rien, plus, sans) sans la forme du glossaire.
    Ce sont des points à faire relire, pas des refus : un locuteur peut avoir raison contre le glossaire.
+   - `npm run relecture` en fait un tableur, `relecture-bulu.xlsx` : une ligne par phrase concernée, négations
+     d'abord, avec la question posée en clair. Les locuteurs choisissent « Garder » ou « Corriger » (nouveau bulu),
+     et signent à deux noms différents.
+   - Retour : `npm run import -- relecture-bulu.xlsx`. Une correction remplace le bulu (version et journal
+     suivent, retraduction à refaire) ; « Garder » est noté dans `packs/<langue>/decisions.csv` et le point
+     n'est plus redemandé tant que ce bulu ne change pas. Une ligne incomplète, signée par une seule personne
+     ou dont le bulu a changé depuis l'export est laissée et listée.
    Le bulu attendu vient du glossaire du pack ; le code ne contient que des règles du français.
 6. `npm run build` et recharger l'extension.
 7. `MODE_TEST` est à `false` dans `dom/entree.ts` (démo et usage réel) : seules les traductions validées
