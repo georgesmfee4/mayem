@@ -8,6 +8,7 @@
     "import": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/import.js",
     "pack": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/build-pack.js",
     "check": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/check-pack.js",
+    "controle": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/controle.js",
     "build": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js",
     "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test",
     "test:navigateur": "playwright test"

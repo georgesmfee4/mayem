@@ -82,8 +82,14 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
    - Chaque phrase du pack garde `retraduit_par` et `retraduction`, à comparer au français.
    - Une retraduction faite sur un bulu qui a changé depuis est écartée, et la phrase est listée « à refaire ».
    - Une phrase retraduite par son propre traducteur est refusée.
-4. `npm run build` et recharger l'extension.
-5. Pour la démo finale : `MODE_TEST = false` dans `dom/entree.ts`. Seules les traductions validées s'affichent.
+5. Contrôle des traductions validées : `npm run controle` (son total s'affiche aussi après `npm run pack` et l'import).
+   - Terme critique du glossaire absent de la phrase (ex. « confirmer » sans « Ntiñ ») ;
+   - cohérence : même bulu pour des sens différents, même français ou même terme traduit de deux façons ;
+   - négation du français (ne… pas, jamais, aucun, personne, rien, plus, sans) sans la forme du glossaire.
+   Ce sont des points à faire relire, pas des refus : un locuteur peut avoir raison contre le glossaire.
+   Le bulu attendu vient du glossaire du pack ; le code ne contient que des règles du français.
+6. `npm run build` et recharger l'extension.
+7. Pour la démo finale : `MODE_TEST = false` dans `dom/entree.ts`. Seules les traductions validées s'affichent.
 
 ## Garanties intégrées
 - On ne modifie que la valeur des textes existants : jamais de HTML injecté, jamais de nœud ajouté dans la page (compatible Vue/React).
