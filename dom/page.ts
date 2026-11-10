@@ -118,6 +118,11 @@ function prevoirCompteurs() {
   });
 }
 
+// Nouveau clic sur l'icône une fois Mayem lancé : original <-> bulu
+export function inverser() {
+  ui.inverser();
+}
+
 export function demarrer(lePack: Pack, lesOptions: Options) {
   pack = lePack;
   options = lesOptions;

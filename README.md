@@ -29,7 +29,7 @@ Non testé : l'étape 5 (reçu), car elle demande de cliquer « Confirmer le tra
 
 ```
 core/        moteur pur en TypeScript : reçoit une chaîne et un pack, rend un résultat
-dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM)
+dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM) ; fond.ts injecte au clic
 packs/       schema.json + un dossier par langue (packs/bum/pack.json, généré)
 tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs)
 test/        tests node:test
@@ -41,8 +41,11 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
 ## Tester
 1. `npm run build` prépare l'extension dans `dist/`.
 2. Chrome → `chrome://extensions` → « Mode développeur » → « Charger l'extension non empaquetée » → le dossier `dist/`.
-3. Ouvrir `https://safinum.cm/hackathon-test?jury=1`. Le panneau jury permet de rejouer tous les contrôles ci-dessus.
-4. Le bouton en bas à gauche bascule bulu ⇄ original ; le bouton « i » affiche les compteurs et le contrôle des chiffres.
+3. Ouvrir `https://safinum.cm/hackathon-test?jury=1`, puis **cliquer sur l'icône Mayem** (épinglez-la dans la barre
+   d'outils). Rien ne se passe avant ce clic. Le parcours reste dans la même page : un clic suffit pour les étapes 1 à 5.
+   Après un rechargement de la page, recliquer.
+4. Un nouveau clic sur l'icône, ou le bouton en bas à gauche, bascule bulu ⇄ original ; le bouton « i » affiche
+   les compteurs et le contrôle des chiffres.
 5. Hors ligne : `cd mock-bank && python3 -m http.server 8000` (page d'essai construite autrement, pour prouver l'indépendance).
 6. Tests : `npm test` (tous les textes réels de la page, en français et en anglais, et les refus de check-pack).
 
@@ -74,6 +77,8 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Montants, dates, références, numéros de compte et de téléphone, codes d'erreur : jamais traduits.
 - Une sortie dont les chiffres ou devises diffèrent de l'entrée est rejetée (original conservé).
 - Champs de saisie jamais lus ni modifiés ; aucune donnée collectée, stockée ou envoyée ; aucun appel réseau.
+- Permissions minimales : `activeTab` et `scripting`. Mayem n'entre dans une page qu'au clic sur son icône, dans
+  l'onglet en cours seulement ; aucun fichier de l'extension n'est exposé aux sites (rien qui permette de la détecter).
 - Contenu inédit : original conservé + étiquette de catégorie validée affichée en CSS, hors du texte de la page.
 - Interface de l'extension dans un Shadow DOM séparé, utilisable au clavier.
 
@@ -81,6 +86,4 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Texte coupé par des balises (`Solde : <b>5 000 FCFA</b>`) : non géré (absent de la page officielle, à traiter pour d'autres services).
 - Le panneau jury est lui aussi traité quand ses textes figurent dans le corpus (sans effet sur les contrôles).
 - Repli IA pour le contenu inédit : non branché (outils gratuits uniquement, à décider).
-- Le pack et les modules sont déclarés `web_accessible_resources` (nécessaire pour les charger depuis le content script) :
-  une page peut donc détecter que l'extension est installée.
-- `<all_urls>` dans le manifeste : à restreindre au clic (`activeTab`) pour la version finale.
+- Un iframe d'un autre site que l'onglet n'est pas traduit : le clic (`activeTab`) ne donne accès qu'au site de l'onglet.

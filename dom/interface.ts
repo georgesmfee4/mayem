@@ -7,6 +7,8 @@ export interface Compteurs { traduits: number; conserves: number; chiffres: stri
 
 export interface Interface {
   afficherCompteurs(c: Compteurs): void;
+  // Même effet que le bouton : sert au clic sur l'icône de l'extension
+  inverser(): void;
 }
 
 const STYLE = `
@@ -78,14 +80,16 @@ export function creerInterface(modeTest: boolean, basculer: (bulu: boolean) => v
     bouton.setAttribute('aria-label', afficheBulu ? 'Bulu affiché. Afficher l’original' : 'Original affiché. Afficher le bulu');
     bouton.setAttribute('aria-pressed', String(afficheBulu));
   };
-  bouton.onclick = () => {
+  const inverser = () => {
     afficheBulu = !afficheBulu;
     basculer(afficheBulu);
     majBouton();
   };
+  bouton.onclick = inverser;
   majBouton();
 
   return {
+    inverser,
     afficherCompteurs({ traduits, conserves, chiffres }) {
       trouver('n-ok').textContent = String(traduits);
       trouver('n-orig').textContent = String(conserves);

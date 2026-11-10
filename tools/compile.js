@@ -1,9 +1,11 @@
-// Prépare l'extension dans dist/ : le TypeScript de core/ et dom/ devient du JavaScript,
-// puis manifeste, style et pack sont copiés. Usage : node tools/compile.js
+// Prépare l'extension dans dist/. Usage : node tools/compile.js
 // Pas de compilateur à installer : Node retire lui-même les types (stripTypeScriptTypes).
 // Ça ne marche qu'avec des types « effaçables » : pas d'enum ni de namespace.
+// Un script injecté dans une page ne peut pas importer d'autres fichiers sans les exposer aux sites :
+// dom/entree.ts et tout ce qu'il importe sont donc regroupés dans un seul dom/contenu.js.
 
-import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 import { stripTypeScriptTypes } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { verifierPack } from './check-pack.js';
@@ -11,17 +13,27 @@ import { verifierPack } from './check-pack.js';
 const racine = fileURLToPath(new URL('..', import.meta.url));
 const dist = racine + 'dist/';
 
-// Les imports écrits « ./faits.ts » doivent pointer vers « ./faits.js » une fois compilés
-const versJs = (code) => code.replace(/((?:from|import)\s*\(?\s*['"]\.{1,2}\/[^'"]+)\.ts(['"])/g, '$1.js$2');
+// Les types sont remplacés par des espaces : on retire ceux qui restent en fin de ligne
+const sansTypes = (chemin) =>
+  stripTypeScriptTypes(readFileSync(racine + chemin, 'utf8'), { mode: 'strip' }).replace(/[ \t]+$/gm, '');
 
-function compilerDossier(dossier) {
-  mkdirSync(dist + dossier, { recursive: true });
-  for (const fichier of readdirSync(racine + dossier).filter((f) => f.endsWith('.ts'))) {
-    const source = readFileSync(`${racine}${dossier}/${fichier}`, 'utf8');
-    // Les types sont remplacés par des espaces : on retire ceux qui restent en fin de ligne
-    const js = versJs(stripTypeScriptTypes(source, { mode: 'strip' })).replace(/[ \t]+$/gm, '');
-    writeFileSync(`${dist}${dossier}/${fichier.replace(/\.ts$/, '.js')}`, js);
-  }
+const IMPORT = /^import\s[\s\S]*?from\s*['"](\.{1,2}\/[^'"]+)['"];?/gm;
+
+// Chaque fichier après ceux qu'il importe, une seule fois chacun
+function ordre(chemin, vus = new Set()) {
+  if (vus.has(chemin)) return [];
+  vus.add(chemin);
+  const source = readFileSync(racine + chemin, 'utf8');
+  const dependances = [...source.matchAll(IMPORT)].map((m) => relative(racine, join(racine, dirname(chemin), m[1])).replaceAll('\\', '/'));
+  return [...dependances.flatMap((d) => ordre(d, vus)), chemin];
+}
+
+// Les noms de premier niveau ne se répètent pas d'un fichier à l'autre (vérifié par node --check)
+function regrouper(entree) {
+  const corps = ordre(entree)
+    .map((chemin) => `// ${chemin}\n` + sansTypes(chemin).replace(IMPORT, '').replace(/^export\s+/gm, '').trim())
+    .join('\n\n');
+  return `(() => {\n'use strict';\n${corps}\n})();\n`;
 }
 
 const pack = JSON.parse(readFileSync(racine + 'packs/bum/pack.json', 'utf8'));
@@ -32,8 +44,9 @@ if (erreurs.length) {
 }
 
 rmSync(dist, { recursive: true, force: true });
-compilerDossier('core');
-compilerDossier('dom');
+mkdirSync(dist + 'dom', { recursive: true });
+writeFileSync(dist + 'dom/fond.js', sansTypes('dom/fond.ts'));
+writeFileSync(dist + 'dom/contenu.js', regrouper('dom/entree.ts'));
 cpSync(racine + 'dom/style.css', dist + 'dom/style.css');
 cpSync(racine + 'manifest.json', dist + 'manifest.json');
 cpSync(racine + 'packs/bum/pack.json', dist + 'packs/bum/pack.json');
