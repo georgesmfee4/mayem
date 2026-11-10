@@ -31,6 +31,8 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
 - Aucune requête réseau, aucun stockage des textes affichés.
 - Permissions minimales : `activeTab` et `scripting`, injection au clic sur l'icône (`dom/fond.ts`).
   Pas de `content_scripts` automatiques, pas de `web_accessible_resources`.
+- Le script intégré (`dom/web.ts`, `dist-web/mayem.js`) suit les mêmes règles : packs embarqués et vérifiés,
+  aucune requête réseau après son chargement, rien dans la page avant que le pack soit accepté.
 - Montants, dates, numéros, références, noms : jamais traduits. Une sortie dont les chiffres diffèrent de l'entrée est rejetée.
 - Jamais de phrase composée mot à mot : hors corpus, seul un libellé qui est un terme validé est traduit ;
   une phrase inconnue reste dans sa langue d'origine (étiquette et gloses en CSS).

@@ -1,4 +1,4 @@
-// Sert les pages d'essai (fixtures/) en local, sans dépendance
+// Sert les pages d'essai (fixtures/) et le script intégré (dist-web/) en local, sans dépendance
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, normalize } from 'node:path';
@@ -9,7 +9,7 @@ const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '
 
 createServer(async (requete, reponse) => {
   const chemin = normalize(decodeURIComponent(new URL(requete.url, 'http://x').pathname)).replace(/^[\\/]+/, '');
-  if (!chemin.startsWith('fixtures')) return reponse.writeHead(404).end();
+  if (!/^(fixtures|dist-web)[\\/]/.test(chemin)) return reponse.writeHead(404).end();
   try {
     const contenu = await readFile(racine + chemin);
     reponse.writeHead(200, { 'content-type': TYPES[extname(chemin)] || 'application/octet-stream' }).end(contenu);

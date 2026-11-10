@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { runInNewContext } from 'node:vm';
+import { Script, runInNewContext } from 'node:vm';
 
 const racine = new URL('..', import.meta.url);
 const lire = (chemin) => JSON.parse(readFileSync(new URL(chemin, racine), 'utf8'));
@@ -84,4 +84,11 @@ test('le moteur seul (dist-lib/mayem-core.js) s’importe et traduit sans l’ex
   assert.equal(moteur.traduire('Votre solde est de 25 000 FCFA', pack).id, 'X08');
   assert.equal(await moteur.empreinte(pack), pack.empreinte);
   assert.deepEqual(moteur.verifierPack(pack, lire('packs/schema.json')), []);
+});
+
+test('le script à intégrer (dist-web/mayem.js) se construit, léger et sans nom de langue dans son code', () => {
+  const code = readFileSync(new URL('dist-web/mayem.js', racine), 'utf8');
+  new Script(code); // syntaxe et noms de premier niveau uniques
+  assert.ok(code.length < 400_000, `${code.length} octets`);
+  assert.doesNotMatch(readFileSync(new URL('dom/web.ts', racine), 'utf8'), /\bbum\b/);
 });
