@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Essai : texte coupé par des balises</title>
+  <style>body { font-family: sans-serif; max-width: 40rem; margin: 2rem auto; } .valeur { font-weight: bold; }</style>
+</head>
+<body>
+  <!-- Page d'essai sans framework : textes coupés par des balises, messages de plusieurs phrases -->
+  <h1>Mon compte</h1>
+  <p id="solde">Votre solde est de <b class="valeur">25 000 FCFA</b></p>
+  <p id="envoi">Vous allez envoyer <strong class="valeur">25&nbsp;000 FCFA</strong> à <span class="valeur">Awa Ndongo</span></p>
+  <p id="message">Consultez votre solde et lancez un transfert en toute sécurité. Vérifiez toujours le nom et le numéro du bénéficiaire avant de confirmer un transfert.</p>
+  <p id="inconnu">Consultez votre solde et lancez un transfert en toute sécurité. Cette phrase ne figure dans aucun corpus.</p>
+  <p id="absent">Solde : <b class="valeur">5 000 FCFA</b></p>
+  <label>Montant <input id="montant" value="5 000"></label>
+  <button id="changer" type="button">Changer le montant</button>
+  <script>
+    document.getElementById('changer').onclick = () => {
+      document.querySelector('#solde b').firstChild.nodeValue = '30 000 FCFA';
+    };
+  </script>
+</body>
+</html>

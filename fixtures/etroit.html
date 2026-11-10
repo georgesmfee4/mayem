@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page d'essai : composants étroits</title>
+<style>
+  body { font: 14px/1.4 system-ui, sans-serif; margin: 16px; color: #0f172a; }
+  /* Largeurs prévues pour le français : une traduction plus longue déborde */
+  .bouton { width: 84px; height: 36px; white-space: nowrap; overflow: hidden; border: 0; background: #0f4c5c; color: #fff; font: inherit; }
+  .large { width: 220px; }
+  .onglets { display: flex; gap: 4px; width: 300px; }
+  .onglets span { width: 90px; white-space: nowrap; overflow: hidden; padding: 6px 4px; background: #e2e8f0; }
+  table { border-collapse: collapse; table-layout: fixed; width: 260px; }
+  td { border: 1px solid #cbd5e1; padding: 4px; white-space: nowrap; overflow: hidden; }
+  td:first-child { width: 120px; }
+  .coupe { display: block; width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+</style>
+</head>
+<body>
+  <nav class="onglets">
+    <span id="onglet-solde">Solde</span>
+    <span id="onglet-frais">Frais</span>
+    <span id="onglet-beneficiaire">Bénéficiaire</span>
+  </nav>
+  <table>
+    <tr><td id="total">Total à débiter</td><td>25 500 FCFA</td></tr>
+    <tr><td id="frais">Frais de transfert</td><td>500 FCFA</td></tr>
+  </table>
+  <label class="coupe" id="libelle-montant">Montant à envoyer</label>
+  <input id="montant" value="25 000">
+  <p>
+    <button class="bouton" id="continuer" type="button">Continuer</button>
+    <button class="bouton large" id="retour" type="button">Retour</button>
+  </p>
+</body>
+</html>

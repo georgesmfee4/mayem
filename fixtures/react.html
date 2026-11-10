@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Essai : rendu à la React, en anglais</title>
+  <style>body { font-family: sans-serif; max-width: 40rem; margin: 2rem auto; } .valeur { font-weight: bold; }</style>
+</head>
+<body>
+  <!-- Page construite comme une application React, sans charger React :
+       l'affichage est recalculé à partir d'un état ; les nœuds sont recréés à chaque changement
+       d'écran, et les textes mis à jour sur place quand seul le montant change. Montants au format anglais. -->
+  <div id="app"></div>
+  <script>
+    const etat = { ecran: 'compte', montant: 25000 };
+    const format = (n) => 'XAF ' + n.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+    // Petit équivalent de createElement : enfants = textes ou éléments
+    function h(balise, attributs, ...enfants) {
+      const el = document.createElement(balise);
+      Object.assign(el, attributs);
+      el.append(...enfants);
+      return el;
+    }
+
+    function ecranCompte() {
+      return h('main', {},
+        h('h1', {}, 'My account'),
+        h('p', {}, 'Your balance is ', h('b', { className: 'valeur', id: 'solde' }, format(etat.montant))),
+        h('p', {}, 'Total debited: 25,500 FCFA'),
+        h('p', {}, 'Check your balance and start a secure transfer.'),
+        h('button', { id: 'plus', type: 'button', onclick: () => { etat.montant += 5000; majMontant(); } }, 'Make a transfer'),
+        h('button', { id: 'suivant', type: 'button', onclick: () => afficher('recu') }, 'Continue'));
+    }
+
+    function ecranRecu() {
+      return h('main', {},
+        h('h1', {}, 'Transfer completed'),
+        h('p', {}, 'Your transfer has been sent successfully.'),
+        h('p', {}, 'You are about to send ', h('b', { className: 'valeur' }, '25,000 FCFA'), ' to ', h('span', { className: 'valeur' }, 'Awa Ndongo')),
+        h('button', { id: 'retour', type: 'button', onclick: () => afficher('compte') }, 'Back'));
+    }
+
+    // Changement d'écran : tout est recréé, comme un composant remonté
+    function afficher(ecran) {
+      etat.ecran = ecran;
+      document.getElementById('app').replaceChildren(ecran === 'compte' ? ecranCompte() : ecranRecu());
+    }
+    // Mise à jour d'une valeur : seul le nœud texte change, comme la réconciliation de React
+    function majMontant() {
+      document.getElementById('solde').firstChild.nodeValue = format(etat.montant);
+    }
+    afficher('compte');
+  </script>
+</body>
+</html>
