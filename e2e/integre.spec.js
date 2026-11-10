@@ -68,3 +68,13 @@ test('pack modifié dans le script : refusé par l’empreinte, la page reste en
   await expect(page.locator('#mayem-host')).toHaveCount(0);
   expect(erreurs.join('\n')).toMatch(/empreinte différente/);
 });
+
+test('page de démonstration du refus : Mayem.etat() et l’événement mayem-refus donnent la raison', async ({ page }) => {
+  await page.addInitScript(() => document.addEventListener('mayem-refus', (e) => { window.refusRecu = e.detail; }));
+  await page.goto(ADRESSE + 'integre-refus.html');
+  await expect.poll(() => page.evaluate(() => Mayem.etat().refus)).toMatch(/empreinte différente/);
+  expect(await page.evaluate(() => Mayem.etat().actif)).toBe(false);
+  expect(await page.evaluate(() => window.refusRecu.raisons[0])).toMatch(/empreinte différente/);
+  await expect(page.locator('#mayem-host')).toHaveCount(0);
+  await expect(page.locator('#solde')).toHaveText('Votre solde est de 25 000 FCFA');
+});

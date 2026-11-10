@@ -21,6 +21,8 @@ const reglage = (nom: string) => balise?.dataset[nom];
 const languesEmbarquees = () => PACKS_EMBARQUES.map(({ langue, nom }) => ({ langue, nom }));
 let actif = false;
 let lance = false;
+// Raison du dernier refus, pour Mayem.etat() ; le service peut aussi écouter l'événement « mayem-refus »
+let refus: string | null = null;
 
 async function packEmbarque(code: string): Promise<Pack | null> {
   const pack = PACKS_EMBARQUES.find((p) => p.langue === code);
@@ -31,6 +33,8 @@ async function packEmbarque(code: string): Promise<Pack | null> {
   else if (!erreurs.length && (await empreinte(pack)) !== pack.empreinte) erreurs.push('empreinte différente : pack modifié après sa fabrication');
   if (erreurs.length) {
     console.error(`Mayem : pack ${code} refusé, la page reste intacte.\n` + erreurs.join('\n'));
+    refus = erreurs[0];
+    document.dispatchEvent(new CustomEvent('mayem-refus', { detail: { langue: code, raisons: erreurs } }));
     return null;
   }
   return pack;
@@ -61,5 +65,6 @@ const quandPret = (rappel: () => void) =>
   inverser: () => actif && inverser(),
   choisirLangue: (code: string) => (actif ? changerLangue(code) : undefined),
   langues: languesEmbarquees,
+  etat: () => ({ actif, refus }),
 });
 if (reglage('auto') !== 'non') quandPret(lancer);
