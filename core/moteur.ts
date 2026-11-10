@@ -22,39 +22,65 @@ export const normaliser = (s: string): string =>
   s.normalize('NFC').replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
 export const echapper = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-interface Modele { motif: RegExp; phrase: Phrase; precision: number }
+// Le motif n'est compilé qu'au premier essai : compiler des milliers d'expressions Unicode coûte cher,
+// et une page n'en essaie qu'une petite partie. mots : texte fixe du modèle, en minuscules.
+interface Modele { source: string; motif?: RegExp; mots: string[]; phrase: Phrase; precision: number }
 interface Index {
   exactes: Map<string, Phrase>;
-  modeles: Modele[];
+  // Modèles rangés par leur premier mot : un texte n'essaie que ceux qui commencent comme lui,
+  // plus ceux qui commencent par un champ. La recherche reste rapide avec des milliers de modèles.
+  parMot: Map<string, Modele[]>;
+  sansMot: Modele[];
   parId: Map<string, Phrase>;
 }
 
+// Premier mot en minuscules ; dans un modèle, un mot collé à un champ ({…}) ne compte pas
+const premierMot = (texte: string, modele = false) =>
+  texte.match(modele ? /^\p{L}+(?![\p{L}{])/u : /^\p{L}+(?!\p{L})/u)?.[0].toLowerCase() || '';
+const plusPrecis = (a: Modele, b: Modele) => b.precision - a.precision;
+
+// Chaque champ est capturé librement, puis validé par le motif de son type (montant, date…).
+// Ces motifs Unicode coûtent cher à compiler : un seul exemplaire par type, partagé par tous les modèles.
 function versRegex(source: string): RegExp {
   const corps = normaliser(source)
     .split(/(\{\w+\})/)
     .map((morceau) => {
       const champ = morceau.match(/^\{(\w+)\}$/);
-      if (champ) return `(?<${champ[1]}>${CHAMPS[typeDeChamp(champ[1])] || LIBRE})`;
+      if (champ) return `(?<${champ[1]}>${LIBRE})`;
       return echapper(morceau).replace(/ /g, '\\s*');
     })
     .join('');
   return new RegExp(`^${corps}$`, 'iu');
 }
 
+const validateurs = new Map<string, RegExp>();
+function champValide(nom: string, valeur: string): boolean {
+  const type = typeDeChamp(nom);
+  if (!CHAMPS[type]) return true;
+  if (!validateurs.has(type)) validateurs.set(type, new RegExp(`^(?:${CHAMPS[type]})$`, 'iu'));
+  return validateurs.get(type)!.test(valeur);
+}
+
 function indexer(pack: Pack): Index {
-  const index: Index = { exactes: new Map(), modeles: [], parId: new Map() };
+  const index: Index = { exactes: new Map(), parMot: new Map(), sansMot: [], parId: new Map() };
   for (const phrase of pack.phrases) {
     index.parId.set(phrase.id, phrase);
     for (const source of [phrase.fr, ...phrase.en]) {
       if (/\{\w+\}/.test(source)) {
         const precision = source.replace(/\{\w+\}/g, '').length;
-        index.modeles.push({ motif: versRegex(source), phrase, precision });
+        const fixe = normaliser(source).replace(/\{\w+\}/g, ' ').toLowerCase();
+        const modele: Modele = { source, mots: fixe.split(' ').filter(Boolean), phrase, precision };
+        const mot = premierMot(normaliser(source), true);
+        if (mot) index.parMot.set(mot, [...(index.parMot.get(mot) || []), modele]);
+        else index.sansMot.push(modele);
       } else {
         index.exactes.set(normaliser(source).toLowerCase(), phrase);
       }
     }
   }
-  index.modeles.sort((a, b) => b.precision - a.precision); // les modèles les plus précis d'abord
+  // Les modèles les plus précis d'abord
+  index.sansMot.sort(plusPrecis);
+  for (const liste of index.parMot.values()) liste.sort(plusPrecis);
   return index;
 }
 
@@ -102,9 +128,14 @@ interface Trouve { phrase: Phrase; valeurs: Record<string, string> }
 function chercher(texte: string, index: Index): Trouve | null {
   const exacte = index.exactes.get(texte.toLowerCase());
   if (exacte) return { phrase: exacte, valeurs: {} };
-  for (const modele of index.modeles) {
-    const trouve = texte.match(modele.motif);
-    if (trouve) return { phrase: modele.phrase, valeurs: trouve.groups || {} };
+  const candidats = [...(index.parMot.get(premierMot(texte)) || []), ...index.sansMot].sort(plusPrecis);
+  const bas = texte.toLowerCase();
+  for (const modele of candidats) {
+    // Filtre sans expression régulière : chaque mot fixe du modèle doit être dans le texte
+    if (!modele.mots.every((mot) => bas.includes(mot))) continue;
+    const trouve = texte.match((modele.motif ||= versRegex(modele.source)));
+    const valeurs = trouve?.groups || {};
+    if (trouve && Object.entries(valeurs).every(([nom, valeur]) => champValide(nom, valeur))) return { phrase: modele.phrase, valeurs };
   }
   return null;
 }
