@@ -115,6 +115,8 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Pack vérifié à chaque clic, avant d'entrer dans la page, avec les mêmes règles que `check-pack`
   (`core/verifier.ts`) : un pack incohérent (champ manquant, chiffre ajouté) n'est pas chargé et la page reste intacte.
   Son empreinte SHA-256 est recalculée : un mot changé à la main dans `dist/`, même sans chiffre, est refusé aussi.
+  Le refus se voit sur l'icône (badge rouge « ! », raison au survol) ; `npm run demo:refus` prépare des copies
+  modifiées pour le montrer (`docs/demo.md`).
 - Champs de saisie jamais lus ni modifiés ; aucune donnée collectée, stockée ou envoyée ; aucun appel réseau.
 - Permissions minimales : `activeTab` et `scripting`. Mayem n'entre dans une page qu'au clic sur son icône, dans
   l'onglet en cours seulement ; aucun fichier de l'extension n'est exposé aux sites (rien qui permette de la détecter).
@@ -170,6 +172,9 @@ Deux rôles séparés (détails : `docs/API.md`) :
 - **Distribution des données** : `npm run export -- <langue>` produit TMX, XLIFF, TBX, i18next et Android ;
   `npm run api` prépare `api/` (index, packs versionnés avec empreinte, exports), à servir par un
   hébergement statique gratuit. Rien n'est mis en ligne automatiquement.
+- **Intégration en une ligne** : `dist-web/mayem.js`, à inclure par un service dans ses pages
+  (`<script src="mayem.js" integrity="…" data-langue="bum" defer>`), sans extension côté client ; packs
+  embarqués, mêmes garanties (page d'essai `fixtures/integre.html`, réglages dans `docs/API.md`).
 - **Traduction** : toujours locale. `npm run build` produit aussi `dist-lib/mayem-core.js`, le moteur seul
   en module ES sans dépendance (site, appli, serveur). Aucun texte affiché ne quitte l'appareil.
 

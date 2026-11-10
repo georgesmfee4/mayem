@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { runInNewContext } from 'node:vm';
+import { Script, runInNewContext } from 'node:vm';
 
 const racine = new URL('..', import.meta.url);
 const lire = (chemin) => JSON.parse(readFileSync(new URL(chemin, racine), 'utf8'));
@@ -22,10 +22,15 @@ function charger(pack) {
   };
   let clic;
   let message;
-  const etat = { injections: 0, erreurs: [] };
+  const etat = { injections: 0, erreurs: [], badge: null, titre: null };
   const chrome = {
     runtime: { id: 'mayem', getURL: (chemin) => chemin, onMessage: { addListener: (rappel) => (message = rappel) } },
-    action: { onClicked: { addListener: (rappel) => (clic = rappel) } },
+    action: {
+      onClicked: { addListener: (rappel) => (clic = rappel) },
+      setBadgeText: async ({ text }) => { etat.badge = text; },
+      setBadgeBackgroundColor: async () => {},
+      setTitle: async ({ title }) => { etat.titre = title; },
+    },
     scripting: { insertCSS: async () => etat.injections++, executeScript: async () => etat.injections++ },
   };
   const fetch = async (chemin) => ({ json: async () => structuredClone(fichiers[chemin]) });
@@ -44,6 +49,17 @@ test('le pack actuel est injecté', async () => {
   const { injections, erreurs } = await cliquer(lire('packs/bum/pack.json'));
   assert.deepEqual(erreurs, []);
   assert.equal(injections, 3);
+});
+
+test('refus visible sur l’icône, effacé au clic suivant avec un bon pack', async () => {
+  const pack = lire('packs/bum/pack.json');
+  const bon = await cliquer(pack);
+  assert.equal(bon.badge, '');
+  assert.equal(bon.titre, '');
+  pack.phrases.find((p) => p.id === 'X08').bulu += ' 500';
+  const refus = await cliquer(pack);
+  assert.equal(refus.badge, '!');
+  assert.match(refus.titre, /pack refusé, page laissée intacte\.\nX08 : les chiffres du bulu diffèrent/);
 });
 
 test('un chiffre ajouté au bulu : rien n\'est injecté', async () => {
@@ -84,4 +100,11 @@ test('le moteur seul (dist-lib/mayem-core.js) s’importe et traduit sans l’ex
   assert.equal(moteur.traduire('Votre solde est de 25 000 FCFA', pack).id, 'X08');
   assert.equal(await moteur.empreinte(pack), pack.empreinte);
   assert.deepEqual(moteur.verifierPack(pack, lire('packs/schema.json')), []);
+});
+
+test('le script à intégrer (dist-web/mayem.js) se construit, léger et sans nom de langue dans son code', () => {
+  const code = readFileSync(new URL('dist-web/mayem.js', racine), 'utf8');
+  new Script(code); // syntaxe et noms de premier niveau uniques
+  assert.ok(code.length < 400_000, `${code.length} octets`);
+  assert.doesNotMatch(readFileSync(new URL('dom/web.ts', racine), 'utf8'), /\bbum\b/);
 });

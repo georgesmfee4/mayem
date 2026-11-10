@@ -12,3 +12,5 @@ api/
 dist-lib/
 packs/*/a-traduire.csv
 dist-pseudo/
+dist-web/
+dist-refus/

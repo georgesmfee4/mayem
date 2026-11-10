@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Essai : script intégré dont le pack a été modifié (refusé)</title>
+  <style>body { font-family: sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; } .valeur { font-weight: bold; }</style>
+  <!-- npm run demo:refus prépare ce script : un mot changé dans une traduction. Mayem doit refuser d'entrer. -->
+  <script src="../dist-web/mayem-modifie.js" data-langue="bum" defer></script>
+</head>
+<body>
+  <h1>Mon compte</h1>
+  <p id="solde">Votre solde est de <b class="valeur">25 000 FCFA</b></p>
+  <p id="absent">Solde : <b class="valeur">5 000 FCFA</b></p>
+  <p id="inconnu">Cette phrase ne figure dans aucun corpus.</p>
+  <label>Montant <input id="montant" value="5 000"></label>
+  <button id="interrupteur" type="button" onclick="Mayem.inverser()">Langue</button>
+  <button id="ajouter" type="button">Afficher un message</button>
+  <div id="messages"></div>
+  <script>
+    document.getElementById('ajouter').onclick = () => {
+      const p = document.createElement('p');
+      p.id = 'tardif';
+      p.textContent = 'Solde disponible';
+      document.getElementById('messages').append(p);
+    };
+  </script>
+</body>
+</html>

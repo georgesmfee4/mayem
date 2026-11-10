@@ -11,9 +11,14 @@ declare const chrome: {
   runtime: {
     id: string;
     getURL(chemin: string): string;
-    onMessage: { addListener(rappel: (message: unknown, expediteur: { id?: string }, repondre: (r: unknown) => void) => boolean | void): void };
+    onMessage: { addListener(rappel: (message: unknown, expediteur: { id?: string; tab?: { id?: number } }, repondre: (r: unknown) => void) => boolean | void): void };
   };
-  action: { onClicked: { addListener(rappel: (onglet: { id?: number }) => void): void } };
+  action: {
+    onClicked: { addListener(rappel: (onglet: { id?: number }) => void): void };
+    setBadgeText(o: { tabId: number; text: string }): Promise<void>;
+    setBadgeBackgroundColor(o: { tabId: number; color: string }): Promise<void>;
+    setTitle(o: { tabId: number; title: string }): Promise<void>;
+  };
   scripting: {
     insertCSS(o: { target: Cible; files: string[] }): Promise<unknown>;
     executeScript(o: { target: Cible; files?: string[]; func?: (donnees: unknown) => void; args?: unknown[] }): Promise<unknown>;
@@ -30,7 +35,9 @@ const lire = (chemin: string) => fetch(chrome.runtime.getURL(chemin)).then((repo
 
 // Lu à chaque demande : le service worker peut être arrêté entre deux clics.
 // Seul le pack de la langue demandée est lu : le coût ne dépend pas du nombre de langues.
-async function packVerifie(demandee?: string): Promise<{ pack: Pack; langues: Langue[] } | null> {
+type Verification = { pack: Pack; langues: Langue[]; erreurs: string[] } | { pack: null; langues: Langue[]; erreurs: string[] };
+
+async function packVerifie(demandee?: string): Promise<Verification> {
   const [langues, schema] = await Promise.all([lire(SOMMAIRE), lire(SCHEMA)]) as [Langue[], never];
   const choisie = langues.find((l) => l.langue === demandee) || langues[0];
   const pack = await lire(`packs/${choisie.langue}/pack.json`);
@@ -40,9 +47,17 @@ async function packVerifie(demandee?: string): Promise<{ pack: Pack; langues: La
   if (!erreurs.length && (await empreinte(pack)) !== pack.empreinte) erreurs.push('empreinte différente : pack modifié après sa fabrication');
   if (erreurs.length) {
     console.error(`Mayem : pack ${choisie.langue} refusé, la page reste intacte.\n` + erreurs.join('\n'));
-    return null;
+    return { pack: null, langues, erreurs };
   }
-  return { pack, langues };
+  return { pack, langues, erreurs: [] };
+}
+
+// Refus visible sur l'icône de l'onglet (badge « ! » et raison au survol) ; la page, elle, n'est pas touchée.
+// Un titre vide rend celui du manifeste.
+async function signaler(tabId: number, erreurs: string[]) {
+  await chrome.action.setBadgeText({ tabId, text: erreurs.length ? '!' : '' });
+  if (erreurs.length) await chrome.action.setBadgeBackgroundColor({ tabId, color: '#b42318' });
+  await chrome.action.setTitle({ tabId, title: erreurs.length ? `Mayem : pack refusé, page laissée intacte.\n${erreurs[0]}` : '' });
 }
 
 async function injecter(onglet: { id?: number }) {
@@ -50,7 +65,8 @@ async function injecter(onglet: { id?: number }) {
   const cible = { tabId: onglet.id, allFrames: true };
   try {
     const donnees = await packVerifie();
-    if (!donnees) return;
+    await signaler(onglet.id, donnees.erreurs);
+    if (!donnees.pack) return;
     await chrome.scripting.insertCSS({ target: cible, files: ['dom/style.css'] });
     await chrome.scripting.executeScript({
       target: cible,
@@ -58,7 +74,7 @@ async function injecter(onglet: { id?: number }) {
         const { pack, langues } = lesDonnees as { pack: unknown; langues: unknown };
         Object.assign(globalThis, { mayemPack: pack, mayemLangues: langues });
       },
-      args: [donnees],
+      args: [{ pack: donnees.pack, langues: donnees.langues }],
     });
     await chrome.scripting.executeScript({ target: cible, files: ['dom/contenu.js'] });
   } catch (erreur) {
@@ -72,7 +88,10 @@ async function injecter(onglet: { id?: number }) {
 chrome.runtime.onMessage.addListener((message, expediteur, repondre) => {
   const demande = message as { mayemLangue?: string } | null;
   if (expediteur.id !== chrome.runtime.id || typeof demande?.mayemLangue !== 'string') return;
-  packVerifie(demande.mayemLangue).then((donnees) => repondre(donnees?.pack || null), () => repondre(null));
+  packVerifie(demande.mayemLangue).then(async (donnees) => {
+    if (expediteur.tab?.id !== undefined && donnees.erreurs.length) await signaler(expediteur.tab.id, donnees.erreurs);
+    repondre(donnees.pack);
+  }, () => repondre(null));
   return true; // réponse asynchrone
 });
 

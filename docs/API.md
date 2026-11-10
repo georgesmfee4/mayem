@@ -59,7 +59,46 @@ Un client télécharge `index.json`, choisit une langue et une version, téléch
 **recalcule son empreinte** avant de l'utiliser. La mise en ligne est une décision humaine : la licence
 affichée reste « réservée » tant que tous les locuteurs nommés n'ont pas signé (`packs/<langue>/accords.json`).
 
-## 2. Le moteur (`dist-lib/mayem-core.js`, construit par `npm run build`)
+## 2. Intégrer Mayem dans un site, en une ligne (`dist-web/mayem.js`)
+
+Pour un service qui veut proposer la langue à ses clients sans leur demander d'installer d'extension.
+`npm run build` produit le fichier et affiche sa valeur `integrity` :
+
+```html
+<script src="/js/mayem.js" integrity="sha384-…" data-langue="bum" defer></script>
+```
+
+- **Le service sert le fichier lui-même** (environ 200 Ko, 43 Ko compressé) ; les packs sont dedans. Une fois
+  le script chargé : aucune requête réseau, aucun stockage, aucun texte de la page envoyé où que ce soit.
+- **`integrity`** : le navigateur refuse d'exécuter un fichier modifié. En plus, Mayem revérifie le pack
+  (règles et empreinte) avant de toucher la page ; un pack refusé laisse la page intacte (message en console).
+- Page en **https** obligatoire (Web Crypto, pour l'empreinte).
+- Mêmes garanties que l'extension : seules les traductions validées, montants et numéros jamais traduits,
+  aucun champ de saisie lu, Shadow DOM ouverts suivis, textes ajoutés après le chargement traduits.
+
+| Attribut | Effet |
+|---|---|
+| `data-langue="bum"` | Langue de départ (sinon la première embarquée) |
+| `data-bouton="non"` | Pas de bouton Mayem : le service utilise son propre interrupteur |
+| `data-auto="non"` | Ne démarre qu'à l'appel de `Mayem.demarrer()` |
+
+| `window.Mayem` | Rôle |
+|---|---|
+| `demarrer()` | Traduit la page (si `data-auto="non"`) |
+| `inverser()` | Traduction ⇄ original |
+| `choisirLangue(code)` | Change de langue sans recharger |
+| `langues()` | `[{ langue, nom }]` des langues embarquées |
+| `etat()` | `{ actif, refus }` : `refus` donne la raison si le pack a été refusé |
+
+Un pack refusé émet aussi l'événement `mayem-refus` sur `document` (`detail : { langue, raisons }`) :
+le service peut afficher son propre message.
+
+**Politique de sécurité (CSP)** : autoriser le script lui-même (`script-src` avec son origine ou son hash).
+Le bouton de Mayem vit dans un Shadow DOM avec sa propre balise `<style>` : si `style-src` interdit le style
+en ligne, utiliser `data-bouton="non"` et le bouton du service ; les marques de la page passent par une
+feuille adoptée.
+
+## 3. Le moteur (`dist-lib/mayem-core.js`, construit par `npm run build`)
 
 Module ES sans dépendance, pour navigateur, Node, React Native ou serveur. Fonctions pures : ni DOM, ni réseau.
 

@@ -7,6 +7,10 @@ import type { Pack } from '../core/types.ts';
 import { demarrer, inverser } from './page.ts';
 import type { Langue } from './interface.ts';
 
+// Le script de fond sert le pack vérifié d'une autre langue (dom/fond.ts)
+declare const chrome: { runtime: { sendMessage(message: unknown): Promise<unknown> } };
+const demanderAuFond = (code: string) => chrome.runtime.sendMessage({ mayemLangue: code }) as Promise<Pack | null>;
+
 // false pour la démo et l'usage réel : seules les traductions validées par deux locuteurs s'affichent.
 // true pendant la traduction : un texte pas encore validé apparaît « ‹…› + français ».
 const MODE_TEST = false;
@@ -18,5 +22,5 @@ if (etat.mayemInverser) {
   etat.mayemInverser();
 } else if (etat.mayemPack) {
   etat.mayemInverser = inverser;
-  demarrer(etat.mayemPack, { test: MODE_TEST }, etat.mayemLangues || []);
+  demarrer(etat.mayemPack, { test: MODE_TEST }, etat.mayemLangues || [], { chargerPack: demanderAuFond });
 }
