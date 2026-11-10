@@ -3,13 +3,16 @@
 // jamais de nœud ajouté dans la page) et on ne lit ni ne modifie aucun champ de saisie.
 
 import { estPhrase, memesChiffres } from '../core/faits.ts';
-import { etiquette, traduire } from '../core/moteur.ts';
+import { etiquette, normaliser, traduire } from '../core/moteur.ts';
+import { repartir } from '../core/repartir.ts';
 import type { Options, Pack, Resultat } from '../core/types.ts';
 import { ID_HOTE, creerInterface, type Interface } from './interface.ts';
 
 const IGNORES = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'SELECT_VALUE', 'CODE', 'PRE', 'svg', 'SVG']);
 const ATTRIBUTS = ['placeholder', 'title', 'aria-label'];
 const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-cat'];
+// Balises de mise en forme : le texte qu'elles coupent est lu comme un seul bloc
+const EN_LIGNE = new Set(['A', 'ABBR', 'B', 'BDI', 'BDO', 'CITE', 'DATA', 'EM', 'FONT', 'I', 'LABEL', 'MARK', 'Q', 'S', 'SMALL', 'SPAN', 'STRONG', 'SUB', 'SUP', 'TIME', 'U']);
 
 let pack: Pack;
 let options: Options;
@@ -34,12 +37,58 @@ function marquer(el: Element, res: Resultat) {
   }
 }
 
-function ecrire(noeud: Text, sortie: string) {
-  const brut = noeud.nodeValue || '';
+function ecrire(noeud: Text, sortie: string, brut = noeud.nodeValue || '') {
   // On garde les espaces autour du texte : la mise en page en dépend parfois
   const traduit = brut.match(/^\s*/)![0] + sortie + brut.match(/\s*$/)![0];
   ecrits.set(noeud, { origine: brut, traduit });
-  if (afficheBulu) noeud.nodeValue = traduit;
+  if (afficheBulu && noeud.nodeValue !== traduit) noeud.nodeValue = traduit;
+}
+
+// Nœuds texte d'un élément, ou null s'il contient autre chose que des balises de mise en forme
+function textesDe(el: Element): Text[] | null {
+  const textes: Text[] = [];
+  const marcheur = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
+  for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+    if (n.nodeType === Node.TEXT_NODE) textes.push(n as Text);
+    else if (!EN_LIGNE.has((n as Element).tagName)) return null;
+  }
+  return textes;
+}
+
+// Plus grand élément autour du nœud qui ne contient que du texte et des balises de mise en forme,
+// s'il réunit au moins deux morceaux de texte
+function blocDe(noeud: Text): Element | null {
+  let bloc: Element | null = null;
+  for (let el = noeud.parentElement; el && el !== document.body; el = el.parentElement) {
+    if (!textesDe(el)) break;
+    bloc = el;
+    if (!EN_LIGNE.has(el.tagName)) break;
+  }
+  const morceaux = bloc ? textesDe(bloc)!.filter((t) => (t.nodeValue || '').trim()) : [];
+  return morceaux.length >= 2 ? bloc : null;
+}
+
+// Texte du service, même si nous l'avons déjà remplacé par le bulu
+function origineDe(noeud: Text): string {
+  const deja = ecrits.get(noeud);
+  return deja && noeud.nodeValue === deja.traduit ? deja.origine : noeud.nodeValue || '';
+}
+
+// Le bloc entier est traduit, puis le bulu est rangé dans ses nœuds texte ; faux si impossible
+function traiterBloc(bloc: Element): boolean {
+  const noeuds = textesDe(bloc)!;
+  const origines = noeuds.map(origineDe);
+  const res = traduire(origines.join(''), pack, options);
+  const textes = res?.sortie ? repartir(origines, res.sortie, res.valeurs) : null;
+  if (!res || !textes) return false;
+  noeuds.forEach((noeud, i) => {
+    if (textes[i] !== normaliser(origines[i])) return ecrire(noeud, textes[i], origines[i]);
+    ecrits.delete(noeud); // morceau protégé (montant, nom) : jamais réécrit
+    if (noeud.nodeValue !== origines[i]) noeud.nodeValue = origines[i];
+  });
+  marquer(bloc, res);
+  prevoirCompteurs();
+  return true;
 }
 
 function traiterTexte(noeud: Text) {
@@ -49,6 +98,8 @@ function traiterTexte(noeud: Text) {
   const deja = ecrits.get(noeud);
   if (deja && (brut === deja.traduit || brut === deja.origine)) return; // notre propre écriture
   ecrits.delete(noeud); // le service a changé le texte : on repart de zéro
+  const bloc = blocDe(noeud);
+  if (bloc && !modifiable(bloc) && traiterBloc(bloc)) return;
   const res = traduire(brut, pack, options);
   if (!res) return;
   if (res.sortie) {

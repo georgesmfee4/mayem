@@ -53,6 +53,9 @@ export interface Resultat {
   statut: Statut;
   critique: boolean;
   sortie: string | null;
+  // Plusieurs phrases du corpus réunies : leurs id joints par « + » (E05+E07)
   id: string | null;
   categorie: Categorie | null;
+  // Valeurs reprises telles quelles (montants, noms…) : la page ne doit jamais les déplacer
+  valeurs: string[];
 }
