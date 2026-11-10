@@ -9,6 +9,10 @@
     "pack": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/build-pack.js",
     "check": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/check-pack.js",
     "build": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js",
-    "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test"
+    "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test",
+    "test:navigateur": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0"
   }
 }

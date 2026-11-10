@@ -6,7 +6,8 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
 ## Style
 - TypeScript pour `core/` et `dom/`, sans framework. Uniquement des types effaçables (pas d'enum ni de namespace) :
   `tools/compile.js` les retire avec Node, sans compilateur installé. `tools/` et `test/` restent en JavaScript.
-- Modules ES, une responsabilité par fichier. Aucune dépendance ajoutée.
+- Modules ES, une responsabilité par fichier. Aucune dépendance dans l'extension ;
+  seule exception, Playwright pour les tests navigateur (`e2e/`, `devDependencies`).
 - Noms de variables et de fonctions en français, courts et parlants : `trouverMontants`, `traduire`, `queDesFaits`.
   Pas de jargon : `noeud` plutôt que `n`, `regles` plutôt que `registreHeuristique`.
 - Fonctions courtes. Si une fonction ne tient pas sur un écran, la couper.
@@ -34,3 +35,4 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
 ## Avant chaque commit
 - `npm test` passe.
 - `npm run pack` passe (il lance check-pack).
+- Si `core/` ou `dom/` change : `npm run test:navigateur` passe.

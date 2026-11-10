@@ -5,3 +5,5 @@ dist/
 *.zip
 __pycache__/
 retraduction-a-envoyer.xlsx
+test-results/
+playwright-report/
