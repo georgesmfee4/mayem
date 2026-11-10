@@ -33,9 +33,12 @@ dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM) ; f
 packs/       schema.json + un dossier par langue (packs/bum/pack.json, généré)
 tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs)
 test/        tests node:test
+e2e/         tests Playwright dans Chromium, extension chargée
+fixtures/    pages d'essai
 ```
 
-Aucune dépendance : Node 22 suffit (types retirés par Node lui-même, `node:test` pour les tests).
+Aucune dépendance dans l'extension : Node 22 suffit (types retirés par Node lui-même, `node:test` pour les tests).
+Seuls les tests navigateur utilisent Playwright (gratuit, `devDependencies`).
 Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace).
 
 ## Tester
@@ -53,6 +56,11 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
      montants au format anglais (`XAF 25,000.00`) ;
    - `iframe.html` : formulaire dans un cadre du même site ; `shadow.html` : composants à Shadow DOM, dont un ajouté plus tard.
 6. Tests : `npm test` (tous les textes réels de la page, en français et en anglais, et les refus de check-pack).
+7. Tests dans un vrai navigateur, extension chargée (une seule fois : `npm install`) : `npm run test:navigateur`.
+   Sous Windows, Edge déjà installé sert de navigateur ; ailleurs, `npx playwright install chromium` (environ 150 Mo). Chaque page d'essai est vérifiée après le clic :
+   traductions, nombres identiques avant et après, champs de saisie intacts, bascule, cadre, Shadow DOM, et refus
+   d'un pack modifié. Playwright ne sait pas cliquer sur l'icône : les tests appellent la même fonction depuis le
+   script de fond, avec une copie du manifeste qui autorise `127.0.0.1` (le vrai manifeste n'est pas touché).
 
 ## Faire valider le bulu
 Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `THIRD_PARTY.md`).

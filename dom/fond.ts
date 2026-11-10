@@ -20,7 +20,7 @@ const SCHEMA = 'packs/schema.json';
 
 const lire = (chemin: string) => fetch(chrome.runtime.getURL(chemin)).then((reponse) => reponse.json());
 
-chrome.action.onClicked.addListener(async (onglet) => {
+async function injecter(onglet: { id?: number }) {
   if (onglet.id === undefined) return;
   const cible = { tabId: onglet.id, allFrames: true };
   try {
@@ -43,4 +43,9 @@ chrome.action.onClicked.addListener(async (onglet) => {
     // Pages où aucune extension n'a le droit d'écrire (chrome://, boutique…) : rien à faire
     console.warn('Mayem :', erreur);
   }
-});
+}
+
+chrome.action.onClicked.addListener(injecter);
+// Playwright ne sait pas cliquer sur l'icône : les tests (e2e/) appellent injecter depuis
+// ce script de fond, que les sites ne voient pas
+(globalThis as { mayemInjecter?: typeof injecter }).mayemInjecter = injecter;
