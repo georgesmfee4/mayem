@@ -12,6 +12,8 @@
     "controle": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/controle.js",
     "export": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/export.js",
     "api": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/api.js",
+    "inventaire": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js",
+    "couverture": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js fixtures/simple.html fixtures/balises.html fixtures/react.html fixtures/iframe.html fixtures/shadow.html",
     "build": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js",
     "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test",
     "test:navigateur": "playwright test"
