@@ -8,6 +8,9 @@ export interface Phrase {
   critique: boolean;
   traduit_par: string;
   relu_par: string;
+  // Une troisième personne relit le bulu sans voir le français et le retraduit
+  retraduit_par: string;
+  retraduction: string;
   valide: boolean;
 }
 
@@ -29,7 +32,10 @@ export type Categorie = 'securite' | 'erreur' | 'frais' | 'info';
 export interface Pack {
   langue: string;
   nom: string;
+  // Augmentée par tools/build-pack.js à chaque changement ; date du changement (AAAA-MM-JJ)
   version: string;
+  date: string;
+  empreinte: string;
   orthographe: string;
   // Catégorie d'un message inédit -> id de la phrase qui sert d'étiquette
   etiquettes: Partial<Record<Categorie, string>>;
@@ -38,7 +44,7 @@ export interface Pack {
 }
 
 export interface Options {
-  // Mode test : tant que le bulu n'est pas validé, affiche « ‹bu› + français »
+  // Mode test : tant que la traduction n'est pas validée, affiche « ‹…› + français »
   test?: boolean;
 }
 
@@ -50,6 +56,11 @@ export interface Resultat {
   statut: Statut;
   critique: boolean;
   sortie: string | null;
+  // Plusieurs phrases du corpus réunies : leurs id joints par « + » (E05+E07)
   id: string | null;
   categorie: Categorie | null;
+  // Valeurs reprises telles quelles (montants, noms…) : la page ne doit jamais les déplacer
+  valeurs: string[];
+  // Phrase inconnue : termes validés du glossaire qu'elle contient, à signaler sans traduire la phrase
+  termes?: { ref: string; fr: string; traduction: string; critique: boolean }[];
 }

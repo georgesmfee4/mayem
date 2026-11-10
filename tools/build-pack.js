@@ -1,14 +1,18 @@
-// corpus.csv + glossaire.csv + packs/bum/infos.json -> packs/bum/pack.json
-// Usage : node tools/build-pack.js
+// packs/<langue>/ : corpus.csv + glossaire.csv + infos.json -> pack.json
+// Usage : npm run pack [-- <langue>] (la langue est facultative s'il n'y en a qu'une)
 // Le pack n'est écrit que s'il passe check-pack : un pack invalide ne remplace jamais le bon.
 
-import { readFileSync, writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { lireCsv } from './csv.js';
 import { verifierPack } from './check-pack.js';
+import { controler } from '../core/controle.ts';
+import { empreinte } from '../core/empreinte.ts';
+import { choisirLangue, dossier } from './langues.js';
+import { differences, entreeJournal, versionSuivante } from './versions.js';
 
-const racine = fileURLToPath(new URL('..', import.meta.url));
-const lire = (chemin) => readFileSync(racine + chemin, 'utf8');
+const langue = choisirLangue(process.argv[2]);
+const ici = dossier(langue);
+const lire = (nom) => readFileSync(ici + nom, 'utf8');
 const oui = (v) => ['1', 'oui', 'yes', 'x'].includes((v || '').trim().toLowerCase());
 
 // Les locuteurs renomment parfois les en-têtes du tableur (le kit dit « TERME BULU APPROUVÉ »
@@ -27,14 +31,21 @@ const COLONNES_GLOSSAIRE = {
   commentaire: ['commentaire'],
 };
 const COLONNES_CORPUS = ['id', 'fr', 'en', 'bulu', 'critique', 'valide_par', 'valide'];
+// retraduction.csv vient de tools/kit.py import (fichier de retraduction rempli)
+const COLONNES_RETRADUCTION = {
+  ref: ['réf'],
+  bulu: ['texte bulu'],
+  texte: ['votre traduction'],
+  par: ['traduit par'],
+};
 
 const erreurs = [];
 
 // Pour chaque champ, l'en-tête réel du fichier ; une colonne introuvable est une erreur,
 // sinon le bulu du glossaire arriverait vide sans que personne ne le voie
-function trouverColonnes(entetes, fichier) {
+function trouverColonnes(entetes, fichier, colonnes) {
   const correspondance = {};
-  for (const [champ, debuts] of Object.entries(COLONNES_GLOSSAIRE)) {
+  for (const [champ, debuts] of Object.entries(colonnes)) {
     const entete = entetes.find((e) => debuts.some((d) => e.trim().toLowerCase().startsWith(d)));
     if (entete) correspondance[champ] = entete;
     else erreurs.push(`${fichier} : colonne « ${champ} » introuvable (en-têtes : ${entetes.join(', ')})`);
@@ -48,14 +59,45 @@ function personnes(validePar) {
   return { traduit_par: traduit_par.trim(), relu_par: relu_par.trim() };
 }
 
+// Apostrophes et espaces varient d'un tableur à l'autre sans changer le texte
+const comparable = (texte) => texte.replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
+
+// id -> { bulu, texte, par } ; vide tant qu'aucune retraduction n'a été importée
+function lireRetraductions() {
+  if (!existsSync(ici + 'retraduction.csv')) return new Map();
+  const lignes = lireCsv(lire('retraduction.csv'));
+  if (!lignes.length) return new Map();
+  const colonnes = trouverColonnes(Object.keys(lignes[0]), 'retraduction.csv', COLONNES_RETRADUCTION);
+  const cellule = (ligne, champ) => (ligne[colonnes[champ]] || '').trim();
+  return new Map(lignes
+    .filter((l) => cellule(l, 'ref') && cellule(l, 'texte'))
+    .map((l) => [cellule(l, 'ref'), { bulu: cellule(l, 'bulu'), texte: cellule(l, 'texte'), par: cellule(l, 'par') }]));
+}
+
+const retraductions = lireRetraductions();
+const perimees = [];
+
+// Une retraduction ne vaut que pour le bulu qui a été lu : si la phrase a changé depuis, on l'écarte
+function retraductionDe(id, bulu) {
+  const r = retraductions.get(id);
+  if (!r) return { retraduit_par: '', retraduction: '' };
+  if (comparable(r.bulu) !== comparable(bulu)) {
+    perimees.push(id);
+    return { retraduit_par: '', retraduction: '' };
+  }
+  return { retraduit_par: r.par, retraduction: r.texte };
+}
+
 function versPhrase(ligne) {
+  const bulu = (ligne.bulu || '').trim();
   return {
     id: ligne.id.trim(),
     fr: ligne.fr.trim(),
     en: (ligne.en || '').split('|').map((e) => e.trim()).filter(Boolean),
-    bulu: (ligne.bulu || '').trim(),
+    bulu,
     critique: ligne.critique.trim() === '1',
     ...personnes(ligne.valide_par),
+    ...retraductionDe(ligne.id.trim(), bulu),
     valide: oui(ligne.valide),
   };
 }
@@ -63,7 +105,7 @@ function versPhrase(ligne) {
 function lireGlossaire() {
   const lignes = lireCsv(lire('glossaire.csv'));
   if (!lignes.length) return [];
-  const colonnes = trouverColonnes(Object.keys(lignes[0]), 'glossaire.csv');
+  const colonnes = trouverColonnes(Object.keys(lignes[0]), 'glossaire.csv', COLONNES_GLOSSAIRE);
   const cellule = (ligne, champ) => (ligne[colonnes[champ]] || '').trim();
   return lignes
     .map((ligne) => {
@@ -90,20 +132,46 @@ function expliquer(erreur, phrases) {
   return `${erreur}\n    fr   : ${phrase.fr}\n    bulu : ${phrase.bulu || '(vide)'}`;
 }
 
-const pack = {
-  ...JSON.parse(lire('packs/bum/infos.json')),
-  glossaire: lireGlossaire(),
-  phrases: lirePhrases(),
-};
+const { langue: code, nom, orthographe, etiquettes } = JSON.parse(lire('infos.json'));
+const contenu = { glossaire: lireGlossaire(), phrases: lirePhrases() };
+const ancien = existsSync(ici + 'pack.json') ? JSON.parse(lire('pack.json')) : null;
+const changements = differences(ancien, contenu);
+const version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
+const date = version === ancien?.version && ancien.date ? ancien.date : new Date().toISOString().slice(0, 10);
+const pack = { langue: code, nom, version, date, empreinte: '', orthographe, etiquettes, ...contenu };
+pack.empreinte = await empreinte(pack);
 if (!erreurs.length) erreurs.push(...verifierPack(pack));
 
 if (erreurs.length) {
   console.error(erreurs.map((e) => expliquer(e, pack.phrases)).join('\n'));
   console.error(`\n${erreurs.length} problème(s). Pack non écrit : l'ancien reste en place.`);
-  console.error('Corriger corpus.csv (ou le tableur puis réimporter) et relancer.');
+  console.error(`Corriger packs/${langue}/corpus.csv (ou le tableur puis réimporter) et relancer.`);
   process.exit(1);
 }
-writeFileSync(racine + 'packs/bum/pack.json', JSON.stringify(pack, null, 2) + '\n');
+writeFileSync(ici + 'pack.json', JSON.stringify(pack, null, 2) + '\n');
+archiver();
 const validees = pack.phrases.filter((p) => p.valide).length;
 const termes = pack.glossaire.filter((t) => t.bulu).length;
-console.log(`${pack.phrases.length} phrases (${validees} validées), ${pack.glossaire.length} termes (${termes} traduits) -> packs/bum/pack.json`);
+const retraduites = pack.phrases.filter((p) => p.retraduction).length;
+console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduites} retraduites), ${pack.glossaire.length} termes (${termes} traduits) -> packs/${langue}/pack.json`);
+if (perimees.length) {
+  console.log(`Retraduction à refaire (le bulu a changé depuis) : ${perimees.join(', ')}`);
+}
+const aRelire = controler(pack);
+if (aRelire.length) console.log(`${aRelire.length} points à faire relire (glossaire, cohérence, négations) : npm run controle`);
+
+// Chaque version reste disponible (packs/<langue>/versions/) et le journal dit ce qui a changé
+function archiver() {
+  const archive = `${ici}versions/${version}.json`;
+  if (existsSync(archive)) return;
+  mkdirSync(ici + 'versions', { recursive: true });
+  writeFileSync(archive, JSON.stringify(pack, null, 2) + '\n');
+  const journal = ici + 'CHANGELOG.md';
+  const entree = ancien?.date
+    ? entreeJournal(version, date, changements)
+    : `## ${version} (${date})\n- Première version suivie : ${pack.phrases.length} phrases, ${pack.glossaire.length} termes`;
+  const titre = `# Journal du pack ${nom} (${code})\n\nUne correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.\n`;
+  const avant = existsSync(journal) ? readFileSync(journal, 'utf8').slice(titre.length) : '';
+  writeFileSync(journal, `${titre}\n${entree}\n${avant}`);
+  console.log(`Version ${version} : packs/${code}/versions/${version}.json, journal dans packs/${code}/CHANGELOG.md`);
+}

@@ -1,23 +1,22 @@
-// Point d'entrée chargé par le manifeste. Un content script ne peut pas être un module :
-// celui-ci importe donc le reste du code et lit le pack depuis les fichiers de l'extension
-// (adresse chrome-extension://, aucune requête vers Internet).
+// Point d'entrée, injecté par dom/fond.ts à chaque clic sur l'icône.
+// Le pack et la liste des langues sont déjà posés dans globalThis (mayemPack, mayemLangues) :
+// la page ne voit aucun fichier de l'extension.
+// tools/compile.js regroupe ce fichier avec core/ et dom/ dans dom/contenu.js.
 
-// À mettre à false pour la démo finale : seules les traductions validées s'affichent alors
-const MODE_TEST = true;
-const PACK = 'packs/bum/pack.json';
+import type { Pack } from '../core/types.ts';
+import { demarrer, inverser } from './page.ts';
+import type { Langue } from './interface.ts';
 
-declare const chrome: { runtime: { getURL(chemin: string): string } };
+// false pour la démo et l'usage réel : seules les traductions validées par deux locuteurs s'affichent.
+// true pendant la traduction : un texte pas encore validé apparaît « ‹…› + français ».
+const MODE_TEST = false;
 
-(async () => {
-  // Le script peut être injecté deux fois dans le même cadre : on ne démarre qu'une fois
-  const global = globalThis as { mayemDemarre?: boolean };
-  if (global.mayemDemarre) return;
-  global.mayemDemarre = true;
-
-  const adresse = (chemin: string) => chrome.runtime.getURL(chemin);
-  const [{ demarrer }, pack] = await Promise.all([
-    import(adresse('dom/page.js')),
-    fetch(adresse(PACK)).then((reponse) => reponse.json()),
-  ]);
-  demarrer(pack, { test: MODE_TEST });
-})();
+// Chaque injection crée une nouvelle copie de ce code : seule la première démarre,
+// les suivantes appellent la bascule qu'elle a laissée
+const etat = globalThis as { mayemPack?: Pack; mayemLangues?: Langue[]; mayemInverser?: () => void };
+if (etat.mayemInverser) {
+  etat.mayemInverser();
+} else if (etat.mayemPack) {
+  etat.mayemInverser = inverser;
+  demarrer(etat.mayemPack, { test: MODE_TEST }, etat.mayemLangues || []);
+}
