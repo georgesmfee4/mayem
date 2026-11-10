@@ -51,7 +51,8 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
    d'outils). Rien ne se passe avant ce clic. Le parcours reste dans la même page : un clic suffit pour les étapes 1 à 5.
    Après un rechargement de la page, recliquer.
 4. Un nouveau clic sur l'icône, ou le bouton en bas à gauche, bascule bulu ⇄ original ; le bouton « i » affiche
-   les compteurs et le contrôle des chiffres.
+   les compteurs et le contrôle des chiffres. Avec plusieurs langues embarquées, une liste à côté du bouton
+   change la langue de la page (et de ses cadres) sans la recharger.
 5. Pages d'essai construites autrement, pour prouver l'indépendance : `python -m http.server 8000` à la racine,
    puis `http://127.0.0.1:8000/fixtures/<page>.html` et un clic sur l'icône.
    - `simple.html` : HTML simple ; `balises.html` : textes coupés par des balises, messages de plusieurs phrases ;
@@ -118,6 +119,9 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Interface de l'extension dans un Shadow DOM séparé, utilisable au clavier.
 - Shadow DOM ouverts parcourus et surveillés comme la page ; cadres du même site traduits, un seul bouton
   (celui de la page principale bascule aussi les cadres).
+- Autant de langues que de dossiers dans `packs/` : seul le pack de la langue choisie est lu et vérifié
+  (empreinte comprise) à chaque clic ou changement de langue. Le moteur range les modèles par premier mot
+  et ne les compile qu'au besoin : 20 000 phrases, index et 2 000 recherches en moins de 0,2 s.
 
 ## Limites connues
 - Texte coupé par des balises : traduit seulement si la phrase entière est dans le corpus (« Votre solde est de {amount} »).
@@ -126,6 +130,9 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Un iframe d'un autre site que l'onglet n'est pas traduit : le clic (`activeTab`) ne donne accès qu'au site de l'onglet.
 - Un Shadow DOM fermé (`mode: 'closed'`) est inaccessible à toute extension : son texte reste en français.
 - Les compteurs du bouton ne comptent que la page principale, pas les cadres.
+- La langue choisie n'est pas mémorisée (aucun stockage) : chaque clic sur l'icône repart de la première langue.
+- Le champ `bulu` du pack contient le texte dans la langue du pack, quelle qu'elle soit (nom historique, gardé
+  pour ne pas casser le contrat de données).
 
 ## Réutiliser les données et le moteur
 Deux rôles séparés (détails : `docs/API.md`) :
