@@ -8,6 +8,8 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const racine = fileURLToPath(new URL('..', import.meta.url));
+// build-pack lit core/verifier.ts : Node doit retirer les types
+const NODE_TS = ['--experimental-strip-types', '--disable-warning=ExperimentalWarning'];
 const fichier = process.argv[2];
 
 if (!fichier || !existsSync(fichier)) {
@@ -29,5 +31,5 @@ function lancerPython(args) {
 const statut = lancerPython([racine + 'tools/kit.py', 'import', fichier]);
 if (statut !== 0) process.exit(statut);
 
-const pack = spawnSync(process.execPath, [racine + 'tools/build-pack.js'], { stdio: 'inherit' });
+const pack = spawnSync(process.execPath, [...NODE_TS, racine + 'tools/build-pack.js'], { stdio: 'inherit' });
 process.exit(pack.status ?? 1);
