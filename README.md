@@ -80,6 +80,10 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 3. Le pack n'est écrit que s'il est valide. Sinon chaque problème est listé avec le français et le bulu concernés :
    champ manquant, champs `{…}` ou chiffres différents entre le français et le bulu, ligne validée sans relecteur
    (ou relue par son traducteur). L'ancien pack reste en place. Après une correction à la main : `npm run pack`.
+   - Si le contenu a changé, la version augmente (correction : 0.3.0 -> 0.3.1 ; phrase ou terme ajouté
+     ou retiré : -> 0.4.0), la version est archivée dans `packs/<langue>/versions/` et
+     `packs/<langue>/CHANGELOG.md` liste les phrases et termes changés.
+   - Le pack porte une empreinte SHA-256 (`core/empreinte.ts`) : toute modification après fabrication se voit.
 4. Retraduction : `python tools/kit.py retraduction` crée `retraduction-a-envoyer.xlsx` (bulu seul). Une troisième
    personne, qui n'a pas vu le français, le retraduit. Fichier reçu : `npm run import -- fichier.xlsx`.
    - Chaque phrase du pack garde `retraduit_par` et `retraduction`, à comparer au français.
@@ -100,6 +104,7 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Une sortie dont les chiffres ou devises diffèrent de l'entrée est rejetée (original conservé).
 - Pack vérifié à chaque clic, avant d'entrer dans la page, avec les mêmes règles que `check-pack`
   (`core/verifier.ts`) : un pack incohérent (champ manquant, chiffre ajouté) n'est pas chargé et la page reste intacte.
+  Son empreinte SHA-256 est recalculée : un mot changé à la main dans `dist/`, même sans chiffre, est refusé aussi.
 - Champs de saisie jamais lus ni modifiés ; aucune donnée collectée, stockée ou envoyée ; aucun appel réseau.
 - Permissions minimales : `activeTab` et `scripting`. Mayem n'entre dans une page qu'au clic sur son icône, dans
   l'onglet en cours seulement ; aucun fichier de l'extension n'est exposé aux sites (rien qui permette de la détecter).

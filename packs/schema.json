@@ -2,11 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Pack de langue Mayem",
   "type": "object",
-  "required": ["langue", "nom", "version", "orthographe", "etiquettes", "glossaire", "phrases"],
+  "required": ["langue", "nom", "version", "date", "empreinte", "orthographe", "etiquettes", "glossaire", "phrases"],
   "properties": {
     "langue": { "type": "string", "description": "Code ISO 639-3, par exemple bum pour le bulu" },
     "nom": { "type": "string" },
-    "version": { "type": "string" },
+    "version": { "type": "string", "description": "Version sémantique : correction -> 0.0.x, phrase ou terme ajouté ou retiré -> 0.x.0" },
+    "date": { "type": "string", "description": "Date de la version, AAAA-MM-JJ" },
+    "empreinte": { "type": "string", "description": "sha256- suivi du SHA-256 du pack sérialisé sans ce champ (core/empreinte.ts)" },
     "orthographe": { "type": "string" },
     "etiquettes": {
       "type": "object",

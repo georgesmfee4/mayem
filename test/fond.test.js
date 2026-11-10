@@ -13,27 +13,30 @@ const lire = (chemin) => JSON.parse(readFileSync(new URL(chemin, racine), 'utf8'
 const construction = spawnSync(process.execPath, ['--experimental-strip-types', '--disable-warning=ExperimentalWarning', 'tools/compile.js'], { cwd: racine });
 const fond = readFileSync(new URL('dist/dom/fond.js', racine), 'utf8');
 
-// Clique sur l'icône avec le pack donné ; rend le nombre d'injections et les messages d'erreur
-async function cliquer(pack) {
+// Charge le script de fond avec le pack donné. Rend clic() et demander(langue), comme le panneau de Mayem.
+function charger(pack) {
   const fichiers = {
     'packs/index.json': [{ langue: 'bum', nom: 'Bulu', version: pack.version }],
     'packs/bum/pack.json': pack,
     'packs/schema.json': lire('packs/schema.json'),
   };
   let clic;
-  let injections = 0;
-  const erreurs = [];
+  let message;
+  const etat = { injections: 0, erreurs: [] };
   const chrome = {
-    runtime: { getURL: (chemin) => chemin },
+    runtime: { id: 'mayem', getURL: (chemin) => chemin, onMessage: { addListener: (rappel) => (message = rappel) } },
     action: { onClicked: { addListener: (rappel) => (clic = rappel) } },
-    scripting: { insertCSS: async () => injections++, executeScript: async () => injections++ },
+    scripting: { insertCSS: async () => etat.injections++, executeScript: async () => etat.injections++ },
   };
   const fetch = async (chemin) => ({ json: async () => structuredClone(fichiers[chemin]) });
-  const console = { error: (texte) => erreurs.push(texte), warn: (...t) => erreurs.push(t.join(' ')) };
-  runInNewContext(fond, { chrome, fetch, console, structuredClone });
-  await clic({ id: 1 });
-  return { injections, erreurs };
+  const console = { error: (texte) => etat.erreurs.push(texte), warn: (...t) => etat.erreurs.push(t.join(' ')) };
+  runInNewContext(fond, { chrome, fetch, console, structuredClone, crypto, TextEncoder, Uint8Array });
+  return {
+    clic: async () => { await clic({ id: 1 }); return etat; },
+    demander: (langue, id = 'mayem') => new Promise((repondre) => message({ mayemLangue: langue }, { id }, repondre)),
+  };
 }
+const cliquer = (pack) => charger(pack).clic();
 
 test('le script de fond se construit', () => assert.equal(construction.status, 0, String(construction.stderr)));
 
@@ -57,4 +60,20 @@ test('un champ manquant : rien n\'est injecté', async () => {
   const { injections, erreurs } = await cliquer(pack);
   assert.equal(injections, 0);
   assert.match(erreurs.join('\n'), /champ « relu_par » manquant/);
+});
+
+test('bulu modifié sans toucher aux chiffres : refusé par l’empreinte', async () => {
+  const pack = lire('packs/bum/pack.json');
+  const phrase = pack.phrases.find((p) => p.id === 'X08');
+  phrase.bulu = phrase.bulu.replace(/\p{L}+/u, 'Autre');
+  const { injections, erreurs } = await cliquer(pack);
+  assert.equal(injections, 0);
+  assert.match(erreurs.join(' '), /empreinte différente/);
+});
+
+test('changement de langue : le pack vérifié est rendu, un pack modifié ne l’est pas', async () => {
+  const pack = lire('packs/bum/pack.json');
+  assert.equal((await charger(pack).demander('bum')).empreinte, pack.empreinte);
+  pack.phrases[0].bulu = 'autre';
+  assert.equal(await charger(pack).demander('bum'), null);
 });

@@ -2,6 +2,8 @@
   "langue": "bum",
   "nom": "Bulu",
   "version": "0.3.0",
+  "date": "2026-11-10",
+  "empreinte": "sha256-c822e8b6b79220eb12bad54804156c0f891187bc8972308c3819f3308091a1d1",
   "orthographe": "Alphabet de l'Église presbytérienne",
   "etiquettes": {
     "securite": "E02",
