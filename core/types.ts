@@ -61,4 +61,6 @@ export interface Resultat {
   categorie: Categorie | null;
   // Valeurs reprises telles quelles (montants, noms…) : la page ne doit jamais les déplacer
   valeurs: string[];
+  // Phrase inconnue : termes validés du glossaire qu'elle contient, à signaler sans traduire la phrase
+  termes?: { ref: string; fr: string; traduction: string; critique: boolean }[];
 }

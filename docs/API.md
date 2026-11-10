@@ -76,6 +76,7 @@ const r = traduire('Votre solde est de 25 000 FCFA', pack);
 | Fonction | Rôle |
 |---|---|
 | `traduire(texte, pack, { test? })` | `null` si rien à traduire (vide, ou seulement des montants, dates…) ; sinon un résultat |
+| (dans `traduire`) | Un libellé qui est un terme validé du glossaire est traduit (`id` = réf. du terme) ; une phrase inconnue rend `termes` : ses termes validés, sans traduire la phrase |
 | `etiquette(categorie, pack)` | Étiquette validée d'un message inconnu (`securite`, `erreur`, `frais`, `info`) |
 | `categoriser(texte)` | Catégorie d'un texte français ou anglais inconnu |
 | `repartir(morceaux, sortie, valeurs)` | Répartit une traduction entre plusieurs nœuds de texte sans déplacer les valeurs |

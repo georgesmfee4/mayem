@@ -9,6 +9,7 @@ export interface Actions {
   // true quand la traduction doit être affichée, false pour l'original
   basculer(traduit: boolean): void;
   changerLangue(code: string): void;
+  montrerGloses(visibles: boolean): void;
 }
 
 export interface Interface {
@@ -38,6 +39,8 @@ const STYLE = `
   dl { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; margin: 0; font-size: 13px; }
   dd { margin: 0; font-weight: 700; text-align: right; }
   .ok { color: #047857; } .warn { color: #b45309; }
+  .option { display: flex; gap: 6px; align-items: flex-start; margin: 8px 0 0; font-size: 12px; cursor: pointer; }
+  .option input { width: 18px; height: 18px; margin: 0; flex: none; }
   .test { margin: 8px 0 0; padding: 6px 8px; border-radius: 6px; background: #fef3c7; color: #78350f; font-size: 12px; }
   @media (prefers-color-scheme: dark) {
     .details { background: #0f172a; color: #e2e8f0; border-color: #334155; }
@@ -57,6 +60,7 @@ function gabarit(modeTest: boolean): string {
           <dt>Originaux conservés</dt><dd id="n-orig" class="warn">0</dd>
           <dt>Chiffres vérifiés</dt><dd id="n-facts" class="ok">0</dd>
         </dl>
+        <label class="option"><input type="checkbox" id="gloses" checked> Termes reconnus dans les phrases non traduites</label>
         ${avisTest}
       </div>
       <div class="bar">
@@ -113,6 +117,8 @@ export function creerInterface(modeTest: boolean, langues: Langue[], courante: L
   bouton.onclick = inverser;
   remplirLangues(liste, langues, courante.langue);
   liste.onchange = () => actions.changerLangue(liste.value);
+  const gloses = trouver('gloses') as HTMLInputElement;
+  gloses.onchange = () => actions.montrerGloses(gloses.checked);
   majBouton();
 
   return {

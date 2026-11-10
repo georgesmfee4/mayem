@@ -3,6 +3,7 @@
 
 import { MOTIFS, estPhrase, memesChiffres, queDesFaits } from './faits.ts';
 import type { Categorie, Options, Pack, Phrase, Resultat, Statut } from './types.ts';
+import { termesConnus, traduireTerme } from './termes.ts';
 
 // Les champs {…} du corpus portent des noms anglais (amount_1, phone…) : c'est le format
 // des fichiers envoyés aux traducteurs, on le garde tel quel.
@@ -177,6 +178,18 @@ function assembler(morceaux: Morceau[], options: Options) {
   };
 }
 
+// Libellé court qui est un terme validé du glossaire, seul ou suivi de « : valeur »
+// (« Solde », « Frais : 500 FCFA ») : le terme est traduit, la valeur reste telle quelle
+function traduireLibelle(texte: string, pack: Pack): Resultat | null {
+  const [, gauche, separateur, droite] = texte.match(/^(.+?)(\s*:\s*)(.*)$/u) || [texte, texte, '', ''];
+  if (droite && !queDesFaits(droite)) return null;
+  const terme = traduireTerme(gauche, pack);
+  if (!terme) return null;
+  const sortie = terme.traduction + separateur + droite;
+  if (!memesChiffres(texte, sortie)) return null;
+  return { statut: 'ok', critique: terme.critique, sortie, id: terme.ref, categorie: null, valeurs: droite ? [droite] : [] };
+}
+
 // null : rien à traduire (texte vide ou uniquement des faits)
 export function traduire(brut: string, pack: Pack, options: Options = {}): Resultat | null {
   const texte = normaliser(brut);
@@ -184,8 +197,11 @@ export function traduire(brut: string, pack: Pack, options: Options = {}): Resul
 
   const morceaux = chercherMessage(texte, indexDe(pack));
   if (!morceaux) {
-    const categorie = estPhrase(texte) ? categoriser(texte) : null;
-    return { statut: 'non_verifie', critique: false, sortie: null, id: null, categorie, valeurs: [] };
+    const libelle = traduireLibelle(texte, pack);
+    if (libelle) return libelle;
+    const phrase = estPhrase(texte);
+    const termes = phrase ? termesConnus(texte, pack) : [];
+    return { statut: 'non_verifie', critique: termes.some((t) => t.critique), sortie: null, id: null, categorie: phrase ? categoriser(texte) : null, valeurs: [], termes };
   }
 
   let { statut, sortie, critique, id, valeurs } = assembler(morceaux, options);
