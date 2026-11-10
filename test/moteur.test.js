@@ -17,7 +17,8 @@ test('chaque texte de la page (sans champ) est reconnu, en français et en angla
     for (const source of [p.fr, ...p.en]) {
       if (source.includes('{')) continue;
       const r = tr(source);
-      assert.equal(r?.statut, 'test', `non reconnu : « ${source} »`);
+      // « ok » si la phrase est validée, « test » sinon : les deux veulent dire reconnue
+      assert.ok(['ok', 'test'].includes(r?.statut), `non reconnu : « ${source} »`);
       assert.equal(r.id, p.id, `mauvaise phrase pour « ${source} »`);
     }
   }
@@ -82,7 +83,9 @@ test('une traduction validée passe, et elle est rejetée si elle change un chif
 });
 
 test('hors mode test, une phrase non validée garde l’original', () => {
-  const r = traduire('Solde', pack);
+  const copie = structuredClone(pack);
+  copie.phrases.find((p) => p.fr === 'Solde').valide = false;
+  const r = traduire('Solde', copie);
   assert.equal(r?.statut, 'non_verifie');
   assert.equal(r.sortie, null);
 });

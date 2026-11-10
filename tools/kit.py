@@ -220,7 +220,11 @@ def import_glossary(wb):
     return n
 
 def import_(path):
-    full = load_workbook(path, data_only=True)
+    try:
+        full = load_workbook(path, data_only=True)
+    except PermissionError:
+        # Excel verrouille le fichier tant qu'il est ouvert
+        sys.exit(f"{path} est ouvert dans Excel : l'enregistrer, le fermer, puis relancer l'import.")
     print(f"glossaire : {import_glossary(full)} termes -> glossaire.csv")
     print(f"style : {sheet_to_csv(full, 'Choix de style', root / 'style.csv')} réponses -> style.csv")
     if 'Retraduction' in full.sheetnames:
