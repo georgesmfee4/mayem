@@ -30,8 +30,9 @@ function ordre(chemin, vus = new Set()) {
 }
 
 // Les noms de premier niveau ne se répètent pas d'un fichier à l'autre (vérifié par node --check)
-function regrouper(entree) {
-  const corps = ordre(entree)
+// debut : déclarations ajoutées avant les fichiers (style.css pour les Shadow DOM)
+function regrouper(entree, debut = '') {
+  const corps = debut + ordre(entree)
     .map((chemin) => `// ${chemin}\n` + sansTypes(chemin).replace(IMPORT, '').replace(/^export\s+/gm, '').trim())
     .join('\n\n');
   return `(() => {\n'use strict';\n${corps}\n})();\n`;
@@ -47,8 +48,9 @@ if (erreurs.length) {
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist + 'dom', { recursive: true });
 writeFileSync(dist + 'dom/fond.js', regrouper('dom/fond.ts'));
-writeFileSync(dist + 'dom/contenu.js', regrouper('dom/entree.ts'));
-cpSync(racine + 'dom/style.css', dist + 'dom/style.css');
+const style = readFileSync(racine + 'dom/style.css', 'utf8');
+writeFileSync(dist + 'dom/contenu.js', regrouper('dom/entree.ts', `const STYLE_PAGE = ${JSON.stringify(style)};\n\n`));
+writeFileSync(dist + 'dom/style.css', style);
 cpSync(racine + 'manifest.json', dist + 'manifest.json');
 cpSync(racine + 'packs/bum/pack.json', dist + 'packs/bum/pack.json');
 cpSync(racine + 'packs/schema.json', dist + 'packs/schema.json');
