@@ -13,7 +13,7 @@ declare const chrome: { runtime: { sendMessage(message: unknown): Promise<unknow
 
 const IGNORES = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'SELECT_VALUE', 'CODE', 'PRE', 'svg', 'SVG']);
 const ATTRIBUTS = ['placeholder', 'title', 'aria-label'];
-const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-cat', 'data-mayem-glose', 'data-mayem-termes'];
+const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-cat', 'data-mayem-glose', 'data-mayem-termes', 'data-mayem-deborde'];
 // lang d'origine d'un élément traduit, rendu quand on change de langue (vide : il n'en avait pas)
 const LANG_ORIGINE = 'data-mayem-lang';
 // Balises de mise en forme : le texte qu'elles coupent est lu comme un seul bloc
@@ -216,6 +216,7 @@ function basculer(traduit: boolean) {
     }
   });
   prevenirCadres({ mayem: traduit });
+  prevoirCompteurs();
 }
 
 // Remet la page exactement comme le service l'a écrite : textes, attributs, marques et lang
@@ -255,6 +256,26 @@ async function changerLangue(code: string) {
   ui?.langueAffichee({ langue: nouveau.langue, nom: nouveau.nom });
 }
 
+// Boîte qui contient le texte traduit : le premier élément qui n'est pas en ligne
+function boiteDe(el: Element): Element | null {
+  for (let e: Element | null = el; e; e = e.parentElement) if (getComputedStyle(e).display !== 'inline') return e;
+  return null;
+}
+const deborde = (boite: Element) => boite.scrollWidth > boite.clientWidth + 1 || boite.scrollHeight > boite.clientHeight + 1;
+
+// Traduction plus longue que sa boîte (texte coupé, points de suspension, débordement visible).
+// On ne fait que lire les dimensions ; la marque sert au contour de la version pseudo et aux tests.
+function compterDebordements(): number {
+  let total = 0;
+  for (const el of racines.flatMap((racine) => [...racine.querySelectorAll('[data-mayem="ok"],[data-mayem="test"]')])) {
+    const boite = boiteDe(el);
+    const trop = afficheTraduit && !!boite && deborde(boite);
+    if (trop !== el.hasAttribute('data-mayem-deborde')) el.toggleAttribute('data-mayem-deborde', trop);
+    if (trop) total++;
+  }
+  return total;
+}
+
 // Compteurs recalculés à partir de la page, avec un vrai contrôle des chiffres de chaque texte traduit
 let compteursPrevus = false;
 function prevoirCompteurs() {
@@ -270,7 +291,7 @@ function prevoirCompteurs() {
     }
     const conserves = racines.reduce((n, racine) => n + racine.querySelectorAll('[data-mayem="non_verifie"],[data-mayem="rejete"]').length, 0);
     const chiffres = ecarts ? `${ecarts} écart(s) !` : `${verifies} ✓`;
-    ui?.afficherCompteurs({ traduits, conserves, chiffres });
+    ui?.afficherCompteurs({ traduits, conserves, chiffres, debordements: compterDebordements() });
   });
 }
 
@@ -301,6 +322,8 @@ export function demarrer(lePack: Pack, lesOptions: Options, langues: Langue[]) {
     }
   });
   racines.push(document);
+  // Une fenêtre plus étroite peut faire déborder une traduction qui tenait
+  window.addEventListener('resize', prevoirCompteurs);
   observer(document.body);
   parcourir(document.body);
   prevoirCompteurs();

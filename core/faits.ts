@@ -17,7 +17,7 @@ export const MOTIFS = {
   code: String.raw`\d{4,8}`,
 };
 
-const FAITS = new RegExp(
+export const FAITS = new RegExp(
   [MOTIFS.montant, MOTIFS.date, MOTIFS.compte, MOTIFS.reference, MOTIFS.telephone, MOTIFS.pourcentage]
     .map((s) => `(?:${s})`)
     .join('|'),

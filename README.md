@@ -59,8 +59,15 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
    - `react.html` : rendu par état à la React (nœuds recréés, valeurs mises à jour sur place), en anglais,
      montants au format anglais (`XAF 25,000.00`) ;
    - `iframe.html` : formulaire dans un cadre du même site ; `shadow.html` : composants à Shadow DOM, dont un ajouté plus tard.
-6. Tests : `npm test` (tous les textes réels de la page, en français et en anglais, et les refus de check-pack).
-7. Tests dans un vrai navigateur, extension chargée (une seule fois : `npm install`) : `npm run test:navigateur`.
+6. Longueur des traductions : `npm run build:pseudo` prépare `dist-pseudo/`, une extension en pseudo-langue
+   (`qps`) : chaque texte est 40 % plus long, porte des lettres du bulu (ô, é, ñ, ɔ, ŋ) et s'encadre de ⟦ ⟧.
+   Un crochet de fin absent signale un texte coupé ; chaque traduction qui déborde de sa boîte est entourée
+   en pointillés rouges, et le bouton « i » compte les débordements. Page d'essai : `fixtures/etroit.html`.
+   Champs, montants et références ne changent pas : le pack pseudo passe les mêmes contrôles.
+   Sur la page officielle, en 375 px comme en 1280 px, aucun débordement, même avec la pseudo-langue :
+   la mise en page passe à la ligne.
+7. Tests : `npm test` (tous les textes réels de la page, en français et en anglais, et les refus de check-pack).
+8. Tests dans un vrai navigateur, extension chargée (une seule fois : `npm install`) : `npm run test:navigateur`.
    Sous Windows, Edge déjà installé sert de navigateur ; ailleurs, `npx playwright install chromium` (environ 150 Mo). Chaque page d'essai est vérifiée après le clic :
    traductions, nombres identiques avant et après, champs de saisie intacts, bascule, cadre, Shadow DOM, et refus
    d'un pack modifié. Playwright ne sait pas cliquer sur l'icône : les tests appellent la même fonction depuis le
@@ -124,6 +131,8 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Interface de l'extension dans un Shadow DOM séparé, utilisable au clavier.
 - Shadow DOM ouverts parcourus et surveillés comme la page ; cadres du même site traduits, un seul bouton
   (celui de la page principale bascule aussi les cadres).
+- Débordements surveillés : une traduction plus large que sa boîte est comptée dans le panneau (lecture des
+  dimensions seulement) ; les tests navigateur vérifient en 375 px et 1280 px qu'aucun bouton critique n'est coupé.
 - Autant de langues que de dossiers dans `packs/` : seul le pack de la langue choisie est lu et vérifié
   (empreinte comprise) à chaque clic ou changement de langue. Le moteur range les modèles par premier mot
   et ne les compile qu'au besoin : 20 000 phrases, index et 2 000 recherches en moins de 0,2 s.

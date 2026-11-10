@@ -1,5 +1,7 @@
 // Prépare l'extension dans dist/. Usage : npm run build [-- <langue> <langue>…]
 // Toutes les langues de packs/ par défaut ; la première est celle proposée au clic.
+// --pseudo : dist-pseudo/, avec la seule pseudo-langue tirée de la première langue (tools/pseudo.js)
+// et un contour autour des textes qui débordent.
 // Pas de compilateur à installer : Node retire lui-même les types (stripTypeScriptTypes).
 // Ça ne marche qu'avec des types « effaçables » : pas d'enum ni de namespace.
 // Un script injecté dans une page ne peut pas importer d'autres fichiers sans les exposer aux sites :
@@ -11,8 +13,13 @@ import { dirname, join, relative } from 'node:path';
 import { stripTypeScriptTypes } from 'node:module';
 import { verifierPack } from './check-pack.js';
 import { choisirLangue, dossier, langues, racine } from './langues.js';
+import { packPseudo } from './pseudo.js';
 
-const dist = racine + 'dist/';
+const enPseudo = process.argv.includes('--pseudo');
+const demandees = process.argv.slice(2).filter((argument) => argument !== '--pseudo');
+const dist = racine + (enPseudo ? 'dist-pseudo/' : 'dist/');
+// Version pseudo : chaque texte traduit qui déborde de sa boîte est entouré
+const CONTOUR = '\n[data-mayem-deborde] { outline: 2px dashed #dc2626; outline-offset: 1px; }\n';
 
 // Les types sont remplacés par des espaces : on retire ceux qui restent en fin de ligne
 const sansTypes = (chemin) =>
@@ -49,8 +56,9 @@ function bibliotheque() {
   return `// Mayem ${version}, moteur de traduction (Apache 2.0). Documentation : docs/API.md\n${corps}\n\nexport {${publics}};\n`;
 }
 
-const choisies = process.argv.length > 2 ? process.argv.slice(2).map(choisirLangue) : langues();
-const packs = choisies.map((langue) => JSON.parse(readFileSync(dossier(langue) + 'pack.json', 'utf8')));
+const choisies = demandees.length ? demandees.map(choisirLangue) : langues();
+const vrais = choisies.map((langue) => JSON.parse(readFileSync(dossier(langue) + 'pack.json', 'utf8')));
+const packs = enPseudo ? [await packPseudo(vrais[0])] : vrais;
 const erreurs = packs.flatMap((pack) => verifierPack(pack).map((erreur) => `${pack.langue} : ${erreur}`));
 if (erreurs.length || !packs.length) {
   console.error(erreurs.join('\n') || 'Aucun pack dans packs/');
@@ -60,15 +68,22 @@ if (erreurs.length || !packs.length) {
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist + 'dom', { recursive: true });
 writeFileSync(dist + 'dom/fond.js', regrouper('dom/fond.ts'));
-const style = readFileSync(racine + 'dom/style.css', 'utf8');
+const style = readFileSync(racine + 'dom/style.css', 'utf8') + (enPseudo ? CONTOUR : '');
 writeFileSync(dist + 'dom/contenu.js', regrouper('dom/entree.ts', `const STYLE_PAGE = ${JSON.stringify(style)};\n\n`));
 writeFileSync(dist + 'dom/style.css', style);
 cpSync(racine + 'manifest.json', dist + 'manifest.json');
 // Le script de fond ne lit que le pack de la langue choisie : un clic coûte autant avec une langue qu'avec cinquante
-for (const pack of packs) cpSync(dossier(pack.langue) + 'pack.json', dist + `packs/${pack.langue}/pack.json`);
+for (const pack of packs) {
+  mkdirSync(dist + `packs/${pack.langue}`, { recursive: true });
+  writeFileSync(dist + `packs/${pack.langue}/pack.json`, JSON.stringify(pack, null, 2) + '\n');
+}
 const sommaire = packs.map(({ langue, nom, version }) => ({ langue, nom, version }));
 writeFileSync(dist + 'packs/index.json', JSON.stringify(sommaire, null, 2) + '\n');
 cpSync(racine + 'packs/schema.json', dist + 'packs/schema.json');
-mkdirSync(racine + 'dist-lib', { recursive: true });
-writeFileSync(racine + 'dist-lib/mayem-core.js', bibliotheque());
-console.log(`Extension prête dans dist/ (${choisies.join(', ')}), moteur seul dans dist-lib/mayem-core.js`);
+if (enPseudo) {
+  console.log(`Extension pseudo prête dans dist-pseudo/ (qps, tirée de ${choisies[0]}) : textes allongés de 40 %, débordements entourés`);
+} else {
+  mkdirSync(racine + 'dist-lib', { recursive: true });
+  writeFileSync(racine + 'dist-lib/mayem-core.js', bibliotheque());
+  console.log(`Extension prête dans dist/ (${choisies.join(', ')}), moteur seul dans dist-lib/mayem-core.js`);
+}

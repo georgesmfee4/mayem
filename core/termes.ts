@@ -8,7 +8,9 @@ import type { Pack, Terme } from './types.ts';
 
 export interface Glose { ref: string; fr: string; traduction: string; critique: boolean }
 
-interface Entree extends Glose { mots: string[] }
+// glose : concept critique (argent, sécurité), défini dans « sens » ; un mot grammatical (« aucun »,
+// « après ») a pour sens un exemple entre guillemets et n'est pas glosé : hors contexte, il n'aide pas
+interface Entree extends Glose { mots: string[]; glose: boolean }
 interface IndexTermes { exacts: Map<string, Entree>; parMot: Map<string, Entree[]> }
 
 const formesDe = (champ: string) => champ.split('/').map((forme) => forme.trim()).filter(Boolean);
@@ -29,7 +31,8 @@ function indexerTermes(pack: Pack): IndexTermes {
     francais.forEach((fr, i) => {
       // « frais / commission » = « Kufa / Kufo » : formes appariées ; sinon la première traduction
       const traduction = traductions.length === francais.length ? traductions[i] : traductions[0];
-      const entree = { mots: motsDe(fr), fr, traduction, ref: t.ref, critique: t.critique };
+      const glose = t.critique && !/^\s*[«"]/.test(t.sens);
+      const entree = { mots: motsDe(fr), fr, traduction, ref: t.ref, critique: t.critique, glose };
       if (fr.length < 3 || !entree.mots.length) return;
       if (!index.exacts.has(cle(fr))) index.exacts.set(cle(fr), entree);
       const premier = entree.mots[0];
@@ -61,15 +64,14 @@ export function traduireTerme(texte: string, pack: Pack): Glose | null {
   return entree ? { ref: entree.ref, fr: texte, traduction: commeLOrigine(texte, entree.traduction), critique: entree.critique } : null;
 }
 
-// Termes critiques (argent, sécurité) reconnus dans un texte, dans l'ordre, sans chevauchement ni doublon.
-// Les mots grammaticaux du glossaire (« dans », « que ? ») n'y sont pas : hors contexte ils n'aident pas.
+// Concepts critiques reconnus dans un texte, dans l'ordre, sans chevauchement ni doublon
 export function termesConnus(texte: string, pack: Pack): Glose[] {
   const { parMot } = indexTermesDe(pack);
   const suite = motsDe(texte);
   const trouves: Glose[] = [];
   for (let i = 0; i < suite.length; i++) {
     const entree = (parMot.get(suite[i]) || []).find((e) => e.mots.every((mot, k) => suite[i + k] === mot));
-    if (!entree?.critique) continue;
+    if (!entree?.glose) continue;
     if (!trouves.some((g) => g.ref === entree.ref)) trouves.push({ ref: entree.ref, fr: entree.fr, traduction: entree.traduction, critique: entree.critique });
     i += entree.mots.length - 1;
   }
