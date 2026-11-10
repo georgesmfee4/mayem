@@ -3,6 +3,7 @@
 // Ça ne marche qu'avec des types « effaçables » : pas d'enum ni de namespace.
 // Un script injecté dans une page ne peut pas importer d'autres fichiers sans les exposer aux sites :
 // dom/entree.ts et tout ce qu'il importe sont donc regroupés dans un seul dom/contenu.js.
+// Le script de fond suit la même règle : dom/fond.ts et core/verifier.ts donnent dom/fond.js.
 
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
@@ -45,9 +46,10 @@ if (erreurs.length) {
 
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist + 'dom', { recursive: true });
-writeFileSync(dist + 'dom/fond.js', sansTypes('dom/fond.ts'));
+writeFileSync(dist + 'dom/fond.js', regrouper('dom/fond.ts'));
 writeFileSync(dist + 'dom/contenu.js', regrouper('dom/entree.ts'));
 cpSync(racine + 'dom/style.css', dist + 'dom/style.css');
 cpSync(racine + 'manifest.json', dist + 'manifest.json');
 cpSync(racine + 'packs/bum/pack.json', dist + 'packs/bum/pack.json');
+cpSync(racine + 'packs/schema.json', dist + 'packs/schema.json');
 console.log('Extension prête dans dist/');

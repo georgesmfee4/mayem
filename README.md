@@ -28,7 +28,7 @@ Non testé : l'étape 5 (reçu), car elle demande de cliquer « Confirmer le tra
 ## Organisation
 
 ```
-core/        moteur pur en TypeScript : reçoit une chaîne et un pack, rend un résultat
+core/        moteur pur en TypeScript : reçoit une chaîne et un pack, rend un résultat ; verifier.ts contrôle un pack
 dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM) ; fond.ts injecte au clic
 packs/       schema.json + un dossier par langue (packs/bum/pack.json, généré)
 tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs)
@@ -76,6 +76,8 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - On ne modifie que la valeur des textes existants : jamais de HTML injecté, jamais de nœud ajouté dans la page (compatible Vue/React).
 - Montants, dates, références, numéros de compte et de téléphone, codes d'erreur : jamais traduits.
 - Une sortie dont les chiffres ou devises diffèrent de l'entrée est rejetée (original conservé).
+- Pack vérifié à chaque clic, avant d'entrer dans la page, avec les mêmes règles que `check-pack`
+  (`core/verifier.ts`) : un pack incohérent (champ manquant, chiffre ajouté) n'est pas chargé et la page reste intacte.
 - Champs de saisie jamais lus ni modifiés ; aucune donnée collectée, stockée ou envoyée ; aucun appel réseau.
 - Permissions minimales : `activeTab` et `scripting`. Mayem n'entre dans une page qu'au clic sur son icône, dans
   l'onglet en cours seulement ; aucun fichier de l'extension n'est exposé aux sites (rien qui permette de la détecter).

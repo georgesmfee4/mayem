@@ -5,10 +5,10 @@
   "type": "module",
   "description": "Affiche un service financier web en bulu sans toucher à son code.",
   "scripts": {
-    "import": "node tools/import.js",
-    "pack": "node tools/build-pack.js",
-    "check": "node tools/check-pack.js",
-    "build": "node --disable-warning=ExperimentalWarning tools/compile.js",
+    "import": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/import.js",
+    "pack": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/build-pack.js",
+    "check": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/check-pack.js",
+    "build": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js",
     "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning --test"
   }
 }
