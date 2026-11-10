@@ -7,8 +7,9 @@ import type { Pack } from '../core/types.ts';
 import { demarrer, inverser } from './page.ts';
 import type { Langue } from './interface.ts';
 
-// À mettre à false pour la démo finale : seules les traductions validées s'affichent alors
-const MODE_TEST = true;
+// false pour la démo et l'usage réel : seules les traductions validées par deux locuteurs s'affichent.
+// true pendant la traduction : un texte pas encore validé apparaît « ‹…› + français ».
+const MODE_TEST = false;
 
 // Chaque injection crée une nouvelle copie de ce code : seule la première démarre,
 // les suivantes appellent la bascule qu'elle a laissée
