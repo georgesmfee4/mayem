@@ -47,11 +47,22 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
 6. Tests : `npm test` (tous les textes réels de la page, en français et en anglais, et les refus de check-pack).
 
 ## Faire valider le bulu
-1. `python3 tools/kit.py export` crée `kit-validation-bulu.xlsx` (mode d'emploi inclus). L'envoyer aux locuteurs, en commençant par les lignes P1.
-2. Fichier rempli reçu : `python3 tools/kit.py import fichier.xlsx`. Une ligne n'est validée que si « Traduit par » et « Relu par » portent deux noms différents.
-3. `npm run pack` écrit `packs/bum/pack.json`. Il refuse un pack invalide : champ manquant, champs `{…}` ou chiffres différents
-   entre le français et le bulu, ligne validée sans relecteur (ou relue par son traducteur). Puis `npm run build` et recharger l'extension.
-4. Pour la démo finale : `MODE_TEST = false` dans `dom/entree.ts`. Seules les traductions validées s'affichent.
+Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `THIRD_PARTY.md`).
+
+1. `python tools/kit.py export` crée `kit-validation-bulu.xlsx` (mode d'emploi inclus). L'envoyer aux locuteurs, en commençant par les lignes P1.
+2. Fichier rempli reçu (le fermer dans Excel d'abord) : `npm run import -- fichier.xlsx`.
+   - Les traductions vont dans `corpus.csv`, le glossaire dans `glossaire.csv`, puis le pack est reconstruit.
+   - Une ligne n'est validée que si « Traduit par » et « Relu par » portent deux noms différents.
+   - Chaque traduction bulu remplacée est affichée (ancien -> nouveau) : un tableur plus ancien que `corpus.csv`
+     se voit tout de suite. Pour annuler : `git checkout corpus.csv glossaire.csv`.
+   - Une case vide du glossaire n'efface jamais un terme déjà traduit.
+   - Les en-têtes du tableur peuvent être renommés (« TERME BULU APPROUVÉ » ou « TRADUCTION BULU »,
+     « Choisi par » ou « Traduit par ») ; une colonne introuvable est signalée.
+3. Le pack n'est écrit que s'il est valide. Sinon chaque problème est listé avec le français et le bulu concernés :
+   champ manquant, champs `{…}` ou chiffres différents entre le français et le bulu, ligne validée sans relecteur
+   (ou relue par son traducteur). L'ancien pack reste en place. Après une correction à la main : `npm run pack`.
+4. `npm run build` et recharger l'extension.
+5. Pour la démo finale : `MODE_TEST = false` dans `dom/entree.ts`. Seules les traductions validées s'affichent.
 
 ## Garanties intégrées
 - On ne modifie que la valeur des textes existants : jamais de HTML injecté, jamais de nœud ajouté dans la page (compatible Vue/React).
