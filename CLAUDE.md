@@ -25,6 +25,8 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
 - Jamais de `innerHTML` sur la page : on ne change que la valeur des nœuds texte existants.
 - Ne jamais lire ni modifier un champ de saisie.
 - Aucune requête réseau, aucun stockage des textes affichés.
+- Permissions minimales : `activeTab` et `scripting`, injection au clic sur l'icône (`dom/fond.ts`).
+  Pas de `content_scripts` automatiques, pas de `web_accessible_resources`.
 - Montants, dates, numéros, références, noms : jamais traduits. Une sortie dont les chiffres diffèrent de l'entrée est rejetée.
 - Seul le bulu validé par deux personnes s'affiche (`MODE_TEST` à `false` dans `dom/entree.ts` pour la démo).
 - Aucune dépendance payante. Toute dépendance ajoutée est déclarée dans `THIRD_PARTY.md`.
