@@ -33,8 +33,8 @@ export const queDesFaits = (texte: string): boolean => !/\p{L}/u.test(retirerFai
 // marques et codes : « Jean-Paul Mbarga », « Mobile Money », « EN ».
 export const estPhrase = (texte: string): boolean => /(?<!\p{L})\p{Ll}{3,}/u.test(retirerFaits(texte));
 
-// Empreinte financière : suites de chiffres triées + nombre de mentions de devise
-function empreinte(texte: string) {
+// Relevé financier : suites de chiffres triées + nombre de mentions de devise
+function releveFinancier(texte: string) {
   return {
     chiffres: (texte.match(/\d+/g) || []).sort().join('|'),
     devises: (texte.match(/FCFA|F\s?CFA|XAF|XOF/gi) || []).length,
@@ -43,7 +43,7 @@ function empreinte(texte: string) {
 
 // Vrai seulement si la sortie a exactement les mêmes chiffres et devises que l'entrée
 export function memesChiffres(entree: string, sortie: string): boolean {
-  const a = empreinte(entree);
-  const b = empreinte(sortie);
+  const a = releveFinancier(entree);
+  const b = releveFinancier(sortie);
   return a.chiffres === b.chiffres && a.devises === b.devises;
 }

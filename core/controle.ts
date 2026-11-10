@@ -4,6 +4,7 @@
 // Seules des règles du français sont écrites ici ; le bulu attendu vient du glossaire du pack.
 
 import type { Pack, Phrase, Terme } from './types.ts';
+import { echapper } from './moteur.ts';
 
 export interface Point {
   type: 'glossaire' | 'coherence' | 'negation';
@@ -15,7 +16,6 @@ export interface Point {
 // les phrases n'écrivent pas toujours les accents de la même façon)
 const comparable = (s: string) =>
   s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[’‘]/g, "'").replace(/[.…]+/g, ' ').replace(/\s+/g, ' ').trim();
-const echapper = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const contientMot = (texte: string, mot: string) =>
   new RegExp(`(^|[^\\p{L}])${echapper(mot)}($|[^\\p{L}])`, 'iu').test(texte);
 const formes = (champ: string) => champ.split('/').map((forme) => forme.replace(/\(.*?\)/g, '').trim()).filter(Boolean);
