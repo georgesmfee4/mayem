@@ -8,6 +8,9 @@ export interface Phrase {
   critique: boolean;
   traduit_par: string;
   relu_par: string;
+  // Une troisième personne relit le bulu sans voir le français et le retraduit
+  retraduit_par: string;
+  retraduction: string;
   valide: boolean;
 }
 

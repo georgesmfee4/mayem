@@ -49,6 +49,10 @@ test('une ligne relue par son propre traducteur est refusée', () => {
   refuse(avec({ valide: true, traduit_par: 'georges', relu_par: 'Georges' }), /relue par la personne/);
 });
 
+test('une ligne retraduite par son propre traducteur est refusée', () => {
+  refuse(avec({ traduit_par: 'georges', retraduit_par: 'Georges', retraduction: 'Votre solde' }), /retraduite par la personne/);
+});
+
 test('une ligne validée avec deux personnes différentes est acceptée', () => {
   assert.deepEqual(verifierPack(avec({ valide: true, traduit_par: 'georges', relu_par: 'bene' })), []);
 });

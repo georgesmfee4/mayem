@@ -41,6 +41,10 @@ function verifierPhrase(p, erreurs) {
     if (champs(p.bulu).join() !== fr) erreurs.push(`${id} : les champs {…} du bulu diffèrent du français`);
     if (chiffres(p.bulu) !== chiffres(p.fr)) erreurs.push(`${id} : les chiffres du bulu diffèrent du français`);
   }
+  // Le traducteur connaît le français : sa retraduction ne prouverait rien
+  if (p.retraduit_par.trim() && p.retraduit_par.trim().toLowerCase() === p.traduit_par.trim().toLowerCase()) {
+    erreurs.push(`${id} : retraduite par la personne qui l'a traduite`);
+  }
   if (!p.valide) return;
   if (!p.bulu) erreurs.push(`${id} : validée mais sans traduction bulu`);
   if (!p.relu_par.trim()) erreurs.push(`${id} : validée sans relecteur`);

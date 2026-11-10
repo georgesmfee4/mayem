@@ -41,7 +41,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "fr", "en", "bulu", "critique", "traduit_par", "relu_par", "valide"],
+        "required": ["id", "fr", "en", "bulu", "critique", "traduit_par", "relu_par", "retraduit_par", "retraduction", "valide"],
         "properties": {
           "id": { "type": "string" },
           "fr": { "type": "string" },
@@ -50,6 +50,8 @@
           "critique": { "type": "boolean" },
           "traduit_par": { "type": "string" },
           "relu_par": { "type": "string" },
+          "retraduit_par": { "type": "string", "description": "Personne qui a retraduit le bulu en français sans voir l'original" },
+          "retraduction": { "type": "string", "description": "Sa retraduction, à comparer au français" },
           "valide": { "type": "boolean" }
         }
       }

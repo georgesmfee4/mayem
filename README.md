@@ -61,6 +61,11 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 3. Le pack n'est écrit que s'il est valide. Sinon chaque problème est listé avec le français et le bulu concernés :
    champ manquant, champs `{…}` ou chiffres différents entre le français et le bulu, ligne validée sans relecteur
    (ou relue par son traducteur). L'ancien pack reste en place. Après une correction à la main : `npm run pack`.
+4. Retraduction : `python tools/kit.py retraduction` crée `retraduction-a-envoyer.xlsx` (bulu seul). Une troisième
+   personne, qui n'a pas vu le français, le retraduit. Fichier reçu : `npm run import -- fichier.xlsx`.
+   - Chaque phrase du pack garde `retraduit_par` et `retraduction`, à comparer au français.
+   - Une retraduction faite sur un bulu qui a changé depuis est écartée, et la phrase est listée « à refaire ».
+   - Une phrase retraduite par son propre traducteur est refusée.
 4. `npm run build` et recharger l'extension.
 5. Pour la démo finale : `MODE_TEST = false` dans `dom/entree.ts`. Seules les traductions validées s'affichent.
 
