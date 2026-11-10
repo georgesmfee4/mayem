@@ -125,3 +125,8 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Un iframe d'un autre site que l'onglet n'est pas traduit : le clic (`activeTab`) ne donne accès qu'au site de l'onglet.
 - Un Shadow DOM fermé (`mode: 'closed'`) est inaccessible à toute extension : son texte reste en français.
 - Les compteurs du bouton ne comptent que la page principale, pas les cadres.
+
+## Licences
+- Code : Apache 2.0 (`LICENSE`, `NOTICE`), qui protège aussi contre les revendications de brevets.
+- Données linguistiques (`packs/`) : CC BY 4.0 prévue (`packs/LICENCE.md`), applicable une fois l'accord
+  `docs/accord-locuteurs.md` signé par chaque locuteur nommé dans le pack. Rien n'est publié avant.
