@@ -11,6 +11,37 @@ const racine = fileURLToPath(new URL('..', import.meta.url));
 const lire = (chemin) => readFileSync(racine + chemin, 'utf8');
 const oui = (v) => ['1', 'oui', 'yes', 'x'].includes((v || '').trim().toLowerCase());
 
+// Les locuteurs renomment parfois les en-têtes du tableur (le kit dit « TERME BULU APPROUVÉ »
+// et « Choisi par », le fichier de Bene « TRADUCTION BULU » et « Traduit par »).
+// Chaque champ accepte donc plusieurs débuts d'en-tête, sans tenir compte des majuscules.
+const COLONNES_GLOSSAIRE = {
+  ref: ['réf'],
+  terme: ['terme français', 'catégorie'],
+  en: ['anglais'],
+  sens: ['sens dans', 'texte français'],
+  critique: ['critique'],
+  bulu: ['terme bulu', 'traduction bulu'],
+  a_eviter: ['mots à éviter'],
+  traduit_par: ['traduit par', 'choisi par'],
+  relu_par: ['relu par'],
+  commentaire: ['commentaire'],
+};
+const COLONNES_CORPUS = ['id', 'fr', 'en', 'bulu', 'critique', 'valide_par', 'valide'];
+
+const erreurs = [];
+
+// Pour chaque champ, l'en-tête réel du fichier ; une colonne introuvable est une erreur,
+// sinon le bulu du glossaire arriverait vide sans que personne ne le voie
+function trouverColonnes(entetes, fichier) {
+  const correspondance = {};
+  for (const [champ, debuts] of Object.entries(COLONNES_GLOSSAIRE)) {
+    const entete = entetes.find((e) => debuts.some((d) => e.trim().toLowerCase().startsWith(d)));
+    if (entete) correspondance[champ] = entete;
+    else erreurs.push(`${fichier} : colonne « ${champ} » introuvable (en-têtes : ${entetes.join(', ')})`);
+  }
+  return correspondance;
+}
+
 // tools/kit.py écrit « Traducteur / relu par Relecteur » dans la colonne valide_par
 function personnes(validePar) {
   const [traduit_par = '', relu_par = ''] = (validePar || '').split(/\s*\/\s*relu par\s*/i);
@@ -29,35 +60,50 @@ function versPhrase(ligne) {
   };
 }
 
-// Les lignes sans référence sont des titres de section du tableur
-function versTerme(ligne) {
-  const cellule = (debut) => (Object.entries(ligne).find(([nom]) => nom.startsWith(debut))?.[1] || '').trim();
-  return {
-    ref: cellule('Réf'),
-    terme: cellule('Catégorie'),
-    sens: cellule('Texte français'),
-    en: cellule('Anglais'),
-    bulu: cellule('TRADUCTION BULU'),
-    critique: cellule('Critique').toLowerCase() === 'oui',
-    a_eviter: cellule('Mots à éviter'),
-    traduit_par: cellule('Traduit par'),
-    relu_par: cellule('Relu par'),
-    commentaire: cellule('Commentaire'),
-  };
+function lireGlossaire() {
+  const lignes = lireCsv(lire('glossaire.csv'));
+  if (!lignes.length) return [];
+  const colonnes = trouverColonnes(Object.keys(lignes[0]), 'glossaire.csv');
+  const cellule = (ligne, champ) => (ligne[colonnes[champ]] || '').trim();
+  return lignes
+    .map((ligne) => {
+      const terme = Object.fromEntries(Object.keys(COLONNES_GLOSSAIRE).map((champ) => [champ, cellule(ligne, champ)]));
+      return { ...terme, critique: terme.critique.toLowerCase() === 'oui' };
+    })
+    .filter((t) => t.ref); // les lignes sans référence sont des titres de section
+}
+
+function lirePhrases() {
+  const lignes = lireCsv(lire('corpus.csv'));
+  const manquantes = COLONNES_CORPUS.filter((c) => lignes.length && !(c in lignes[0]));
+  if (manquantes.length) {
+    erreurs.push(`corpus.csv : colonne(s) manquante(s) : ${manquantes.join(', ')}`);
+    return [];
+  }
+  return lignes.map(versPhrase);
+}
+
+// Message d'erreur suivi du texte concerné, pour que la correction se fasse sans chercher
+function expliquer(erreur, phrases) {
+  const phrase = phrases.find((p) => erreur.startsWith(p.id + ' :'));
+  if (!phrase) return erreur;
+  return `${erreur}\n    fr   : ${phrase.fr}\n    bulu : ${phrase.bulu || '(vide)'}`;
 }
 
 const pack = {
   ...JSON.parse(lire('packs/bum/infos.json')),
-  glossaire: lireCsv(lire('glossaire.csv')).map(versTerme).filter((t) => t.ref),
-  phrases: lireCsv(lire('corpus.csv')).map(versPhrase),
+  glossaire: lireGlossaire(),
+  phrases: lirePhrases(),
 };
+if (!erreurs.length) erreurs.push(...verifierPack(pack));
 
-const erreurs = verifierPack(pack);
 if (erreurs.length) {
-  console.error(erreurs.join('\n'));
-  console.error('Pack non écrit.');
+  console.error(erreurs.map((e) => expliquer(e, pack.phrases)).join('\n'));
+  console.error(`\n${erreurs.length} problème(s). Pack non écrit : l'ancien reste en place.`);
+  console.error('Corriger corpus.csv (ou le tableur puis réimporter) et relancer.');
   process.exit(1);
 }
 writeFileSync(racine + 'packs/bum/pack.json', JSON.stringify(pack, null, 2) + '\n');
 const validees = pack.phrases.filter((p) => p.valide).length;
-console.log(`${pack.phrases.length} phrases (${validees} validées), ${pack.glossaire.length} termes -> packs/bum/pack.json`);
+const termes = pack.glossaire.filter((t) => t.bulu).length;
+console.log(`${pack.phrases.length} phrases (${validees} validées), ${pack.glossaire.length} termes (${termes} traduits) -> packs/bum/pack.json`);
