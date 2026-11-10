@@ -77,3 +77,11 @@ test('changement de langue : le pack vérifié est rendu, un pack modifié ne l�
   pack.phrases[0].bulu = 'autre';
   assert.equal(await charger(pack).demander('bum'), null);
 });
+
+test('le moteur seul (dist-lib/mayem-core.js) s’importe et traduit sans l’extension', async () => {
+  const moteur = await import(new URL('dist-lib/mayem-core.js', racine));
+  const pack = lire('packs/bum/pack.json');
+  assert.equal(moteur.traduire('Votre solde est de 25 000 FCFA', pack).id, 'X08');
+  assert.equal(await moteur.empreinte(pack), pack.empreinte);
+  assert.deepEqual(moteur.verifierPack(pack, lire('packs/schema.json')), []);
+});

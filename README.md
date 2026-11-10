@@ -32,7 +32,8 @@ core/        moteur pur en TypeScript : reçoit une chaîne et un pack, rend un 
 dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM) ; fond.ts injecte au clic
 packs/       schema.json + un dossier par langue : packs/<code>/ (infos.json, corpus.csv, glossaire.csv,
              retraduction.csv, pack.json généré). Aucun outil ne connaît une langue par son nom.
-tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs)
+tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs), export, api
+docs/        API.md (réutiliser les données et le moteur), accord des locuteurs
 test/        tests node:test
 e2e/         tests Playwright dans Chromium, extension chargée
 fixtures/    pages d'essai
@@ -125,6 +126,14 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Un iframe d'un autre site que l'onglet n'est pas traduit : le clic (`activeTab`) ne donne accès qu'au site de l'onglet.
 - Un Shadow DOM fermé (`mode: 'closed'`) est inaccessible à toute extension : son texte reste en français.
 - Les compteurs du bouton ne comptent que la page principale, pas les cadres.
+
+## Réutiliser les données et le moteur
+Deux rôles séparés (détails : `docs/API.md`) :
+- **Distribution des données** : `npm run export -- <langue>` produit TMX, XLIFF, TBX, i18next et Android ;
+  `npm run api` prépare `api/` (index, packs versionnés avec empreinte, exports), à servir par un
+  hébergement statique gratuit. Rien n'est mis en ligne automatiquement.
+- **Traduction** : toujours locale. `npm run build` produit aussi `dist-lib/mayem-core.js`, le moteur seul
+  en module ES sans dépendance (site, appli, serveur). Aucun texte affiché ne quitte l'appareil.
 
 ## Licences
 - Code : Apache 2.0 (`LICENSE`, `NOTICE`), qui protège aussi contre les revendications de brevets.

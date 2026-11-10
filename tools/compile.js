@@ -38,6 +38,17 @@ function regrouper(entree, debut = '') {
   return `(() => {\n'use strict';\n${corps}\n})();\n`;
 }
 
+// Le moteur seul, en module ES utilisable par n'importe quel projet : core/index.ts dit ce qui est public
+function bibliotheque() {
+  const publics = sansTypes('core/index.ts').match(/^export\s*\{([^}]*)\}/m)[1];
+  const corps = ordre('core/index.ts')
+    .filter((chemin) => chemin !== 'core/index.ts')
+    .map((chemin) => `// ${chemin}\n` + sansTypes(chemin).replace(IMPORT, '').replace(/^export\s+/gm, '').trim())
+    .join('\n\n');
+  const { version } = JSON.parse(readFileSync(racine + 'package.json', 'utf8'));
+  return `// Mayem ${version}, moteur de traduction (Apache 2.0). Documentation : docs/API.md\n${corps}\n\nexport {${publics}};\n`;
+}
+
 const choisies = process.argv.length > 2 ? process.argv.slice(2).map(choisirLangue) : langues();
 const packs = choisies.map((langue) => JSON.parse(readFileSync(dossier(langue) + 'pack.json', 'utf8')));
 const erreurs = packs.flatMap((pack) => verifierPack(pack).map((erreur) => `${pack.langue} : ${erreur}`));
@@ -58,4 +69,6 @@ for (const pack of packs) cpSync(dossier(pack.langue) + 'pack.json', dist + `pac
 const sommaire = packs.map(({ langue, nom, version }) => ({ langue, nom, version }));
 writeFileSync(dist + 'packs/index.json', JSON.stringify(sommaire, null, 2) + '\n');
 cpSync(racine + 'packs/schema.json', dist + 'packs/schema.json');
-console.log(`Extension prête dans dist/ (${choisies.join(', ')})`);
+mkdirSync(racine + 'dist-lib', { recursive: true });
+writeFileSync(racine + 'dist-lib/mayem-core.js', bibliotheque());
+console.log(`Extension prête dans dist/ (${choisies.join(', ')}), moteur seul dans dist-lib/mayem-core.js`);

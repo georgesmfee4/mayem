@@ -7,3 +7,6 @@ __pycache__/
 retraduction-a-envoyer.xlsx
 test-results/
 playwright-report/
+exports/
+api/
+dist-lib/

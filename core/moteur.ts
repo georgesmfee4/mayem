@@ -20,7 +20,7 @@ const typeDeChamp = (nom: string) => nom.replace(/_\d+$/, ''); // amount_1 -> am
 
 export const normaliser = (s: string): string =>
   s.normalize('NFC').replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
-const echapper = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+export const echapper = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 interface Modele { motif: RegExp; phrase: Phrase; precision: number }
 interface Index {
