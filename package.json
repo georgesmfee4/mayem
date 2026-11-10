@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Affiche un service financier web en bulu sans toucher à son code.",
-  "license": "Apache-2.0",
+  "license": "UNLICENSED",
   "author": "Équipe Mayem",
   "scripts": {
     "import": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/import.js",

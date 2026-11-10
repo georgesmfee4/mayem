@@ -23,5 +23,5 @@ l'ensemble des droits de propriété intellectuelle du projet.
   qui permettent de vérifier la règle des deux personnes sans dire qui (`tools/public.js`).
 
 ## Le code
-Le code du moteur et de l'extension est un logiciel distinct, sous licence Apache 2.0 (`LICENSE`, `NOTICE`).
-Cette licence ne s'applique pas aux données de ce dossier.
+Le code du moteur, de l'extension et du script intégré appartient lui aussi à l'équipe Mayem, tous droits
+réservés (`LICENSE`) : il s'utilise sans modification, dans le cadre d'un accord avec l'équipe.
