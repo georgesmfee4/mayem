@@ -1,6 +1,6 @@
 // Termes du glossaire utilisables hors des phrases du corpus, sans jamais composer de phrase :
 // - un libellé court (« Solde », « Annuler », « Frais : 500 FCFA ») qui EST un terme est traduit par ce terme ;
-// - dans une phrase inconnue, les termes reconnus sont seulement signalés (glose), la phrase reste en français.
+// - dans une phrase inconnue, les termes critiques reconnus sont seulement signalés (glose), la phrase reste en français.
 // Un terme ne sert que s'il a été traduit et relu par deux personnes différentes, et si sa traduction
 // est un mot ou une expression, pas une explication.
 
@@ -61,14 +61,15 @@ export function traduireTerme(texte: string, pack: Pack): Glose | null {
   return entree ? { ref: entree.ref, fr: texte, traduction: commeLOrigine(texte, entree.traduction), critique: entree.critique } : null;
 }
 
-// Termes reconnus dans un texte, dans l'ordre, sans chevauchement ni doublon
+// Termes critiques (argent, sécurité) reconnus dans un texte, dans l'ordre, sans chevauchement ni doublon.
+// Les mots grammaticaux du glossaire (« dans », « que ? ») n'y sont pas : hors contexte ils n'aident pas.
 export function termesConnus(texte: string, pack: Pack): Glose[] {
   const { parMot } = indexTermesDe(pack);
   const suite = motsDe(texte);
   const trouves: Glose[] = [];
   for (let i = 0; i < suite.length; i++) {
     const entree = (parMot.get(suite[i]) || []).find((e) => e.mots.every((mot, k) => suite[i + k] === mot));
-    if (!entree) continue;
+    if (!entree?.critique) continue;
     if (!trouves.some((g) => g.ref === entree.ref)) trouves.push({ ref: entree.ref, fr: entree.fr, traduction: entree.traduction, critique: entree.critique });
     i += entree.mots.length - 1;
   }

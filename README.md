@@ -139,6 +139,22 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Le champ `bulu` du pack contient le texte dans la langue du pack, quelle qu'elle soit (nom historique, gardé
   pour ne pas casser le contrat de données).
 
+## Couvrir un nouveau service sans repartir de zéro
+1. `npm run inventaire -- https://service-de-test/page1 https://service-de-test/page2` (ou des fichiers `.html`).
+   Un navigateur ouvre chaque page et relève les textes que Mayem verrait, cadres et Shadow DOM compris.
+   - Couverture par page : textes traduits, partiels (termes connus) et absents.
+   - `packs/<langue>/a-traduire.csv` : les textes manquants, montants, dates, numéros et références remplacés
+     par `{amount}`, `{date}`… Les textes qui ne diffèrent que par leurs valeurs deviennent un seul modèle,
+     classés par fréquence, avec les termes du glossaire déjà connus.
+   - Les mots absents du corpus et du glossaire, à ajouter au glossaire en priorité.
+2. `npm run inventaire -- … --ajouter` met ces modèles dans `corpus.csv`, sans traduction ;
+   `python tools/kit.py export` les envoie aux locuteurs, puis `npm run import` comme d'habitude.
+   Seul ce qui est nouveau part chez les locuteurs ; la validation par deux personnes ne change pas.
+3. `npm run couverture` : la même mesure sur les pages d'essai, à suivre d'une version à l'autre.
+
+L'inventaire est un outil de l'équipe, lancé sur des pages d'essai ou un compte de test : un nom de personne
+ne se reconnaît pas sans risque et n'est donc pas masqué. Rien n'est collecté chez les utilisateurs.
+
 ## Réutiliser les données et le moteur
 Deux rôles séparés (détails : `docs/API.md`) :
 - **Distribution des données** : `npm run export -- <langue>` produit TMX, XLIFF, TBX, i18next et Android ;

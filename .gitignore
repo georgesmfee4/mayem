@@ -10,3 +10,4 @@ playwright-report/
 exports/
 api/
 dist-lib/
+packs/*/a-traduire.csv

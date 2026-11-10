@@ -33,3 +33,12 @@ function decouper(texte) {
   if (cellule || ligne.length) lignes.push([...ligne, cellule]);
   return lignes;
 }
+
+// Écriture : guillemets quand une cellule contient une virgule, un guillemet ou un retour à la ligne.
+// BOM et fins de ligne Windows, pour qu'Excel lise les accents.
+const cellule = (valeur) => {
+  const texte = String(valeur ?? '');
+  return /[",\r\n]/.test(texte) ? `"${texte.replace(/"/g, '""')}"` : texte;
+};
+export const ecrireCsv = (entetes, lignes) =>
+  '\uFEFF' + [entetes, ...lignes.map((ligne) => entetes.map((nom) => ligne[nom]))].map((cellules) => cellules.map(cellule).join(',')).join('\r\n') + '\r\n';

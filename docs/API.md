@@ -83,6 +83,9 @@ const r = traduire('Votre solde est de 25 000 FCFA', pack);
 | `verifierPack(pack, schema)` | Liste des erreurs ; vide = pack utilisable |
 | `controler(pack)` | Points à faire relire (glossaire, cohérence, négations) ; indicatif |
 | `empreinte(pack)` | `Promise<'sha256-…'>` |
+| `traduireTerme(texte, pack)`, `termesConnus(texte, pack)` | Terme validé qui forme tout le texte ; termes critiques présents dans un texte |
+| `inventorier(textes, pack)` | Couverture, modèles manquants (faits masqués, regroupés, par fréquence), mots absents |
+| `masquerFaits(texte)` | « 5 000 FCFA à 690 12 34 56 » → « {amount} à {phone} » |
 | `queDesFaits(texte)`, `memesChiffres(a, b)` | Garde-fous : texte sans mots, chiffres et devises identiques |
 
 Résultat de `traduire` :
