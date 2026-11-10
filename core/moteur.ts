@@ -99,7 +99,7 @@ function rendre(phrase: Phrase, valeurs: Record<string, string>, options: Option
   let statut: Statut = 'non_verifie';
   let sortie: string | null = null;
   if (phrase.valide && phrase.bulu) [statut, sortie] = ['ok', remplir(phrase.bulu, valeurs)];
-  else if (options.test) [statut, sortie] = ['test', '‹bu› ' + remplir(phrase.fr, valeurs)];
+  else if (options.test) [statut, sortie] = ['test', '‹…› ' + remplir(phrase.fr, valeurs)];
   return { statut, sortie };
 }
 

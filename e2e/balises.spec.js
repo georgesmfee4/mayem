@@ -27,3 +27,10 @@ test('texte coupé par des balises et messages de plusieurs phrases', async ({ p
   await expect(page.locator('#solde')).toHaveText('Votre solde est de 30 000 FCFA');
   await expect(page.locator('#mayem-host')).toHaveCount(1);
 });
+
+test('une seule langue embarquée : pas de liste de langues', async ({ page, cliquer }) => {
+  await page.goto(ADRESSE + 'balises.html');
+  await cliquer(page);
+  await expect(page.locator('#mayem-host #toggle')).toHaveText('Bulu ⇄ original');
+  await expect(page.locator('#mayem-host select')).toBeHidden();
+});

@@ -44,7 +44,7 @@ export interface Pack {
 }
 
 export interface Options {
-  // Mode test : tant que le bulu n'est pas validé, affiche « ‹bu› + français »
+  // Mode test : tant que la traduction n'est pas validée, affiche « ‹…› + français »
   test?: boolean;
 }
 

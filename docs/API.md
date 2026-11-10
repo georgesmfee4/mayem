@@ -22,7 +22,7 @@ de traduction ou un grand moteur prend les exports. Personne ne réécrit rien.
 | `langue`, `nom` | Code ISO 639-3 (`bum`) et nom de la langue |
 | `version`, `date` | Version sémantique : correction → `0.3.1`, phrase ou terme ajouté ou retiré → `0.4.0` |
 | `empreinte` | `sha256-…` du pack sans ce champ (`empreinte()` ci-dessous) : vérifier avant usage |
-| `phrases[]` | `id` stable (clé de traduction), `fr`, `en[]`, `bulu`, `critique`, `traduit_par`, `relu_par`, `retraduit_par`, `retraduction`, `valide` |
+| `phrases[]` | `id` stable (clé de traduction), `fr`, `en[]`, `bulu` (texte dans la langue du pack, nom historique), `critique`, `traduit_par`, `relu_par`, `retraduit_par`, `retraduction`, `valide` |
 | `glossaire[]` | Terminologie : `ref`, `terme`, `sens`, `bulu`, `a_eviter`, `critique`, auteurs |
 
 Règles garanties par `verifierPack` : mêmes champs `{…}` et mêmes chiffres en français et en bulu ;
