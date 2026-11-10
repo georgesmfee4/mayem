@@ -15,7 +15,8 @@ declare const chrome: {
 };
 type Cible = { tabId: number; allFrames: boolean };
 
-const PACK = 'packs/bum/pack.json';
+// Langues embarquées (tools/compile.js) : [{ langue, nom, version }], la première par défaut
+const SOMMAIRE = 'packs/index.json';
 const SCHEMA = 'packs/schema.json';
 
 const lire = (chemin: string) => fetch(chrome.runtime.getURL(chemin)).then((reponse) => reponse.json());
@@ -24,8 +25,10 @@ async function injecter(onglet: { id?: number }) {
   if (onglet.id === undefined) return;
   const cible = { tabId: onglet.id, allFrames: true };
   try {
-    // Lu à chaque clic : le service worker peut être arrêté entre deux clics
-    const [pack, schema] = await Promise.all([lire(PACK), lire(SCHEMA)]);
+    // Lu à chaque clic : le service worker peut être arrêté entre deux clics.
+    // Seul le pack de la langue choisie est lu : le coût ne dépend pas du nombre de langues.
+    const [sommaire, schema] = await Promise.all([lire(SOMMAIRE), lire(SCHEMA)]);
+    const pack = await lire(`packs/${sommaire[0].langue}/pack.json`);
     // Un pack modifié à la main dans dist/ n'a pas repassé check-pack : on ne l'injecte pas
     const erreurs = verifierPack(pack, schema);
     if (erreurs.length) {

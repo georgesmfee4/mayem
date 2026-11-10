@@ -1,4 +1,5 @@
-// Prépare l'extension dans dist/. Usage : node tools/compile.js
+// Prépare l'extension dans dist/. Usage : npm run build [-- <langue> <langue>…]
+// Toutes les langues de packs/ par défaut ; la première est celle proposée au clic.
 // Pas de compilateur à installer : Node retire lui-même les types (stripTypeScriptTypes).
 // Ça ne marche qu'avec des types « effaçables » : pas d'enum ni de namespace.
 // Un script injecté dans une page ne peut pas importer d'autres fichiers sans les exposer aux sites :
@@ -8,10 +9,9 @@
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { stripTypeScriptTypes } from 'node:module';
-import { fileURLToPath } from 'node:url';
 import { verifierPack } from './check-pack.js';
+import { choisirLangue, dossier, langues, racine } from './langues.js';
 
-const racine = fileURLToPath(new URL('..', import.meta.url));
 const dist = racine + 'dist/';
 
 // Les types sont remplacés par des espaces : on retire ceux qui restent en fin de ligne
@@ -38,10 +38,11 @@ function regrouper(entree, debut = '') {
   return `(() => {\n'use strict';\n${corps}\n})();\n`;
 }
 
-const pack = JSON.parse(readFileSync(racine + 'packs/bum/pack.json', 'utf8'));
-const erreurs = verifierPack(pack);
-if (erreurs.length) {
-  console.error(erreurs.join('\n'));
+const choisies = process.argv.length > 2 ? process.argv.slice(2).map(choisirLangue) : langues();
+const packs = choisies.map((langue) => JSON.parse(readFileSync(dossier(langue) + 'pack.json', 'utf8')));
+const erreurs = packs.flatMap((pack) => verifierPack(pack).map((erreur) => `${pack.langue} : ${erreur}`));
+if (erreurs.length || !packs.length) {
+  console.error(erreurs.join('\n') || 'Aucun pack dans packs/');
   process.exit(1);
 }
 
@@ -52,6 +53,9 @@ const style = readFileSync(racine + 'dom/style.css', 'utf8');
 writeFileSync(dist + 'dom/contenu.js', regrouper('dom/entree.ts', `const STYLE_PAGE = ${JSON.stringify(style)};\n\n`));
 writeFileSync(dist + 'dom/style.css', style);
 cpSync(racine + 'manifest.json', dist + 'manifest.json');
-cpSync(racine + 'packs/bum/pack.json', dist + 'packs/bum/pack.json');
+// Le script de fond ne lit que le pack de la langue choisie : un clic coûte autant avec une langue qu'avec cinquante
+for (const pack of packs) cpSync(dossier(pack.langue) + 'pack.json', dist + `packs/${pack.langue}/pack.json`);
+const sommaire = packs.map(({ langue, nom, version }) => ({ langue, nom, version }));
+writeFileSync(dist + 'packs/index.json', JSON.stringify(sommaire, null, 2) + '\n');
 cpSync(racine + 'packs/schema.json', dist + 'packs/schema.json');
-console.log('Extension prête dans dist/');
+console.log(`Extension prête dans dist/ (${choisies.join(', ')})`);

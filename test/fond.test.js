@@ -15,7 +15,11 @@ const fond = readFileSync(new URL('dist/dom/fond.js', racine), 'utf8');
 
 // Clique sur l'icône avec le pack donné ; rend le nombre d'injections et les messages d'erreur
 async function cliquer(pack) {
-  const fichiers = { 'packs/bum/pack.json': pack, 'packs/schema.json': lire('packs/schema.json') };
+  const fichiers = {
+    'packs/index.json': [{ langue: 'bum', nom: 'Bulu', version: pack.version }],
+    'packs/bum/pack.json': pack,
+    'packs/schema.json': lire('packs/schema.json'),
+  };
   let clic;
   let injections = 0;
   const erreurs = [];
