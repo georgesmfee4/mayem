@@ -97,7 +97,9 @@ export function etiquette(categorie: Categorie, pack: Pack, options: Options = {
   return phrase ? rendre(phrase, {}, options).sortie : null;
 }
 
-function chercher(texte: string, index: Index) {
+interface Trouve { phrase: Phrase; valeurs: Record<string, string> }
+
+function chercher(texte: string, index: Index): Trouve | null {
   const exacte = index.exactes.get(texte.toLowerCase());
   if (exacte) return { phrase: exacte, valeurs: {} };
   for (const modele of index.modeles) {
@@ -107,22 +109,59 @@ function chercher(texte: string, index: Index) {
   return null;
 }
 
+// Fin de phrase suivie d'une majuscule : « 2.500 » n'est pas coupé (pas d'espace après le point)
+const COUPURE = /(?<=[.!?…])\s+(?=[\p{Lu}«"])/u;
+
+interface Morceau { texte: string; trouve: Trouve | null }
+
+// Message entier, sinon phrase par phrase : traduit seulement si chaque phrase est connue.
+// Une phrase du corpus peut en contenir plusieurs : on essaie d'abord les plus longues suites.
+// Une phrase faite uniquement de faits passe telle quelle.
+function chercherMessage(texte: string, index: Index): Morceau[] | null {
+  const phrases = texte.split(COUPURE);
+  const morceaux: Morceau[] = [];
+  for (let debut = 0; debut < phrases.length; ) {
+    let fin = phrases.length;
+    let trouve: Trouve | null = null;
+    for (; fin > debut && !trouve; fin--) trouve = chercher(phrases.slice(debut, fin).join(' '), index);
+    if (trouve) fin++;
+    else if (queDesFaits(phrases[debut])) fin = debut + 1;
+    else return null;
+    morceaux.push({ texte: phrases.slice(debut, fin).join(' '), trouve });
+    debut = fin;
+  }
+  return morceaux.some((morceau) => morceau.trouve) ? morceaux : null;
+}
+
+function assembler(morceaux: Morceau[], options: Options) {
+  const rendus = morceaux.map(({ texte, trouve }) => (trouve ? rendre(trouve.phrase, trouve.valeurs, options) : { statut: 'ok' as Statut, sortie: texte }));
+  const connues = morceaux.flatMap((morceau) => (morceau.trouve ? [morceau.trouve] : []));
+  const manque = rendus.find((rendu) => rendu.sortie === null);
+  return {
+    statut: manque ? manque.statut : rendus.some((rendu) => rendu.statut === 'test') ? 'test' as Statut : 'ok' as Statut,
+    sortie: manque ? null : rendus.map((rendu) => rendu.sortie).join(' '),
+    critique: connues.some((trouve) => trouve.phrase.critique),
+    id: connues.map((trouve) => trouve.phrase.id).join('+'),
+    valeurs: connues.flatMap((trouve) => Object.values(trouve.valeurs)),
+  };
+}
+
 // null : rien à traduire (texte vide ou uniquement des faits)
 export function traduire(brut: string, pack: Pack, options: Options = {}): Resultat | null {
   const texte = normaliser(brut);
   if (!texte || queDesFaits(texte)) return null;
 
-  const trouve = chercher(texte, indexDe(pack));
-  if (!trouve) {
+  const morceaux = chercherMessage(texte, indexDe(pack));
+  if (!morceaux) {
     const categorie = estPhrase(texte) ? categoriser(texte) : null;
-    return { statut: 'non_verifie', critique: false, sortie: null, id: null, categorie };
+    return { statut: 'non_verifie', critique: false, sortie: null, id: null, categorie, valeurs: [] };
   }
 
-  let { statut, sortie } = rendre(trouve.phrase, trouve.valeurs, options);
+  let { statut, sortie, critique, id, valeurs } = assembler(morceaux, options);
   // Garde-fou : jamais de champ non rempli, jamais un chiffre ou une devise qui change
   if (sortie && (/\{\w+\}/.test(sortie) || !memesChiffres(texte, sortie))) {
     sortie = null;
     statut = 'rejete';
   }
-  return { statut, critique: trouve.phrase.critique, sortie, id: trouve.phrase.id, categorie: null };
+  return { statut, critique, sortie, id, categorie: null, valeurs };
 }

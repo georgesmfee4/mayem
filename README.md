@@ -47,6 +47,7 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
 4. Un nouveau clic sur l'icône, ou le bouton en bas à gauche, bascule bulu ⇄ original ; le bouton « i » affiche
    les compteurs et le contrôle des chiffres.
 5. Hors ligne : `cd mock-bank && python3 -m http.server 8000` (page d'essai construite autrement, pour prouver l'indépendance).
+   `fixtures/balises.html` : textes coupés par des balises et messages de plusieurs phrases.
 6. Tests : `npm test` (tous les textes réels de la page, en français et en anglais, et les refus de check-pack).
 
 ## Faire valider le bulu
@@ -81,11 +82,16 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Champs de saisie jamais lus ni modifiés ; aucune donnée collectée, stockée ou envoyée ; aucun appel réseau.
 - Permissions minimales : `activeTab` et `scripting`. Mayem n'entre dans une page qu'au clic sur son icône, dans
   l'onglet en cours seulement ; aucun fichier de l'extension n'est exposé aux sites (rien qui permette de la détecter).
+- Message de plusieurs phrases : traduit phrase par phrase seulement si chacune est dans le corpus ; sinon tout
+  l'original reste. Rien n'est inventé.
+- Texte coupé par des balises (`Votre solde est de <b>25 000 FCFA</b>`) : traduit comme un seul bloc, puis le bulu est
+  rangé dans les nœuds texte existants ; montants et noms gardent leur texte exact. Si le bulu change l'ordre des
+  valeurs, l'original reste.
 - Contenu inédit : original conservé + étiquette de catégorie validée affichée en CSS, hors du texte de la page.
 - Interface de l'extension dans un Shadow DOM séparé, utilisable au clavier.
 
 ## Limites connues
-- Texte coupé par des balises (`Solde : <b>5 000 FCFA</b>`) : non géré (absent de la page officielle, à traiter pour d'autres services).
+- Texte coupé par des balises : traduit seulement si la phrase entière est dans le corpus (« Votre solde est de {amount} »).
 - Le panneau jury est lui aussi traité quand ses textes figurent dans le corpus (sans effet sur les contrôles).
 - Repli IA pour le contenu inédit : non branché (outils gratuits uniquement, à décider).
 - Un iframe d'un autre site que l'onglet n'est pas traduit : le clic (`activeTab`) ne donne accès qu'au site de l'onglet.
