@@ -7,7 +7,9 @@
 // Un script injecté dans une page ne peut pas importer d'autres fichiers sans les exposer aux sites :
 // dom/entree.ts et tout ce qu'il importe sont donc regroupés dans un seul dom/contenu.js.
 // Le script de fond suit la même règle : dom/fond.ts et core/verifier.ts donnent dom/fond.js.
+// dist-web/mayem.js : Mayem à intégrer dans un site en une ligne (dom/web.ts), packs compris.
 
+import { createHash } from 'node:crypto';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { stripTypeScriptTypes } from 'node:module';
@@ -85,5 +87,21 @@ if (enPseudo) {
 } else {
   mkdirSync(racine + 'dist-lib', { recursive: true });
   writeFileSync(racine + 'dist-lib/mayem-core.js', bibliotheque());
+  const integrite = scriptIntegre();
   console.log(`Extension prête dans dist/ (${choisies.join(', ')}), moteur seul dans dist-lib/mayem-core.js`);
+  console.log(`Script à intégrer : dist-web/mayem.js, integrity="${integrite}"`);
+}
+
+// Packs et schéma relus par JSON.parse : plus rapide à charger qu'un gros objet écrit en JavaScript
+function scriptIntegre() {
+  const debut = [
+    `const STYLE_PAGE = ${JSON.stringify(style)};`,
+    `const PACKS_EMBARQUES = JSON.parse(${JSON.stringify(JSON.stringify(packs))});`,
+    `const SCHEMA_EMBARQUE = ${readFileSync(racine + 'packs/schema.json', 'utf8').trim()};`,
+  ].join('\n') + '\n\n';
+  const code = regrouper('dom/web.ts', debut);
+  rmSync(racine + 'dist-web', { recursive: true, force: true });
+  mkdirSync(racine + 'dist-web');
+  writeFileSync(racine + 'dist-web/mayem.js', code);
+  return 'sha384-' + createHash('sha384').update(code).digest('base64');
 }

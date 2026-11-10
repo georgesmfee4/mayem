@@ -8,8 +8,11 @@ import { repartir } from '../core/repartir.ts';
 import type { Options, Pack, Resultat } from '../core/types.ts';
 import { ID_HOTE, creerInterface, type Interface, type Langue } from './interface.ts';
 
-// Le script de fond sert le pack vérifié d'une autre langue (dom/fond.ts)
-declare const chrome: { runtime: { sendMessage(message: unknown): Promise<unknown> } };
+// Pack vérifié d'une autre langue : demandé au script de fond (extension) ou pris parmi les packs
+// embarqués (script intégré) ; null s'il est refusé
+export type ChargerPack = (code: string) => Promise<Pack | null>;
+// bouton : false quand le service préfère son propre interrupteur (window.Mayem)
+export interface Reglages { chargerPack: ChargerPack; bouton?: boolean }
 
 const IGNORES = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'SELECT_VALUE', 'CODE', 'PRE', 'svg', 'SVG']);
 const ATTRIBUTS = ['placeholder', 'title', 'aria-label'];
@@ -21,6 +24,7 @@ const EN_LIGNE = new Set(['A', 'ABBR', 'B', 'BDI', 'BDO', 'CITE', 'DATA', 'EM', 
 
 let pack: Pack;
 let options: Options;
+let chargerPack: ChargerPack;
 let ui: Interface | null = null;
 let afficheTraduit = true;
 // Termes reconnus dans une phrase inconnue, affichés en CSS à côté d'elle (case du panneau)
@@ -248,9 +252,9 @@ function appliquer(nouveau: Pack) {
   prevoirCompteurs();
 }
 
-async function changerLangue(code: string) {
+export async function changerLangue(code: string) {
   prevenirCadres({ mayemLangue: code });
-  const nouveau = (await chrome.runtime.sendMessage({ mayemLangue: code })) as Pack | null;
+  const nouveau = await chargerPack(code);
   if (!nouveau) return; // pack refusé par le script de fond : la langue actuelle reste
   appliquer(nouveau);
   ui?.langueAffichee({ langue: nouveau.langue, nom: nouveau.nom });
@@ -301,12 +305,15 @@ export function inverser() {
   else basculer(!afficheTraduit);
 }
 
-export function demarrer(lePack: Pack, lesOptions: Options, langues: Langue[]) {
+export function demarrer(lePack: Pack, lesOptions: Options, langues: Langue[], reglages: Reglages) {
   pack = lePack;
   options = lesOptions;
+  chargerPack = reglages.chargerPack;
   // Un seul bouton, dans la page principale ; un cadre suit la bascule et la langue de son parent
   if (window === window.top) {
-    ui = creerInterface(!!options.test, langues, { langue: pack.langue, nom: pack.nom }, { basculer, changerLangue, montrerGloses });
+    if (reglages.bouton !== false) {
+      ui = creerInterface(!!options.test, langues, { langue: pack.langue, nom: pack.nom }, { basculer, changerLangue, montrerGloses });
+    }
   } else {
     window.addEventListener('message', (evenement) => {
       if (evenement.source !== window.parent) return;

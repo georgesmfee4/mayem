@@ -2,7 +2,8 @@
 // - avec l'accès à 127.0.0.1, car sans clic réel sur l'icône activeTab ne donne rien ;
 // - la même avec un pack modifié à la main, qui doit être refusé ;
 // - la même avec une deuxième langue d'essai, « zzz », pour le changement de langue ;
-// - la version pseudo (npm run build:pseudo), pour les débordements.
+// - la version pseudo (npm run build:pseudo), pour les débordements ;
+// - les copies de npm run demo:refus (mot changé : seule l'empreinte le voit).
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -42,18 +43,19 @@ function ajouterLangueEssai(dossier) {
   writeFileSync(join(dossier, 'packs/index.json'), JSON.stringify([...sommaire, { langue: 'zzz', nom: 'Essai', version: essai.version }]));
 }
 
-function construire(...options) {
-  const construction = spawnSync(process.execPath, ['--experimental-strip-types', '--disable-warning=ExperimentalWarning', 'tools/compile.js', ...options], { cwd: racine, encoding: 'utf8' });
+function construire(outil, ...options) {
+  const construction = spawnSync(process.execPath, ['--experimental-strip-types', '--disable-warning=ExperimentalWarning', outil, ...options], { cwd: racine, encoding: 'utf8' });
   if (construction.status !== 0) throw new Error(construction.stderr);
 }
 
 export default function preparer() {
-  construire();
-  construire('--pseudo');
+  construire('tools/compile.js', '--pseudo');
+  construire('tools/demo-refus.js'); // reconstruit aussi dist/ et dist-web/
   rmSync(DOSSIER, { recursive: true, force: true });
   copier('bonne');
   // Un chiffre ajouté au bulu de X08 (« Votre solde est de {amount} »)
   copier('pack-modifie', (pack) => (pack.phrases.find((p) => p.id === 'X08').bulu += ' 500'));
   copier('deux-langues', null, ajouterLangueEssai);
   copier('pseudo', null, null, 'dist-pseudo');
+  copier('mot-change', null, null, 'dist-refus/mot-change');
 }
