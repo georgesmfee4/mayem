@@ -1,5 +1,5 @@
 import { test, expect, ADRESSE } from './extension.js';
-import { bulu, nombres } from './donnees.js';
+import { bulu, nombres, terme } from './donnees.js';
 
 test('texte coupé par des balises et messages de plusieurs phrases', async ({ page, cliquer }) => {
   await page.goto(ADRESSE + 'balises.html');
@@ -14,7 +14,18 @@ test('texte coupé par des balises et messages de plusieurs phrases', async ({ p
   await expect(page.locator('#message')).toHaveText(`${bulu('A04')} ${bulu('S02')}`);
   await expect(page.locator('#inconnu')).toContainText('Cette phrase ne figure dans aucun corpus.');
   await expect(page.locator('#inconnu')).toHaveAttribute('data-mayem', 'non_verifie');
-  await expect(page.locator('#absent')).toHaveText('Solde : 5 000 FCFA');
+  // Libellé qui est un terme validé du glossaire : traduit, la valeur ne bouge pas
+  await expect(page.locator('#absent')).toHaveText(`${terme('T01')} : 5 000 FCFA`);
+  expect(await page.locator('#absent b').textContent()).toBe('5 000 FCFA');
+  // Phrase inconnue : reste en français, ses termes validés sont donnés à côté (CSS, hors du texte)
+  await expect(page.locator('#inconnu')).toHaveAttribute('data-mayem-termes', new RegExp(`solde : ${terme('T01')}`));
+  const glose = await page.locator('#inconnu').evaluate((el) => getComputedStyle(el, '::after').content);
+  expect(glose).toContain(terme('T01'));
+  await page.locator('#mayem-host #more').click();
+  await page.locator('#mayem-host #gloses').uncheck();
+  await expect(page.locator('#inconnu')).not.toHaveAttribute('data-mayem-termes');
+  await page.locator('#mayem-host #gloses').check();
+  await expect(page.locator('#inconnu')).toHaveAttribute('data-mayem-termes', /solde/);
   await expect(page.locator('#montant')).toHaveValue('5 000');
   expect(await nombres(page)).toEqual(avant);
 

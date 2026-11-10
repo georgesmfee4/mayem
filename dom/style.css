@@ -12,6 +12,14 @@
   font-weight: 700;
   color: #92400e;
 }
+/* Phrase inconnue : termes validés du glossaire qu'elle contient. La phrase n'est pas traduite. */
+[data-mayem-termes]::after {
+  content: " [" attr(data-mayem-termes) "]";
+  font-size: 0.85em;
+  font-style: italic;
+  color: #0f4c5c;
+}
 @media (prefers-color-scheme: dark) {
   [data-mayem-cat]::before { color: #fbbf24; }
+  [data-mayem-termes]::after { color: #7dd3fc; }
 }

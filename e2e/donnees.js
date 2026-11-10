@@ -3,6 +3,9 @@ import { readFileSync } from 'node:fs';
 
 const pack = JSON.parse(readFileSync(new URL('../packs/bum/pack.json', import.meta.url), 'utf8'));
 
+// Première traduction d'un terme du glossaire (« Mebal » pour T01 solde)
+export const terme = (ref) => pack.glossaire.find((t) => t.ref === ref).bulu.split('/')[0].trim();
+
 export const bulu = (id, valeurs = {}) =>
   pack.phrases.find((p) => p.id === id).bulu.replace(/\{(\w+)\}/g, (_, nom) => valeurs[nom]);
 

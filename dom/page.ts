@@ -13,7 +13,7 @@ declare const chrome: { runtime: { sendMessage(message: unknown): Promise<unknow
 
 const IGNORES = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'SELECT_VALUE', 'CODE', 'PRE', 'svg', 'SVG']);
 const ATTRIBUTS = ['placeholder', 'title', 'aria-label'];
-const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-cat'];
+const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-cat', 'data-mayem-glose', 'data-mayem-termes'];
 // lang d'origine d'un élément traduit, rendu quand on change de langue (vide : il n'en avait pas)
 const LANG_ORIGINE = 'data-mayem-lang';
 // Balises de mise en forme : le texte qu'elles coupent est lu comme un seul bloc
@@ -23,6 +23,8 @@ let pack: Pack;
 let options: Options;
 let ui: Interface | null = null;
 let afficheTraduit = true;
+// Termes reconnus dans une phrase inconnue, affichés en CSS à côté d'elle (case du panneau)
+let glosesVisibles = true;
 let observateur: MutationObserver;
 // Le document et chaque Shadow DOM ouvert déjà parcouru
 const racines: (Document | ShadowRoot)[] = [];
@@ -49,6 +51,20 @@ function marquer(el: Element, res: Resultat) {
   if (res.categorie) {
     const texte = etiquette(res.categorie, pack, options);
     if (texte) el.setAttribute('data-mayem-cat', texte);
+  }
+  // La phrase reste en français ; seuls ses termes validés sont donnés, dans un pseudo-élément
+  if (res.termes?.length) {
+    const glose = res.termes.map((t) => `${t.fr} : ${t.traduction}`).join(' · ');
+    el.setAttribute('data-mayem-glose', glose);
+    if (glosesVisibles) el.setAttribute('data-mayem-termes', glose);
+  }
+}
+
+function montrerGloses(visibles: boolean) {
+  glosesVisibles = visibles;
+  for (const el of racines.flatMap((racine) => [...racine.querySelectorAll('[data-mayem-glose]')])) {
+    if (visibles) el.setAttribute('data-mayem-termes', el.getAttribute('data-mayem-glose')!);
+    else el.removeAttribute('data-mayem-termes');
   }
 }
 
@@ -269,7 +285,7 @@ export function demarrer(lePack: Pack, lesOptions: Options, langues: Langue[]) {
   options = lesOptions;
   // Un seul bouton, dans la page principale ; un cadre suit la bascule et la langue de son parent
   if (window === window.top) {
-    ui = creerInterface(!!options.test, langues, { langue: pack.langue, nom: pack.nom }, { basculer, changerLangue });
+    ui = creerInterface(!!options.test, langues, { langue: pack.langue, nom: pack.nom }, { basculer, changerLangue, montrerGloses });
   } else {
     window.addEventListener('message', (evenement) => {
       if (evenement.source !== window.parent) return;
