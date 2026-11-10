@@ -105,7 +105,8 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
    Ce sont des points à faire relire, pas des refus : un locuteur peut avoir raison contre le glossaire.
    Le bulu attendu vient du glossaire du pack ; le code ne contient que des règles du français.
 6. `npm run build` et recharger l'extension.
-7. Pour la démo finale : `MODE_TEST = false` dans `dom/entree.ts`. Seules les traductions validées s'affichent.
+7. `MODE_TEST` est à `false` dans `dom/entree.ts` (démo et usage réel) : seules les traductions validées
+   s'affichent. Pendant une campagne de traduction, le mettre à `true` montre « ‹…› + français » pour le reste.
 
 ## Garanties intégrées
 - On ne modifie que la valeur des textes existants : jamais de HTML injecté, jamais de nœud ajouté dans la page (compatible Vue/React).
