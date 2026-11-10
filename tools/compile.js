@@ -39,13 +39,16 @@ function ordre(chemin, vus = new Set()) {
   return [...dependances.flatMap((d) => ordre(d, vus)), chemin];
 }
 
+// En tête de chaque fichier construit : le code et les données appartiennent à l'équipe Mayem
+const DROITS = '// Mayem — © Équipe Mayem. Tous droits réservés. Aucune copie ni modification sans accord écrit (LICENSE).\n';
+
 // Les noms de premier niveau ne se répètent pas d'un fichier à l'autre (vérifié par node --check)
 // debut : déclarations ajoutées avant les fichiers (style.css pour les Shadow DOM)
 function regrouper(entree, debut = '') {
   const corps = debut + ordre(entree)
     .map((chemin) => `// ${chemin}\n` + sansTypes(chemin).replace(IMPORT, '').replace(/^export\s+/gm, '').trim())
     .join('\n\n');
-  return `(() => {\n'use strict';\n${corps}\n})();\n`;
+  return `${DROITS}(() => {\n'use strict';\n${corps}\n})();\n`;
 }
 
 // Le moteur seul, en module ES utilisable par n'importe quel projet : core/index.ts dit ce qui est public
@@ -56,7 +59,7 @@ function bibliotheque() {
     .map((chemin) => `// ${chemin}\n` + sansTypes(chemin).replace(IMPORT, '').replace(/^export\s+/gm, '').trim())
     .join('\n\n');
   const { version } = JSON.parse(readFileSync(racine + 'package.json', 'utf8'));
-  return `// Mayem ${version}, moteur de traduction (Apache 2.0). Documentation : docs/API.md\n${corps}\n\nexport {${publics}};\n`;
+  return `${DROITS}// Mayem ${version}, moteur de traduction. Documentation : docs/API.md\n${corps}\n\nexport {${publics}};\n`;
 }
 
 const choisies = demandees.length ? demandees.map(choisirLangue) : langues();

@@ -13,6 +13,9 @@ Traduction (toujours sur l'appareil : aucun texte affiché ne quitte l'appareil)
 Un service qui veut le bulu (ou toute autre langue de `packs/`) prend le pack et le moteur ; un outil
 de traduction ou un grand moteur prend les exports. Personne ne réécrit rien.
 
+**Code et données : © Équipe Mayem, tous droits réservés** (`LICENSE`, `packs/LICENCE.md`). Tout usage se fait
+dans le cadre d'un accord avec l'équipe Mayem : les fichiers officiels s'utilisent tels quels, sans modification.
+
 ## 1. Les données
 
 ### Pack (`pack.json`, contrat : `packs/schema.json`)
@@ -71,7 +74,9 @@ décision de l'équipe Mayem.
 
 ## 2. Intégrer Mayem dans un site, en une ligne (`dist-web/mayem.js`)
 
-Pour un service qui veut proposer la langue à ses clients sans leur demander d'installer d'extension.
+Pour un service autorisé par l'équipe Mayem qui veut proposer la langue à ses clients sans leur demander
+d'installer d'extension. Le fichier s'utilise tel quel : le modifier rompt l'accord, et l'attribut `integrity`
+empêche de toute façon le navigateur de l'exécuter.
 `npm run build` produit le fichier et affiche sa valeur `integrity` :
 
 ```html
@@ -111,6 +116,7 @@ feuille adoptée.
 ## 3. Le moteur (`dist-lib/mayem-core.js`, construit par `npm run build`)
 
 Module ES sans dépendance, pour navigateur, Node, React Native ou serveur. Fonctions pures : ni DOM, ni réseau.
+Réservé aux services autorisés par l'équipe Mayem, à utiliser sans modification.
 
 ```js
 import { traduire, verifierPack, empreinte } from './mayem-core.js';

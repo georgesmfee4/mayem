@@ -191,4 +191,6 @@ Deux rôles séparés (détails : `docs/API.md`) :
 - **Traducteurs** : la double validation est un mécanisme interne. Leurs noms restent dans les fichiers de
   l'équipe et ne sortent jamais : extension, script intégré, API et exports reçoivent une version publique
   où chaque nom devient un code (`tools/public.js`), ce qui laisse vérifiable la règle des deux personnes.
-- **Code** : Apache 2.0 (`LICENSE`, `NOTICE`).
+- **Code** (moteur, extension, script intégré, outils) : © Équipe Mayem, tous droits réservés (`LICENSE`).
+  Un service autorisé utilise les fichiers officiels sans les modifier, selon son accord avec l'équipe ;
+  toute copie, modification ou redistribution demande un accord écrit.
