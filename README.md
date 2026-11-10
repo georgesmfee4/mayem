@@ -33,7 +33,7 @@ dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM) ; f
 packs/       schema.json + un dossier par langue : packs/<code>/ (infos.json, corpus.csv, glossaire.csv,
              retraduction.csv, pack.json généré). Aucun outil ne connaît une langue par son nom.
 tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs), export, api
-docs/        API.md (réutiliser les données et le moteur), accord des locuteurs
+docs/        API.md (réutiliser les données et le moteur), demo.md (déroulé de la démo)
 test/        tests node:test
 e2e/         tests Playwright dans Chromium, extension chargée
 fixtures/    pages d'essai
@@ -103,6 +103,13 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
    - cohérence : même bulu pour des sens différents, même français ou même terme traduit de deux façons ;
    - négation du français (ne… pas, jamais, aucun, personne, rien, plus, sans) sans la forme du glossaire.
    Ce sont des points à faire relire, pas des refus : un locuteur peut avoir raison contre le glossaire.
+   - `npm run relecture` en fait un tableur, `relecture-bulu.xlsx` : une ligne par phrase concernée, négations
+     d'abord, avec la question posée en clair. Les locuteurs choisissent « Garder » ou « Corriger » (nouveau bulu),
+     et signent à deux noms différents.
+   - Retour : `npm run import -- relecture-bulu.xlsx`. Une correction remplace le bulu (version et journal
+     suivent, retraduction à refaire) ; « Garder » est noté dans `packs/<langue>/decisions.csv` et le point
+     n'est plus redemandé tant que ce bulu ne change pas. Une ligne incomplète, signée par une seule personne
+     ou dont le bulu a changé depuis l'export est laissée et listée.
    Le bulu attendu vient du glossaire du pack ; le code ne contient que des règles du français.
 6. `npm run build` et recharger l'extension.
 7. `MODE_TEST` est à `false` dans `dom/entree.ts` (démo et usage réel) : seules les traductions validées
@@ -178,7 +185,12 @@ Deux rôles séparés (détails : `docs/API.md`) :
 - **Traduction** : toujours locale. `npm run build` produit aussi `dist-lib/mayem-core.js`, le moteur seul
   en module ES sans dépendance (site, appli, serveur). Aucun texte affiché ne quitte l'appareil.
 
-## Licences
-- Code : Apache 2.0 (`LICENSE`, `NOTICE`), qui protège aussi contre les revendications de brevets.
-- Données linguistiques (`packs/`) : CC BY 4.0 prévue (`packs/LICENCE.md`), applicable une fois l'accord
-  `docs/accord-locuteurs.md` signé par chaque locuteur nommé dans le pack. Rien n'est publié avant.
+## Droits
+- **Données linguistiques** (`packs/` et tout ce qui en est tiré) : © Équipe Mayem, tous droits réservés
+  (`packs/LICENCE.md`). Elles s'utilisent selon les conditions de l'API Mayem, qui pourra devenir payante.
+- **Traducteurs** : la double validation est un mécanisme interne. Leurs noms restent dans les fichiers de
+  l'équipe et ne sortent jamais : extension, script intégré, API et exports reçoivent une version publique
+  où chaque nom devient un code (`tools/public.js`), ce qui laisse vérifiable la règle des deux personnes.
+- **Code** (moteur, extension, script intégré, outils) : © Équipe Mayem, tous droits réservés (`LICENSE`).
+  Un service autorisé utilise les fichiers officiels sans les modifier, selon son accord avec l'équipe ;
+  toute copie, modification ou redistribution demande un accord écrit.

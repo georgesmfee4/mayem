@@ -9,6 +9,7 @@ import { controler } from '../core/controle.ts';
 import { empreinte } from '../core/empreinte.ts';
 import { choisirLangue, dossier } from './langues.js';
 import { differences, entreeJournal, versionSuivante } from './versions.js';
+import { lireDecisions, pointsOuverts } from './decisions.js';
 
 const langue = choisirLangue(process.argv[2]);
 const ici = dossier(langue);
@@ -132,13 +133,13 @@ function expliquer(erreur, phrases) {
   return `${erreur}\n    fr   : ${phrase.fr}\n    bulu : ${phrase.bulu || '(vide)'}`;
 }
 
-const { langue: code, nom, orthographe, etiquettes } = JSON.parse(lire('infos.json'));
+const { langue: code, nom, producteur, droits, orthographe, etiquettes } = JSON.parse(lire('infos.json'));
 const contenu = { glossaire: lireGlossaire(), phrases: lirePhrases() };
 const ancien = existsSync(ici + 'pack.json') ? JSON.parse(lire('pack.json')) : null;
-const changements = differences(ancien, contenu);
+const changements = differences(ancien, { ...contenu, nom, producteur, droits, orthographe, etiquettes });
 const version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
 const date = version === ancien?.version && ancien.date ? ancien.date : new Date().toISOString().slice(0, 10);
-const pack = { langue: code, nom, version, date, empreinte: '', orthographe, etiquettes, ...contenu };
+const pack = { langue: code, nom, version, date, empreinte: '', producteur, droits, orthographe, etiquettes, ...contenu };
 pack.empreinte = await empreinte(pack);
 if (!erreurs.length) erreurs.push(...verifierPack(pack));
 
@@ -157,7 +158,7 @@ console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduite
 if (perimees.length) {
   console.log(`Retraduction à refaire (le bulu a changé depuis) : ${perimees.join(', ')}`);
 }
-const aRelire = controler(pack);
+const aRelire = pointsOuverts(controler(pack), lireDecisions(ici + 'decisions.csv'), pack);
 if (aRelire.length) console.log(`${aRelire.length} points à faire relire (glossaire, cohérence, négations) : npm run controle`);
 
 // Chaque version reste disponible (packs/<langue>/versions/) et le journal dit ce qui a changé
@@ -171,7 +172,9 @@ function archiver() {
     ? entreeJournal(version, date, changements)
     : `## ${version} (${date})\n- Première version suivie : ${pack.phrases.length} phrases, ${pack.glossaire.length} termes`;
   const titre = `# Journal du pack ${nom} (${code})\n\nUne correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.\n`;
-  const avant = existsSync(journal) ? readFileSync(journal, 'utf8').slice(titre.length) : '';
-  writeFileSync(journal, `${titre}\n${entree}\n${avant}`);
+  // Les entrées déjà écrites, à partir du premier « ## » (git peut avoir mis des fins de ligne Windows)
+  const deja = existsSync(journal) ? readFileSync(journal, 'utf8').replace(/\r\n/g, '\n') : '';
+  const avant = deja.includes('\n## ') ? deja.slice(deja.indexOf('\n## ') + 1) : '';
+  writeFileSync(journal, `${titre}\n${entree}\n\n${avant}`);
   console.log(`Version ${version} : packs/${code}/versions/${version}.json, journal dans packs/${code}/CHANGELOG.md`);
 }
