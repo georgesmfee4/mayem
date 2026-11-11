@@ -5,6 +5,8 @@
   python3 tools/kit.py import FICHIER    -> reporte traductions, glossaire et style du fichier rempli
   python3 tools/kit.py retraduction      -> retraduction-a-envoyer.xlsx (bulu seul, pour une 3e personne)
   python3 tools/kit.py import RETRAD     -> enregistre la retraduction reçue (retraduction.csv)
+  python3 tools/kit.py revision          -> revision-<langue>.xlsx (après npm run revision ; --precedent ANCIEN.xlsx
+                                            recopie les réponses d'un ancien tableur de relecture, à confirmer)
 
 Les fichiers de la langue sont dans packs/<langue>/. S'il y a plusieurs langues : --langue <code>.
 
@@ -17,6 +19,7 @@ try:
 except ImportError:
     sys.exit("openpyxl manque. L'installer une fois : python -m pip install openpyxl")
 from openpyxl.styles import Alignment, Font, PatternFill
+import revision_kit  # après la vérification d'openpyxl, qu'il utilise aussi
 
 root = pathlib.Path(__file__).resolve().parent.parent
 
@@ -291,5 +294,12 @@ if __name__ == '__main__':
         import_(sys.argv[2])
     elif len(sys.argv) >= 2 and sys.argv[1] == 'retraduction':
         backtranslation(None)
+    elif len(sys.argv) >= 2 and sys.argv[1] == 'revision':
+        import json
+        if not (DOSSIER / 'revision.json').exists():
+            sys.exit("Lancer d'abord : npm run revision")
+        precedent = sys.argv[sys.argv.index('--precedent') + 1] if '--precedent' in sys.argv else None
+        nom = json.load(open(DOSSIER / 'infos.json', encoding='utf-8'))['nom'].lower()
+        revision_kit.exporter(DOSSIER, root / f'revision-{nom}.xlsx', precedent)
     else:
         print(__doc__)
