@@ -21,6 +21,13 @@ const comparable = (s: string) =>
 const contientMot = (texte: string, mot: string) =>
   new RegExp(`(^|[^\\p{L}])${echapper(mot)}($|[^\\p{L}])`, 'iu').test(texte);
 const formes = (champ: string) => champ.split('/').map((forme) => forme.replace(/\(.*?\)/g, '').trim()).filter(Boolean);
+// Formes françaises les plus simples d'un terme : pluriel, et conjugaisons courantes d'un verbe en -er
+// (« confirmer » trouve « confirmez », « confirmé »). Imparfait mais sans faux sens.
+function variantes(mot: string): string[] {
+  const simple = comparable(mot);
+  if (/^\p{L}+er$/u.test(simple)) return ['er', 'ez', 'e', 'es', 'ent', 'ons', 'é', 'ée', 'és', 'ées'].map((fin) => simple.slice(0, -2) + fin);
+  return [simple, simple + 's', simple + 'x'];
+}
 
 // Négations du français, avec le mot qui retrouve l'entrée du glossaire correspondante.
 // Les plus précises d'abord : « ne… jamais » n'attend pas aussi la négation simple.
@@ -46,7 +53,7 @@ function controlerGlossaire(phrases: Phrase[], glossaire: Terme[]): Point[] {
     const attendus = formes(terme.bulu);
     for (const francais of formes(terme.terme).filter((mot) => mot.length >= 4)) {
       for (const phrase of phrases) {
-        if (!contientMot(phrase.fr, francais)) continue;
+        if (!variantes(francais).some((forme) => contientMot(comparable(phrase.fr), forme))) continue;
         if (attendus.some((bulu) => comparable(phrase.bulu).includes(comparable(bulu)))) continue;
         points.push({ type: 'glossaire', ids: [phrase.id], message: `« ${francais} » → « ${terme.bulu} » (${terme.ref}) absent : ${phrase.fr} => ${phrase.bulu}`, terme: { ref: terme.ref, fr: francais, attendu: terme.bulu } });
       }

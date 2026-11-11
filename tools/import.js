@@ -6,6 +6,7 @@
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { choisirLangue, dossier } from './langues.js';
 
 const racine = fileURLToPath(new URL('..', import.meta.url));
 // build-pack lit core/verifier.ts : Node doit retirer les types
@@ -31,5 +32,11 @@ function lancerPython(args) {
 const statut = lancerPython([racine + 'tools/kit.py', 'import', fichier, ...(langue ? ['--langue', langue] : [])]);
 if (statut !== 0) process.exit(statut);
 
-const pack = spawnSync(process.execPath, [...NODE_TS, racine + 'tools/build-pack.js', ...(langue ? [langue] : [])], { stdio: 'inherit' });
-process.exit(pack.status ?? 1);
+const node = (outil) => spawnSync(process.execPath, [...NODE_TS, racine + outil, ...(langue ? [langue] : [])], { stdio: 'inherit' }).status ?? 1;
+
+// Tableur de révision : ses réponses sont appliquées avant de reconstruire le pack, puis on montre ce qui reste
+const revision = existsSync(dossier(choisirLangue(langue)) + 'reponses-revision.json');
+if (revision && node('tools/appliquer-revision.js') !== 0) process.exit(1);
+const pack = node('tools/build-pack.js');
+if (pack === 0 && revision) node('tools/rapport-revision.js');
+process.exit(pack);
