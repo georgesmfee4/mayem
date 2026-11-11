@@ -16,3 +16,5 @@ dist-web/
 dist-refus/
 packs/*/revision.json
 revision-*.xlsx
+REVISION-BULU.md
+packs/*/reponses-revision.json

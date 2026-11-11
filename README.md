@@ -98,19 +98,24 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
    - Chaque phrase du pack garde `retraduit_par` et `retraduction`, à comparer au français.
    - Une retraduction faite sur un bulu qui a changé depuis est écartée, et la phrase est listée « à refaire ».
    - Une phrase retraduite par son propre traducteur est refusée.
-5. Contrôle des traductions validées : `npm run controle` (son total s'affiche aussi après `npm run pack` et l'import).
-   - Terme critique du glossaire absent de la phrase (ex. « confirmer » sans « Ntiñ ») ;
-   - cohérence : même bulu pour des sens différents, même français ou même terme traduit de deux façons ;
-   - négation du français (ne… pas, jamais, aucun, personne, rien, plus, sans) sans la forme du glossaire.
-   Ce sont des points à faire relire, pas des refus : un locuteur peut avoir raison contre le glossaire.
-   - `npm run relecture` en fait un tableur, `relecture-bulu.xlsx` : une ligne par phrase concernée, négations
-     d'abord, avec la question posée en clair. Les locuteurs choisissent « Garder » ou « Corriger » (nouveau bulu),
-     et signent à deux noms différents.
-   - Retour : `npm run import -- relecture-bulu.xlsx`. Une correction remplace le bulu (version et journal
-     suivent, retraduction à refaire) ; « Garder » est noté dans `packs/<langue>/decisions.csv` et le point
-     n'est plus redemandé tant que ce bulu ne change pas. Une ligne incomplète, signée par une seule personne
-     ou dont le bulu a changé depuis l'export est laissée et listée.
-   Le bulu attendu vient du glossaire du pack ; le code ne contient que des règles du français.
+5. Révision de fidélité : `npm run revision` liste tout ce qui peut faire perdre des points à un jury linguiste
+   (son total s'affiche aussi après `npm run pack`) et écrit `packs/<langue>/revision.json`.
+   - Bloquant : un même bulu pour des phrases différentes dont l'une est critique et l'autre non.
+   - À revoir : sens confondus, même français traduit de plusieurs façons, collisions du glossaire (mots entiers),
+     terme critique ou négation du glossaire absents, termes sans traduction, orthographe (majuscules,
+     apostrophes, espaces, ponctuation, alphabet), forme de politesse, boutons de plus de 3 mots.
+   - Ce sont des questions pour les locuteurs : un locuteur peut avoir raison contre le glossaire.
+     `npm run pack -- --strict` refuse le pack tant qu'il reste un constat bloquant (version finale).
+   - `python tools/kit.py revision` en fait `revision-bulu.xlsx` : mode d'emploi, charte d'orthographe, sens à
+     distinguer, phrases à revoir (P1 critiques d'abord), glossaire à compléter, récapitulatif. Les cases
+     « TRADUCTION BULU » reprennent le bulu actuel ; aucun bulu n'est proposé. `--precedent ancien.xlsx` recopie
+     les réponses d'un ancien tableur de relecture, à confirmer.
+   - Retour : `npm run import -- revision-bulu.xlsx`. Ligne inchangée : la validation reste ; « garder » à deux
+     noms est noté (`decisions.csv`) et n'est plus redemandé tant que ce bulu ne change pas ; bulu changé à deux
+     noms différents : remplacé et validé ; à un seul nom : l'ancien bulu reste affiché et la proposition attend
+     (`en-attente.csv`) ; explication du type « … pour dire … », chiffre ou champ {…} changé, deux propositions
+     différentes : refusé et listé. La charte va dans `style.csv`, les commentaires dans `commentaires.csv`.
+     L'import reconstruit le pack puis affiche ce qui reste à revoir.
 6. `npm run build` et recharger l'extension.
 7. `MODE_TEST` est à `false` dans `dom/entree.ts` (démo et usage réel) : seules les traductions validées
    s'affichent. Pendant une campagne de traduction, le mettre à `true` montre « ‹…› + français » pour le reste.
