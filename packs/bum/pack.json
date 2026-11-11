@@ -1,9 +1,9 @@
 {
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.3.2",
+  "version": "0.3.4",
   "date": "2026-11-11",
-  "empreinte": "sha256-8f53e93661ad816db237354f510594c567f654c3aa7cdb41a743b21122e35928",
+  "empreinte": "sha256-8b513b578145a463ff922bd461cc5b831a9720d3774e70c2bdf72109f496203f",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -4296,10 +4296,10 @@
       "en": [
         "Security"
       ],
-      "bulu": "Atye’é minlem",
+      "bulu": "Ékamàn",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -4324,10 +4324,10 @@
       "en": [
         "Secure connection"
       ],
-      "bulu": "Atye’é minlem",
+      "bulu": "Ntintan ékamàn",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -4758,12 +4758,12 @@
       "en": [
         "Transfer completed"
       ],
-      "bulu": "nlomane moné mvaé",
+      "bulu": "nlomane moné ô te bo'obane mvôé",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "Carrel",
-      "retraduction": "succès du transfert",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -4842,10 +4842,10 @@
       "en": [
         "Security warning"
       ],
-      "bulu": "Atye’é minlem",
+      "bulu": "Fôé Ékamàn",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -5178,10 +5178,10 @@
       "en": [
         "Confirm"
       ],
-      "bulu": "Ntiñ",
+      "bulu": "Ntiñti",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -5206,10 +5206,10 @@
       "en": [
         "Transaction successful"
       ],
-      "bulu": "nlomane moné mvaé",
+      "bulu": "Mam mese ma'ate bo'obane mvôé",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Alexandre",
+      "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true

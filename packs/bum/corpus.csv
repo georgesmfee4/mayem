@@ -24,9 +24,9 @@ A12,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Paiement marchand,Merchant
 A13,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Salaire reçu,Salary received,Eya'an éte kui,Lesly / relu par Carrel,1,
 A14,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Transfert reçu,Transfer received,Nlomane moné ô kui,Lesly / relu par Carrel,1,
 A15,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Facture électricité,Electricity bill,Nten kouran,Lesly / relu par Carrel,1,
-S01,P1,Toutes,"Encadré latéral, titre",0,0,Sécurité,Security,Atye’é minlem,Lesly / relu par Alexandre et Ronald,1,
+S01,P1,Toutes,"Encadré latéral, titre",0,0,Sécurité,Security,Ékamàn,Georges / relu par Lesly,1,
 S02,P1,Toutes,"Encadré latéral, conseil",1,0,Vérifiez toujours le nom et le numéro du bénéficiaire avant de confirmer un transfert.,Always verify the beneficiary name and number before confirming a transfer.,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Lesly / relu par Carrel,1,Avertissement de sécurité : le sens doit rester aussi fort
-S03,P1,Toutes,Encadré latéral,0,0,Connexion sécurisée,Secure connection,Atye’é minlem,Lesly / relu par Alexandre et Ronald,1,
+S03,P1,Toutes,Encadré latéral,0,0,Connexion sécurisée,Secure connection,Ntintan ékamàn,Georges / relu par Lesly,1,
 F01,P1,2. Frais,Titre,0,0,Frais de transfert,Transfer fees,Minkuk ya nlomane moné,Lesly / relu par Alexandre et Ronald,1,
 F02,P1,2. Frais,Sous-titre,0,0,Choisissez le type de transfert et le montant. Les frais sont calculés automatiquement.,Choose the transfer type and amount. Fees are calculated automatically.,Fialé aval nlomane moné ai abime moné. Minkuk miaye tabe mve'ane ana-ana.,Lesly / relu par Carrel,1,
 F03,P1,2. Frais,Libellé de liste,0,0,Type d'opération,Operation type,Aval nlomane moné,Lesly / relu par Carrel,1,
@@ -57,13 +57,13 @@ R06,P1,4. Récapitulatif,Libellé de ligne,0,0,Opération,Operation,Nlomane mon�
 R07,P1,4. Récapitulatif,Case à cocher,1,0,Je confirme que les informations ci-dessus sont correctes.,I confirm the information above is correct.,Ma ntiñ na folâ bi ke mbamba.,Lesly / relu par Alexandre et Ronald,1,Engagement de l'utilisateur : sens critique
 R08,P1,4. Récapitulatif,Bouton,1,0,Modifier,Edit,Tyendé,Lesly / relu par Alexandre et Ronald,1,Revenir corriger les informations (ne pas confondre avec annuler)
 R09,P1,4. Récapitulatif,Bouton,1,0,Confirmer le transfert,Confirm transfer,Ntiñ nlomane moné,Lesly / relu par Alexandre et Ronald,1,Action définitive : l'argent part
-C01,P1,5. Reçu,Titre,1,0,Transfert effectué,Transfer completed,nlomane moné mvaé,Lesly / relu par Alexandre et Ronald,1,
+C01,P1,5. Reçu,Titre,1,0,Transfert effectué,Transfer completed,nlomane moné ô te bo'obane mvôé,Georges / relu par Lesly,1,
 C02,P1,5. Reçu,Sous-titre,1,0,Votre transfert a été envoyé avec succès.,Your transfer has been sent successfully.,Nlomane moné wôe wôé ô te bo'obane mvôé,Lesly / relu par Carrel,1,
 C03,P1,5. Reçu,Libellé de ligne,0,0,Statut,Status,Étò,Lesly / relu par Carrel,1,État de l'opération
 C04,P1,5. Reçu,Valeur du statut,1,0,Succès,Success,Mvaé,Lesly / relu par Alexandre et Ronald,1,L'opération a réussi
 C05,P1,5. Reçu,Bouton,0,0,Nouveau transfert,New transfer,Mféfé nlomane moné,Lesly / relu par Carrel,1,
 E01,P1,Erreurs,Titre d'erreur,1,0,Une erreur est survenue,An error occurred,Djom dzing éte bo'oban abé,Lesly / relu par Alexandre et Ronald,1,
-E02,P1,Erreurs,Titre d'alerte,1,0,Alerte de sécurité,Security warning,Atye’é minlem,Lesly / relu par Alexandre et Ronald,1,Doit rester un avertissement fort
+E02,P1,Erreurs,Titre d'alerte,1,0,Alerte de sécurité,Security warning,Fôé Ékamàn,Georges / relu par Lesly,1,Doit rester un avertissement fort
 E03,P1,Erreurs,Bouton fermer (lu par les lecteurs d'écran),0,0,Fermer,Dismiss,E fet,Lesly / relu par Alexandre et Ronald,1,Fermer le message
 E04,P1,Messages,Étiquette au-dessus d'un message,1,0,Message important,Important message,Foé éne abui mfi,Lesly / relu par Carrel,1,
 E05,P1,Erreurs,Message AMOUNT_001,1,0,Le montant doit être supérieur à zéro.,The amount must be greater than zero.,Abime moné dayiane bô ôsu momo,Lesly / relu par Carrel,1,
@@ -87,9 +87,9 @@ X11,P2,Autres services,Ligne,1,0,Numéro du bénéficiaire : {phone},Beneficiary
 X12,P2,Autres services,Ligne,1,0,Frais de l'opération : {amount},Transaction fee: {amount},Minkuk ya nlomane moné : {amount},Lesly / relu par Alexandre et Ronald,1,Garder {amount}
 X13,P2,Autres services,Récapitulatif,1,0,Vous allez envoyer {amount} à {name},You are about to send {amount} to {name},Nlomane moné {amount} asu {name},Lesly / relu par Carrel,1,Garder {amount} et {name}
 X14,P2,Autres services,Ligne,1,0,Total débité : {amount},Total debited: {amount},Mebal mate wulu : {amount},Lesly / relu par Alexandre et Ronald,1,Garder {amount}
-X15,P2,Autres services,Bouton,1,0,Confirmer,Confirm,Ntiñ,Lesly / relu par Alexandre et Ronald,1,Action définitive
+X15,P2,Autres services,Bouton,1,0,Confirmer,Confirm,Ntiñti,Georges / relu par Lesly,1,Action définitive
 X16,P2,Autres services,Avertissement,1,0,Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.,Check the beneficiary's name and number before confirming. A confirmed transaction cannot be cancelled.,"Ô tuá fômbo jôé na nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",Lesly / relu par Carrel,1,
-X17,P2,Autres services,Statut,0,0,Opération réussie,Transaction successful,nlomane moné mvaé,Lesly / relu par Alexandre et Ronald,1,
+X17,P2,Autres services,Statut,0,0,Opération réussie,Transaction successful,Mam mese ma'ate bo'obane mvôé,Alexandre / relu par Carrel,1,
 X18,P2,Autres services,Statut,0,0,Opération en cours de traitement,Transaction in progress,yangué mone nté,Lesly / relu par Carrel,1,
 X19,P2,Autres services,Ligne,0,0,Référence de l'opération : {ref},Transaction reference: {ref},Mendém ya nlomane moné : {ref},Lesly / relu par Alexandre et Ronald,1,Garder {ref}
 X20,P2,Autres services,Erreur,1,0,Solde insuffisant,Insufficient balance,Mebal Teké njalan,Lesly / relu par Alexandre et Ronald,1,
