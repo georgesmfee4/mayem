@@ -37,12 +37,9 @@ ajouter('decisions.csv', ENTETES_DECISIONS, rapport.decisions.filter((d) => !lir
 ajouter('en-attente.csv', ['ref', 'ancien', 'nouveau', 'traduit_par', 'relu_par', 'date'], rapport.attente);
 ajouter('commentaires.csv', ['ref', 'date', 'traduit_par', 'relu_par', 'commentaire'], rapport.commentaires);
 
-// Alphabet changé dans la charte : la mention « orthographe » du pack suit
-const alphabet = (reponses.charte || []).find((r) => r.sujet === 'Orthographe' && r.reponse && !/^(oui|ok|je confirme|confirm)/i.test(r.reponse.trim()));
-if (alphabet) {
-  const infos = JSON.parse(readFileSync(ici + 'infos.json', 'utf8'));
-  writeFileSync(ici + 'infos.json', JSON.stringify({ ...infos, orthographe: alphabet.reponse.trim() }, null, 2) + '\n');
-}
+// infos.json est publié : une réponse libre de la charte n'y est jamais recopiée, l'équipe le met à jour elle-même
+const alphabet = (reponses.charte || []).find((r) => r.sujet === 'Orthographe' && r.reponse);
+const infos = JSON.parse(readFileSync(ici + 'infos.json', 'utf8'));
 rmSync(ici + 'reponses-revision.json');
 
 const bloc = (titre, lignes) => lignes.length && console.log(`\n${titre} (${lignes.length}) :\n  ${lignes.join('\n  ')}`);
@@ -52,3 +49,4 @@ bloc('Refusées, à renvoyer aux locuteurs', rapport.refus);
 bloc('Charte d\'orthographe', rapport.charte);
 bloc('Commentaires des locuteurs, à lire -> commentaires.csv', rapport.commentaires.map((c) => `${c.ref} : ${c.commentaire}`));
 console.log(`\n${rapport.decisions.length} décision(s) « garder » notées.`);
+if (alphabet) console.log(`Alphabet : infos.json dit « ${infos.orthographe} » ; à mettre à jour à la main si la réponse de la charte le change.`);
