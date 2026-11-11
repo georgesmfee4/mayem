@@ -14,5 +14,7 @@ packs/*/a-traduire.csv
 dist-pseudo/
 dist-web/
 dist-refus/
-packs/*/relecture.csv
-relecture-*.xlsx
+packs/*/revision.json
+revision-*.xlsx
+REVISION-BULU.md
+packs/*/reponses-revision.json

@@ -5,7 +5,8 @@
   python3 tools/kit.py import FICHIER    -> reporte traductions, glossaire et style du fichier rempli
   python3 tools/kit.py retraduction      -> retraduction-a-envoyer.xlsx (bulu seul, pour une 3e personne)
   python3 tools/kit.py import RETRAD     -> enregistre la retraduction reçue (retraduction.csv)
-  python3 tools/kit.py relecture CSV     -> relecture-<langue>.xlsx (préparé par npm run relecture)
+  python3 tools/kit.py revision          -> revision-<langue>.xlsx (après npm run revision ; --precedent ANCIEN.xlsx
+                                            recopie les réponses d'un ancien tableur de relecture, à confirmer)
 
 Les fichiers de la langue sont dans packs/<langue>/. S'il y a plusieurs langues : --langue <code>.
 
@@ -18,7 +19,7 @@ try:
 except ImportError:
     sys.exit("openpyxl manque. L'installer une fois : python -m pip install openpyxl")
 from openpyxl.styles import Alignment, Font, PatternFill
-import relecture_kit  # après la vérification d'openpyxl, qu'il utilise aussi
+import revision_kit  # après la vérification d'openpyxl, qu'il utilise aussi
 
 root = pathlib.Path(__file__).resolve().parent.parent
 
@@ -245,9 +246,9 @@ def import_(path):
     except PermissionError:
         # Excel verrouille le fichier tant qu'il est ouvert
         sys.exit(f"{path} est ouvert dans Excel : l'enregistrer, le fermer, puis relancer l'import.")
-    # Tableur de relecture (npm run relecture) : décisions sur les points du contrôle, rien d'autre
-    if 'Relecture' in full.sheetnames:
-        relecture_kit.importer(full, DOSSIER, CORPUS, FIELDS, bulu_column)
+    # Tableur de révision (python tools/kit.py revision) : réponses appliquées par tools/appliquer-revision.js
+    if 'Phrases à revoir' in full.sheetnames:
+        revision_kit.extraire(full, DOSSIER)
         return
     # Un fichier de retraduction n'a ni glossaire ni style : ne pas annoncer « 0 termes »
     if 'Glossaire' in full.sheetnames:
@@ -297,9 +298,12 @@ if __name__ == '__main__':
         import_(sys.argv[2])
     elif len(sys.argv) >= 2 and sys.argv[1] == 'retraduction':
         backtranslation(None)
-    elif len(sys.argv) >= 3 and sys.argv[1] == 'relecture':
+    elif len(sys.argv) >= 2 and sys.argv[1] == 'revision':
         import json
+        if not (DOSSIER / 'revision.json').exists():
+            sys.exit("Lancer d'abord : npm run revision")
+        precedent = sys.argv[sys.argv.index('--precedent') + 1] if '--precedent' in sys.argv else None
         nom = json.load(open(DOSSIER / 'infos.json', encoding='utf-8'))['nom'].lower()
-        relecture_kit.exporter(sys.argv[2], root / f'relecture-{nom}.xlsx')
+        revision_kit.exporter(DOSSIER, root / f'revision-{nom}.xlsx', precedent)
     else:
         print(__doc__)
