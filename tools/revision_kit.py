@@ -256,3 +256,32 @@ def exporter(dossier, sortie, precedent_fichier=None):
     print(f"  charte : {compte['charte']} questions ; sens à distinguer : {compte['sens']} lignes ({len(sens)} groupes) ;"
           f" phrases à revoir : {compte['phrases']} ; glossaire : {compte['glossaire']}")
     return compte
+
+
+def _lignes(ws):
+    """Lignes d'un onglet sous forme de dictionnaires, en sautant les titres de bloc (sans réf.)."""
+    rangs = list(ws.iter_rows(values_only=True))
+    entetes = [str(h).strip() if h is not None else '' for h in rangs[0]]
+    texte = lambda v: '' if v is None else str(v).strip()
+    lignes = [dict(zip(entetes, map(texte, r))) for r in rangs[1:] if r]
+    return [l for l in lignes if l.get('Réf.') or l.get('Sujet')]
+
+
+def extraire(wb, dossier):
+    """Réponses du tableur rempli -> reponses-revision.json, appliqué ensuite par tools/appliquer-revision.js."""
+    phrases = []
+    for l in _lignes(wb['Sens à distinguer']):
+        phrases.append({'ref': l['Réf.'], 'bulu': l.get('TRADUCTION BULU', ''), 'decision': '',
+                        'different': l.get('Faut-il un bulu différent ? (oui / non)', ''), 'traduit_par': l.get('Traduit par', ''),
+                        'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', ''), 'codes': ['sens-confondus']})
+    for l in _lignes(wb['Phrases à revoir']):
+        phrases.append({'ref': l['Réf.'], 'bulu': l.get('TRADUCTION BULU', ''), 'decision': l.get('Décision (garder / corriger)', ''),
+                        'different': '', 'traduit_par': l.get('Traduit par', ''), 'relu_par': l.get('Relu par', ''),
+                        'commentaire': l.get('Commentaire', ''), 'codes': [c for c in l.get('codes', '').split(',') if c]})
+    glossaire = [{'ref': l['Réf.'], 'bulu': l.get('TERME BULU APPROUVÉ', ''), 'choisi_par': l.get('Choisi par', ''),
+                  'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', '')} for l in _lignes(wb['Glossaire à compléter'])]
+    charte = [{'sujet': l['Sujet'], 'question': l.get('Question', ''), 'reponse': l.get('VOTRE RÉPONSE (confirmer ou corriger)', ''),
+               'commentaire': l.get('Commentaire', '')} for l in _lignes(wb["Charte d'orthographe"])]
+    with open(dossier / 'reponses-revision.json', 'w', encoding='utf-8') as f:
+        json.dump({'phrases': phrases, 'glossaire': glossaire, 'charte': charte}, f, ensure_ascii=False, indent=1)
+    print(f"révision : {len(phrases)} lignes de phrases, {len(glossaire)} termes, {len(charte)} questions de charte lues")

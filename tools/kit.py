@@ -246,6 +246,10 @@ def import_(path):
     except PermissionError:
         # Excel verrouille le fichier tant qu'il est ouvert
         sys.exit(f"{path} est ouvert dans Excel : l'enregistrer, le fermer, puis relancer l'import.")
+    # Tableur de révision (python tools/kit.py revision) : réponses appliquées par tools/appliquer-revision.js
+    if 'Phrases à revoir' in full.sheetnames:
+        revision_kit.extraire(full, DOSSIER)
+        return
     # Un fichier de retraduction n'a ni glossaire ni style : ne pas annoncer « 0 termes »
     if 'Glossaire' in full.sheetnames:
         print(f"glossaire : {import_glossary(full)} termes -> glossaire.csv")
