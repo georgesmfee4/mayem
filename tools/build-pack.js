@@ -1,17 +1,19 @@
 // packs/<langue>/ : corpus.csv + glossaire.csv + infos.json -> pack.json
-// Usage : npm run pack [-- <langue>] (la langue est facultative s'il n'y en a qu'une)
+// Usage : npm run pack [-- <langue>] [--strict] (la langue est facultative s'il n'y en a qu'une)
+// --strict : refuse aussi le pack s'il reste un constat de révision bloquant (version finale).
 // Le pack n'est écrit que s'il passe check-pack : un pack invalide ne remplace jamais le bon.
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { lireCsv } from './csv.js';
 import { verifierPack } from './check-pack.js';
-import { controler } from '../core/controle.ts';
 import { empreinte } from '../core/empreinte.ts';
 import { choisirLangue, dossier } from './langues.js';
 import { differences, entreeJournal, versionSuivante } from './versions.js';
-import { lireDecisions, pointsOuverts } from './decisions.js';
+import { resume, revisionOuverte } from './revision-donnees.js';
+import { BLOQUANT } from './revision-commun.js';
 
-const langue = choisirLangue(process.argv[2]);
+const strict = process.argv.includes('--strict');
+const langue = choisirLangue(process.argv.slice(2).find((argument) => !argument.startsWith('--')));
 const ici = dossier(langue);
 const lire = (nom) => readFileSync(ici + nom, 'utf8');
 const oui = (v) => ['1', 'oui', 'yes', 'x'].includes((v || '').trim().toLowerCase());
@@ -149,6 +151,14 @@ if (erreurs.length) {
   console.error(`Corriger packs/${langue}/corpus.csv (ou le tableur puis réimporter) et relancer.`);
   process.exit(1);
 }
+// Les constats de révision ne bloquent pas pendant que les locuteurs travaillent, sauf en --strict
+const revision = revisionOuverte(pack, ici);
+const bloquants = revision.filter((c) => c.niveau === BLOQUANT);
+if (strict && bloquants.length) {
+  console.error(bloquants.map((c) => `${c.ref} : ${c.explication}`).join('\n'));
+  console.error(`\n${bloquants.length} constat(s) bloquant(s) (--strict). Pack non écrit : npm run revision.`);
+  process.exit(1);
+}
 writeFileSync(ici + 'pack.json', JSON.stringify(pack, null, 2) + '\n');
 archiver();
 const validees = pack.phrases.filter((p) => p.valide).length;
@@ -158,8 +168,7 @@ console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduite
 if (perimees.length) {
   console.log(`Retraduction à refaire (le bulu a changé depuis) : ${perimees.join(', ')}`);
 }
-const aRelire = pointsOuverts(controler(pack), lireDecisions(ici + 'decisions.csv'), pack);
-if (aRelire.length) console.log(`${aRelire.length} points à faire relire (glossaire, cohérence, négations) : npm run controle`);
+if (revision.length) console.log(`${resume(revision)} : npm run revision`);
 
 // Chaque version reste disponible (packs/<langue>/versions/) et le journal dit ce qui a changé
 function archiver() {
