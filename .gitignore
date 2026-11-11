@@ -15,3 +15,4 @@ dist-pseudo/
 dist-web/
 dist-refus/
 packs/*/revision.json
+revision-*.xlsx
