@@ -1,9 +1,9 @@
 {
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.3.4",
-  "date": "2026-11-11",
-  "empreinte": "sha256-8b513b578145a463ff922bd461cc5b831a9720d3774e70c2bdf72109f496203f",
+  "version": "0.5.1",
+  "date": "2026-11-12",
+  "empreinte": "sha256-a00ff9a2cf6c5ca67a0b04fd8b3441bc5c34507883911e49fe1b93c8db12ed06",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -63,14 +63,26 @@
     },
     {
       "ref": "T05",
-      "terme": "total débité / débiter",
-      "en": "total debited / debit",
-      "sens": "La somme retirée du compte (montant + frais)",
+      "terme": "total débité / montant débité",
+      "en": "total debited / amount debited",
+      "sens": "La somme déjà retirée du compte (montant + frais)",
       "critique": true,
-      "bulu": "Mebal mate wulu",
-      "a_eviter": "Mebal tout court qui est le montant, il faut une expression qui désigne que le solde ne sera plus le même (soustraction).",
-      "traduit_par": "",
-      "relu_par": "Alexandre et Ronald",
+      "bulu": "Mabal máte wùlù",
+      "a_eviter": "Ne pas confondre avec « total à débiter » (T83, Mebal mazù wulu), avant l’opération. Mebal tout court qui est le montant, il faut une expression qui désigne que le solde ne sera plus le même (soustraction).",
+      "traduit_par": "Georges",
+      "relu_par": "Carrel",
+      "commentaire": ""
+    },
+    {
+      "ref": "T83",
+      "terme": "total à débiter / montant à débiter",
+      "en": "total to debit / amount to debit",
+      "sens": "La somme qui sera retirée du compte (montant + frais)",
+      "critique": true,
+      "bulu": "Mebal mazù wulu",
+      "a_eviter": "Ne pas confondre avec « total débité » (T05, Mabal máte wùlù), après l’opération.",
+      "traduit_par": "Georges",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -87,14 +99,26 @@
     },
     {
       "ref": "T07",
-      "terme": "transfert / envoyer de l’argent",
-      "en": "transfer / send money",
+      "terme": "envoyer de l’argent",
+      "en": "send money",
       "sens": "Envoyer de l'argent à une autre personne",
       "critique": true,
-      "bulu": "Nlomane moné",
-      "a_eviter": "",
+      "bulu": "E lôm moné",
+      "a_eviter": "Ne pas confondre avec « transfert » (T82, Nlomane moné), le nom de l’opération.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
+      "commentaire": ""
+    },
+    {
+      "ref": "T82",
+      "terme": "transfert",
+      "en": "transfer",
+      "sens": "L’opération d’envoi d’argent (le nom)",
+      "critique": true,
+      "bulu": "Nlomane moné",
+      "a_eviter": "Ne pas confondre avec « envoyer de l’argent » (T07, E lôm moné), l’action.",
+      "traduit_par": "Georges",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -207,14 +231,26 @@
     },
     {
       "ref": "T17",
-      "terme": "alerte de sécurité / attention",
-      "en": "security warning / warning",
-      "sens": "Avertissement : il y a un risque",
+      "terme": "alerte de sécurité",
+      "en": "security warning",
+      "sens": "Titre qui signale un risque pour la sécurité du compte",
       "critique": true,
-      "bulu": "Atye’é minlem",
-      "a_eviter": "Éviter 'Mbenga' seul si l'on veut insister sur la vigilance du cœur des utilisateurs.",
+      "bulu": "Fôé ékamàn",
+      "a_eviter": "Ne pas confondre avec « attention » (T81, Fôé éne mfi). Éviter 'Mbenga' seul si l'on veut insister sur la vigilance du cœur des utilisateurs.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
+      "commentaire": ""
+    },
+    {
+      "ref": "T81",
+      "terme": "attention",
+      "en": "warning",
+      "sens": "Mot qui demande au client d’être vigilant avant d’agir",
+      "critique": true,
+      "bulu": "Fôé éne mfi",
+      "a_eviter": "Ne pas confondre avec « alerte de sécurité » (T17, Fôé ékamàn).",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -223,10 +259,10 @@
       "en": "error",
       "sens": "Quelque chose n'a pas marché",
       "critique": true,
-      "bulu": "Mvôngô",
+      "bulu": "nkúán",
       "a_eviter": "Nsem (à éviter absolument car nsem signifie péché/faute morale grave, totalement inadapté à une erreur système).",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -295,10 +331,10 @@
       "en": "receipt / completed / success",
       "sens": "L'opération est terminée et a réussi",
       "critique": true,
-      "bulu": "mvaé",
-      "a_eviter": "Éviter d'intervertir les trois termes dans les notifications d'état.",
+      "bulu": "",
+      "a_eviter": "Pas de traduction isolée : le sens de reçu, effectué ou succès se construit dans chaque message, selon le contexte.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -331,10 +367,10 @@
       "en": "important message",
       "sens": "Une information que le client doit lire",
       "critique": true,
-      "bulu": "Menda’an ntiñ",
+      "bulu": "Fôé éne mfi",
       "a_eviter": "foé e ne nfi (moins formel pour une alerte d'application bancaire).",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -643,10 +679,10 @@
       "en": "zero",
       "sens": "Écrit en lettres dans un message d'erreur de la page.",
       "critique": true,
-      "bulu": "Mvôk",
+      "bulu": "momo",
       "a_eviter": "Éviter de remplacer le zéro par une négation : « zéro » exprime une valeur numérique, pas « non » ni « rien ». Dans l'interface, conserver aussi le chiffre 0.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -1627,10 +1663,10 @@
       "en": "confirmation code",
       "sens": "Le code reçu par SMS (différent du code secret T19 ?).",
       "critique": true,
-      "bulu": "Nten bafili ya tsin",
+      "bulu": "Nten bafili",
       "a_eviter": "Éviter de le confondre avec le code secret / PIN T19 : ce code reçu par SMS sert à confirmer une action.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -4660,10 +4696,10 @@
       "en": [
         "Total debited"
       ],
-      "bulu": "Mebal mate wulu",
+      "bulu": "Mabal máte wùlù",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -4842,10 +4878,10 @@
       "en": [
         "Security warning"
       ],
-      "bulu": "Fôé Ékamàn",
+      "bulu": "Fôé ékamàn",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -5164,10 +5200,10 @@
       "en": [
         "Total debited: {amount}"
       ],
-      "bulu": "Mebal mate wulu : {amount}",
+      "bulu": "Mabal máte wùlù : {amount}",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
