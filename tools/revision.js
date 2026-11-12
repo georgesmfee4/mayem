@@ -67,11 +67,12 @@ function termesCritiques(phrases, glossaire) {
   return controler(pack).filter((point) => point.terme).map((point) => {
     const p = phrases.find((x) => x.id === point.ids[0]);
     const negation = point.type === 'negation';
-    return constat(point.ids, negation ? 'negation' : 'terme-critique', A_REVOIR,
+    // terme : réf. du glossaire, pour que le tableur propose aussi de revoir le terme lui-même
+    return { ...constat(point.ids, negation ? 'negation' : 'terme-critique', A_REVOIR,
       negation
         ? `La phrase française contient une négation (« ${point.terme.fr} ») : « ${p.fr} ». La forme du glossaire « ${point.terme.attendu} » n'apparaît pas dans le bulu.`
         : `La phrase française contient « ${point.terme.fr} » : « ${p.fr} ». Le glossaire le traduit « ${point.terme.attendu} », qui n'apparaît pas dans le bulu.`,
-      negation ? 'Le sens négatif est-il bien rendu ? Un oubli inverse le sens du message.' : 'Faut-il utiliser le terme du glossaire, ou cette formulation est-elle voulue ?');
+      negation ? 'Le sens négatif est-il bien rendu ? Un oubli inverse le sens du message.' : 'Faut-il utiliser le terme du glossaire, ou cette formulation est-elle voulue ?'), terme: point.terme.ref };
   });
 }
 
