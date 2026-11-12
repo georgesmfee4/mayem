@@ -50,7 +50,7 @@ B06,P1,3. Bénéficiaire,Libellé de champ,0,0,Note (optionnel),Note (optional),
 B07,P1,3. Bénéficiaire,Case à cocher,1,0,J'ai vérifié le nom et le numéro du bénéficiaire.,I have verified the beneficiary name and phone number.,M'ate tuá fômbo jôé ai nombor nsinga ya nyô a bi.,Lesly / relu par Carrel,1,Engagement de l'utilisateur : sens critique
 R01,P1,4. Récapitulatif,Sous-titre,1,0,Vérifiez les informations avant de confirmer le transfert.,Check the details before confirming the transfer.,Ô tuá fômbo folâ ôsusua na w'a ntiñ nlomane moné.,Lesly / relu par Carrel,1,
 R02,P1,4 et 5,Libellé de ligne,1,1,Montant,Amount,Abime moné,Lesly / relu par Carrel,1,
-R03,P1,4 et 5,Libellé de ligne,1,1,Total débité,Total debited,Mebal mate wulu,Lesly / relu par Alexandre et Ronald,1,Somme retirée du compte (montant + frais)
+R03,P1,4 et 5,Libellé de ligne,1,1,Total débité,Total debited,Mabal máte wùlù,Georges / relu par Carrel,1,Somme retirée du compte (montant + frais)
 R04,P1,4. Récapitulatif,Libellé de ligne,0,1,Téléphone,Phone,Nombor nkô,Georges / relu par Lesly,1,
 R05,P1,4 et 5,Libellé de ligne,0,1,Référence,Reference,Mendém,Lesly / relu par Alexandre et Ronald,1,Code qui identifie l'opération
 R06,P1,4. Récapitulatif,Libellé de ligne,0,0,Opération,Operation,Nlomane moné,Lesly / relu par Carrel,1,Type d'opération
@@ -63,7 +63,7 @@ C03,P1,5. Reçu,Libellé de ligne,0,0,Statut,Status,Étò,Lesly / relu par Carre
 C04,P1,5. Reçu,Valeur du statut,1,0,Succès,Success,Mvaé,Lesly / relu par Alexandre et Ronald,1,L'opération a réussi
 C05,P1,5. Reçu,Bouton,0,0,Nouveau transfert,New transfer,Mféfé nlomane moné,Lesly / relu par Carrel,1,
 E01,P1,Erreurs,Titre d'erreur,1,0,Une erreur est survenue,An error occurred,Djom dzing éte bo'oban abé,Lesly / relu par Alexandre et Ronald,1,
-E02,P1,Erreurs,Titre d'alerte,1,0,Alerte de sécurité,Security warning,Fôé Ékamàn,Georges / relu par Lesly,1,Doit rester un avertissement fort
+E02,P1,Erreurs,Titre d'alerte,1,0,Alerte de sécurité,Security warning,Fôé ékamàn,Georges / relu par Carrel,1,Doit rester un avertissement fort
 E03,P1,Erreurs,Bouton fermer (lu par les lecteurs d'écran),0,0,Fermer,Dismiss,E fet,Lesly / relu par Alexandre et Ronald,1,Fermer le message
 E04,P1,Messages,Étiquette au-dessus d'un message,1,0,Message important,Important message,Foé éne abui mfi,Lesly / relu par Carrel,1,
 E05,P1,Erreurs,Message AMOUNT_001,1,0,Le montant doit être supérieur à zéro.,The amount must be greater than zero.,Abime moné dayiane bô ôsu momo,Lesly / relu par Carrel,1,
@@ -86,7 +86,7 @@ X10,P2,Autres services,Libellé,0,1,Numéro du bénéficiaire,Beneficiary number
 X11,P2,Autres services,Ligne,1,0,Numéro du bénéficiaire : {phone},Beneficiary number: {phone},Nombor nsinga ya Nyô a bi : {phone},Lesly / relu par Alexandre et Ronald,1,Garder {phone}
 X12,P2,Autres services,Ligne,1,0,Frais de l'opération : {amount},Transaction fee: {amount},Minkuk ya nlomane moné : {amount},Lesly / relu par Alexandre et Ronald,1,Garder {amount}
 X13,P2,Autres services,Récapitulatif,1,0,Vous allez envoyer {amount} à {name},You are about to send {amount} to {name},Nlomane moné {amount} asu {name},Lesly / relu par Carrel,1,Garder {amount} et {name}
-X14,P2,Autres services,Ligne,1,0,Total débité : {amount},Total debited: {amount},Mebal mate wulu : {amount},Lesly / relu par Alexandre et Ronald,1,Garder {amount}
+X14,P2,Autres services,Ligne,1,0,Total débité : {amount},Total debited: {amount},Mabal máte wùlù : {amount},Georges / relu par Carrel,1,Garder {amount}
 X15,P2,Autres services,Bouton,1,0,Confirmer,Confirm,Ntiñti,Georges / relu par Lesly,1,Action définitive
 X16,P2,Autres services,Avertissement,1,0,Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.,Check the beneficiary's name and number before confirming. A confirmed transaction cannot be cancelled.,"Ô tuá fômbo jôé na nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",Lesly / relu par Carrel,1,
 X17,P2,Autres services,Statut,0,0,Opération réussie,Transaction successful,Mam mese ma'ate bo'obane mvôé,Alexandre / relu par Carrel,1,
