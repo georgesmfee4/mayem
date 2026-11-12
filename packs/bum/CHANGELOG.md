@@ -2,6 +2,21 @@
 
 Une correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.
 
+## 0.5.2 (2026-11-12)
+- Phrases modifiées (1) : E10
+
+## 0.5.1 (2026-11-12)
+- Phrases modifiées (2) : R03, X14
+
+## 0.5.0 (2026-11-12)
+- Phrases modifiées (1) : E02
+- Termes ajoutés (2) : T83, T82
+- Termes modifiés (2) : T05, T07
+
+## 0.4.0 (2026-11-12)
+- Termes ajoutés (1) : T81
+- Termes modifiés (8) : T05, T07, T17, T18, T24, T27, GR23, T47
+
 ## 0.3.4 (2026-11-11)
 - Phrases modifiées (1) : X17
 

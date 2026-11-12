@@ -6,7 +6,8 @@
   python3 tools/kit.py retraduction      -> retraduction-a-envoyer.xlsx (bulu seul, pour une 3e personne)
   python3 tools/kit.py import RETRAD     -> enregistre la retraduction reçue (retraduction.csv)
   python3 tools/kit.py revision          -> revision-<langue>.xlsx (après npm run revision ; --precedent ANCIEN.xlsx
-                                            recopie les réponses d'un ancien tableur de relecture, à confirmer)
+                                            recopie les réponses d'un ancien tableur de relecture, à confirmer ;
+                                            --codes negation,politesse,… -> revision-<langue>-court.xlsx, ces points seuls)
 
 Les fichiers de la langue sont dans packs/<langue>/. S'il y a plusieurs langues : --langue <code>.
 
@@ -303,7 +304,8 @@ if __name__ == '__main__':
         if not (DOSSIER / 'revision.json').exists():
             sys.exit("Lancer d'abord : npm run revision")
         precedent = sys.argv[sys.argv.index('--precedent') + 1] if '--precedent' in sys.argv else None
+        codes = sys.argv[sys.argv.index('--codes') + 1].split(',') if '--codes' in sys.argv else None
         nom = json.load(open(DOSSIER / 'infos.json', encoding='utf-8'))['nom'].lower()
-        revision_kit.exporter(DOSSIER, root / f'revision-{nom}.xlsx', precedent)
+        revision_kit.exporter(DOSSIER, root / f"revision-{nom}{'-court' if codes else ''}.xlsx", precedent, codes)
     else:
         print(__doc__)
