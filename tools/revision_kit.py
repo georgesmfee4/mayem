@@ -119,13 +119,14 @@ def _onglet_guide(wb):
     ws['A1'].font = Font(bold=True, size=13)
 
 
-def _onglet_charte(wb, style):
+def _onglet_charte(wb, style, sans_reponse_seulement=False):
     ws = wb.create_sheet("Charte d'orthographe")
     _entete(ws, ['Sujet', 'Question', 'Réponse actuelle', 'VOTRE RÉPONSE (confirmer ou corriger)', 'Commentaire'], [20, 60, 50, 50, 30])
-    for sujet, question in CHARTE:
+    questions = [(s, q) for s, q in CHARTE if not (sans_reponse_seulement and style.get(s, '').strip())]
+    for sujet, question in questions:
         _ligne(ws, [sujet, question, style.get(sujet, ''), '', ''], jaunes=(4, 5))
     _finir(ws, 'C2')
-    return len(CHARTE)
+    return len(questions)
 
 
 def _onglet_sens(wb, groupes, phrases, contexte, precedent):
@@ -207,7 +208,8 @@ def _onglet_recap(wb, compte, priorites):
         ['Glossaire à compléter', compte['glossaire'], '', '', "4. Termes critiques d'abord"],
     ]
     for ligne in lignes:
-        _ligne(ws, ligne, jaunes=())
+        if ligne[1]:
+            _ligne(ws, ligne, jaunes=())
 
 
 def _style(dossier):
@@ -236,8 +238,19 @@ def precedentes(fichier):
     return reponses
 
 
-def exporter(dossier, sortie, precedent_fichier=None):
+def _termes_contredits(constats):
+    """Un terme critique absent d'une phrase revue : le glossaire est peut-être à changer, pas la phrase."""
+    return [{'refs': [c['terme']], 'ref': c['terme'], 'code': 'terme-critique',
+             'explication': f"{c['ref']} n'utilise pas ce terme. Si la phrase est juste, écrivez ici le terme à utiliser partout."}
+            for c in constats if c['code'] == 'terme-critique' and c.get('terme')]
+
+
+def exporter(dossier, sortie, precedent_fichier=None, codes=None):
+    """codes : ne garder que ces constats (tableur court) ; la charte ne montre alors que les questions sans réponse."""
     constats = json.load(open(dossier / 'revision.json', encoding='utf-8'))
+    if codes:
+        constats = [c for c in constats if c['code'] in codes]
+        constats += _termes_contredits(constats)
     pack = json.load(open(dossier / 'pack.json', encoding='utf-8'))
     phrases = {p['id']: p for p in pack['phrases']}
     termes = {t['ref']: t for t in pack['glossaire']}
@@ -247,10 +260,14 @@ def exporter(dossier, sortie, precedent_fichier=None):
     autres = [c for c in constats if c['code'] != 'sens-confondus' and c['ref'] != 'charte']
     wb = Workbook()
     _onglet_guide(wb)
-    compte = {'charte': _onglet_charte(wb, _style(dossier)), 'sens': _onglet_sens(wb, sens, phrases, contexte, precedent)}
+    compte = {'charte': _onglet_charte(wb, _style(dossier), bool(codes)),'sens': _onglet_sens(wb, sens, phrases, contexte, precedent)}
     compte['phrases'], priorites = _onglet_phrases(wb, autres, phrases, contexte, precedent)
     compte['glossaire'] = _onglet_glossaire(wb, autres, termes)
     _onglet_recap(wb, compte, priorites)
+    # Tableur court : un onglet vide ne ferait que dérouter les locuteurs (l'import tolère son absence)
+    for nom, cle in (("Charte d'orthographe", 'charte'), ('Sens à distinguer', 'sens')):
+        if codes and not compte[cle]:
+            del wb[nom]
     wb.save(sortie)
     print(f"Tableur de révision -> {sortie}")
     print(f"  charte : {compte['charte']} questions ; sens à distinguer : {compte['sens']} lignes ({len(sens)} groupes) ;"
@@ -258,9 +275,11 @@ def exporter(dossier, sortie, precedent_fichier=None):
     return compte
 
 
-def _lignes(ws):
-    """Lignes d'un onglet sous forme de dictionnaires, en sautant les titres de bloc (sans réf.)."""
-    rangs = list(ws.iter_rows(values_only=True))
+def _lignes(wb, nom):
+    """Lignes d'un onglet sous forme de dictionnaires, en sautant les titres de bloc (sans réf.) ; onglet absent : aucune."""
+    if nom not in wb.sheetnames:
+        return []
+    rangs = list(wb[nom].iter_rows(values_only=True))
     entetes = [str(h).strip() if h is not None else '' for h in rangs[0]]
     texte = lambda v: '' if v is None else str(v).strip()
     lignes = [dict(zip(entetes, map(texte, r))) for r in rangs[1:] if r]
@@ -270,18 +289,18 @@ def _lignes(ws):
 def extraire(wb, dossier):
     """Réponses du tableur rempli -> reponses-revision.json, appliqué ensuite par tools/appliquer-revision.js."""
     phrases = []
-    for l in _lignes(wb['Sens à distinguer']):
+    for l in _lignes(wb, 'Sens à distinguer'):
         phrases.append({'ref': l['Réf.'], 'bulu': l.get('TRADUCTION BULU', ''), 'decision': '',
                         'different': l.get('Faut-il un bulu différent ? (oui / non)', ''), 'traduit_par': l.get('Traduit par', ''),
                         'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', ''), 'codes': ['sens-confondus']})
-    for l in _lignes(wb['Phrases à revoir']):
+    for l in _lignes(wb, 'Phrases à revoir'):
         phrases.append({'ref': l['Réf.'], 'bulu': l.get('TRADUCTION BULU', ''), 'decision': l.get('Décision (garder / corriger)', ''),
                         'different': '', 'traduit_par': l.get('Traduit par', ''), 'relu_par': l.get('Relu par', ''),
                         'commentaire': l.get('Commentaire', ''), 'codes': [c for c in l.get('codes', '').split(',') if c]})
     glossaire = [{'ref': l['Réf.'], 'bulu': l.get('TERME BULU APPROUVÉ', ''), 'choisi_par': l.get('Choisi par', ''),
-                  'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', '')} for l in _lignes(wb['Glossaire à compléter'])]
+                  'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', '')} for l in _lignes(wb, 'Glossaire à compléter')]
     charte = [{'sujet': l['Sujet'], 'question': l.get('Question', ''), 'reponse': l.get('VOTRE RÉPONSE (confirmer ou corriger)', ''),
-               'commentaire': l.get('Commentaire', '')} for l in _lignes(wb["Charte d'orthographe"])]
+               'commentaire': l.get('Commentaire', '')} for l in _lignes(wb, "Charte d'orthographe")]
     with open(dossier / 'reponses-revision.json', 'w', encoding='utf-8') as f:
         json.dump({'phrases': phrases, 'glossaire': glossaire, 'charte': charte}, f, ensure_ascii=False, indent=1)
     print(f"révision : {len(phrases)} lignes de phrases, {len(glossaire)} termes, {len(charte)} questions de charte lues")
