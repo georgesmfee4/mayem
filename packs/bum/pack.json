@@ -1,9 +1,9 @@
 {
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "date": "2026-11-12",
-  "empreinte": "sha256-a00ff9a2cf6c5ca67a0b04fd8b3441bc5c34507883911e49fe1b93c8db12ed06",
+  "empreinte": "sha256-09beb2b546f2d92370071cd6ea49bdcb8a63854df606a7fc13df2b13371e4f11",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -4990,10 +4990,10 @@
       "en": [
         "Network error: the service is temporarily unavailable. Please try again."
       ],
-      "bulu": "Mvôngô ya nsinga: teké e djom etó dji. Beta'a ve'ele.",
+      "bulu": "Nkúán ya nsinga: teké e djom etó dji. Beta'a ve'ele.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
