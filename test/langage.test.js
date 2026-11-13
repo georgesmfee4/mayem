@@ -17,6 +17,7 @@ const pack = {
     phrase('P3', 'Côté client', 'BULU-COTE'),
     phrase('P4', 'Coté client', 'BULU-COTATION'),
     phrase('P5', 'Bienvenue sur Banque Kribi', 'BULU-BIENVENUE'),
+    phrase('P6', 'Comptes', 'BULU-PLURIEL'),
   ],
   glossaire: [terme('T1', 'solde', 'Zolo'), terme('T2', 'compte', 'Konte')],
 };
@@ -55,6 +56,13 @@ test('phrase du corpus écrite sans accents : reconnue, avec ses valeurs', () =>
   assert.equal(traduire('OPERATION REUSSIE', pack).sortie, 'BULU-REUSSI');
   assert.equal(traduire('Operation reussie', pack).id, 'P1');
   assert.equal(traduire('Votre operation de 5 000 FCFA a echoue', pack).sortie, 'BULU 5 000 FCFA ECHEC');
+});
+
+test('pluriel : traduit seulement s’il est validé comme une phrase du corpus, jamais par le singulier', () => {
+  for (const texte of ['Comptes', 'comptes', 'COMPTES']) assert.equal(traduire(texte, pack).sortie, 'BULU-PLURIEL', texte);
+  assert.equal(traduire('Compte', pack).sortie, 'Konte');
+  assert.equal(traduire('Soldes', pack).sortie, null);
+  assert.deepEqual(traduire('Soldes', pack).termes.map((t) => t.ref), ['T1']);
 });
 
 test('sans accents, deux phrases qui s’écrivent pareil ne sont pas devinées', () => {
