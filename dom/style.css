@@ -23,3 +23,23 @@
   [data-mayem-cat]::before { color: #fbbf24; }
   [data-mayem-termes]::after { color: #7dd3fc; }
 }
+/* Libellé court (menu, bouton) : la glose n'apparaît qu'au survol ou au clavier, posée par-dessus
+   la page pour ne rien déplacer. */
+[data-mayem-court]::after { content: none; }
+[data-mayem-court][data-mayem-termes]:hover::after,
+[data-mayem-court][data-mayem-termes]:focus-visible::after,
+:focus-visible > [data-mayem-court][data-mayem-termes]::after {
+  content: attr(data-mayem-termes);
+  position: absolute;
+  z-index: 2147483000;
+  margin: 1.6em 0 0 0.3em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #0f4c5c;
+  color: #fff;
+  font: italic 400 0.85rem/1.4 system-ui, sans-serif;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  pointer-events: none;
+}

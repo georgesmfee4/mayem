@@ -2,7 +2,7 @@
 // On ne modifie que la valeur des nœuds texte déjà présents (jamais de HTML injecté,
 // jamais de nœud ajouté dans la page) et on ne lit ni ne modifie aucun champ de saisie.
 
-import { estPhrase, memesChiffres } from '../core/faits.ts';
+import { memesChiffres } from '../core/faits.ts';
 import { etiquette, normaliser, traduire } from '../core/moteur.ts';
 import { repartir } from '../core/repartir.ts';
 import type { Options, Pack, Resultat } from '../core/types.ts';
@@ -16,7 +16,7 @@ export interface Reglages { chargerPack: ChargerPack; bouton?: boolean }
 
 const IGNORES = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'SELECT_VALUE', 'CODE', 'PRE', 'svg', 'SVG']);
 const ATTRIBUTS = ['placeholder', 'title', 'aria-label'];
-const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-cat', 'data-mayem-glose', 'data-mayem-termes', 'data-mayem-deborde'];
+const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-cat', 'data-mayem-glose', 'data-mayem-termes', 'data-mayem-court', 'data-mayem-deborde'];
 // lang d'origine d'un élément traduit, rendu quand on change de langue (vide : il n'en avait pas)
 const LANG_ORIGINE = 'data-mayem-lang';
 // Balises de mise en forme : le texte qu'elles coupent est lu comme un seul bloc
@@ -42,7 +42,10 @@ const ecrits = new Map<Text, { origine: string; traduit: string }>();
 const dansNotreUi = (el: Element) => el.closest(`#${ID_HOTE}`);
 const modifiable = (el: Element) => el.closest('[contenteditable]:not([contenteditable="false"])');
 
-function marquer(el: Element, res: Resultat) {
+// Libellé de menu ou de bouton : une glose écrite à sa suite l'élargirait et déplacerait la page
+const estCourt = (texte: string) => texte.trim().split(/\s+/).length <= 4 && !/[.!?…]$/.test(texte.trim());
+
+function marquer(el: Element, res: Resultat, texte: string) {
   for (const nom of MARQUES) el.removeAttribute(nom);
   el.setAttribute('data-mayem', res.statut);
   if (res.critique) el.setAttribute('data-mayem-critique', '1');
@@ -56,10 +59,12 @@ function marquer(el: Element, res: Resultat) {
     const texte = etiquette(res.categorie, pack, options);
     if (texte) el.setAttribute('data-mayem-cat', texte);
   }
-  // La phrase reste en français ; seuls ses termes validés sont donnés, dans un pseudo-élément
+  // Le texte reste en français ; seuls ses termes validés sont donnés, dans un pseudo-élément :
+  // à sa suite pour une phrase, au survol ou au clavier pour un libellé court
   if (res.termes?.length) {
     const glose = res.termes.map((t) => `${t.fr} : ${t.traduction}`).join(' · ');
     el.setAttribute('data-mayem-glose', glose);
+    if (estCourt(texte)) el.setAttribute('data-mayem-court', '1');
     if (glosesVisibles) el.setAttribute('data-mayem-termes', glose);
   }
 }
@@ -121,7 +126,7 @@ function traiterBloc(bloc: Element): boolean {
     ecrits.delete(noeud); // morceau protégé (montant, nom) : jamais réécrit
     if (noeud.nodeValue !== origines[i]) noeud.nodeValue = origines[i];
   });
-  marquer(bloc, res);
+  marquer(bloc, res, origines.join(''));
   prevoirCompteurs();
   return true;
 }
@@ -139,9 +144,9 @@ function traiterTexte(noeud: Text) {
   if (!res) return;
   if (res.sortie) {
     ecrire(noeud, res.sortie);
-    marquer(parent, res);
-  } else if (estPhrase(brut) || res.critique) {
-    marquer(parent, res); // original conservé, signalé
+    marquer(parent, res, brut);
+  } else if (res.id || res.categorie) {
+    marquer(parent, res, brut); // original conservé, signalé ; un nom propre n'a ni phrase ni catégorie
   }
   prevoirCompteurs();
 }
