@@ -180,6 +180,9 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 2. `npm run inventaire -- … --ajouter` met ces modèles dans `corpus.csv`, sans traduction ;
    `python tools/kit.py export` les envoie aux locuteurs, puis `npm run import` comme d'habitude.
    Seul ce qui est nouveau part chez les locuteurs ; la validation par deux personnes ne change pas.
+   - `--ajouter --etat proche` n'envoie que les textes proches d'une entrée validée : pluriels (« Comptes » pour
+     « compte ») et variantes. C'est le moyen de traduire un pluriel : il devient une phrase du corpus, validée
+     par deux personnes. Mayem n'affiche jamais le singulier à la place d'un pluriel ; en attendant, il le glose.
 3. `npm run couverture` : la même mesure sur les pages d'essai, à suivre d'une version à l'autre.
 
 L'inventaire est un outil de l'équipe, lancé sur des pages d'essai ou un compte de test : un nom de personne

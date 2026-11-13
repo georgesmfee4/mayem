@@ -1,9 +1,11 @@
 // Inventaire d'un ou de plusieurs services : ouvre leurs pages dans un navigateur, relève tous les textes que
 // Mayem verrait, mesure ce qui est déjà repris du pack et liste ce qui manque, faits masqués ({amount}, {date}…),
 // regroupé, les textes communs à plusieurs services d'abord.
-// Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--profil <fichier.json>] [--ajouter]
+// Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--profil <fichier.json>] [--ajouter [--etat <liste>]]
 //   -> packs/<langue>/a-traduire.csv ; avec --ajouter, les modèles manquants entrent aussi dans corpus.csv
 //      (sans traduction) : python tools/kit.py export les envoie alors aux locuteurs.
+//   --etat proche : seuls les textes proches d'une entrée validée (pluriels, variantes) sont ajoutés. Un pluriel
+//      validé ainsi est une phrase du corpus comme une autre : le singulier n'est jamais affiché à sa place.
 //   --profil : profil du service, { "ne_pas_traduire": ["Nom de marque", …] } ; ces textes sortent de l'inventaire.
 // Outil de l'équipe, jamais lancé chez un utilisateur : à faire sur des pages d'essai ou un compte de test,
 // car un nom de personne n'est pas masqué.
@@ -76,7 +78,7 @@ const ligneCouverture = ({ traduit, proche, partiel, absent, rejete, total }) =>
 
 // Ce que les locuteurs ont déjà validé et qui aide pour ce modèle
 function consigne(manque) {
-  if (manque.proche) return `Proche de « ${manque.proche} », déjà traduit`;
+  if (manque.proche) return `Ressemble à « ${manque.proche} », déjà traduit : même mot au pluriel ou écrit autrement. Donnez la forme juste pour ce texte.`;
   return manque.termes.length ? `Termes du glossaire : ${manque.termes.join(', ')}` : '';
 }
 
@@ -89,7 +91,7 @@ function ajouterAuCorpus(fichier, manques) {
   const numeros = lignes.map((l) => Number(l.id.match(/^N(\d+)$/)?.[1] || 0));
   let suivant = Math.max(0, ...numeros) + 1;
   const nouvelles = manques.filter((m) => !presents.has(m.modele)).map((m) => ({
-    id: `N${String(suivant++).padStart(3, '0')}`, priorite: 'P2', ecran: 'Inventaire', element: m.etat,
+    id: `N${String(suivant++).padStart(3, '0')}`, priorite: 'P2', ecran: 'Inventaire', element: 'Texte relevé sur un service',
     critique: m.categorie && m.categorie !== 'info' ? '1' : '0', champ_fait: /\{\w+\}/.test(m.modele) ? '1' : '0',
     fr: m.modele, en: '', bulu: '', valide_par: '', valide: '', consigne: consigne(m),
   }));
@@ -100,9 +102,11 @@ function ajouterAuCorpus(fichier, manques) {
 const options = process.argv.slice(2);
 const langue = choisirLangue(options.includes('--langue') ? options[options.indexOf('--langue') + 1] : undefined);
 const profil = options.includes('--profil') ? JSON.parse(readFileSync(options[options.indexOf('--profil') + 1], 'utf8')) : {};
-const cibles = options.filter((o, i) => !o.startsWith('--') && !['--langue', '--profil'].includes(options[i - 1]));
+// --etat proche,partiel : seuls ces états partent chez les locuteurs avec --ajouter (les pluriels d'abord, par exemple)
+const etats = options.includes('--etat') ? options[options.indexOf('--etat') + 1].split(',') : null;
+const cibles = options.filter((o, i) => !o.startsWith('--') && !['--langue', '--profil', '--etat'].includes(options[i - 1]));
 if (!cibles.length) {
-  console.error('Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--profil <fichier.json>] [--ajouter]');
+  console.error('Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--profil <fichier.json>] [--ajouter [--etat <liste>]]');
   process.exit(1);
 }
 const ici = dossier(langue);
@@ -122,5 +126,6 @@ writeFileSync(ici + 'a-traduire.csv', ecrireCsv(['modele', 'occurrences', 'servi
 console.log(`${rapport.manques.length} modèles à traduire -> packs/${langue}/a-traduire.csv`);
 if (rapport.motsAbsents.length) console.log(`Mots absents du corpus et du glossaire : ${rapport.motsAbsents.slice(0, 30).map((m) => m.mot).join(', ')}`);
 if (options.includes('--ajouter') && existsSync(ici + 'corpus.csv')) {
-  console.log(`${ajouterAuCorpus(ici + 'corpus.csv', rapport.manques)} modèles ajoutés à packs/${langue}/corpus.csv, sans traduction : python tools/kit.py export`);
+  const choisis = rapport.manques.filter((m) => !etats || etats.includes(m.etat));
+  console.log(`${ajouterAuCorpus(ici + 'corpus.csv', choisis)} modèles ajoutés à packs/${langue}/corpus.csv, sans traduction : python tools/kit.py export`);
 }
