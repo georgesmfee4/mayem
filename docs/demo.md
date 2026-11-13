@@ -15,7 +15,7 @@
 | 0:00 | Page officielle intacte, puis un clic sur l'icône : la page passe en bulu, montants et numéros identiques | Fonctionnement 25 |
 | 0:45 | Bouton « i » : textes traduits, originaux conservés, chiffres vérifiés, débordements à 0 | Fidélité 20, Sécurité 20 |
 | 1:15 | Bascule bulu ⇄ original (bouton ou nouveau clic) ; un champ de saisie reste intact | Sécurité 20 |
-| 1:45 | Panneau jury : contenu inédit injecté -> original conservé, étiquette validée et termes critiques en glose ; jamais de phrase inventée | Fidélité 20 |
+| 1:45 | Panneau jury : contenu inédit injecté -> original conservé, étiquette validée et termes validés en glose ; jamais de phrase inventée | Fidélité 20 |
 | 2:30 | `fixtures/react.html` (anglais, écrans recréés) et `shadow.html` : même extension, aucun réglage par site | Intégration 15 |
 | 3:00 | `fixtures/integre.html` dans un profil sans extension : la même traduction, par une seule balise `<script>` | Intégration 15 |
 | 3:15 | Second profil avec `dist-refus/mot-change/` : clic sur l'icône -> la page ne bouge pas, badge rouge « ! », raison au survol (« empreinte différente ») | Sécurité 20 |

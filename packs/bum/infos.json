@@ -6,7 +6,7 @@
   "orthographe": "Alphabet de l'Église presbytérienne",
   "etiquettes": {
     "securite": "E02",
-    "erreur": "E01",
+    "erreur": "T18",
     "frais": "G06"
   }
 }

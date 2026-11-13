@@ -2,6 +2,9 @@
 
 Une correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.
 
+## 0.5.3 (2026-11-12)
+- Informations modifiées (1) : etiquettes
+
 ## 0.5.2 (2026-11-12)
 - Phrases modifiées (1) : E10
 

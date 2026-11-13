@@ -26,6 +26,21 @@ test('texte coupé par des balises et messages de plusieurs phrases', async ({ p
   await expect(page.locator('#inconnu')).not.toHaveAttribute('data-mayem-termes');
   await page.locator('#mayem-host #gloses').check();
   await expect(page.locator('#inconnu')).toHaveAttribute('data-mayem-termes', /solde/);
+  // Alerte inédite tout en majuscules : signalée comme en minuscules, étiquette et termes connus
+  await expect(page.locator('#alerte')).toHaveText('VOTRE SOLDE EST INSUFFISANT POUR CETTE OPERATION.');
+  await expect(page.locator('#alerte')).toHaveAttribute('data-mayem', 'non_verifie');
+  await expect(page.locator('#alerte')).toHaveAttribute('data-mayem-cat', terme('T18'));
+  await expect(page.locator('#alerte')).toHaveAttribute('data-mayem-termes', new RegExp(`solde : ${terme('T01')}`));
+  // Phrase du corpus écrite sans accents : traduite ; nom propre : jamais marqué
+  await expect(page.locator('#sans-accents')).toHaveText(bulu('X17'));
+  await expect(page.locator('#nom')).not.toHaveAttribute('data-mayem');
+  // Libellé court : sa glose n'apparaît qu'au survol, pour ne pas élargir le menu
+  const menu = page.locator('#menu');
+  const apres = () => menu.evaluate((el) => getComputedStyle(el, '::after').content);
+  await expect(menu).toHaveAttribute('data-mayem-court', '1');
+  expect(await apres()).toBe('none');
+  await menu.hover();
+  expect(await apres()).toContain(terme('T06'));
   await expect(page.locator('#montant')).toHaveValue('5 000');
   expect(await nombres(page)).toEqual(avant);
 
