@@ -18,6 +18,11 @@ const pack = {
     terme('T6', 'retour', 'Bula', 'A', ''), // pas relu
     terme('T7', 'montant', 'Somme (à accorder)'), // explication, pas un terme
     { ...terme('G1', 'aucun / aucune', 'Dzing'), sens: '« Aucun agent ne vous le demandera. »' }, // mot grammatical
+    terme('T8', 'bénéficiaire', 'Benef'),
+    terme('T9', 'côte', 'Kot'),
+    terme('T10', 'coté', 'Kote'),
+    { ...terme('T11', 'banque', 'Banke'), critique: false, sens: 'L’établissement qui tient le compte' }, // concept défini
+    { ...terme('G2', 'avec', 'Ake'), critique: false }, // ni critique ni défini
   ],
 };
 const sortie = (texte) => traduire(texte, pack)?.sortie ?? null;
@@ -45,6 +50,24 @@ test('terme non relu, relu par son traducteur ou expliqué : jamais utilisé', (
 test('mot grammatical : traduit seul comme libellé, jamais glosé dans une phrase', () => {
   assert.equal(sortie('Aucun'), 'Dzing');
   assert.deepEqual(gloses('Aucun solde disponible pour le moment'), ['solde=Zolo']);
+});
+
+test('libellé sans accents : traduit si un seul terme s’écrit ainsi', () => {
+  assert.equal(sortie('BENEFICIAIRE'), 'Benef');
+  assert.equal(sortie('Beneficiaire'), 'Benef');
+  assert.equal(sortie('côte'), 'kot');
+  assert.equal(sortie('cote'), null); // « côte » ou « coté » : on ne devine pas
+});
+
+test('pluriel : jamais traduit par le singulier, seulement glosé', () => {
+  assert.equal(sortie('Soldes'), null);
+  assert.deepEqual(gloses('Soldes'), ['solde=Zolo']);
+});
+
+test('glose : concept critique ou défini, à la casse, à l’accent et au pluriel près', () => {
+  assert.deepEqual(gloses('VOS CODES SECRETS ET VOTRE BENEFICIAIRE'), ['code secret=Kod sekre', 'bénéficiaire=Benef']);
+  assert.deepEqual(gloses('Payez avec votre banque'), ['banque=Banke']);
+  assert.equal(traduire('Payez avec votre banque', pack).critique, false);
 });
 
 test('phrase inconnue : non traduite, termes signalés, le plus long d’abord, sans doublon', () => {

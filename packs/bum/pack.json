@@ -1,15 +1,15 @@
 {
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "date": "2026-11-12",
-  "empreinte": "sha256-09beb2b546f2d92370071cd6ea49bdcb8a63854df606a7fc13df2b13371e4f11",
+  "empreinte": "sha256-394a51152b2506617ee32d114490fe078b04d160ef8ad7fc0596db4a33394649",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
   "etiquettes": {
     "securite": "E02",
-    "erreur": "E01",
+    "erreur": "T18",
     "frais": "G06"
   },
   "glossaire": [

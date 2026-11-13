@@ -60,15 +60,16 @@ export function verifierPack(pack: unknown, schema: Regle): string[] {
   verifierForme(pack, schema, 'pack', erreurs);
   if (erreurs.length) return erreurs; // inutile d'aller plus loin sur un pack mal formé
 
-  const { phrases, etiquettes } = pack as Pack;
+  const { phrases, glossaire, etiquettes } = pack as Pack;
   const ids = new Set<string>();
   for (const p of phrases) {
     if (ids.has(p.id)) erreurs.push(`${p.id} : id en double`);
     ids.add(p.id);
     verifierPhrase(p, erreurs);
   }
+  const termes = new Set(glossaire.filter((t) => t.bulu.trim()).map((t) => t.ref));
   for (const [categorie, id] of Object.entries(etiquettes)) {
-    if (!ids.has(id as string)) erreurs.push(`étiquette « ${categorie} » : la phrase ${id} n'existe pas`);
+    if (!ids.has(id as string) && !termes.has(id as string)) erreurs.push(`étiquette « ${categorie} » : ni phrase ni terme traduit ${id}`);
   }
   return erreurs;
 }

@@ -46,6 +46,8 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
 ## Tester
 1. `npm run build` prépare l'extension dans `dist/`, avec toutes les langues de `packs/`
    (`npm run build -- bum` pour n'en garder qu'une ; la première est celle proposée au clic).
+   `bum` est le code international du bulu (ISO 639-3) : il nomme le dossier `packs/bum/` et l'attribut
+   `lang="bum"` lu par les lecteurs d'écran. Partout où une personne lit, Mayem affiche le nom « Bulu ».
 2. Chrome → `chrome://extensions` → « Mode développeur » → « Charger l'extension non empaquetée » → le dossier `dist/`.
 3. Ouvrir `https://safinum.cm/hackathon-test?jury=1`, puis **cliquer sur l'icône Mayem** (épinglez-la dans la barre
    d'outils). Rien ne se passe avant ce clic. Le parcours reste dans la même page : un clic suffit pour les étapes 1 à 5.

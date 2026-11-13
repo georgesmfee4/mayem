@@ -1,7 +1,8 @@
 // Moteur de traduction : phrase exacte -> modèle à trous -> catégorie -> repli sûr.
 // Il ne connaît aucune page : il reçoit une chaîne et un pack, il rend un résultat.
 
-import { MOTIFS, estPhrase, memesChiffres, queDesFaits } from './faits.ts';
+import { MOTIFS, memesChiffres, queDesFaits, retirerFaits } from './faits.ts';
+import { estLangage, sansAccents } from './langage.ts';
 import type { Categorie, Options, Pack, Phrase, Resultat, Statut } from './types.ts';
 import { termesConnus, traduireTerme } from './termes.ts';
 
@@ -62,23 +63,41 @@ function champValide(nom: string, valeur: string): boolean {
   return validateurs.get(type)!.test(valeur);
 }
 
+function rangerSource(index: Index, source: string, phrase: Phrase) {
+  if (!/\{\w+\}/.test(source)) {
+    index.exactes.set(normaliser(source).toLowerCase(), phrase);
+    return;
+  }
+  const precision = source.replace(/\{\w+\}/g, '').length;
+  const fixe = normaliser(source).replace(/\{\w+\}/g, ' ').toLowerCase();
+  const modele: Modele = { source, mots: fixe.split(' ').filter(Boolean), phrase, precision };
+  const mot = premierMot(normaliser(source), true);
+  if (mot) index.parMot.set(mot, [...(index.parMot.get(mot) || []), modele]);
+  else index.sansMot.push(modele);
+}
+
+// Service qui écrit sans accents (« OPERATION REUSSIE ») : la même phrase, si elle est seule à s'écrire ainsi
+function rangerSansAccents(index: Index, phrases: Phrase[]) {
+  const seules = new Map<string, Phrase | null>();
+  for (const phrase of phrases) {
+    for (const source of [phrase.fr, ...phrase.en]) {
+      if (!/[^\x00-\x7f]/.test(source)) continue;
+      const sans = sansAccents(source);
+      const cle = normaliser(sans).toLowerCase();
+      if (/\{\w+\}/.test(sans)) rangerSource(index, sans, phrase);
+      else if (!index.exactes.has(cle)) seules.set(cle, seules.has(cle) && seules.get(cle) !== phrase ? null : phrase);
+    }
+  }
+  for (const [cle, phrase] of seules) if (phrase) index.exactes.set(cle, phrase);
+}
+
 function indexer(pack: Pack): Index {
   const index: Index = { exactes: new Map(), parMot: new Map(), sansMot: [], parId: new Map() };
   for (const phrase of pack.phrases) {
     index.parId.set(phrase.id, phrase);
-    for (const source of [phrase.fr, ...phrase.en]) {
-      if (/\{\w+\}/.test(source)) {
-        const precision = source.replace(/\{\w+\}/g, '').length;
-        const fixe = normaliser(source).replace(/\{\w+\}/g, ' ').toLowerCase();
-        const modele: Modele = { source, mots: fixe.split(' ').filter(Boolean), phrase, precision };
-        const mot = premierMot(normaliser(source), true);
-        if (mot) index.parMot.set(mot, [...(index.parMot.get(mot) || []), modele]);
-        else index.sansMot.push(modele);
-      } else {
-        index.exactes.set(normaliser(source).toLowerCase(), phrase);
-      }
-    }
+    for (const source of [phrase.fr, ...phrase.en]) rangerSource(index, source, phrase);
   }
+  rangerSansAccents(index, pack.phrases);
   // Les modèles les plus précis d'abord
   index.sansMot.sort(plusPrecis);
   for (const liste of index.parMot.values()) liste.sort(plusPrecis);
@@ -117,11 +136,14 @@ export function categoriser(texte: string): Categorie {
 
 // Étiquette à afficher pour une catégorie, ou null. Seules les catégories qui changent
 // le comportement de l'utilisateur en ont une (le pack décide lesquelles) : un message
-// neutre ne doit pas être présenté comme important.
+// neutre ne doit pas être présenté comme important. L'étiquette est une phrase validée du
+// corpus ou, plus courte, un terme validé du glossaire.
 export function etiquette(categorie: Categorie, pack: Pack, options: Options = {}): string | null {
   const id = pack.etiquettes[categorie];
-  const phrase = id ? indexDe(pack).parId.get(id) : undefined;
-  return phrase ? rendre(phrase, {}, options).sortie : null;
+  if (!id) return null;
+  const phrase = indexDe(pack).parId.get(id);
+  if (phrase) return rendre(phrase, {}, options).sortie;
+  return pack.glossaire.find((terme) => terme.ref === id)?.bulu.trim() || null;
 }
 
 interface Trouve { phrase: Phrase; valeurs: Record<string, string> }
@@ -190,19 +212,21 @@ function traduireLibelle(texte: string, pack: Pack): Resultat | null {
   return { statut: 'ok', critique: terme.critique, sortie, id: terme.ref, categorie: null, valeurs: droite ? [droite] : [] };
 }
 
+// Texte inédit : il reste dans sa langue. Un texte à lire, même tout en majuscules, reçoit sa catégorie
+// et ses termes connus ; un nom propre ou une marque ne reçoit rien.
+function inedit(texte: string, pack: Pack): Resultat {
+  const lisible = categoriser(retirerFaits(texte)) !== 'info' || estLangage(texte, pack);
+  const termes = lisible ? termesConnus(texte, pack) : [];
+  return { statut: 'non_verifie', critique: termes.some((t) => t.critique), sortie: null, id: null, categorie: lisible ? categoriser(texte) : null, valeurs: [], termes };
+}
+
 // null : rien à traduire (texte vide ou uniquement des faits)
 export function traduire(brut: string, pack: Pack, options: Options = {}): Resultat | null {
   const texte = normaliser(brut);
   if (!texte || queDesFaits(texte)) return null;
 
   const morceaux = chercherMessage(texte, indexDe(pack));
-  if (!morceaux) {
-    const libelle = traduireLibelle(texte, pack);
-    if (libelle) return libelle;
-    const phrase = estPhrase(texte);
-    const termes = phrase ? termesConnus(texte, pack) : [];
-    return { statut: 'non_verifie', critique: termes.some((t) => t.critique), sortie: null, id: null, categorie: phrase ? categoriser(texte) : null, valeurs: [], termes };
-  }
+  if (!morceaux) return traduireLibelle(texte, pack) || inedit(texte, pack);
 
   let { statut, sortie, critique, id, valeurs } = assembler(morceaux, options);
   // Garde-fou : jamais de champ non rempli, jamais un chiffre ou une devise qui change
