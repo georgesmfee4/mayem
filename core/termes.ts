@@ -1,15 +1,16 @@
 // Termes du glossaire utilisables hors des phrases du corpus, sans jamais composer de phrase :
 // - un libellé court (« Solde », « Annuler », « Frais : 500 FCFA ») qui EST un terme est traduit par ce terme ;
-// - dans une phrase inconnue, les termes critiques reconnus sont seulement signalés (glose), la phrase reste en français.
+// - dans un texte inconnu, les termes reconnus sont seulement signalés (glose), le texte reste en français.
 // Un terme ne sert que s'il a été traduit et relu par deux personnes différentes, et si sa traduction
 // est un mot ou une expression, pas une explication.
 
+import { sansAccents, souple } from './langage.ts';
 import type { Pack, Terme } from './types.ts';
 
 export interface Glose { ref: string; fr: string; traduction: string; critique: boolean }
 
-// glose : concept critique (argent, sécurité), défini dans « sens » ; un mot grammatical (« aucun »,
-// « après ») a pour sens un exemple entre guillemets et n'est pas glosé : hors contexte, il n'aide pas
+// glose : concept critique (argent, sécurité) ou concept défini dans « sens ». Un mot grammatical
+// (« aucun », « après ») a pour sens un exemple entre guillemets, ou pas de sens : hors contexte, il n'aide pas
 interface Entree extends Glose { mots: string[]; glose: boolean }
 interface IndexTermes { exacts: Map<string, Entree>; parMot: Map<string, Entree[]> }
 
@@ -17,7 +18,9 @@ const formesDe = (champ: string) => champ.split('/').map((forme) => forme.trim()
 const memeAuteur = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
 // Comparaison : casse, apostrophes et espaces ignorés ; les accents comptent (« côte » n'est pas « cote »)
 const cle = (s: string) => s.normalize('NFC').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
-const motsDe = (s: string) => cle(s).split(/[^\p{L}\p{N}']+/u).filter(Boolean);
+// Mots d'une glose : comparés au large, « SECURITE » et « comptes » retrouvent « sécurité » et « compte »
+const motsDe = (s: string) => cle(s).split(/[^\p{L}\p{N}']+/u).filter(Boolean).map(souple);
+const glosable = (t: Terme) => !/^\s*[«"]/.test(t.sens) && (t.critique || t.sens.trim() !== '');
 
 export const termeUtilisable = (t: Terme) =>
   t.bulu.trim() !== '' && t.traduit_par.trim() !== '' && t.relu_par.trim() !== '' && !memeAuteur(t.traduit_par, t.relu_par)
@@ -25,19 +28,25 @@ export const termeUtilisable = (t: Terme) =>
 
 function indexerTermes(pack: Pack): IndexTermes {
   const index: IndexTermes = { exacts: new Map(), parMot: new Map() };
+  const sansAccent = new Map<string, Entree[]>();
   for (const t of pack.glossaire.filter(termeUtilisable)) {
     const francais = formesDe(t.terme);
     const traductions = formesDe(t.bulu);
     francais.forEach((fr, i) => {
       // « frais / commission » = « Kufa / Kufo » : formes appariées ; sinon la première traduction
       const traduction = traductions.length === francais.length ? traductions[i] : traductions[0];
-      const glose = t.critique && !/^\s*[«"]/.test(t.sens);
-      const entree = { mots: motsDe(fr), fr, traduction, ref: t.ref, critique: t.critique, glose };
+      const entree = { mots: motsDe(fr), fr, traduction, ref: t.ref, critique: t.critique, glose: glosable(t) };
       if (fr.length < 3 || !entree.mots.length) return;
       if (!index.exacts.has(cle(fr))) index.exacts.set(cle(fr), entree);
+      const nue = sansAccents(cle(fr));
+      sansAccent.set(nue, [...(sansAccent.get(nue) || []), entree]);
       const premier = entree.mots[0];
       index.parMot.set(premier, [...(index.parMot.get(premier) || []), entree]);
     });
+  }
+  // Libellé écrit sans accents (« BENEFICIAIRE ») : le même terme, s'il est seul à s'écrire ainsi
+  for (const [nue, entrees] of sansAccent) {
+    if (!index.exacts.has(nue) && new Set(entrees.map((e) => e.ref)).size === 1) index.exacts.set(nue, entrees[0]);
   }
   // Les termes les plus longs d'abord : « code secret » avant « code »
   for (const liste of index.parMot.values()) liste.sort((a, b) => b.mots.length - a.mots.length);
@@ -64,7 +73,7 @@ export function traduireTerme(texte: string, pack: Pack): Glose | null {
   return entree ? { ref: entree.ref, fr: texte, traduction: commeLOrigine(texte, entree.traduction), critique: entree.critique } : null;
 }
 
-// Concepts critiques reconnus dans un texte, dans l'ordre, sans chevauchement ni doublon
+// Concepts reconnus dans un texte, dans l'ordre, sans chevauchement ni doublon
 export function termesConnus(texte: string, pack: Pack): Glose[] {
   const { parMot } = indexTermesDe(pack);
   const suite = motsDe(texte);
