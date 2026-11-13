@@ -168,14 +168,21 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 ## Couvrir un nouveau service sans repartir de zéro
 1. `npm run inventaire -- https://service-de-test/page1 https://service-de-test/page2` (ou des fichiers `.html`).
    Un navigateur ouvre chaque page et relève les textes que Mayem verrait, cadres et Shadow DOM compris.
-   - Couverture par page : textes traduits, partiels (termes connus) et absents.
+   - Reprise par page : textes déjà traduits, proches (même texte qu'une entrée validée, à un pluriel, un accent
+     ou une ponctuation près : les locuteurs confirment au lieu de retraduire), partiels (termes connus) et nouveaux.
    - `packs/<langue>/a-traduire.csv` : les textes manquants, montants, dates, numéros et références remplacés
      par `{amount}`, `{date}`… Les textes qui ne diffèrent que par leurs valeurs deviennent un seul modèle,
-     classés par fréquence, avec les termes du glossaire déjà connus.
+     avec les termes du glossaire déjà connus. Plusieurs services à la fois : la colonne `services` compte ceux
+     où le modèle apparaît, et le jargon commun vient en tête, à traduire une fois pour tous.
+   - `--profil profiles/<service>.json` : `{ "ne_pas_traduire": ["Nom de marque", …] }`. Les marques et noms de
+     produits du service sortent de l'inventaire et ne partent pas chez les locuteurs.
    - Les mots absents du corpus et du glossaire, à ajouter au glossaire en priorité.
 2. `npm run inventaire -- … --ajouter` met ces modèles dans `corpus.csv`, sans traduction ;
    `python tools/kit.py export` les envoie aux locuteurs, puis `npm run import` comme d'habitude.
    Seul ce qui est nouveau part chez les locuteurs ; la validation par deux personnes ne change pas.
+   - `--ajouter --etat proche` n'envoie que les textes proches d'une entrée validée : pluriels (« Comptes » pour
+     « compte ») et variantes. C'est le moyen de traduire un pluriel : il devient une phrase du corpus, validée
+     par deux personnes. Mayem n'affiche jamais le singulier à la place d'un pluriel ; en attendant, il le glose.
 3. `npm run couverture` : la même mesure sur les pages d'essai, à suivre d'une version à l'autre.
 
 L'inventaire est un outil de l'équipe, lancé sur des pages d'essai ou un compte de test : un nom de personne
