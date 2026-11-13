@@ -139,7 +139,7 @@ const r = traduire('Votre solde est de 25 000 FCFA', pack);
 | `controler(pack)` | Points à faire relire (glossaire, cohérence, négations) ; indicatif |
 | `empreinte(pack)` | `Promise<'sha256-…'>` |
 | `traduireTerme(texte, pack)`, `termesConnus(texte, pack)` | Terme validé qui forme tout le texte ; termes validés reconnus dans un texte (casse, accents et pluriel ignorés) |
-| `inventorier(textes, pack)` | Couverture, modèles manquants (faits masqués, regroupés, par fréquence), mots absents |
+| `inventorier(textes, pack, releve?)` | Reprise (traduit, proche, partiel, absent), modèles manquants (faits masqués, regroupés, communs à plusieurs services d'abord), mots absents. `releve` : `{ services, intacts }` (service de chaque texte ; marques à ne pas envoyer aux locuteurs) |
 | `masquerFaits(texte)` | « 5 000 FCFA à 690 12 34 56 » → « {amount} à {phone} » |
 | `queDesFaits(texte)`, `memesChiffres(a, b)` | Garde-fous : texte sans mots, chiffres et devises identiques |
 

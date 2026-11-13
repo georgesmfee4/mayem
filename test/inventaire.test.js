@@ -24,8 +24,8 @@ test('couverture et modèles : les textes qui ne diffèrent que par les valeurs 
     'Votre virement de 5 000 FCFA est parti dans la journée.', 'Votre virement de 7 500 FCFA est parti dans la journée.',
     'Bienvenue chez nous',
   ], pack);
-  assert.deepEqual(r.couverture, { traduit: 2, partiel: 2, absent: 1, rejete: 0, total: 5 });
-  assert.deepEqual(r.manques[0], { modele: 'Votre virement de {amount} est parti dans la journée.', occurrences: 2, etat: 'partiel', categorie: 'info', termes: ['virement'] });
+  assert.deepEqual(r.couverture, { traduit: 2, proche: 0, partiel: 2, absent: 1, rejete: 0, total: 5 });
+  assert.deepEqual(r.manques[0], { modele: 'Votre virement de {amount} est parti dans la journée.', occurrences: 2, services: 1, etat: 'partiel', proche: '', categorie: 'info', termes: ['virement'] });
   assert.equal(r.manques[1].modele, 'Bienvenue chez nous');
   assert.doesNotMatch(JSON.stringify(r), /5 000|7 500/);
 });
@@ -33,4 +33,24 @@ test('couverture et modèles : les textes qui ne diffèrent que par les valeurs 
 test('mots absents : ni dans les phrases validées ni dans le glossaire, par fréquence', () => {
   const r = inventorier(['Votre virement part demain.', 'Le virement arrive demain.'], pack);
   assert.deepEqual(r.motsAbsents.map((m) => m.mot), ['demain', 'part', 'arrive']);
+});
+
+test('proche : le texte ne diffère d’une entrée validée que par un pluriel, un accent ou la ponctuation', () => {
+  const r = inventorier(['Soldes', 'Vos virements', 'Votre solde est de 5 000 FCFA.'], pack);
+  assert.equal(r.couverture.proche, 2);
+  assert.equal(r.manques.find((m) => m.modele === 'Votre solde est de {amount}.').proche, 'Votre solde est de {amount}');
+  assert.deepEqual(r.manques.find((m) => m.modele === 'Soldes'), { modele: 'Soldes', occurrences: 1, services: 1, etat: 'proche', proche: 'solde', categorie: 'info', termes: ['solde'] });
+  assert.equal(r.manques.find((m) => m.modele === 'Vos virements').etat, 'partiel');
+});
+
+test('plusieurs services : les textes communs d’abord, avec le nombre de services', () => {
+  const textes = ['Votre virement part demain.', 'Votre virement part demain.', 'Votre virement part demain.', 'Ouvrir un compte', 'Ouvrir un compte'];
+  const r = inventorier(textes, pack, { services: ['a', 'a', 'a', 'a', 'b'] });
+  assert.deepEqual(r.manques.map((m) => [m.modele, m.services, m.occurrences]), [['Ouvrir un compte', 2, 2], ['Votre virement part demain.', 1, 3]]);
+});
+
+test('marques du service : jamais comptées ni envoyées aux locuteurs', () => {
+  const r = inventorier(['Kribi Cash', 'kribi cash', 'Bienvenue chez nous'], pack, { intacts: ['Kribi Cash'] });
+  assert.equal(r.couverture.total, 1);
+  assert.deepEqual(r.manques.map((m) => m.modele), ['Bienvenue chez nous']);
 });
