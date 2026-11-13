@@ -117,11 +117,14 @@ export function categoriser(texte: string): Categorie {
 
 // Étiquette à afficher pour une catégorie, ou null. Seules les catégories qui changent
 // le comportement de l'utilisateur en ont une (le pack décide lesquelles) : un message
-// neutre ne doit pas être présenté comme important.
+// neutre ne doit pas être présenté comme important. L'étiquette est une phrase validée du
+// corpus ou, plus courte, un terme validé du glossaire.
 export function etiquette(categorie: Categorie, pack: Pack, options: Options = {}): string | null {
   const id = pack.etiquettes[categorie];
-  const phrase = id ? indexDe(pack).parId.get(id) : undefined;
-  return phrase ? rendre(phrase, {}, options).sortie : null;
+  if (!id) return null;
+  const phrase = indexDe(pack).parId.get(id);
+  if (phrase) return rendre(phrase, {}, options).sortie;
+  return pack.glossaire.find((terme) => terme.ref === id)?.bulu.trim() || null;
 }
 
 interface Trouve { phrase: Phrase; valeurs: Record<string, string> }

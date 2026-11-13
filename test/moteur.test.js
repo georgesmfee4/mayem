@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { traduire } from '../core/moteur.ts';
+import { etiquette, traduire } from '../core/moteur.ts';
 
 const pack = JSON.parse(readFileSync(new URL('../packs/bum/pack.json', import.meta.url), 'utf8'));
 const modeTest = { test: true };
@@ -69,6 +69,19 @@ test('un contenu inédit garde l’original et reçoit une catégorie', () => {
     assert.equal(r.sortie, null, texte);
     assert.equal(r.categorie, categorie, texte);
   }
+});
+
+test('étiquette d\'un message inédit : phrase validée ou terme validé du glossaire, rien sinon', () => {
+  const essai = {
+    ...pack,
+    phrases: [{ id: 'P1', fr: 'Sécurité', en: [], bulu: 'BULU-PHRASE', critique: true, valide: true }],
+    glossaire: [{ ref: 'T1', terme: 'erreur', bulu: ' BULU-TERME ', critique: true }, { ref: 'T2', terme: 'frais', bulu: '', critique: true }],
+    etiquettes: { securite: 'P1', erreur: 'T1', frais: 'T2' },
+  };
+  assert.equal(etiquette('securite', essai), 'BULU-PHRASE');
+  assert.equal(etiquette('erreur', essai), 'BULU-TERME');
+  assert.equal(etiquette('frais', essai), null);
+  assert.equal(etiquette('info', essai), null);
 });
 
 test('une traduction validée passe, et elle est rejetée si elle change un chiffre', () => {
