@@ -1,14 +1,16 @@
-// Inventaire d'un service : ouvre ses pages dans un navigateur, relève tous les textes que Mayem verrait,
-// mesure la couverture et liste ce qui manque, faits masqués ({amount}, {date}…), regroupé et classé par fréquence.
-// Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--ajouter]
+// Inventaire d'un ou de plusieurs services : ouvre leurs pages dans un navigateur, relève tous les textes que
+// Mayem verrait, mesure ce qui est déjà repris du pack et liste ce qui manque, faits masqués ({amount}, {date}…),
+// regroupé, les textes communs à plusieurs services d'abord.
+// Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--profil <fichier.json>] [--ajouter]
 //   -> packs/<langue>/a-traduire.csv ; avec --ajouter, les modèles manquants entrent aussi dans corpus.csv
 //      (sans traduction) : python tools/kit.py export les envoie alors aux locuteurs.
+//   --profil : profil du service, { "ne_pas_traduire": ["Nom de marque", …] } ; ces textes sortent de l'inventaire.
 // Outil de l'équipe, jamais lancé chez un utilisateur : à faire sur des pages d'essai ou un compte de test,
 // car un nom de personne n'est pas masqué.
 
 import { chromium } from '@playwright/test';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { inventorier } from '../core/inventaire.ts';
 import { ecrireCsv, lireCsv } from './csv.js';
@@ -49,6 +51,8 @@ function releverTextes() {
 }
 
 const adresse = (cible) => (/^https?:\/\//.test(cible) ? cible : pathToFileURL(resolve(cible)).href);
+// Un service = un site ; une page enregistrée compte pour un service à elle seule
+const serviceDe = (cible) => (/^https?:\/\//.test(cible) ? new URL(cible).hostname : basename(cible));
 
 async function relever(cibles) {
   const navigateur = await chromium.launch({ channel: process.env.NAVIGATEUR || (process.platform === 'win32' ? 'msedge' : 'chromium') });
@@ -67,8 +71,14 @@ async function relever(cibles) {
 }
 
 const pourcent = (n, total) => (total ? Math.round((100 * n) / total) : 0) + ' %';
-const ligneCouverture = ({ traduit, partiel, absent, rejete, total }) =>
-  `${total} textes : ${pourcent(traduit, total)} traduits, ${pourcent(partiel, total)} partiels (termes connus), ${pourcent(absent, total)} absents${rejete ? `, ${rejete} rejetés` : ''}`;
+const ligneCouverture = ({ traduit, proche, partiel, absent, rejete, total }) =>
+  `${total} textes : ${pourcent(traduit, total)} déjà traduits, ${pourcent(proche, total)} proches (à confirmer), ${pourcent(partiel, total)} partiels (termes connus), ${pourcent(absent, total)} nouveaux${rejete ? `, ${rejete} rejetés` : ''}`;
+
+// Ce que les locuteurs ont déjà validé et qui aide pour ce modèle
+function consigne(manque) {
+  if (manque.proche) return `Proche de « ${manque.proche} », déjà traduit`;
+  return manque.termes.length ? `Termes du glossaire : ${manque.termes.join(', ')}` : '';
+}
 
 // Nouveaux modèles ajoutés à corpus.csv, sans traduction, avec un id N001, N002…
 function ajouterAuCorpus(fichier, manques) {
@@ -81,7 +91,7 @@ function ajouterAuCorpus(fichier, manques) {
   const nouvelles = manques.filter((m) => !presents.has(m.modele)).map((m) => ({
     id: `N${String(suivant++).padStart(3, '0')}`, priorite: 'P2', ecran: 'Inventaire', element: m.etat,
     critique: m.categorie && m.categorie !== 'info' ? '1' : '0', champ_fait: /\{\w+\}/.test(m.modele) ? '1' : '0',
-    fr: m.modele, en: '', bulu: '', valide_par: '', valide: '', consigne: m.termes.length ? `Termes du glossaire : ${m.termes.join(', ')}` : '',
+    fr: m.modele, en: '', bulu: '', valide_par: '', valide: '', consigne: consigne(m),
   }));
   writeFileSync(fichier, ecrireCsv(entetes, [...lignes, ...nouvelles]));
   return nouvelles.length;
@@ -89,18 +99,25 @@ function ajouterAuCorpus(fichier, manques) {
 
 const options = process.argv.slice(2);
 const langue = choisirLangue(options.includes('--langue') ? options[options.indexOf('--langue') + 1] : undefined);
-const cibles = options.filter((o, i) => !o.startsWith('--') && options[i - 1] !== '--langue');
+const profil = options.includes('--profil') ? JSON.parse(readFileSync(options[options.indexOf('--profil') + 1], 'utf8')) : {};
+const cibles = options.filter((o, i) => !o.startsWith('--') && !['--langue', '--profil'].includes(options[i - 1]));
 if (!cibles.length) {
-  console.error('Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--ajouter]');
+  console.error('Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--profil <fichier.json>] [--ajouter]');
   process.exit(1);
 }
 const ici = dossier(langue);
 const pack = JSON.parse(readFileSync(ici + 'pack.json', 'utf8'));
+const intacts = profil.ne_pas_traduire || [];
 const pages = await relever(cibles);
-for (const { cible, textes } of pages) console.log(`${cible}\n  ${ligneCouverture(inventorier(textes, pack).couverture)}`);
-const rapport = inventorier(pages.flatMap((p) => p.textes), pack);
+for (const { cible, textes } of pages) console.log(`${cible}\n  ${ligneCouverture(inventorier(textes, pack, { intacts }).couverture)}`);
+const services = pages.flatMap((p) => p.textes.map(() => serviceDe(p.cible)));
+const rapport = inventorier(pages.flatMap((p) => p.textes), pack, { services, intacts });
 console.log(`\nEnsemble : ${ligneCouverture(rapport.couverture)}`);
-writeFileSync(ici + 'a-traduire.csv', ecrireCsv(['modele', 'occurrences', 'etat', 'categorie', 'termes'],
+const communs = rapport.manques.filter((m) => m.services > 1).length;
+if (new Set(services).size > 1) console.log(`${communs} modèles communs à plusieurs services, en tête de liste : les traduire une fois sert à tous`);
+const muets = rapport.manques.filter((m) => !m.categorie && m.etat !== 'rejete').length;
+if (muets) console.log(`${muets} modèles que Mayem ne signale pas dans la page (noms propres, marques ou libellés sans mot connu) : colonne « categorie » vide`);
+writeFileSync(ici + 'a-traduire.csv', ecrireCsv(['modele', 'occurrences', 'services', 'etat', 'proche', 'categorie', 'termes'],
   rapport.manques.map((m) => ({ ...m, termes: m.termes.join(' | ') }))));
 console.log(`${rapport.manques.length} modèles à traduire -> packs/${langue}/a-traduire.csv`);
 if (rapport.motsAbsents.length) console.log(`Mots absents du corpus et du glossaire : ${rapport.motsAbsents.slice(0, 30).map((m) => m.mot).join(', ')}`);
