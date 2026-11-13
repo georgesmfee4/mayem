@@ -5,17 +5,24 @@
 // Un nom de personne ne se reconnaît pas sans risque : l'inventaire se fait sur des données fictives.
 
 import { MOTIFS } from './faits.ts';
+import { souple } from './langage.ts';
 import { normaliser, traduire } from './moteur.ts';
 import { termeUtilisable } from './termes.ts';
 import type { Categorie, Pack } from './types.ts';
 
-export type Etat = 'traduit' | 'partiel' | 'absent' | 'rejete';
-export interface Manque { modele: string; occurrences: number; etat: Etat; categorie: Categorie | null; termes: string[] }
+// proche : le texte ne diffère d'une entrée validée que par un pluriel, un accent ou la ponctuation ; les locuteurs
+// confirment ou corrigent au lieu de retraduire
+export type Etat = 'traduit' | 'proche' | 'partiel' | 'absent' | 'rejete';
+// services : nombre de services où le modèle apparaît ; categorie vide : Mayem ne le signale pas dans la page
+export interface Manque { modele: string; occurrences: number; services: number; etat: Etat; proche: string; categorie: Categorie | null; termes: string[] }
 export interface Rapport {
   couverture: Record<Etat, number> & { total: number };
   manques: Manque[];
   motsAbsents: { mot: string; occurrences: number }[];
 }
+// services : le service de chaque texte, dans le même ordre (un seul service si absent).
+// intacts : marques et noms de produits du service, jamais envoyés aux locuteurs.
+export interface Releve { services?: string[]; intacts?: string[] }
 
 // Nom de champ du corpus pour chaque sorte de fait, dans l'ordre où on les cherche
 const SORTES: [string, string][] = [
@@ -46,40 +53,68 @@ function vocabulaire(pack: Pack): Set<string> {
     ...pack.phrases.filter((p) => p.valide).flatMap((p) => [p.fr, ...p.en]),
     ...pack.glossaire.filter(termeUtilisable).map((t) => t.terme),
   ];
-  return new Set(textes.flatMap(motsDuTexte));
+  return new Set(textes.flatMap(motsDuTexte).map(souple));
 }
 
-function etatDe(texte: string, pack: Pack): { etat: Etat; categorie: Categorie | null; termes: string[] } | null {
+// Texte comparé au large : casse, accents, pluriels et ponctuation ignorés, champs réduits à {}
+const large = (texte: string) =>
+  texte.replace(/\{\w+\}/g, ' {} ').split(/[^\p{L}\p{N}{}]+/u).filter(Boolean).map(souple).join(' ');
+
+// Entrées validées, rangées par leur forme large : « Cartes bancaires » retrouve « carte bancaire »
+function validees(pack: Pack): Map<string, string> {
+  const sources = [
+    ...pack.phrases.filter((p) => p.valide && p.bulu).flatMap((p) => [p.fr, ...p.en]),
+    ...pack.glossaire.filter(termeUtilisable).flatMap((t) => t.terme.split('/').map((forme) => forme.trim())),
+  ];
+  return new Map(sources.filter(Boolean).map((source) => [large(source), source]));
+}
+
+type Constat = Pick<Manque, 'etat' | 'proche' | 'categorie' | 'termes'>;
+
+function etatDe(texte: string, pack: Pack, proches: Map<string, string>): Constat | null {
   const res = traduire(texte, pack);
   if (!res) return null; // vide ou uniquement des faits : rien à traduire
-  if (res.statut === 'ok') return { etat: 'traduit', categorie: null, termes: [] };
-  if (res.statut === 'rejete') return { etat: 'rejete', categorie: null, termes: [] };
+  if (res.statut === 'ok') return { etat: 'traduit', proche: '', categorie: null, termes: [] };
+  if (res.statut === 'rejete') return { etat: 'rejete', proche: '', categorie: null, termes: [] };
   const termes = (res.termes || []).map((t) => t.fr);
-  return { etat: termes.length ? 'partiel' : 'absent', categorie: res.categorie, termes };
+  const proche = proches.get(large(masquerFaits(texte))) || '';
+  return { etat: proche ? 'proche' : termes.length ? 'partiel' : 'absent', proche, categorie: res.categorie, termes };
 }
 
-export function inventorier(textes: string[], pack: Pack): Rapport {
-  const couverture = { traduit: 0, partiel: 0, absent: 0, rejete: 0, total: 0 };
+// Les textes communs à plusieurs services d'abord : c'est le jargon partagé, traduit une fois pour tous
+const parReprise = (a: Manque, b: Manque) => b.services - a.services || b.occurrences - a.occurrences;
+
+export function inventorier(textes: string[], pack: Pack, releve: Releve = {}): Rapport {
+  const couverture = { traduit: 0, proche: 0, partiel: 0, absent: 0, rejete: 0, total: 0 };
   const manques = new Map<string, Manque>();
+  const servicesDe = new Map<string, Set<string>>();
   const connus = vocabulaire(pack);
+  const proches = validees(pack);
+  const intacts = new Set((releve.intacts || []).map((nom) => normaliser(nom).toLowerCase()));
   const absents = new Map<string, number>();
-  for (const brut of textes) {
+  textes.forEach((brut, i) => {
     const texte = normaliser(brut);
-    const etat = etatDe(texte, pack);
-    if (!etat) continue;
-    couverture[etat.etat]++;
+    const constat = intacts.has(texte.toLowerCase()) ? null : etatDe(texte, pack, proches);
+    if (!constat) return;
+    couverture[constat.etat]++;
     couverture.total++;
-    if (etat.etat === 'traduit') continue;
+    if (constat.etat === 'traduit') return;
     const modele = masquerFaits(texte);
-    const deja = manques.get(modele);
-    if (deja) { deja.occurrences++; continue; }
-    manques.set(modele, { modele, occurrences: 1, ...etat });
-    for (const mot of motsDuTexte(modele)) if (!connus.has(mot)) absents.set(mot, (absents.get(mot) || 0) + 1);
-  }
-  const parFrequence = <T extends { occurrences: number }>(a: T, b: T) => b.occurrences - a.occurrences;
+    // « Cartes Bancaires » et « Cartes bancaires » : une seule ligne pour les locuteurs
+    const cle = modele.toLowerCase();
+    servicesDe.set(cle, (servicesDe.get(cle) || new Set<string>()).add(releve.services?.[i] || ''));
+    const deja = manques.get(cle);
+    if (deja) {
+      deja.occurrences++;
+      return;
+    }
+    manques.set(cle, { modele, occurrences: 1, services: 1, ...constat });
+    for (const mot of motsDuTexte(modele)) if (!connus.has(souple(mot))) absents.set(mot, (absents.get(mot) || 0) + 1);
+  });
+  for (const [cle, manque] of manques) manque.services = servicesDe.get(cle)!.size;
   return {
     couverture,
-    manques: [...manques.values()].sort(parFrequence),
-    motsAbsents: [...absents].map(([mot, occurrences]) => ({ mot, occurrences })).sort(parFrequence),
+    manques: [...manques.values()].sort(parReprise),
+    motsAbsents: [...absents].map(([mot, occurrences]) => ({ mot, occurrences })).sort((a, b) => b.occurrences - a.occurrences),
   };
 }
