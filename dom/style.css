@@ -1,10 +1,12 @@
 /* Signalement discret : aucun texte n'est ajouté dans la page, seules des marques visuelles. */
+/* Texte resté dans sa langue, sans aucun mot connu : deux traits. Jamais de fond de couleur, qui gêne la lecture. */
 [data-mayem="non_verifie"], [data-mayem="rejete"] {
-  text-decoration: underline dotted #b45309 1.5px;
+  text-decoration: underline double #b45309;
   text-underline-offset: 3px;
 }
-[data-mayem="non_verifie"][data-mayem-critique="1"], [data-mayem="rejete"][data-mayem-critique="1"] {
-  background: rgba(254, 243, 199, 0.65);
+/* Texte dont des mots sont connus (glose) : un seul trait */
+[data-mayem="non_verifie"][data-mayem-glose] {
+  text-decoration: underline solid #b45309 1.5px;
 }
 /* Contenu inédit : étiquette de catégorie validée (pseudo-élément, hors du texte de la page) */
 [data-mayem-cat]::before {
