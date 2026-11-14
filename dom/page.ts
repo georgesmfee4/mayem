@@ -243,6 +243,16 @@ function effacer() {
   }
 }
 
+// Mayem quitte la page : elle redevient celle du service, sans bouton ni surveillance
+export function arreter() {
+  observateur.disconnect();
+  window.removeEventListener('resize', prevoirCompteurs);
+  afficheTraduit = false;
+  effacer();
+  document.getElementById(ID_HOTE)?.remove();
+  ui = null;
+}
+
 // Nouvelle langue : la page revient à l'original, puis tout est retraduit avec le nouveau pack
 function appliquer(nouveau: Pack) {
   effacer();
