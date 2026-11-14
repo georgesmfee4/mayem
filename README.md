@@ -136,6 +136,11 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Champs de saisie jamais lus ni modifiés ; aucune donnée collectée, stockée ou envoyée ; aucun appel réseau.
 - Permissions minimales : `activeTab` et `scripting`. Mayem n'entre dans une page qu'au clic sur son icône, dans
   l'onglet en cours seulement ; aucun fichier de l'extension n'est exposé aux sites (rien qui permette de la détecter).
+- Retour à l'original : la page redevient exactement celle du service, sans soulignement, étiquette, glose ni
+  langue déclarée. Extension supprimée, désactivée ou rechargée : les pages déjà ouvertes font de même d'elles-mêmes
+  en deux secondes au plus, bouton compris (`dom/entree.ts`).
+- Texte resté dans sa langue : deux traits s'il n'a aucun mot connu, un seul si des mots sont glosés ; jamais de
+  fond de couleur.
 - Message de plusieurs phrases : traduit phrase par phrase seulement si chacune est dans le corpus ; sinon tout
   l'original reste. Rien n'est inventé.
 - Texte coupé par des balises (`Votre solde est de <b>25 000 FCFA</b>`) : traduit comme un seul bloc, puis le bulu est
