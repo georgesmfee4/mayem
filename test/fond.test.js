@@ -109,6 +109,13 @@ test('le script à intégrer (dist-web/mayem.js) se construit, léger et sans no
   assert.doesNotMatch(readFileSync(new URL('dom/web.ts', racine), 'utf8'), /\bbum\b/);
 });
 
+test('le navigateur affiche la version du pack embarqué, puis celle de l’extension', () => {
+  const manifeste = lire('dist/manifest.json');
+  const pack = lire('dist/packs/bum/pack.json');
+  assert.equal(manifeste.version_name, `${pack.nom} ${pack.version} (extension ${manifeste.version})`);
+  assert.match(manifeste.version, /^\d+(\.\d+){1,3}$/);
+});
+
 test('ce qui est distribué (extension, script intégré) ne contient aucun nom de traducteur', async () => {
   const { nomsInternes } = await import(new URL('tools/public.js', racine));
   const prenoms = nomsInternes(lire('packs/bum/pack.json')).flatMap((nom) => nom.split(/\s*(?:,|\/|&|\bet\b)\s*/i)).filter((n) => n.length > 2);
