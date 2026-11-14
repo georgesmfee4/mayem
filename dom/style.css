@@ -1,13 +1,6 @@
 /* Signalement discret : aucun texte n'est ajouté dans la page, seules des marques visuelles. */
-/* Texte resté dans sa langue, sans aucun mot connu : deux traits. Jamais de fond de couleur, qui gêne la lecture. */
-[data-mayem="non_verifie"], [data-mayem="rejete"] {
-  text-decoration: underline double #b45309;
-  text-underline-offset: 3px;
-}
-/* Texte dont des mots sont connus (glose) : un seul trait */
-[data-mayem="non_verifie"][data-mayem-glose] {
-  text-decoration: underline solid #b45309 1.5px;
-}
+/* Un texte resté dans sa langue n'est ni souligné ni coloré : la page garde l'allure que le service lui a donnée.
+   Seuls l'étiquette et la glose ci-dessous le signalent. */
 /* Contenu inédit : étiquette de catégorie validée (pseudo-élément, hors du texte de la page) */
 [data-mayem-cat]::before {
   content: attr(data-mayem-cat) " · ";
