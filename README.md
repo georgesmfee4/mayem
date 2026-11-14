@@ -49,6 +49,8 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
    `bum` est le code international du bulu (ISO 639-3) : il nomme le dossier `packs/bum/` et l'attribut
    `lang="bum"` lu par les lecteurs d'écran. Partout où une personne lit, Mayem affiche le nom « Bulu ».
 2. Chrome → `chrome://extensions` → « Mode développeur » → « Charger l'extension non empaquetée » → le dossier `dist/`.
+   La fiche de l'extension affiche la version du pack embarqué, puis celle du programme : « Bulu 0.5.3 (extension 0.3.0) ».
+   Après un nouveau `npm run build`, cliquer sur la flèche « Actualiser » de la fiche.
 3. Ouvrir `https://safinum.cm/hackathon-test?jury=1`, puis **cliquer sur l'icône Mayem** (épinglez-la dans la barre
    d'outils). Rien ne se passe avant ce clic. Le parcours reste dans la même page : un clic suffit pour les étapes 1 à 5.
    Après un rechargement de la page, recliquer.
