@@ -31,6 +31,10 @@ test('texte coupé par des balises et messages de plusieurs phrases', async ({ p
   await expect(page.locator('#alerte')).toHaveAttribute('data-mayem', 'non_verifie');
   await expect(page.locator('#alerte')).toHaveAttribute('data-mayem-cat', terme('T18'));
   await expect(page.locator('#alerte')).toHaveAttribute('data-mayem-termes', new RegExp(`solde : ${terme('T01')}`));
+  // Un trait sous un texte dont des mots sont connus, deux sous un texte inconnu, jamais de fond de couleur
+  const trait = (id) => page.locator(id).evaluate((el) => `${getComputedStyle(el).textDecorationStyle} ${getComputedStyle(el).backgroundColor}`);
+  expect(await trait('#alerte')).toBe('solid rgba(0, 0, 0, 0)');
+  expect(await trait('#sans-mot-connu')).toBe('double rgba(0, 0, 0, 0)');
   // Phrase du corpus écrite sans accents : traduite ; nom propre : jamais marqué
   await expect(page.locator('#sans-accents')).toHaveText(bulu('X17'));
   await expect(page.locator('#nom')).not.toHaveAttribute('data-mayem');
