@@ -211,22 +211,18 @@ function prevenirCadres(message: { mayem: boolean } | { mayemLangue: string }) {
   for (let i = 0; i < window.frames.length; i++) window.frames[i].postMessage(message, '*');
 }
 
+// Original : la page redevient exactement celle du service, sans soulignement, étiquette ni glose,
+// et Mayem n'y touche plus. Traduction : tout est relu, y compris ce que le service a changé entre-temps.
 function basculer(traduit: boolean) {
   afficheTraduit = traduit;
-  for (const [noeud, e] of ecrits) {
-    if (!noeud.isConnected) ecrits.delete(noeud);
-    else noeud.nodeValue = traduit ? e.traduit : e.origine;
-  }
-  const selecteur = ATTRIBUTS.map((nom) => `[data-mayem-origine-${nom}]`).join(',');
-  racines.flatMap((racine) => [...racine.querySelectorAll(selecteur)]).forEach((el) => {
-    for (const nom of ATTRIBUTS) {
-      const valeur = el.getAttribute(`data-mayem-${traduit ? 'traduit' : 'origine'}-${nom}`);
-      if (valeur !== null) el.setAttribute(nom, valeur);
-    }
-  });
+  if (traduit) parcourirTout();
+  else effacer();
+  observateur.takeRecords(); // nos propres écritures, déjà traitées
   prevenirCadres({ mayem: traduit });
   prevoirCompteurs();
 }
+
+const parcourirTout = () => racines.forEach((racine) => parcourir(racine === document ? document.body : racine));
 
 // Remet la page exactement comme le service l'a écrite : textes, attributs, marques et lang
 function effacer() {
@@ -252,7 +248,7 @@ function appliquer(nouveau: Pack) {
   effacer();
   pack = nouveau;
   afficheTraduit = true;
-  for (const racine of racines) parcourir(racine === document ? document.body : racine);
+  parcourirTout();
   observateur.takeRecords(); // nos propres écritures, déjà traitées
   prevoirCompteurs();
 }
@@ -327,6 +323,7 @@ export function demarrer(lePack: Pack, lesOptions: Options, langues: Langue[], r
     });
   }
   observateur = new MutationObserver((mutations) => {
+    if (!afficheTraduit) return; // original affiché : la page reste celle du service
     for (const m of mutations) {
       if (m.type === 'characterData') traiterTexte(m.target as Text);
       else if (m.type === 'attributes') traiterAttributs(m.target as Element);
