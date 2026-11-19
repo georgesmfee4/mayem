@@ -109,6 +109,9 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
      ou retiré : -> 0.4.0), la version est archivée dans `packs/<langue>/versions/` et
      `packs/<langue>/CHANGELOG.md` liste les phrases et termes changés.
    - Le pack porte une empreinte SHA-256 (`core/empreinte.ts`) : toute modification après fabrication se voit.
+   - Lexique relu reçu en JSON (format `mayem-lexique`) : `npm run lexique -- fichier.json [--retenir REF1,REF2]`.
+     Seules les entrées « valide » signées de deux noms entrent : un terme dans le glossaire, une phrase complète
+     dans le corpus. Rien n'est remplacé : un français déjà présent garde sa traduction, et l'entrée est signalée.
 4. Retraduction : `python tools/kit.py retraduction` crée `retraduction-a-envoyer.xlsx` (bulu seul). Une troisième
    personne, qui n'a pas vu le français, le retraduit. Fichier reçu : `npm run import -- fichier.xlsx`.
    - Chaque phrase du pack garde `retraduit_par` et `retraduction`, à comparer au français.

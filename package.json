@@ -8,6 +8,7 @@
   "author": "Équipe Mayem",
   "scripts": {
     "import": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/import.js",
+    "lexique": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/lexique.js",
     "pack": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/build-pack.js",
     "check": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/check-pack.js",
     "revision": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/rapport-revision.js",
