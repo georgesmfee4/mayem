@@ -1,30 +1,30 @@
 ﻿Réf.,Texte bulu,VOTRE TRADUCTION EN FRANÇAIS,Traduit par,Commentaire,Relu par
 G01,"Nlam a test — folâ é ndji bô bebelà, Teké nya nlomane moné.","Environnement de test - Informations fictives, aucun transfert réel",John,,
 G07,Nyô a bi,bénéficiaire,Carrel,,Alexandre et ronald
-G10,Safinum Pay — nlam a démonstration. Teké futié mfi folâ woé.,Safinum Pay - environemment de démonstration. Ne mettez aucune information utile,John,,
-A04,"Yené Mebal ya èn jôé, kele ôsu nlomane moné a Atye’é minlem.","Consulter votre solde, continueravec des transferts en toute sécurité",Carrel,,Alexandre et ronald
+G10,Safinum Pay — nlam ya démonstration. Teké futié mfi folâ woé.,Safinum Pay - environnement de d´monstration. Ne mettez aucune information impotante,Joseph,,
+A04,"Yené mebal môé, kele ôsu nlomane moné évovoé été.","Consultez votre solde, continuer vers les transferts en toute sécurité",Joseph,,
 A05,Mebal mené,Solde disponible,John,,
 A09,E bô nlomane moné,Efeectuer un transfert,John,,
-A14,nlomane moné,Transfert d'argent,Carrel,,Alexandre et ronald
-S02,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Vérifiez le nom et le numéro du bénéficiaire avant de continuer,John,,
+A14,Nlomane moné ô kui,Transfert recu,Joseph,,
+S02,"Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.","Vérifiez toujours le nom et le numéro de téléphone du bénéficiaire, avant de continuer le transfert",Joseph,,
 F01,Minkuk ya nlomane moné,frais de transfert,Carrel,,Alexandre et ronald
-F02,Fialé aval nlomane moné ai abime moné. Minkuk miaye tabe mve'an ana-ana.,Choisissez le type de transfert et le montant. Les frais osnt calculer automatiquement,Carrel,,Alexandre et ronald
-F05,"Nlomane moné ana-ana, Bua","Transfert d'argent automatique, gratuit",John,,
+F02,Fialé aval nlomane moné ai abime moné. Minkuk miaye tabe mve'ane ana-ana.,Choisir le type de transfert. Les frais sont calculés automatiquement,Joseph,,
+F05,Nlomane moné ana-ana a bua,Transfert automatique gratuit,Joseph,,
 F07,"Minkuk ya {percent} (min. {amount_1}, max. {amount_2})","frais de{pourcent} (ôsu {montant}, afap {montant2})",Carrel,,Alexandre et ronald
 F09,abime moné ya nlomane moné,Montant du transfert d'argent,John,,
 F12,Mebal ya mvùs nlomane moné,Solde après le transfert,John,,
 B01,Yôlé folâ ya nyô a bi. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Renseignez les informations du bénéficiaire. Vérifiez le numéro de téléphone avant de continuer,John,,
 B03,Jôé ya Nyô a bi,Nom du destinataire (ou du bénéficiaire),Carrel,,Alexandre et ronald
 B05,Amu djé ya nlomane moné,Le motif du transfert,Carrel,,Alexandre et ronald
-B06,Note (Teké abui mfi),sans (optionnel),Carrel,,Alexandre et ronald
+B06,Nten (teké abui mfi),Note (optionnel),Joseph,,
 B07,M'ate tuá fômbo jôé ai nombor nsinga ya nyô a bi.,J'ai vérifié le nom et le numéro de téléphone du bénéficiaire,John,,
-R01,Ô tuá fômbo folâ ôsusua na w'a ntiñ nlomane moné.,Vérifiez les informations avant de continuer avec le transfert,John,,
+R01,Ô tuá fômbo folâ ôsusua na wô ntiñ nlomane moné.,Vérifiez les informations avant de confirmer le transfert,Joseph,,
 R02,Abime moné,Montant,John,,
 R07,Ma ntiñ na folâ éne mbamba.,Je confirme que les inforations sont correctes,John,,
 R09,Ntiñ nlomane moné,Confrmer le transfert d'argent,John,,
 C01,nlomane moné ô te bo'obane mvôé,transfert effectué,John,,
 C02,Nlomane moné wôe wôé ô te bo'obane mvôé,Votre transfert a été effectué avec succès,John,,
-C05,nlomane moné beta'a,gros transfert d'argent,Carrel,,Alexandre et ronald
+C05,Mféfé nlomane moné,Nouveau transfert,Joseph,,
 E01,Djom dzing éte bo'oban abé,erreur est survenue,Carrel,,Alexandre et ronald
 E04,Foé éne abui mfi,Message trés important,John,,
 E05,Abime moné dayiane bô ôsu momo,Le solde doit être supérieur à zéro,John,,
@@ -38,12 +38,12 @@ X04,Fetek,Fermer,John,,
 X09,E lôm moné,Transferer de l'argent,John,,
 X10,Nombor nsinga ya Nyô a bi,Numero de telphone du beneficiaire,Carrel,,Alexandre et ronald
 X11,Nombor nsinga ya Nyô a bi : {phone},Numero de telphone du beneficiaire : {phone},Carrel,,Alexandre et ronald
-X13,Nlomane moné {amount} asu {name},Transfert de {amount} à {name},John,,
+X13,wô zu lôm {amount} asù {name},Vous allez envoyer {amount} à {name},Joseph,,
 X15,Ntiñti,Confirmer / Valider,John,,
-X16,"Ô tuá fômbo jôé na nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs","Vérifiez le nom et le numéro du bénéficiaire avant de continuer. En acceptant de continuer, vous ne pourrez plus annuler",John,,
-X18,bia fômbo ébômbo,opération encours de traitement,Carrel,,Alexandre et ronald
+X16,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs","Vérifiez le nom et le numéro de téléphone du bénéficiaire avant de continuer. En acceptant de continuer, vous ne pourrez plus annuler",Joseph,,
+X18,yangué mone nté,Patientez un moment / opération en cours,Joseph,,
 X21,Nombor nsinga Teké mbamba,mauvais nuéro de téléphone,Carrel,,Alexandre et ronald
-X23,Abime moné Teké mvoé,Le solde est insuffisant,John,,
+X23,Abime moné é ndji bô mbamba,Le montant est insuffisant,Joseph,,
 X24,Fôé éne mfi : Amos dzing te wô ve môt nten bafili wôé. Momo môt ésaé a ye sili wo jôé.,Attention : Ne partagez votre code secret à personne. Aucun agent ne vous le demandera,John,,
 X26,Nten bafili ya ntiñ ane {code}. wô yiane ki dje ve môt.,votre code de confirmation est {code}. Vous ne devez le partager à personne,John,,
 X27,"Éyoñ ô ntiñ ya nkeàn ôsu, ô vo’o ki fe bulan mvùs","En acceptant de continuer, vous ne pourrez plus annuler",John,,
@@ -52,7 +52,7 @@ A06,Nombor ya Évôvôla moné : {account},Numéro de compte : {account},John,,
 F10,Bua,Gratuit,John,,
 F11,Mebal mazù wulu,Solde à débiter,John,,
 F13,Kele ôsu,Continuer,John,,
-B02,Nyô a bi nyi a be ki belan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Ce bénéficiaire n'a jamais utilisé ce compte. Vérifiez le numéro de téléphone avant de continuer,John,,
+B02,Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Ce bénéficiaire n'a jamais étéutilisé sur ce compte. Vérifiz le numéro de téléphone avant de continuer,Joseph,,
 R03,Mabal máte wùlù,Solde débité,John,,
 R08,Tyendé,changer,John,,
 C04,Bo'obane mvo'é,Reussi,Carrel,,
