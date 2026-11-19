@@ -166,10 +166,24 @@ const { langue: code, nom, producteur, droits, orthographe, etiquettes } = infos
 const contenu = { glossaire: lireGlossaire(), phrases: lirePhrases() };
 const ancien = existsSync(ici + 'pack.json') ? JSON.parse(lire('pack.json')) : null;
 const changements = differences(ancien, { format: FORMAT, ...contenu, nom, producteur, droits, orthographe, etiquettes });
-const version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
+
+async function fabriquer(numero, jour) {
+  const fabrique = { format: FORMAT, langue: code, nom, version: numero, date: jour, empreinte: '', producteur, droits, orthographe, etiquettes, ...contenu };
+  fabrique.empreinte = await empreinte(fabrique);
+  return fabrique;
+}
+
+let version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
 const date = version === ancien?.version && ancien.date ? ancien.date : new Date().toISOString().slice(0, 10);
-const pack = { format: FORMAT, langue: code, nom, version, date, empreinte: '', producteur, droits, orthographe, etiquettes, ...contenu };
-pack.empreinte = await empreinte(pack);
+let pack = await fabriquer(version, date);
+// Une version archivée ne change jamais : une signature ou une retraduction ajoutée fait une nouvelle version
+if (version === ancien?.version && existsSync(`${ici}versions/${version}.json`)
+    && JSON.parse(lire(`versions/${version}.json`)).empreinte !== pack.empreinte) {
+  changements.suivi = true;
+  version = versionSuivante(version, changements);
+  pack = await fabriquer(version, new Date().toISOString().slice(0, 10));
+}
+
 if (!erreurs.length) erreurs.push(...verifierPack(pack));
 
 if (erreurs.length) {
@@ -208,7 +222,7 @@ function archiver() {
   writeFileSync(archive, JSON.stringify(pack, null, 2) + '\n');
   const journal = ici + 'CHANGELOG.md';
   const entree = ancien?.date
-    ? entreeJournal(version, date, changements)
+    ? entreeJournal(version, pack.date, changements)
     : `## ${version} (${date})\n- Première version suivie : ${pack.phrases.length} phrases, ${pack.glossaire.length} termes`;
   const titre = `# Journal du pack ${nom} (${code})\n\nUne correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.\n`;
   // Les entrées déjà écrites, à partir du premier « ## » (git peut avoir mis des fins de ligne Windows)

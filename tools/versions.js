@@ -39,7 +39,7 @@ export function versionSuivante(version, d) {
   const [majeur, mineur, correctif] = version.split('.').map(Number);
   // Un nouveau format n'est plus lisible par les anciens lecteurs : au moins une version mineure
   if (d.format || total(d, 'ajoutes', 'retires')) return `${majeur}.${mineur + 1}.0`;
-  if (total(d, 'modifies') || (d.infos || []).length) return `${majeur}.${mineur}.${correctif + 1}`;
+  if (total(d, 'modifies') || (d.infos || []).length || d.suivi) return `${majeur}.${mineur}.${correctif + 1}`;
   return version;
 }
 
@@ -54,5 +54,6 @@ export function entreeJournal(version, date, d) {
   ligne('Termes modifiés', d.termes.modifies);
   ligne('Termes retirés', d.termes.retires);
   ligne('Informations modifiées', d.infos || []);
+  if (d.suivi) lignes.push('- Signatures ou retraductions mises à jour ; aucune traduction changée');
   return lignes.join('\n');
 }
