@@ -39,6 +39,17 @@ e2e/         tests Playwright dans Chromium, extension chargée
 fixtures/    pages d'essai
 ```
 
+## Ajouter une langue
+Aucune ligne de code : un dossier `packs/<code>/` (code ISO 639-3) suffit. `test/langue-essai.test.js` le prouve
+avec une langue d'essai (`qaa`, code réservé à l'usage local) qui passe tous les outils.
+- `infos.json` : `langue`, `nom` (il donne leurs en-têtes aux tableurs : « TRADUCTION EWONDO »), `producteur`,
+  `droits`, `orthographe`, `etiquettes`. Facultatifs, choisis par les locuteurs dans leur charte :
+  `ecriture` (code ISO 15924, `Latn`), `lettres_exclues`, `formes_adresse` (formes polies à garder cohérentes).
+  Sans eux, ni l'alphabet ni les formes d'adresse ne sont contrôlés : aucune règle du bulu n'est imposée.
+- `corpus.csv` (colonne `cible`), `glossaire.csv`, `style.csv` (charte) : remplis par les tableurs de `tools/kit.py`.
+- `npm run pack -- <code>` fabrique `pack.json` au format 2 (`packs/schema.json`), que l'extension, le script
+  intégré et les exports lisent tels quels.
+
 Aucune dépendance dans l'extension : Node 22 suffit (types retirés par Node lui-même, `node:test` pour les tests).
 Seuls les tests navigateur utilisent Playwright (gratuit, `devDependencies`).
 Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace).
