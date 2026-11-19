@@ -63,7 +63,7 @@ const large = (texte: string) =>
 // Entrées validées, rangées par leur forme large : « Cartes bancaires » retrouve « carte bancaire »
 function validees(pack: Pack): Map<string, string> {
   const sources = [
-    ...pack.phrases.filter((p) => p.valide && p.bulu).flatMap((p) => [p.fr, ...p.en]),
+    ...pack.phrases.filter((p) => p.valide && p.cible).flatMap((p) => [p.fr, ...p.en]),
     ...pack.glossaire.filter(termeUtilisable).flatMap((t) => t.terme.split('/').map((forme) => forme.trim())),
   ];
   return new Map(sources.filter(Boolean).map((source) => [large(source), source]));

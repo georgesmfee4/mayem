@@ -26,7 +26,7 @@ async function publierLangue(langue) {
   return {
     langue, nom: pack.nom, version: pack.version, date: pack.date, empreinte: pack.empreinte,
     producteur: pack.producteur, droits: mentionDroits(pack),
-    phrases_validees: validees(pack).length, termes: pack.glossaire.filter((t) => t.bulu).length,
+    phrases_validees: validees(pack).length, termes: pack.glossaire.filter((t) => t.cible).length,
     pack: `packs/${langue}/latest.json`,
     versions: archives.map((nom) => nom.replace(/\.json$/, '')),
     exports,

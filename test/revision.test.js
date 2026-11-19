@@ -5,8 +5,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { reviser } from '../tools/revision.js';
 
-const phrase = (id, fr, bulu, critique = false, en = []) => ({ id, fr, en, bulu, critique, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
-const terme = (ref, francais, bulu, critique = true, sens = 'Définition') => ({ ref, terme: francais, sens, en: '', bulu, critique, a_eviter: '', traduit_par: 'A', relu_par: 'B', commentaire: '' });
+const phrase = (id, fr, cible, critique = false, en = []) => ({ id, fr, en, cible, critique, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
+const terme = (ref, francais, cible, critique = true, sens = 'Définition') => ({ ref, terme: francais, sens, en: '', cible, critique, a_eviter: '', traduit_par: 'A', relu_par: 'B', commentaire: '' });
 const codes = (constats, code) => constats.filter((c) => c.code === code);
 const revoir = (phrases, glossaire = [], contexte = {}, politesse = '') => reviser({ phrases, glossaire, contexte, politesse });
 

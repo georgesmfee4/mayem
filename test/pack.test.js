@@ -29,16 +29,24 @@ test('un champ manquant est refusé', () => {
   refuse(copie, /phrases\[0\].*« relu_par » manquant/);
 });
 
+test('un pack d\'une autre génération est refusé au lieu d\'être lu de travers', () => {
+  const ancien = structuredClone(pack);
+  delete ancien.format;
+  for (const p of ancien.phrases) [p.bulu, p.cible] = [p.cible, undefined];
+  refuse(ancien, /« format » manquant/);
+  refuse({ ...structuredClone(pack), format: 3 }, /format : 3 au lieu de 2/);
+});
+
 test('un mauvais type est refusé', () => {
   refuse(avec({ valide: 'oui' }), /valide : attendu boolean/);
 });
 
 test('des champs {…} différents entre français et bulu sont refusés', () => {
-  refuse(avec({ bulu: 'Mebal' }), /champs \{…\} du bulu/);
+  refuse(avec({ cible: 'Mebal' }), /champs \{…\} de la traduction/);
 });
 
 test('des chiffres différents entre français et bulu sont refusés', () => {
-  refuse(avec({ bulu: 'Mebal ya 2 {amount}' }), /chiffres du bulu/);
+  refuse(avec({ cible: 'Mebal ya 2 {amount}' }), /chiffres de la traduction/);
 });
 
 test('une ligne validée sans relecteur est refusée', () => {
@@ -60,4 +68,8 @@ test('une ligne validée avec deux personnes différentes est acceptée', () => 
 test('le lecteur CSV gère guillemets, virgules et retours à la ligne', () => {
   const lignes = lireCsv('﻿id,fr\r\nA1,"Bonjour, ""Amina"""\r\nA2,"deux\nlignes"\r\n');
   assert.deepEqual(lignes, [{ id: 'A1', fr: 'Bonjour, "Amina"' }, { id: 'A2', fr: 'deux\nlignes' }]);
+});
+
+test('l\'ancien nom de la colonne de traduction est lu sous le nom actuel', () => {
+  assert.deepEqual(lireCsv('id,bulu\r\nA1,texte\r\n'), [{ id: 'A1', cible: 'texte' }]);
 });

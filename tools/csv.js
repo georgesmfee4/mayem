@@ -1,9 +1,13 @@
 // Lecture d'un CSV (guillemets, retours à la ligne dans une cellule, BOM d'Excel).
 // Rend une liste d'objets dont les clés sont les en-têtes de la première ligne.
 
+// Les premiers fichiers nommaient la colonne de traduction d'après la langue. Elle est lue sous son nom
+// actuel, et le fichier le prend à sa prochaine écriture par un outil : aucune donnée n'est réécrite pour ça.
+const ANCIENS_NOMS = { bulu: 'cible' };
+
 export function lireCsv(texte) {
   const lignes = decouper(texte.replace(/^﻿/, ''));
-  const entetes = lignes.shift() || [];
+  const entetes = (lignes.shift() || []).map((nom) => ANCIENS_NOMS[nom] || nom);
   return lignes
     .filter((cellules) => cellules.some((c) => c.trim()))
     .map((cellules) => Object.fromEntries(entetes.map((nom, i) => [nom, cellules[i] ?? ''])));

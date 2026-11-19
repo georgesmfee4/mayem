@@ -105,7 +105,7 @@ def _finir(ws, figer, masquees=()):
 def _contexte_phrase(p, ctx):
     critique = 'Oui' if p['critique'] else 'Non'
     return [p['id'], ctx.get('priorite', ''), critique, ctx.get('ecran', ''), ctx.get('element', ''),
-            p['fr'], ' / '.join(p['en']), ctx.get('consigne', ''), p['bulu']]
+            p['fr'], ' / '.join(p['en']), ctx.get('consigne', ''), p['cible']]
 
 SAUT = chr(10)
 
@@ -143,7 +143,7 @@ def _onglet_sens(wb, groupes, phrases, contexte, precedent):
         ws.row_dimensions[rang].height = 45
         for ref in g['refs']:
             p = phrases[ref]
-            valeurs = _contexte_phrase(p, contexte.get(ref, {})) + ['', p['bulu'], '', '', '', precedent.get(ref, ''), g['ref']]
+            valeurs = _contexte_phrase(p, contexte.get(ref, {})) + ['', p['cible'], '', '', '', precedent.get(ref, ''), g['ref']]
             _ligne(ws, valeurs, jaunes=range(10, 15), critique=p['critique'], gris=(15,))
             lignes += 1
     _liste(ws, ['oui', 'non'], 'J', 2)
@@ -175,7 +175,7 @@ def _onglet_phrases(wb, constats, phrases, contexte, precedent):
         repere = SAUT.join('• ' + c['explication'] for c in liste)
         questions = SAUT.join(dict.fromkeys('• ' + c['question'] for c in liste))
         codes = ','.join(dict.fromkeys(c['code'] for c in liste))
-        valeurs = _contexte_phrase(p, contexte.get(ref, {})) + [repere, questions, '', p['bulu'], '', '', '', precedent.get(ref, ''), codes]
+        valeurs = _contexte_phrase(p, contexte.get(ref, {})) + [repere, questions, '', p['cible'], '', '', '', precedent.get(ref, ''), codes]
         _ligne(ws, valeurs, jaunes=range(12, 17), critique=p['critique'], gris=(17,))
     _liste(ws, ['garder', 'corriger'], 'L', 2)
     _finir(ws, 'G2', masquees=('R',))
@@ -191,7 +191,7 @@ def _onglet_glossaire(wb, constats, termes):
     ordre = sorted(par_ref, key=lambda ref: (not termes[ref]['critique'], ref))
     for ref in ordre:
         t, liste = termes[ref], par_ref[ref]
-        valeurs = [ref, t['terme'], t['sens'], 'Oui' if t['critique'] else 'Non', t['a_eviter'], t['bulu'],
+        valeurs = [ref, t['terme'], t['sens'], 'Oui' if t['critique'] else 'Non', t['a_eviter'], t['cible'],
                    SAUT.join('• ' + c['explication'] for c in liste), '', '', '', '', ','.join(dict.fromkeys(c['code'] for c in liste))]
         _ligne(ws, valeurs, jaunes=range(8, 12), critique=t['critique'])
     _finir(ws, 'C2', masquees=('L',))
@@ -290,14 +290,14 @@ def extraire(wb, dossier):
     """Réponses du tableur rempli -> reponses-revision.json, appliqué ensuite par tools/appliquer-revision.js."""
     phrases = []
     for l in _lignes(wb, 'Sens à distinguer'):
-        phrases.append({'ref': l['Réf.'], 'bulu': l.get('TRADUCTION BULU', ''), 'decision': '',
+        phrases.append({'ref': l['Réf.'], 'cible': l.get('TRADUCTION BULU', ''), 'decision': '',
                         'different': l.get('Faut-il un bulu différent ? (oui / non)', ''), 'traduit_par': l.get('Traduit par', ''),
                         'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', ''), 'codes': ['sens-confondus']})
     for l in _lignes(wb, 'Phrases à revoir'):
-        phrases.append({'ref': l['Réf.'], 'bulu': l.get('TRADUCTION BULU', ''), 'decision': l.get('Décision (garder / corriger)', ''),
+        phrases.append({'ref': l['Réf.'], 'cible': l.get('TRADUCTION BULU', ''), 'decision': l.get('Décision (garder / corriger)', ''),
                         'different': '', 'traduit_par': l.get('Traduit par', ''), 'relu_par': l.get('Relu par', ''),
                         'commentaire': l.get('Commentaire', ''), 'codes': [c for c in l.get('codes', '').split(',') if c]})
-    glossaire = [{'ref': l['Réf.'], 'bulu': l.get('TERME BULU APPROUVÉ', ''), 'choisi_par': l.get('Choisi par', ''),
+    glossaire = [{'ref': l['Réf.'], 'cible': l.get('TERME BULU APPROUVÉ', ''), 'choisi_par': l.get('Choisi par', ''),
                   'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', '')} for l in _lignes(wb, 'Glossaire à compléter')]
     charte = [{'sujet': l['Sujet'], 'question': l.get('Question', ''), 'reponse': l.get('VOTRE RÉPONSE (confirmer ou corriger)', ''),
                'commentaire': l.get('Commentaire', '')} for l in _lignes(wb, "Charte d'orthographe")]

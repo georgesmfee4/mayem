@@ -18,14 +18,14 @@ const [a, b] = simples;
 
 test('deux phrases validées réunies : chacune est traduite', () => {
   const res = tr(`${a.fr} ${b.fr}`);
-  assert.equal(res.sortie, `${a.bulu} ${b.bulu}`);
+  assert.equal(res.sortie, `${a.cible} ${b.cible}`);
   assert.equal(res.id, `${a.id}+${b.id}`);
   assert.equal(res.statut, 'ok');
 });
 
 test('une phrase connue et une phrase avec un montant gardent la valeur', () => {
   const res = tr(`${a.fr} Votre solde est de 25 000 FCFA`);
-  assert.equal(res.sortie, `${a.bulu} ${phrase('X08').bulu.replace('{amount}', '25 000 FCFA')}`);
+  assert.equal(res.sortie, `${a.cible} ${phrase('X08').cible.replace('{amount}', '25 000 FCFA')}`);
   assert.deepEqual(res.valeurs, ['25 000 FCFA']);
 });
 
@@ -44,12 +44,12 @@ function bloc(morceaux) {
 
 test('texte coupé avant un montant : le montant reste dans son morceau', () => {
   const textes = bloc(['Votre solde est de ', '25 000 FCFA']);
-  assert.deepEqual(textes, [phrase('X08').bulu.replace('{amount}', '').trim(), '25 000 FCFA']);
+  assert.deepEqual(textes, [phrase('X08').cible.replace('{amount}', '').trim(), '25 000 FCFA']);
 });
 
 test('montant et nom dans leurs balises : ni l’un ni l’autre ne bouge', () => {
   const textes = bloc(['Vous allez envoyer ', '25 000 FCFA', ' à ', 'Jean-Paul Mbarga']);
-  const [avant, entre] = phrase('X13').bulu.split(/\{amount\}|\{name\}/);
+  const [avant, entre] = phrase('X13').cible.split(/\{amount\}|\{name\}/);
   assert.deepEqual(textes, [avant.trim(), '25 000 FCFA', entre.trim(), 'Jean-Paul Mbarga']);
 });
 
