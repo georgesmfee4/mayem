@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "date": "2026-11-19",
-  "empreinte": "sha256-76ef5f497cbe1534bdbd64945f9984fb135e7146fcd6f6a922158bcc8289eada",
+  "empreinte": "sha256-761b59ab9a1147ceb6a9a539644822093e2a2e6c830eaaf4dddbfc1d74461ea1",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -1508,10 +1508,10 @@
       "en": "to receive",
       "sens": "« Vous avez reçu 10 000 FCFA. »",
       "critique": true,
-      "cible": "ya'a (recevoir)",
+      "cible": "E bi",
       "a_eviter": "Éviter de confondre la personne bénéficiaire (« Nyô a bi » dans le glossaire) avec l'action de recevoir.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -1520,10 +1520,10 @@
       "en": "withdraw / withdrawal",
       "sens": "Sortir de l'argent en espèces.",
       "critique": true,
-      "cible": "Enôngnán ya moné",
+      "cible": "E va'a",
       "a_eviter": "Éviter d'utiliser « fetek » (annuler) ou « lôm » (envoyer) pour « retirer de l'argent ». Le retrait d'espèces doit être validé comme expression complète en Bene.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -2012,10 +2012,10 @@
       "en": "airtime / top-up",
       "sens": "",
       "critique": false,
-      "cible": "moné nsinga",
+      "cible": "kredi",
       "a_eviter": "Éviter de confondre le crédit téléphonique avec l'argent disponible sur le compte Mobile Money.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -2024,10 +2024,10 @@
       "en": "savings / save",
       "sens": "",
       "critique": false,
-      "cible": "Évôvôla moné (épargne) / Ba'ale moné (épargner)",
+      "cible": "E na'an",
       "a_eviter": "Éviter « nyii » pour l'épargne financière : le verbe est attesté au sens de sauver / préserver une personne ou une chose.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -4364,10 +4364,10 @@
       "en": "",
       "sens": "Futur.",
       "critique": false,
-      "cible": "Bâ ye bi",
+      "cible": "Wô ye bi",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -4940,10 +4940,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "Ôsu",
+      "cible": "ôsu",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -5948,10 +5948,10 @@
       "en": "",
       "sens": "Le maximum par jour.",
       "critique": true,
-      "cible": "Abîmé moné one lôm môs",
+      "cible": "Abîmé moné ône lôm môs",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -7306,10 +7306,10 @@
       "en": [
         "Current account"
       ],
-      "cible": "Évôvôla moné",
+      "cible": "Évôvôla moné ya amane ngôn",
       "critique": false,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
