@@ -40,6 +40,8 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
   Toute autre phrase reste dans sa langue d'origine (étiquette et gloses en CSS).
 - Seul le bulu validé par deux personnes s'affiche (`MODE_TEST` à `false` dans `dom/entree.ts` pour la démo).
 - Aucune dépendance payante. Toute dépendance ajoutée est déclarée dans `THIRD_PARTY.md`.
+- La clé privée de signature ne va jamais dans le dépôt (`~/.mayem/`, `tools/signature.js`) ; seules les clés
+  publiques y sont (`packs/cles.json`). Une version publiée sur l'API ne change jamais.
 - Code et données : © Équipe Mayem, tous droits réservés (`LICENSE`), aucune licence libre. Aucun nom de traducteur dans ce qui est distribué ou publié
   (dist/, dist-web/, api/, exports) : passer par `versPublic` (`tools/public.js`). Les noms restent internes.
 

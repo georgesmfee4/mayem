@@ -1,0 +1,184 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API Mayem",
+    "version": "1.0.0",
+    "summary": "Packs de langue validés et script d'intégration, signés par l'équipe Mayem.",
+    "description": "Fichiers statiques en lecture seule. L'API ne reçoit aucun texte des pages des usagers : la traduction se fait sur l'appareil, avec le moteur Mayem. Chaque pack et chaque script porte une signature ECDSA P-256 de l'équipe Mayem, à vérifier avant usage (verifierSignature et verifierOctets du moteur, ou outils/mayem-verifier.mjs). Une version publiée ne change jamais : citer une version précise plutôt que latest dans un produit livré. Données de l'équipe Mayem, tous droits réservés.",
+    "contact": { "name": "Équipe Mayem" },
+    "license": { "name": "Tous droits réservés", "identifier": "LicenseRef-Mayem" }
+  },
+  "servers": [{ "url": "/", "description": "Hébergement de l'équipe Mayem (adresse définitive à la mise en ligne)" }],
+  "tags": [
+    { "name": "Découverte", "description": "Ce que l'API publie" },
+    { "name": "Packs", "description": "Packs de langue signés, une version figée par fichier" },
+    { "name": "Script", "description": "Script d'intégration en une ligne, signé, avec son intégrité" },
+    { "name": "Confiance", "description": "Clés publiques et outil de vérification" },
+    { "name": "Données", "description": "Exports aux formats standards, avec une clé d'accès" }
+  ],
+  "paths": {
+    "/v1/index.json": {
+      "get": {
+        "tags": ["Découverte"], "operationId": "index", "summary": "Point d'entrée et liens",
+        "responses": { "200": { "description": "Liens vers les autres ressources", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Index" } } } } }
+      }
+    },
+    "/v1/langues.json": {
+      "get": {
+        "tags": ["Découverte"], "operationId": "langues", "summary": "Langues publiées et leur dernière version",
+        "responses": { "200": { "description": "Une entrée par langue", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Langue" } } } } } }
+      }
+    },
+    "/v1/langues/{langue}.json": {
+      "get": {
+        "tags": ["Découverte"], "operationId": "langue", "summary": "Une langue : toutes ses versions et ses exports",
+        "parameters": [{ "$ref": "#/components/parameters/langue" }],
+        "responses": {
+          "200": { "description": "Détail de la langue", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LangueDetail" } } } },
+          "404": { "description": "Langue non publiée" }
+        }
+      }
+    },
+    "/v1/packs/{langue}/latest.json": {
+      "get": {
+        "tags": ["Packs"], "operationId": "dernierPack", "summary": "Dernière version du pack d'une langue",
+        "description": "Pratique pour explorer. Un produit livré cite une version précise (/v1/packs/{langue}/{version}.json).",
+        "parameters": [{ "$ref": "#/components/parameters/langue" }],
+        "responses": {
+          "200": { "description": "Pack signé", "content": { "application/json": { "schema": { "$ref": "schema.json" } } } },
+          "404": { "description": "Langue non publiée" }
+        }
+      }
+    },
+    "/v1/packs/{langue}/{version}.json": {
+      "get": {
+        "tags": ["Packs"], "operationId": "pack", "summary": "Une version figée du pack",
+        "description": "Ne change jamais. Les versions jusqu'à 0.5.3 du bulu sont au format 1 (traduction dans « bulu ») ; les suivantes au format 2 (« cible »).",
+        "parameters": [{ "$ref": "#/components/parameters/langue" }, { "$ref": "#/components/parameters/version" }],
+        "responses": {
+          "200": { "description": "Pack signé", "content": { "application/json": { "schema": { "$ref": "schema.json" } } } },
+          "404": { "description": "Version non publiée" }
+        }
+      }
+    },
+    "/v1/script/index.json": {
+      "get": {
+        "tags": ["Script"], "operationId": "scripts", "summary": "Versions publiées du script d'intégration",
+        "responses": { "200": { "description": "Versions, packs embarqués et intégrités", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ScriptIndex" } } } } }
+      }
+    },
+    "/v1/script/{script}/mayem.js": {
+      "get": {
+        "tags": ["Script"], "operationId": "script", "summary": "Le script d'intégration, packs embarqués",
+        "description": "À vérifier puis à héberger chez soi : <script src=\"/mayem.js\" integrity=\"sha384-…\" crossorigin=\"anonymous\" defer></script>. Aucune requête réseau après son chargement.",
+        "parameters": [{ "$ref": "#/components/parameters/script" }],
+        "responses": { "200": { "description": "Module JavaScript", "content": { "text/javascript": { "schema": { "type": "string" } } } }, "404": { "description": "Version non publiée" } }
+      }
+    },
+    "/v1/script/{script}/signature.json": {
+      "get": {
+        "tags": ["Script"], "operationId": "signatureScript", "summary": "Signature et intégrité d'une version du script",
+        "parameters": [{ "$ref": "#/components/parameters/script" }],
+        "responses": { "200": { "description": "Fiche signée", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/FicheScript" } } } }, "404": { "description": "Version non publiée" } }
+      }
+    },
+    "/v1/cles-publiques.json": {
+      "get": {
+        "tags": ["Confiance"], "operationId": "clesPubliques", "summary": "Clés publiques de l'équipe Mayem",
+        "description": "Une clé « retiree » ne signe plus, ses signatures restent valables ; une clé « revoquee » ne vaut plus rien. Comparer les identifiants à ceux de la documentation avant le premier usage.",
+        "responses": { "200": { "description": "Clés", "content": { "application/json": { "schema": { "type": "object", "required": ["cles"], "properties": { "cles": { "type": "array", "items": { "$ref": "#/components/schemas/ClePublique" } } } } } } } }
+      }
+    },
+    "/v1/outils/mayem-verifier.mjs": {
+      "get": {
+        "tags": ["Confiance"], "operationId": "outil", "summary": "Outil de l'intégrateur (Node 18+, sans dépendance)",
+        "description": "node mayem-verifier.mjs <adresse ou fichier> [--sortie fichier] : n'écrit rien si l'empreinte, la signature ou l'intégrité ne correspond pas. S'utilise avec outils/mayem-core.js.",
+        "responses": { "200": { "description": "Module JavaScript", "content": { "text/javascript": { "schema": { "type": "string" } } } } }
+      }
+    },
+    "/v1/outils/mayem-core.js": {
+      "get": {
+        "tags": ["Confiance"], "operationId": "moteur", "summary": "Le moteur Mayem seul, en module ES sans dépendance",
+        "responses": { "200": { "description": "Module JavaScript", "content": { "text/javascript": { "schema": { "type": "string" } } } } }
+      }
+    },
+    "/v1/schema.json": {
+      "get": {
+        "tags": ["Découverte"], "operationId": "schema", "summary": "Contrat des packs (JSON Schema)",
+        "responses": { "200": { "description": "JSON Schema", "content": { "application/json": { "schema": { "type": "object" } } } } }
+      }
+    },
+    "/v1/exports/{langue}/{fichier}": {
+      "get": {
+        "tags": ["Données"], "operationId": "export", "summary": "Exports de la dernière version (TMX, XLIFF, TBX, i18next, Android)",
+        "description": "Avec une clé d'accès délivrée par l'équipe Mayem. Seules les phrases validées par deux personnes, sans aucun nom.",
+        "security": [{ "cleAcces": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/langue" }, { "name": "fichier", "in": "path", "required": true, "schema": { "type": "string" }, "example": "bum.tmx" }],
+        "responses": { "200": { "description": "Fichier d'export" }, "401": { "description": "Clé absente ou refusée" }, "404": { "description": "Fichier inconnu" } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "cleAcces": { "type": "apiKey", "in": "header", "name": "X-Mayem-Cle", "description": "Clé délivrée par l'équipe Mayem, par client" }
+    },
+    "parameters": {
+      "langue": { "name": "langue", "in": "path", "required": true, "description": "Code ISO 639-3", "schema": { "type": "string", "pattern": "^[a-z]{3}$" }, "example": "bum" },
+      "version": { "name": "version", "in": "path", "required": true, "schema": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }, "example": "0.6.0" },
+      "script": { "name": "script", "in": "path", "required": true, "description": "Version de Mayem et des packs embarqués", "schema": { "type": "string" }, "example": "0.3.0+bum.0.6.0" }
+    },
+    "schemas": {
+      "Signature": {
+        "type": "object", "required": ["cle", "valeur"],
+        "properties": { "cle": { "type": "string", "description": "Identifiant de la clé (cles-publiques.json)" }, "valeur": { "type": "string", "description": "ECDSA P-256 / SHA-256, (r||s) en base64url" } }
+      },
+      "ClePublique": {
+        "type": "object", "required": ["id", "jwk", "statut"],
+        "properties": {
+          "id": { "type": "string", "description": "16 premiers caractères hexadécimaux du SHA-256 de la clé publique" },
+          "jwk": { "type": "object", "description": "Clé publique EC P-256 au format JWK (kty, crv, x, y)" },
+          "statut": { "enum": ["active", "retiree", "revoquee"] },
+          "depuis": { "type": "string", "format": "date" }
+        }
+      },
+      "Index": {
+        "type": "object",
+        "properties": { "api": { "const": "v1" }, "producteur": { "type": "string" }, "droits": { "type": "string" }, "liens": { "type": "object", "additionalProperties": { "type": ["string", "null"] } } }
+      },
+      "Langue": {
+        "type": "object",
+        "properties": {
+          "langue": { "type": "string" }, "nom": { "type": "string" }, "producteur": { "type": "string" }, "droits": { "type": "string" },
+          "derniere": { "type": "object", "properties": { "version": { "type": "string" }, "date": { "type": "string" }, "empreinte": { "type": "string" }, "format": { "type": "integer" } } },
+          "phrases_validees": { "type": "integer" }, "termes": { "type": "integer" },
+          "liens": { "type": "object", "properties": { "pack": { "type": "string" }, "detail": { "type": "string" } } }
+        }
+      },
+      "LangueDetail": {
+        "allOf": [{ "$ref": "#/components/schemas/Langue" }, {
+          "type": "object",
+          "properties": {
+            "versions": { "type": "array", "items": { "type": "object", "properties": { "version": { "type": "string" }, "date": { "type": "string" }, "empreinte": { "type": "string" }, "format": { "type": "integer" }, "cle": { "type": "string" }, "pack": { "type": "string" } } } },
+            "exports": { "type": "array", "items": { "type": "string" } }
+          }
+        }]
+      },
+      "FicheScript": {
+        "type": "object", "required": ["version", "integrite", "signature"],
+        "properties": {
+          "version": { "type": "string" },
+          "packs": { "type": "array", "items": { "type": "object", "properties": { "langue": { "type": "string" }, "version": { "type": "string" } } } },
+          "integrite": { "type": "string", "description": "sha384-… pour l'attribut integrity" },
+          "signature": { "$ref": "#/components/schemas/Signature" }
+        }
+      },
+      "ScriptIndex": {
+        "type": "object",
+        "properties": {
+          "derniere": { "type": "string" },
+          "versions": { "type": "array", "items": { "type": "object", "properties": { "version": { "type": "string" }, "packs": { "type": "array" }, "integrite": { "type": "string" }, "cle": { "type": "string" }, "script": { "type": "string" } } } }
+        }
+      }
+    }
+  }
+}
