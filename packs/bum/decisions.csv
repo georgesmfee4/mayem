@@ -1,4 +1,4 @@
-﻿code,ref,bulu,decide_par,relu_par,date,commentaire
+﻿code,ref,cible,decide_par,relu_par,date,commentaire
 negation,G10,Safinum Pay — nlam a démonstration. Teké futié mfi folâ woé.,Lesly,Carrel,2026-11-11,
 apostrophe,X27,"Éyoñ ô ntiñ ya nkeàn ôsu, ô vo’o ki fe bulan mvùs",Lesly,Carrel,2026-11-11,
 politesse,X27,"Éyoñ ô ntiñ ya nkeàn ôsu, ô vo’o ki fe bulan mvùs",Lesly,Carrel,2026-11-11,
@@ -45,5 +45,11 @@ glossaire-vide,T24,,Georges,Lesly,2026-11-12,Pas de traduction isolée : le sens
 glossaire-double,T19,Nten bafili,Georges,Carrel,2026-11-12,"Code secret, mot de passe et code de confirmation : même idée en bulu, aucun ne se partage"
 glossaire-double,T46,Nten bafili,Georges,Carrel,2026-11-12,"Code secret, mot de passe et code de confirmation : même idée en bulu, aucun ne se partage"
 glossaire-double,T47,Nten bafili,Georges,Carrel,2026-11-12,"Code secret, mot de passe et code de confirmation : même idée en bulu, aucun ne se partage"
-glossaire-double,T81,Fôé éne mfi,Georges,Carrel,2026-11-12,"Même terme voulu pour attention et message important"
-glossaire-double,T27,Fôé éne mfi,Georges,Carrel,2026-11-12,"Même terme voulu pour attention et message important"
+glossaire-double,T81,Fôé éne mfi,Georges,Carrel,2026-11-12,Même terme voulu pour attention et message important
+glossaire-double,T27,Fôé éne mfi,Georges,Carrel,2026-11-12,Même terme voulu pour attention et message important
+retraduction,B01,Yôlé folâ ya nyô a bi. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Carrel,John,2026-11-19,
+retraduction,E05,Abime moné dayiane bô ôsu momo,Carrel,John,2026-11-19,
+retraduction,E10,Nkúán ya nsinga: teké e djom etó dji. Beta'a ve'ele.,Carrel,John,2026-11-19,
+retraduction,E11,W'ayiane ntiñ folâ ôsusua na w'ake ôsu a nlomane moné.,Carrel,John,2026-11-19,
+retraduction,F11,Mebal mazù wulu,Carrel,John,2026-11-19,
+retraduction,R03,Mabal máte wùlù,Carrel,John,2026-11-19,

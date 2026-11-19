@@ -7,8 +7,8 @@
   "ecriture": "Latn",
   "lettres_exclues": "ɔŋɛ",
   "formes_adresse": [
-    { "nom": "ô", "mots": ["ô"] },
-    { "nom": "w'/wo", "debuts": ["wo", "Wo", "WO", "w'", "W'"] }
+    { "nom": "ô", "mots": ["ô", "Ô"] },
+    { "nom": "w'/wo", "debuts": ["wo", "Wo", "WO", "wô", "Wô", "WÔ", "w'", "W'"] }
   ],
   "etiquettes": {
     "securite": "E02",

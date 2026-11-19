@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "date": "2026-11-19",
-  "empreinte": "sha256-45ca175ebd8e07df7bb21f73f22ff3a52859c8817df6532d4f951bddb0d6e781",
+  "empreinte": "sha256-bbd7a2e708b694065f1349620ac33a35103ce3b2a92cd5f7cbda88eeb86eef56",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -4121,12 +4121,12 @@
       "en": [
         "Safinum Pay — demonstration environment. Do not enter real personal data."
       ],
-      "cible": "Safinum Pay — nlam a démonstration. Teké futié mfi folâ woé.",
+      "cible": "Safinum Pay — nlam ya démonstration. Teké futié mfi folâ woé.",
       "critique": true,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "John",
-      "retraduction": "Safinum Pay - environemment de démonstration. Ne mettez aucune information utile",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -4359,12 +4359,12 @@
       "en": [
         "Always verify the beneficiary name and number before confirming a transfer."
       ],
-      "cible": "Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",
+      "cible": "Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "John",
-      "retraduction": "Vérifiez le nom et le numéro du bénéficiaire avant de continuer",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -4443,12 +4443,12 @@
       "en": [
         "Instant, free transfer"
       ],
-      "cible": "Nlomane moné ana-ana, bua",
+      "cible": "Nlomane moné ana-ana a bua",
       "critique": true,
-      "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "John",
-      "retraduction": "Transfert d'argent automatique, gratuit",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -4597,12 +4597,12 @@
       "en": [
         "This beneficiary has never been used on this account. Verify the number before continuing."
       ],
-      "cible": "Nyô a bi nyi a be ki belan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.",
+      "cible": "Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.",
       "critique": true,
-      "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "John",
-      "retraduction": "Ce bénéficiaire n'a jamais utilisé ce compte. Vérifiez le numéro de téléphone avant de continuer",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -4681,12 +4681,12 @@
       "en": [
         "Check the details before confirming the transfer."
       ],
-      "cible": "Ô tuá fômbo folâ ôsusua na w'a ntiñ nlomane moné.",
+      "cible": "Ô tuá fômbo folâ ôsusua na wô ntiñ nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "John",
-      "retraduction": "Vérifiez les informations avant de continuer avec le transfert",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -4853,8 +4853,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Reussi",
       "valide": true
     },
     {
@@ -5210,12 +5210,12 @@
       "en": [
         "You are about to send {amount} to {name}"
       ],
-      "cible": "Nlomane moné {amount} asu {name}",
+      "cible": "wô zu lôm {amount} asù {name}",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "John",
-      "retraduction": "Transfert de {amount} à {name}",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -5252,12 +5252,12 @@
       "en": [
         "Check the beneficiary's name and number before confirming. A confirmed transaction cannot be cancelled."
       ],
-      "cible": "Ô tuá fômbo jôé na nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",
+      "cible": "Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "John",
-      "retraduction": "Vérifiez le nom et le numéro du bénéficiaire avant de continuer. En acceptant de continuer, vous ne pourrez plus annuler",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -5350,12 +5350,12 @@
       "en": [
         "Invalid amount"
       ],
-      "cible": "Abime moné teké mvoé",
+      "cible": "Abime moné é ndji bô mbamba",
       "critique": true,
-      "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "John",
-      "retraduction": "Le solde est insuffisant",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -5438,8 +5438,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Votre solde",
       "valide": true,
       "variantes": [
         "Solde de votre compte",

@@ -130,7 +130,7 @@ QP16,bonjour,hello / good morning,"Salutation générale, surtout le matin et pe
 QP17,bon après-midi,good afternoon,Salutation employée pendant l’après-midi.,Non,Mbôlô,Traduction Bene à confirmer par un locuteur ; ne pas reprendre automatiquement « bonjour » sans validation.,Georges,Alexandre et Ronald,
 QP18,bonsoir,good evening,Salutation employée le soir.,Non,mbôlô,Formule de salutation du soir ; confirmer avec un locuteur Bene qu’elle convient bien à l’arrivée et non seulement au départ.,Georges,Alexandre et Ronald,
 QP19,salut,hi / informal hello,"Salutation familière et informelle, sans indication d’heure.",Non,Mbôlô,Registre familier ; traduction Bene à confirmer par un locuteur.,Georges,Carrel,
-QP20,joie / bonheur,joy / happiness,"Sentiment de joie, de bonheur.",Non,mvaé,"Ne pas employer pour « succès » ou « réussi » (T63) : dire « bo'obane mvo'é ».",Georges,Lesly,
+QP20,joie / bonheur,joy / happiness,"Sentiment de joie, de bonheur.",Non,mvaé,Ne pas employer pour « succès » ou « réussi » (T63) : dire « bo'obane mvo'é ».,Georges,Lesly,
 ,F · Vocabulaire financier étendu,,Pour les messages inédits du jury et les autres services. Même règle : un terme par idée.,,,,,,
 T31,argent,money,L'argent en général (moné est déjà choisi dans « compte »).,Non,moné (argent),Éviter « moné » seul pour désigner un montant précis : le glossaire distingue déjà l'argent en général du montant (T04).,Georges,Alexandre et Ronald,
 T32,payer,to pay,Le verbe (le nom « paiement » est en T29).,Oui,ya'an (payer / régler),Éviter de confondre le verbe « payer » avec le nom « paiement » déjà couvert par T29.,Georges,Alexandre et Ronald,
