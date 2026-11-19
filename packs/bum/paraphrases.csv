@@ -2,7 +2,6 @@
 X08,Votre solde actuel est de {amount},,Georges,proposition,
 X08,Le solde de votre compte est de {amount},,Georges,proposition,
 X20,Fonds insuffisants,,Carrel,proposition,
-E06,Solde insuffisant pour cette opération.,,Carrel,proposition,
 E06,Vous n'avez pas assez d'argent pour effectuer ce transfert.,,Carrel,proposition,
 E01,Une erreur s'est produite,,Carrel,proposition,
 E01,Une erreur inattendue s'est produite,,Carrel,proposition,ajoute « inattendue »
