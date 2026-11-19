@@ -136,7 +136,8 @@ npm run deployer     contrôle, envoie, puis sonde l'adresse publique
   retire aussitôt, sans redéployer.
 - **Outil** : wrangler, de Cloudflare, lancé par `npx` à une version épinglée (`tools/cloudflare.js`), hors
   de `package.json` et de l'extension. La connexion au compte (`npx wrangler login`) se fait par l'équipe.
-- L'adresse publique est notée dans `hebergement/adresse.txt` au premier envoi.
+- L'adresse publique est notée dans `hebergement/adresse.txt` au premier envoi :
+  **https://mayem-api.mayem.workers.dev** (point d'entrée : `/v1/index.json`).
 
 **Grands packs.** Le sens reconnu indexe ses phrases au premier texte inconnu : quelques millisecondes pour
 une centaine de phrases, de l'ordre de la seconde pour 20 000. Au-delà de quelques milliers de phrases, cet
