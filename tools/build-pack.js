@@ -19,9 +19,12 @@ const langue = choisirLangue(process.argv.slice(2).find((argument) => !argument.
 const ici = dossier(langue);
 const lire = (nom) => readFileSync(ici + nom, 'utf8');
 const oui = (v) => ['1', 'oui', 'yes', 'x'].includes((v || '').trim().toLowerCase());
+const infos = JSON.parse(lire('infos.json'));
+// Les tableurs nomment la colonne de traduction d'après la langue : « TRADUCTION BULU », « Texte ewondo »…
+const nomLangue = infos.nom.toLowerCase();
 
-// Les locuteurs renomment parfois les en-têtes du tableur (le kit dit « TERME BULU APPROUVÉ »
-// et « Choisi par », le fichier de Bene « TRADUCTION BULU » et « Traduit par »).
+// Les locuteurs renomment parfois les en-têtes du tableur (le kit dit « TERME <LANGUE> APPROUVÉ »
+// et « Choisi par », d'autres fichiers « TRADUCTION <LANGUE> » et « Traduit par »).
 // Chaque champ accepte donc plusieurs débuts d'en-tête, sans tenir compte des majuscules.
 const COLONNES_GLOSSAIRE = {
   ref: ['réf'],
@@ -29,7 +32,7 @@ const COLONNES_GLOSSAIRE = {
   en: ['anglais'],
   sens: ['sens dans', 'texte français'],
   critique: ['critique'],
-  cible: ['terme bulu', 'traduction bulu'],
+  cible: [`terme ${nomLangue}`, `traduction ${nomLangue}`],
   a_eviter: ['mots à éviter'],
   traduit_par: ['traduit par', 'choisi par'],
   relu_par: ['relu par'],
@@ -39,7 +42,7 @@ const COLONNES_CORPUS = ['id', 'fr', 'en', 'cible', 'critique', 'valide_par', 'v
 // retraduction.csv vient de tools/kit.py import (fichier de retraduction rempli)
 const COLONNES_RETRADUCTION = {
   ref: ['réf'],
-  cible: ['texte bulu'],
+  cible: [`texte ${nomLangue}`],
   texte: ['votre traduction'],
   par: ['traduit par'],
 };
@@ -137,7 +140,7 @@ function expliquer(erreur, phrases) {
   return `${erreur}\n    fr   : ${phrase.fr}\n    trad : ${phrase.cible || '(vide)'}`;
 }
 
-const { langue: code, nom, producteur, droits, orthographe, etiquettes } = JSON.parse(lire('infos.json'));
+const { langue: code, nom, producteur, droits, orthographe, etiquettes } = infos;
 const contenu = { glossaire: lireGlossaire(), phrases: lirePhrases() };
 const ancien = existsSync(ici + 'pack.json') ? JSON.parse(lire('pack.json')) : null;
 const changements = differences(ancien, { format: FORMAT, ...contenu, nom, producteur, droits, orthographe, etiquettes });

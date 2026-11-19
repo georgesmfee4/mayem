@@ -11,6 +11,7 @@ import { choisirLangue, dossier } from './langues.js';
 const ici = dossier(choisirLangue(process.argv[2]));
 const lire = (nom) => (existsSync(ici + nom) ? lireCsv(readFileSync(ici + nom, 'utf8')) : []);
 const entetes = (nom) => (existsSync(ici + nom) ? Object.keys(lireCsv(readFileSync(ici + nom, 'utf8'))[0] || {}) : []);
+const nomLangue = JSON.parse(readFileSync(ici + 'infos.json', 'utf8')).nom.toLowerCase();
 const colonne = (noms, ...debuts) => noms.find((n) => debuts.some((d) => n.trim().toLowerCase().startsWith(d)));
 
 function ajouter(nom, colonnes, lignes) {
@@ -24,7 +25,7 @@ const glossaire = lire('glossaire.csv');
 const style = lire('style.csv');
 const nomsGlossaire = entetes('glossaire.csv');
 const colonnesGlossaire = {
-  ref: colonne(nomsGlossaire, 'réf'), cible: colonne(nomsGlossaire, 'terme bulu', 'traduction bulu'),
+  ref: colonne(nomsGlossaire, 'réf'), cible: colonne(nomsGlossaire, `terme ${nomLangue}`, `traduction ${nomLangue}`),
   traduit: colonne(nomsGlossaire, 'traduit par', 'choisi par'), relu: colonne(nomsGlossaire, 'relu par'),
 };
 const colonneReponse = colonne(entetes('style.csv'), 'votre réponse') || 'VOTRE RÉPONSE';
