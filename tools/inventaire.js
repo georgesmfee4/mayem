@@ -93,7 +93,7 @@ function ajouterAuCorpus(fichier, manques) {
   const nouvelles = manques.filter((m) => !presents.has(m.modele)).map((m) => ({
     id: `N${String(suivant++).padStart(3, '0')}`, priorite: 'P2', ecran: 'Inventaire', element: 'Texte relevé sur un service',
     critique: m.categorie && m.categorie !== 'info' ? '1' : '0', champ_fait: /\{\w+\}/.test(m.modele) ? '1' : '0',
-    fr: m.modele, en: '', bulu: '', valide_par: '', valide: '', consigne: consigne(m),
+    fr: m.modele, en: '', cible: '', valide_par: '', valide: '', consigne: consigne(m),
   }));
   writeFileSync(fichier, ecrireCsv(entetes, [...lignes, ...nouvelles]));
   return nouvelles.length;

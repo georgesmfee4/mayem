@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Kit de validation pour les locuteurs bulu.
+"""Kit de validation pour les locuteurs d'une langue (packs/<langue>/).
 
-  python3 tools/kit.py export            -> kit-validation-bulu.xlsx (à envoyer aux locuteurs)
+  python3 tools/kit.py export            -> kit-validation-<nom de la langue>.xlsx (à envoyer aux locuteurs)
   python3 tools/kit.py import FICHIER    -> reporte traductions, glossaire et style du fichier rempli
-  python3 tools/kit.py retraduction      -> retraduction-a-envoyer.xlsx (bulu seul, pour une 3e personne)
+  python3 tools/kit.py retraduction      -> retraduction-a-envoyer.xlsx (traduction seule, pour une 3e personne)
   python3 tools/kit.py import RETRAD     -> enregistre la retraduction reçue (retraduction.csv)
   python3 tools/kit.py revision          -> revision-<langue>.xlsx (après npm run revision ; --precedent ANCIEN.xlsx
                                             recopie les réponses d'un ancien tableur de relecture, à confirmer ;
@@ -14,7 +14,7 @@ Les fichiers de la langue sont dans packs/<langue>/. S'il y a plusieurs langues 
 Une ligne n'est marquée validée que si « Traduit par » ET « Relu par » sont remplis
 (deux personnes différentes). Ensuite : npm run pack
 """
-import csv, pathlib, re, sys
+import csv, json, pathlib, re, sys
 try:
     from openpyxl import Workbook, load_workbook
 except ImportError:
@@ -40,10 +40,20 @@ def choisir_langue(args):
 
 DOSSIER = root / 'packs' / choisir_langue(sys.argv)
 CORPUS = DOSSIER / 'corpus.csv'
-FIELDS = ['id', 'priorite', 'ecran', 'element', 'critique', 'champ_fait', 'fr', 'en', 'bulu', 'valide_par', 'valide', 'consigne']
+# Nom de la langue, tel qu'il s'écrit dans les tableurs : « TRADUCTION BULU », « en bulu »
+NOM = json.load(open(DOSSIER / 'infos.json', encoding='utf-8'))['nom']
+LANGUE, MAJ = NOM.lower(), NOM.upper()
+FIELDS = ['id', 'priorite', 'ecran', 'element', 'critique', 'champ_fait', 'fr', 'en', 'cible', 'valide_par', 'valide', 'consigne']
+# Ancien nom de la colonne de traduction : lu sous le nom actuel, réécrit sous ce nom au prochain import
+ANCIENS_NOMS = {'bulu': 'cible'}
+
+
+def lire_corpus():
+    with open(CORPUS, encoding='utf-8-sig', newline='') as f:
+        return [{ANCIENS_NOMS.get(k, k): v for k, v in r.items()} for r in csv.DictReader(f)]
 HEAD = ['Réf.', 'Priorité', 'Écran', 'Où apparaît le texte', 'Critique (argent ou sécurité)',
-        'Texte français', 'Texte anglais', 'À savoir', 'TRADUCTION BULU', 'Traduit par', 'Relu par', 'Commentaire / doute']
-# Glossaire : un concept = un terme bulu approuvé, utilisé partout. À remplir AVANT les phrases.
+        'Texte français', 'Texte anglais', 'À savoir', f'TRADUCTION {MAJ}', 'Traduit par', 'Relu par', 'Commentaire / doute']
+# Glossaire : un concept = un terme approuvé dans la langue, utilisé partout. À remplir AVANT les phrases.
 GLOSSARY = [
     # (réf., terme français, anglais, sens dans l'application, critique)
     ('T01', 'solde', 'balance', "L'argent disponible sur le compte", 1),
@@ -83,20 +93,20 @@ STYLE = [
     ('Politesse', "Comment s'adresser poliment au client (équivalent de « vous ») ?"),
     ('Montants', 'Les montants restent en chiffres, avec « FCFA » : 25 000 FCFA. Est-ce naturel pour vous ? Sinon, expliquez.'),
     ('Mots français', "Quels mots français sont si courants qu'il vaut mieux les garder (ex. FCFA, Mobile Money, code PIN) ?"),
-    ('Boutons', 'Les boutons doivent rester courts (1 à 3 mots). Y a-t-il des mots bulu très longs qui poseraient problème ?'),
+    ('Boutons', 'Les boutons doivent rester courts (1 à 3 mots). Y a-t-il des mots très longs en ' + LANGUE + ' qui poseraient problème ?'),
 ]
 
 GUIDE = [
     "Merci de votre aide ! Ces textes viennent d'une application bancaire de démonstration.",
     "",
     "ÉTAPE 1 — Remplissez d'abord les feuilles « Choix de style » et « Glossaire » (30 minutes environ, à faire ensemble si possible).",
-    "   Le glossaire fixe UN mot bulu par idée (solde, frais, bénéficiaire…). Ce mot sera ensuite utilisé dans toutes les phrases.",
+    f"   Le glossaire fixe UN mot en {LANGUE} par idée (solde, frais, bénéficiaire…). Ce mot sera ensuite utilisé dans toutes les phrases.",
     "",
     "ÉTAPE 2 — Traduisez ensuite les phrases de la feuille « À traduire » :",
-    "1. Écrivez la traduction bulu de chaque texte français dans la colonne jaune « TRADUCTION BULU ».",
+    f"1. Écrivez la traduction en {LANGUE} de chaque texte français dans la colonne jaune « TRADUCTION {MAJ} ».",
     "2. Les mots entre accolades, comme {name}, {amount}, {account} ou {percent}, ne se traduisent pas :",
-    "   recopiez-les tels quels, à la bonne place dans la phrase bulu. Ils seront remplacés par un nom ou un montant.",
-    "3. Ne changez aucun chiffre. Ne traduisez pas les noms de personnes ni les noms de marque (Safinum Pay, Mobile Money).",
+    f"   recopiez-les tels quels, à la bonne place dans la phrase en {LANGUE}. Ils seront remplacés par un nom ou un montant.",
+    "3. Ne changez aucun chiffre. Ne traduisez pas les noms de personnes ni les noms de marque (opérateurs, applications).",
     "4. Les lignes « Critique = Oui » parlent d'argent ou de sécurité : le sens doit être exactement le même",
     "   (envoyer, confirmer, annuler, frais, jamais, avant de…). En cas de doute, écrivez-le dans « Commentaire ».",
     "5. Utilisez une seule orthographe pour tout le fichier, et indiquez-la ci-dessous.",
@@ -106,13 +116,13 @@ GUIDE = [
     "8. Utilisez les mots du glossaire. Si une phrase demande un autre mot, expliquez pourquoi dans « Commentaire ».",
     "",
     "ÉTAPE 3 — Pour les lignes « Critique = Oui », une troisième personne recevra un fichier séparé, avec seulement",
-    "   le bulu, et le retraduira en français sans voir l'original. On comparera ensuite les deux sens.",
+    "   la traduction, et la retraduira en français sans voir l'original. On comparera ensuite les deux sens.",
     "",
     "Les traductions produites pour Mayem appartiennent à l'équipe Mayem. Vos noms servent uniquement à la double validation interne et ne sont jamais publiés.",
 ]
 
 def export():
-    rows = list(csv.DictReader(open(CORPUS, encoding='utf-8-sig', newline='')))
+    rows = lire_corpus()
     wb = Workbook()
     g = wb.active
     g.title = "Mode d'emploi"
@@ -139,7 +149,7 @@ def export():
 
     gl = wb.create_sheet('Glossaire')
     gl.append(['Réf.', 'Terme français', 'Anglais', 'Sens dans l’application', 'Critique',
-               'TERME BULU APPROUVÉ', 'Mots à éviter (et pourquoi)', 'Choisi par', 'Relu par', 'Commentaire'])
+               f'TERME {MAJ} APPROUVÉ', 'Mots à éviter (et pourquoi)', 'Choisi par', 'Relu par', 'Commentaire'])
     head_style(gl[1])
     for ref, fr, en, sens, crit in GLOSSARY:
         gl.append([ref, fr, en, sens, 'Oui' if crit else 'Non', '', '', '', '', ''])
@@ -159,7 +169,7 @@ def export():
     red = Font(bold=True, color='B42318')
     for r in rows:
         ws.append([r['id'], r['priorite'], r['ecran'], r['element'], 'Oui' if r['critique'] == '1' else 'Non',
-                   r['fr'], r['en'].replace('|', ' / '), r['consigne'], r['bulu'], '', '', ''])
+                   r['fr'], r['en'].replace('|', ' / '), r['consigne'], r['cible'], '', '', ''])
         row = ws.max_row
         ws.cell(row=row, column=9).fill = yellow
         if r['critique'] == '1': ws.cell(row=row, column=5).font = red
@@ -169,7 +179,7 @@ def export():
         ws.column_dimensions[col].width = w
     ws.freeze_panes = 'F2'
     ws.auto_filter.ref = f'A1:L{ws.max_row}'
-    out = root / 'kit-validation-bulu.xlsx'
+    out = root / f'kit-validation-{LANGUE}.xlsx'
     wb.save(out)
     print(f'{len(rows)} lignes -> {out}')
     # Glossaire complet (sections B à L) : le même kit sert pour toute nouvelle langue
@@ -186,16 +196,16 @@ def sheet_to_csv(wb, name, out):
     return max(0, len(rows) - 1)
 
 def backtranslation(path):
-    """Fichier séparé pour la 3e personne : uniquement le bulu des lignes critiques, sans le français."""
-    rows = {r['id']: r for r in csv.DictReader(open(CORPUS, encoding='utf-8-sig', newline=''))}
+    """Fichier séparé pour la 3e personne : uniquement la traduction des lignes critiques, sans le français."""
+    rows = {r['id']: r for r in lire_corpus()}
     wb = Workbook(); ws = wb.active; ws.title = 'Retraduction'
-    ws.append(['Réf.', 'Texte bulu', 'VOTRE TRADUCTION EN FRANÇAIS', 'Traduit par', 'Commentaire'])
+    ws.append(['Réf.', f'Texte {LANGUE}', 'VOTRE TRADUCTION EN FRANÇAIS', 'Traduit par', 'Commentaire'])
     for c in ws[1]:
         c.font = Font(bold=True, color='FFFFFF'); c.fill = PatternFill('solid', fgColor='0F4C5C')
     n = 0
     for r in rows.values():
-        if r['critique'] == '1' and r['bulu']:
-            ws.append([r['id'], r['bulu'], '', '', '']); n += 1
+        if r['critique'] == '1' and r['cible']:
+            ws.append([r['id'], r['cible'], '', '', '']); n += 1
             ws.cell(row=ws.max_row, column=3).fill = PatternFill('solid', fgColor='FFF2CC')
             for col in range(1, 6): ws.cell(row=ws.max_row, column=col).alignment = Alignment(wrap_text=True, vertical='top')
     for col, w in zip('ABCDE', [7, 50, 50, 16, 30]): ws.column_dimensions[col].width = w
@@ -203,13 +213,13 @@ def backtranslation(path):
     wb.save(out)
     print(f'{n} phrases critiques -> {out} (à envoyer à une personne qui n’a pas vu le français)')
 
-def bulu_column(header):
-    """Indices des colonnes bulu, traducteur et relecteur, quel que soit le nom donné par les locuteurs."""
+def colonnes_traduction(header):
+    """Indices des colonnes de traduction, traducteur et relecteur, quel que soit le nom donné par les locuteurs."""
     find = lambda *starts: next((i for i, h in enumerate(header) if h.strip().lower().startswith(starts)), None)
-    return find('terme bulu', 'traduction bulu'), find('traduit par', 'choisi par'), find('relu par')
+    return find(f'terme {LANGUE}', f'traduction {LANGUE}'), find('traduit par', 'choisi par'), find('relu par')
 
 def import_glossary(wb):
-    """Reporte le glossaire du tableur. Une case bulu vide n'efface jamais un terme déjà traduit :
+    """Reporte le glossaire du tableur. Une case de traduction vide n'efface jamais un terme déjà traduit :
     un kit fraîchement exporté a un glossaire vierge, il ne doit pas vider glossaire.csv."""
     path = DOSSIER / 'glossaire.csv'
     old = {}
@@ -217,7 +227,7 @@ def import_glossary(wb):
         with open(path, encoding='utf-8-sig', newline='') as f:
             old_rows = list(csv.reader(f))
         if old_rows:
-            b, t, r = bulu_column(old_rows[0])
+            b, t, r = colonnes_traduction(old_rows[0])
             for row in old_rows[1:]:
                 if row and b is not None and len(row) > b and row[b].strip():
                     old[row[0].strip()] = (row[b], row[t] if t is not None else '', row[r] if r is not None else '')
@@ -226,7 +236,7 @@ def import_glossary(wb):
         rows = list(csv.reader(f))
     if not rows:
         return n
-    b, t, r = bulu_column(rows[0])
+    b, t, r = colonnes_traduction(rows[0])
     kept = 0
     for row in rows[1:]:
         ref = row[0].strip() if row else ''
@@ -268,16 +278,16 @@ def import_(path):
         rid, bu, by, rev = row[0], row[8], row[9], row[10]
         if rid and bu:
             filled[str(rid).strip()] = (str(bu).strip(), (by or '').strip(), (rev or '').strip())
-    rows = list(csv.DictReader(open(CORPUS, encoding='utf-8-sig', newline='')))
+    rows = lire_corpus()
     n_valid = 0
     changes = []
     for r in rows:
         if r['id'] in filled:
             bu, by, rev = filled[r['id']]
             # Un fichier plus ancien que corpus.csv écraserait des corrections récentes : on montre tout
-            if r['bulu'] and r['bulu'] != bu:
-                changes.append(f"  {r['id']} : « {r['bulu']} » -> « {bu} »")
-            r['bulu'] = bu
+            if r['cible'] and r['cible'] != bu:
+                changes.append(f"  {r['id']} : « {r['cible']} » -> « {bu} »")
+            r['cible'] = bu
             ok = bool(by and rev and by.lower() != rev.lower())
             r['valide_par'] = f'{by} / relu par {rev}' if ok else by
             r['valide'] = '1' if ok else ''
@@ -288,7 +298,7 @@ def import_(path):
         w.writerows(rows)
     print(f'{len(filled)} traductions importées, {n_valid} validées par deux personnes -> {CORPUS}')
     if changes:
-        print(f'{len(changes)} traduction(s) bulu modifiée(s) :')
+        print(f'{len(changes)} traduction(s) en {LANGUE} modifiée(s) :')
         print('\n'.join(changes))
         print('Si un changement est un retour en arrière : git checkout packs/<langue>/corpus.csv, puis corriger le tableur.')
 
@@ -305,7 +315,6 @@ if __name__ == '__main__':
             sys.exit("Lancer d'abord : npm run revision")
         precedent = sys.argv[sys.argv.index('--precedent') + 1] if '--precedent' in sys.argv else None
         codes = sys.argv[sys.argv.index('--codes') + 1].split(',') if '--codes' in sys.argv else None
-        nom = json.load(open(DOSSIER / 'infos.json', encoding='utf-8'))['nom'].lower()
-        revision_kit.exporter(DOSSIER, root / f"revision-{nom}{'-court' if codes else ''}.xlsx", precedent, codes)
+        revision_kit.exporter(DOSSIER, root / f"revision-{LANGUE}{'-court' if codes else ''}.xlsx", precedent, codes)
     else:
         print(__doc__)

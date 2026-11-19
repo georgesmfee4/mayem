@@ -23,15 +23,15 @@ const motsDe = (s: string) => cle(s).split(/[^\p{L}\p{N}']+/u).filter(Boolean).m
 const glosable = (t: Terme) => !/^\s*[«"]/.test(t.sens) && (t.critique || t.sens.trim() !== '');
 
 export const termeUtilisable = (t: Terme) =>
-  t.bulu.trim() !== '' && t.traduit_par.trim() !== '' && t.relu_par.trim() !== '' && !memeAuteur(t.traduit_par, t.relu_par)
-  && !/[(:;…]|\.\.\.|\bpour\b|\.$/.test(t.bulu) && !/[(:…]/.test(t.terme);
+  t.cible.trim() !== '' && t.traduit_par.trim() !== '' && t.relu_par.trim() !== '' && !memeAuteur(t.traduit_par, t.relu_par)
+  && !/[(:;…]|\.\.\.|\bpour\b|\.$/.test(t.cible) && !/[(:…]/.test(t.terme);
 
 function indexerTermes(pack: Pack): IndexTermes {
   const index: IndexTermes = { exacts: new Map(), parMot: new Map() };
   const sansAccent = new Map<string, Entree[]>();
   for (const t of pack.glossaire.filter(termeUtilisable)) {
     const francais = formesDe(t.terme);
-    const traductions = formesDe(t.bulu);
+    const traductions = formesDe(t.cible);
     francais.forEach((fr, i) => {
       // « frais / commission » = « Kufa / Kufo » : formes appariées ; sinon la première traduction
       const traduction = traductions.length === francais.length ? traductions[i] : traductions[0];

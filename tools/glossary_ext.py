@@ -1,7 +1,7 @@
 """Sections du glossaire au-delà des 30 termes métier.
 
 Chaque section a une priorité et un usage précis dans le moteur. Le moteur ne fabrique JAMAIS de
-phrase bulu à partir de ces éléments : ils servent au contrôle automatique des traductions, à la
+phrase traduite à partir de ces éléments : ils servent au contrôle automatique des traductions, à la
 lecture des messages inédits (lexique validé affiché à côté de l'original) et à la documentation
 du pack de langue. Une section = une liste de lignes (réf., français, anglais, consigne, critique).
 """
@@ -40,7 +40,7 @@ SECTIONS = [
         ("GR28", "impossible", "impossible / cannot", "« Opération impossible. »", 1),
     ]),
     ("C", "Mots de liaison", 1,
-     "Conjonctions et prépositions. Si le bulu n'a pas de mot séparé (préfixe, ordre des mots…), écrivez « aucun » et expliquez dans Commentaire.", [
+     "Conjonctions et prépositions. Si votre langue n'a pas de mot séparé (préfixe, ordre des mots…), écrivez « aucun » et expliquez dans Commentaire.", [
         ("LI01", "et", "and", "« Le nom et le numéro. »", 0),
         ("LI02", "ou", "or", "« Le nom ou le numéro. »", 1),
         ("LI03", "mais", "but", "", 0),
@@ -63,7 +63,7 @@ SECTIONS = [
         ("LI20", "comme", "like / as", "", 0),
     ]),
     ("D", "Déterminants et pronoms", 1,
-     "Le bulu n'a peut-être pas d'équivalent de « le / la / les » : dans ce cas écrivez « aucun » et dites dans Commentaire comment on comprend le défini.", [
+     "Votre langue n'a peut-être pas d'équivalent de « le / la / les » : dans ce cas écrivez « aucun » et dites dans Commentaire comment on comprend le défini.", [
         ("DP01", "le / la / les (article)", "the", "Article défini.", 0),
         ("DP02", "un / une / des (article)", "a / some", "Article indéfini.", 0),
         ("DP03", "ce / cette / ces", "this / these", "« Ce bénéficiaire. »", 1),
@@ -167,7 +167,7 @@ SECTIONS = [
     ]),
     # ------------------------------------------------------------------ PRIORITÉ 2
     ("H", "Verbes en situation", 2,
-     "Écrivez la phrase entière en bulu, pas le verbe seul : c'est la forme complète qui est fiable. Ces phrases serviront aussi pour les messages inédits.", [
+     "Écrivez la phrase entière dans votre langue, pas le verbe seul : c'est la forme complète qui est fiable. Ces phrases serviront aussi pour les messages inédits.", [
         ("VB01", "envoyer — ordre", "", "« Envoyez l'argent. »", 1),
         ("VB02", "envoyer — défense", "", "« N'envoyez pas d'argent à un inconnu. »", 1),
         ("VB03", "envoyer — passé", "", "« Vous avez envoyé 10 000 FCFA. »", 1),
@@ -205,7 +205,7 @@ SECTIONS = [
         ("VB35", "devoir — obligation", "", "« Vous devez vérifier le numéro. »", 1),
     ]),
     ("I", "Noms : singulier, pluriel et accords", 2,
-     "Chaque paire montre comment le bulu forme le pluriel et ce qui s'accorde avec le nom. Gardez les chiffres en chiffres.", [
+     "Chaque paire montre comment votre langue forme le pluriel et ce qui s'accorde avec le nom. Gardez les chiffres en chiffres.", [
         ("NM01", "le compte", "", "Singulier.", 0), ("NM02", "les comptes", "", "Pluriel.", 0),
         ("NM03", "le montant", "", "Singulier.", 0), ("NM04", "2 montants", "", "Pluriel avec un nombre.", 0),
         ("NM05", "le bénéficiaire", "", "Singulier.", 0), ("NM06", "les bénéficiaires", "", "Pluriel.", 0),

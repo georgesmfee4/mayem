@@ -5,8 +5,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { inventorier, masquerFaits } from '../core/inventaire.ts';
 
-const phrase = (id, fr, bulu) => ({ id, fr, en: [], bulu, critique: true, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
-const terme = (ref, francais, bulu, critique = true) => ({ ref, terme: francais, sens: '', en: '', bulu, critique, a_eviter: '', traduit_par: 'A', relu_par: 'B', commentaire: '' });
+const phrase = (id, fr, cible) => ({ id, fr, en: [], cible, critique: true, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
+const terme = (ref, francais, cible, critique = true) => ({ ref, terme: francais, sens: '', en: '', cible, critique, a_eviter: '', traduit_par: 'A', relu_par: 'B', commentaire: '' });
 const pack = {
   langue: 'xx', nom: 'Essai', version: '1.0.0', etiquettes: {},
   phrases: [phrase('P1', 'Votre solde est de {amount}', 'Zolo {amount}')],

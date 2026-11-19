@@ -1,6 +1,6 @@
 """Tableur de révision pour les locuteurs (python tools/kit.py revision), à partir de revision.json.
 
-Aucun bulu n'est écrit ici : les cases « TRADUCTION BULU » reprennent le bulu actuel, à garder ou corriger
+Aucune traduction n'est écrite ici : les cases « TRADUCTION <LANGUE> » reprennent la traduction actuelle, à garder ou corriger
 par les locuteurs. Les colonnes masquées (codes, groupe) servent seulement au réimport.
 """
 import csv, json
@@ -14,24 +14,40 @@ GRIS = PatternFill('solid', fgColor='EEEEEE')
 ROUGE = Font(bold=True, color='B42318')
 HAUT = Alignment(wrap_text=True, vertical='top')
 
+# Nom de la langue (infos.json), lu par exporter() et extraire() ; les textes ci-dessous l'écrivent
+# {langue} (en minuscules, « en bulu ») ou {LANGUE} (en capitales, dans les en-têtes)
+LANGUE = 'langue'
+
+
+def _regler_langue(dossier):
+    global LANGUE
+    chemin = dossier / 'infos.json'
+    if chemin.exists():
+        LANGUE = json.load(open(chemin, encoding='utf-8'))['nom']
+
+
+def _n(texte):
+    return texte.replace('{langue}', LANGUE.lower()).replace('{LANGUE}', LANGUE.upper())
+
+
 GUIDE = [
-    "RÉVISION DU BULU — merci pour votre aide",
+    "RÉVISION DES TRADUCTIONS EN {LANGUE} — merci pour votre aide",
     "",
-    "Pourquoi cette révision ? Un jury de spécialistes va juger si le bulu dit exactement la même chose que le français.",
-    "Quand deux idées différentes sont écrites pareil en bulu (par exemple « confirmer » et « confirmation »), un client",
+    "Pourquoi cette révision ? Un jury de spécialistes va juger si la traduction en {langue} dit exactement la même chose que le français.",
+    "Quand deux idées différentes sont écrites pareil en {langue} (par exemple « confirmer » et « confirmation »), un client",
     "peut se tromper sur ce qu'il fait avec son argent. Nous avons repéré ces endroits ; vous seuls pouvez trancher.",
     "",
     "Combien de temps ? Environ 2 à 3 heures en tout, à vous répartir (voir l'onglet « Récapitulatif »).",
     "",
     "Dans quel ordre ?",
     "1. « Charte d'orthographe » : quelques questions sur la façon d'écrire. Vos réponses servent à corriger tout le reste.",
-    "2. « Sens à distinguer » : des phrases différentes écrites pareil. Dites s'il faut un bulu différent pour chacune.",
+    "2. « Sens à distinguer » : des phrases différentes écrites pareil. Dites s'il faut une traduction différente pour chacune.",
     "3. « Phrases à revoir » : commencez par les lignes P1 en rouge (argent ou sécurité), puis les autres.",
     "4. « Glossaire à compléter » : les mots qui n'ont pas encore de traduction.",
     "",
     "Que remplir ? Seulement les cases jaunes.",
-    "- « Décision » : « garder » si le bulu actuel est juste, « corriger » si vous le changez.",
-    "- « TRADUCTION BULU » : elle contient déjà le bulu actuel. Pour corriger, écrivez la phrase bulu complète,",
+    "- « Décision » : « garder » si la traduction actuelle est juste, « corriger » si vous la changez.",
+    "- « TRADUCTION {LANGUE} » : elle contient déjà la traduction actuelle. Pour corriger, écrivez la phrase complète,",
     "  pas une explication : jamais « … pour dire … ». Si vous gardez, ne touchez à rien.",
     "- « Traduit par » : votre nom. « Relu par » : le nom d'une autre personne, qui a relu.",
     "  Sans deux noms différents, une correction n'est pas affichée dans l'application.",
@@ -42,27 +58,32 @@ GUIDE = [
     "- Recopiez tels quels les mots entre accolades : {amount}, {phone}, {ref}, {name}… Ce sont des valeurs remplies par l'application.",
     "- Ne traduisez pas les noms de marque ni les noms de personnes.",
     "",
-    "Exemple de ligne remplie (on garde le bulu actuel) :",
-    "   Décision : garder   |   TRADUCTION BULU : (inchangée)   |   Traduit par : votre nom   |   Relu par : le nom d'un autre locuteur",
+    "Exemple de ligne remplie (on garde la traduction actuelle) :",
+    "   Décision : garder   |   TRADUCTION {LANGUE} : (inchangée)   |   Traduit par : votre nom   |   Relu par : le nom d'un autre locuteur",
     "",
     "Les noms servent uniquement à la double vérification au sein de l'équipe Mayem ; ils ne sont jamais publiés.",
 ]
 
+# Questions par défaut ; une langue qui a déjà sa charte (style.csv) garde ses propres questions,
+# celles auxquelles ses locuteurs ont répondu
 CHARTE = [
-    ('Orthographe', "Quel alphabet utilisez-vous ? (Église presbytérienne avec ô et ñ, ou alphabet général avec ɔ et ŋ)"),
+    ('Orthographe', "Quelle orthographe utilisez-vous (quel alphabet, quelles lettres) ?"),
     ('Tons', "Écrivez-vous les tons (accents de ton) ? Oui / Non. Si oui, sur quels mots ?"),
-    ('Politesse', "Pour s'adresser au client : « wo », « ô », ou les deux selon le cas ? Donnez la règle."),
+    ('Politesse', "Comment s'adresser poliment au client (équivalent de « vous ») ? Donnez la règle."),
     ('Majuscule au début', "Chaque phrase et chaque bouton commencent-ils par une majuscule ?"),
     ('Majuscules du glossaire', "Les mots du glossaire (solde, compte, bénéficiaire…) s'écrivent-ils avec une majuscule au milieu d'une phrase ?"),
     ('Apostrophe', "Quelle apostrophe utiliser partout : ' (droite) ou ’ (courbe) ?"),
-    ('Ponctuation', "Le bulu garde-t-il la même ponctuation que le français (point final, deux-points, point d'interrogation) ?"),
+    ('Ponctuation', "Gardez-vous la même ponctuation que le français (point final, deux-points, point d'interrogation) ?"),
     ('Boutons', "Les boutons s'écrivent-ils à l'infinitif, à l'impératif ou comme un nom ? Combien de mots au plus ?"),
-    ('Mots français', "Mots empruntés (Nombor, test, Mobile Money…) : à garder ou à remplacer par un mot bulu ?"),
-    ('Variante', "Quelle variante du bulu parlez-vous dans l'équipe (région, village) ?"),
+    ('Mots français', "Mots empruntés (Mobile Money, code PIN…) : à garder ou à remplacer par un mot en {langue} ?"),
+    ('Variante', "Quelle variante parlez-vous dans l'équipe (région, village) ?"),
 ]
 
-PHRASES = ['Réf.', 'Priorité', 'Critique', 'Écran', 'Élément', 'Texte français', 'Texte anglais', 'Consigne', 'Bulu actuel']
-SAISIE_PHRASE = ['TRADUCTION BULU', 'Traduit par', 'Relu par', 'Commentaire']
+PHRASES = ['Réf.', 'Priorité', 'Critique', 'Écran', 'Élément', 'Texte français', 'Texte anglais', 'Consigne', 'Traduction actuelle']
+SAISIE_PHRASE = ['TRADUCTION {LANGUE}', 'Traduit par', 'Relu par', 'Commentaire']
+DIFFERENT = 'Faut-il une traduction différente ? (oui / non)'
+# En-tête des tableurs envoyés avant le format multilingue, encore lu à l'import
+DIFFERENT_ANCIEN = 'Faut-il un {langue} différent ? (oui / non)'
 
 
 def _entete(ws, noms, largeurs):
@@ -105,7 +126,7 @@ def _finir(ws, figer, masquees=()):
 def _contexte_phrase(p, ctx):
     critique = 'Oui' if p['critique'] else 'Non'
     return [p['id'], ctx.get('priorite', ''), critique, ctx.get('ecran', ''), ctx.get('element', ''),
-            p['fr'], ' / '.join(p['en']), ctx.get('consigne', ''), p['bulu']]
+            p['fr'], ' / '.join(p['en']), ctx.get('consigne', ''), p['cible']]
 
 SAUT = chr(10)
 
@@ -115,14 +136,16 @@ def _onglet_guide(wb):
     ws.title = "Mode d'emploi"
     ws.column_dimensions['A'].width = 125
     for i, texte in enumerate(GUIDE, 1):
-        ws.cell(row=i, column=1, value=texte).alignment = Alignment(wrap_text=True)
+        ws.cell(row=i, column=1, value=_n(texte)).alignment = Alignment(wrap_text=True)
     ws['A1'].font = Font(bold=True, size=13)
 
 
-def _onglet_charte(wb, style, sans_reponse_seulement=False):
+def _onglet_charte(wb, style, sans_reponse_seulement=False, propres=None):
     ws = wb.create_sheet("Charte d'orthographe")
     _entete(ws, ['Sujet', 'Question', 'Réponse actuelle', 'VOTRE RÉPONSE (confirmer ou corriger)', 'Commentaire'], [20, 60, 50, 50, 30])
-    questions = [(s, q) for s, q in CHARTE if not (sans_reponse_seulement and style.get(s, '').strip())]
+    propres = propres or {}
+    charte = [(s, propres.get(s) or _n(q)) for s, q in CHARTE]
+    questions = [(s, q) for s, q in charte if not (sans_reponse_seulement and style.get(s, '').strip())]
     for sujet, question in questions:
         _ligne(ws, [sujet, question, style.get(sujet, ''), '', ''], jaunes=(4, 5))
     _finir(ws, 'C2')
@@ -131,7 +154,7 @@ def _onglet_charte(wb, style, sans_reponse_seulement=False):
 
 def _onglet_sens(wb, groupes, phrases, contexte, precedent):
     ws = wb.create_sheet('Sens à distinguer')
-    noms = PHRASES + ['Faut-il un bulu différent ? (oui / non)'] + SAISIE_PHRASE + ['Réponse précédente', 'groupe']
+    noms = PHRASES + [DIFFERENT] + [_n(nom) for nom in SAISIE_PHRASE] + ['Réponse précédente', 'groupe']
     _entete(ws, noms, [7, 8, 8, 14, 18, 36, 28, 26, 32, 14, 36, 13, 13, 26, 30, 8])
     lignes = 0
     for g in groupes:
@@ -143,7 +166,7 @@ def _onglet_sens(wb, groupes, phrases, contexte, precedent):
         ws.row_dimensions[rang].height = 45
         for ref in g['refs']:
             p = phrases[ref]
-            valeurs = _contexte_phrase(p, contexte.get(ref, {})) + ['', p['bulu'], '', '', '', precedent.get(ref, ''), g['ref']]
+            valeurs = _contexte_phrase(p, contexte.get(ref, {})) + ['', p['cible'], '', '', '', precedent.get(ref, ''), g['ref']]
             _ligne(ws, valeurs, jaunes=range(10, 15), critique=p['critique'], gris=(15,))
             lignes += 1
     _liste(ws, ['oui', 'non'], 'J', 2)
@@ -166,7 +189,7 @@ def _par_ref(constats, connus):
 
 def _onglet_phrases(wb, constats, phrases, contexte, precedent):
     ws = wb.create_sheet('Phrases à revoir')
-    noms = PHRASES + ['Ce qui a été repéré', 'Question', 'Décision (garder / corriger)'] + SAISIE_PHRASE + ['Réponse précédente', 'codes']
+    noms = PHRASES + ['Ce qui a été repéré', 'Question', 'Décision (garder / corriger)'] + [_n(nom) for nom in SAISIE_PHRASE] + ['Réponse précédente', 'codes']
     _entete(ws, noms, [7, 8, 8, 14, 18, 36, 28, 26, 32, 48, 36, 12, 36, 13, 13, 26, 30, 10])
     par_ref = _par_ref(constats, phrases)
     ordre = sorted(par_ref, key=lambda ref: (_rang(phrases[ref], contexte.get(ref, {})), ref))
@@ -175,7 +198,7 @@ def _onglet_phrases(wb, constats, phrases, contexte, precedent):
         repere = SAUT.join('• ' + c['explication'] for c in liste)
         questions = SAUT.join(dict.fromkeys('• ' + c['question'] for c in liste))
         codes = ','.join(dict.fromkeys(c['code'] for c in liste))
-        valeurs = _contexte_phrase(p, contexte.get(ref, {})) + [repere, questions, '', p['bulu'], '', '', '', precedent.get(ref, ''), codes]
+        valeurs = _contexte_phrase(p, contexte.get(ref, {})) + [repere, questions, '', p['cible'], '', '', '', precedent.get(ref, ''), codes]
         _ligne(ws, valeurs, jaunes=range(12, 17), critique=p['critique'], gris=(17,))
     _liste(ws, ['garder', 'corriger'], 'L', 2)
     _finir(ws, 'G2', masquees=('R',))
@@ -184,14 +207,14 @@ def _onglet_phrases(wb, constats, phrases, contexte, precedent):
 
 def _onglet_glossaire(wb, constats, termes):
     ws = wb.create_sheet('Glossaire à compléter')
-    noms = ['Réf.', 'Terme français', "Sens dans l'application", 'Critique', 'Mots à éviter déjà notés', 'Terme bulu actuel',
-            'Ce qui a été repéré', 'TERME BULU APPROUVÉ', 'Choisi par', 'Relu par', 'Commentaire', 'codes']
+    noms = ['Réf.', 'Terme français', "Sens dans l'application", 'Critique', 'Mots à éviter déjà notés', 'Terme actuel',
+            'Ce qui a été repéré', _n('TERME {LANGUE} APPROUVÉ'), 'Choisi par', 'Relu par', 'Commentaire', 'codes']
     _entete(ws, noms, [8, 24, 34, 8, 30, 24, 48, 26, 13, 13, 26, 10])
     par_ref = _par_ref(constats, termes)
     ordre = sorted(par_ref, key=lambda ref: (not termes[ref]['critique'], ref))
     for ref in ordre:
         t, liste = termes[ref], par_ref[ref]
-        valeurs = [ref, t['terme'], t['sens'], 'Oui' if t['critique'] else 'Non', t['a_eviter'], t['bulu'],
+        valeurs = [ref, t['terme'], t['sens'], 'Oui' if t['critique'] else 'Non', t['a_eviter'], t['cible'],
                    SAUT.join('• ' + c['explication'] for c in liste), '', '', '', '', ','.join(dict.fromkeys(c['code'] for c in liste))]
         _ligne(ws, valeurs, jaunes=range(8, 12), critique=t['critique'])
     _finir(ws, 'C2', masquees=('L',))
@@ -212,13 +235,19 @@ def _onglet_recap(wb, compte, priorites):
             _ligne(ws, ligne, jaunes=())
 
 
-def _style(dossier):
+def _lignes_style(dossier):
     chemin = dossier / 'style.csv'
-    if not chemin.exists():
-        return {}
-    lignes = list(csv.DictReader(open(chemin, encoding='utf-8-sig', newline='')))
+    return list(csv.DictReader(open(chemin, encoding='utf-8-sig', newline=''))) if chemin.exists() else []
+
+
+def _style(dossier):
     reponse = lambda l: next((v for k, v in l.items() if k and k.lower().startswith('votre réponse')), '') or ''
-    return {l['Sujet']: reponse(l) for l in lignes}
+    return {l['Sujet']: reponse(l) for l in _lignes_style(dossier)}
+
+
+def _questions_propres(dossier):
+    """Questions de la charte de cette langue (style.csv), celles auxquelles ses locuteurs ont répondu."""
+    return {l['Sujet']: l.get('Question', '') for l in _lignes_style(dossier) if l.get('Question', '').strip()}
 
 
 def precedentes(fichier):
@@ -232,7 +261,7 @@ def precedentes(fichier):
     for r in rangs[1:]:
         if not r or not r[index['Réf.']]:
             continue
-        morceaux = [texte(r, 'DÉCISION'), texte(r, 'NOUVEAU BULU'), texte(r, 'Commentaire')]
+        morceaux = [texte(r, 'DÉCISION'), texte(r, _n('NOUVEAU {LANGUE}')), texte(r, 'Commentaire')]
         if any(morceaux):
             reponses[texte(r, 'Réf.')] = ' ; '.join(m for m in morceaux if m)
     return reponses
@@ -247,6 +276,7 @@ def _termes_contredits(constats):
 
 def exporter(dossier, sortie, precedent_fichier=None, codes=None):
     """codes : ne garder que ces constats (tableur court) ; la charte ne montre alors que les questions sans réponse."""
+    _regler_langue(dossier)
     constats = json.load(open(dossier / 'revision.json', encoding='utf-8'))
     if codes:
         constats = [c for c in constats if c['code'] in codes]
@@ -260,7 +290,7 @@ def exporter(dossier, sortie, precedent_fichier=None, codes=None):
     autres = [c for c in constats if c['code'] != 'sens-confondus' and c['ref'] != 'charte']
     wb = Workbook()
     _onglet_guide(wb)
-    compte = {'charte': _onglet_charte(wb, _style(dossier), bool(codes)),'sens': _onglet_sens(wb, sens, phrases, contexte, precedent)}
+    compte = {'charte': _onglet_charte(wb, _style(dossier), bool(codes), _questions_propres(dossier)), 'sens': _onglet_sens(wb, sens, phrases, contexte, precedent)}
     compte['phrases'], priorites = _onglet_phrases(wb, autres, phrases, contexte, precedent)
     compte['glossaire'] = _onglet_glossaire(wb, autres, termes)
     _onglet_recap(wb, compte, priorites)
@@ -288,16 +318,18 @@ def _lignes(wb, nom):
 
 def extraire(wb, dossier):
     """Réponses du tableur rempli -> reponses-revision.json, appliqué ensuite par tools/appliquer-revision.js."""
+    _regler_langue(dossier)
+    traduction, terme = _n('TRADUCTION {LANGUE}'), _n('TERME {LANGUE} APPROUVÉ')
     phrases = []
     for l in _lignes(wb, 'Sens à distinguer'):
-        phrases.append({'ref': l['Réf.'], 'bulu': l.get('TRADUCTION BULU', ''), 'decision': '',
-                        'different': l.get('Faut-il un bulu différent ? (oui / non)', ''), 'traduit_par': l.get('Traduit par', ''),
+        phrases.append({'ref': l['Réf.'], 'cible': l.get(traduction, ''), 'decision': '',
+                        'different': l.get(DIFFERENT) or l.get(_n(DIFFERENT_ANCIEN), ''), 'traduit_par': l.get('Traduit par', ''),
                         'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', ''), 'codes': ['sens-confondus']})
     for l in _lignes(wb, 'Phrases à revoir'):
-        phrases.append({'ref': l['Réf.'], 'bulu': l.get('TRADUCTION BULU', ''), 'decision': l.get('Décision (garder / corriger)', ''),
+        phrases.append({'ref': l['Réf.'], 'cible': l.get(traduction, ''), 'decision': l.get('Décision (garder / corriger)', ''),
                         'different': '', 'traduit_par': l.get('Traduit par', ''), 'relu_par': l.get('Relu par', ''),
                         'commentaire': l.get('Commentaire', ''), 'codes': [c for c in l.get('codes', '').split(',') if c]})
-    glossaire = [{'ref': l['Réf.'], 'bulu': l.get('TERME BULU APPROUVÉ', ''), 'choisi_par': l.get('Choisi par', ''),
+    glossaire = [{'ref': l['Réf.'], 'cible': l.get(terme, ''), 'choisi_par': l.get('Choisi par', ''),
                   'relu_par': l.get('Relu par', ''), 'commentaire': l.get('Commentaire', '')} for l in _lignes(wb, 'Glossaire à compléter')]
     charte = [{'sujet': l['Sujet'], 'question': l.get('Question', ''), 'reponse': l.get('VOTRE RÉPONSE (confirmer ou corriger)', ''),
                'commentaire': l.get('Commentaire', '')} for l in _lignes(wb, "Charte d'orthographe")]

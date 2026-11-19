@@ -2,17 +2,22 @@
 // ajouter une langue ne demande que des données.
 
 import { existsSync, readdirSync } from 'node:fs';
+import { join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const racine = fileURLToPath(new URL('..', import.meta.url));
 
+// Dossiers des langues : packs/ du dépôt, ou celui de MAYEM_PACKS (langue d'essai des tests, langue
+// préparée hors du dépôt). Le schéma, lui, reste celui du dépôt : c'est le contrat.
+const dossierPacks = resolve(process.env.MAYEM_PACKS || join(racine, 'packs')) + sep;
+
 export const langues = () =>
-  readdirSync(racine + 'packs', { withFileTypes: true })
-    .filter((entree) => entree.isDirectory() && existsSync(`${racine}packs/${entree.name}/infos.json`))
+  readdirSync(dossierPacks, { withFileTypes: true })
+    .filter((entree) => entree.isDirectory() && existsSync(`${dossierPacks}${entree.name}/infos.json`))
     .map((entree) => entree.name)
     .sort();
 
-export const dossier = (langue) => `${racine}packs/${langue}/`;
+export const dossier = (langue) => `${dossierPacks}${langue}/`;
 
 // Langue demandée, ou la seule présente. Arrête le programme si le choix est impossible.
 export function choisirLangue(demandee) {

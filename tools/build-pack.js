@@ -13,13 +13,18 @@ import { resume, revisionOuverte } from './revision-donnees.js';
 import { BLOQUANT } from './revision-commun.js';
 
 const strict = process.argv.includes('--strict');
+// Le format attendu est celui du schéma : un seul endroit à changer quand la forme du pack change
+const FORMAT = JSON.parse(readFileSync(new URL('../packs/schema.json', import.meta.url), 'utf8')).properties.format.const;
 const langue = choisirLangue(process.argv.slice(2).find((argument) => !argument.startsWith('--')));
 const ici = dossier(langue);
 const lire = (nom) => readFileSync(ici + nom, 'utf8');
 const oui = (v) => ['1', 'oui', 'yes', 'x'].includes((v || '').trim().toLowerCase());
+const infos = JSON.parse(lire('infos.json'));
+// Les tableurs nomment la colonne de traduction d'après la langue : « TRADUCTION BULU », « Texte ewondo »…
+const nomLangue = infos.nom.toLowerCase();
 
-// Les locuteurs renomment parfois les en-têtes du tableur (le kit dit « TERME BULU APPROUVÉ »
-// et « Choisi par », le fichier de Bene « TRADUCTION BULU » et « Traduit par »).
+// Les locuteurs renomment parfois les en-têtes du tableur (le kit dit « TERME <LANGUE> APPROUVÉ »
+// et « Choisi par », d'autres fichiers « TRADUCTION <LANGUE> » et « Traduit par »).
 // Chaque champ accepte donc plusieurs débuts d'en-tête, sans tenir compte des majuscules.
 const COLONNES_GLOSSAIRE = {
   ref: ['réf'],
@@ -27,17 +32,17 @@ const COLONNES_GLOSSAIRE = {
   en: ['anglais'],
   sens: ['sens dans', 'texte français'],
   critique: ['critique'],
-  bulu: ['terme bulu', 'traduction bulu'],
+  cible: [`terme ${nomLangue}`, `traduction ${nomLangue}`],
   a_eviter: ['mots à éviter'],
   traduit_par: ['traduit par', 'choisi par'],
   relu_par: ['relu par'],
   commentaire: ['commentaire'],
 };
-const COLONNES_CORPUS = ['id', 'fr', 'en', 'bulu', 'critique', 'valide_par', 'valide'];
+const COLONNES_CORPUS = ['id', 'fr', 'en', 'cible', 'critique', 'valide_par', 'valide'];
 // retraduction.csv vient de tools/kit.py import (fichier de retraduction rempli)
 const COLONNES_RETRADUCTION = {
   ref: ['réf'],
-  bulu: ['texte bulu'],
+  cible: [`texte ${nomLangue}`],
   texte: ['votre traduction'],
   par: ['traduit par'],
 };
@@ -45,7 +50,7 @@ const COLONNES_RETRADUCTION = {
 const erreurs = [];
 
 // Pour chaque champ, l'en-tête réel du fichier ; une colonne introuvable est une erreur,
-// sinon le bulu du glossaire arriverait vide sans que personne ne le voie
+// sinon la traduction du glossaire arriverait vide sans que personne ne le voie
 function trouverColonnes(entetes, fichier, colonnes) {
   const correspondance = {};
   for (const [champ, debuts] of Object.entries(colonnes)) {
@@ -65,7 +70,7 @@ function personnes(validePar) {
 // Apostrophes et espaces varient d'un tableur à l'autre sans changer le texte
 const comparable = (texte) => texte.replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
 
-// id -> { bulu, texte, par } ; vide tant qu'aucune retraduction n'a été importée
+// id -> { cible, texte, par } ; vide tant qu'aucune retraduction n'a été importée
 function lireRetraductions() {
   if (!existsSync(ici + 'retraduction.csv')) return new Map();
   const lignes = lireCsv(lire('retraduction.csv'));
@@ -74,17 +79,17 @@ function lireRetraductions() {
   const cellule = (ligne, champ) => (ligne[colonnes[champ]] || '').trim();
   return new Map(lignes
     .filter((l) => cellule(l, 'ref') && cellule(l, 'texte'))
-    .map((l) => [cellule(l, 'ref'), { bulu: cellule(l, 'bulu'), texte: cellule(l, 'texte'), par: cellule(l, 'par') }]));
+    .map((l) => [cellule(l, 'ref'), { cible: cellule(l, 'cible'), texte: cellule(l, 'texte'), par: cellule(l, 'par') }]));
 }
 
 const retraductions = lireRetraductions();
 const perimees = [];
 
-// Une retraduction ne vaut que pour le bulu qui a été lu : si la phrase a changé depuis, on l'écarte
-function retraductionDe(id, bulu) {
+// Une retraduction ne vaut que pour la traduction qui a été lue : si la phrase a changé depuis, on l'écarte
+function retraductionDe(id, cible) {
   const r = retraductions.get(id);
   if (!r) return { retraduit_par: '', retraduction: '' };
-  if (comparable(r.bulu) !== comparable(bulu)) {
+  if (comparable(r.cible) !== comparable(cible)) {
     perimees.push(id);
     return { retraduit_par: '', retraduction: '' };
   }
@@ -92,15 +97,15 @@ function retraductionDe(id, bulu) {
 }
 
 function versPhrase(ligne) {
-  const bulu = (ligne.bulu || '').trim();
+  const cible = (ligne.cible || '').trim();
   return {
     id: ligne.id.trim(),
     fr: ligne.fr.trim(),
     en: (ligne.en || '').split('|').map((e) => e.trim()).filter(Boolean),
-    bulu,
+    cible,
     critique: ligne.critique.trim() === '1',
     ...personnes(ligne.valide_par),
-    ...retraductionDe(ligne.id.trim(), bulu),
+    ...retraductionDe(ligne.id.trim(), cible),
     valide: oui(ligne.valide),
   };
 }
@@ -132,16 +137,16 @@ function lirePhrases() {
 function expliquer(erreur, phrases) {
   const phrase = phrases.find((p) => erreur.startsWith(p.id + ' :'));
   if (!phrase) return erreur;
-  return `${erreur}\n    fr   : ${phrase.fr}\n    bulu : ${phrase.bulu || '(vide)'}`;
+  return `${erreur}\n    fr   : ${phrase.fr}\n    trad : ${phrase.cible || '(vide)'}`;
 }
 
-const { langue: code, nom, producteur, droits, orthographe, etiquettes } = JSON.parse(lire('infos.json'));
+const { langue: code, nom, producteur, droits, orthographe, etiquettes } = infos;
 const contenu = { glossaire: lireGlossaire(), phrases: lirePhrases() };
 const ancien = existsSync(ici + 'pack.json') ? JSON.parse(lire('pack.json')) : null;
-const changements = differences(ancien, { ...contenu, nom, producteur, droits, orthographe, etiquettes });
+const changements = differences(ancien, { format: FORMAT, ...contenu, nom, producteur, droits, orthographe, etiquettes });
 const version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
 const date = version === ancien?.version && ancien.date ? ancien.date : new Date().toISOString().slice(0, 10);
-const pack = { langue: code, nom, version, date, empreinte: '', producteur, droits, orthographe, etiquettes, ...contenu };
+const pack = { format: FORMAT, langue: code, nom, version, date, empreinte: '', producteur, droits, orthographe, etiquettes, ...contenu };
 pack.empreinte = await empreinte(pack);
 if (!erreurs.length) erreurs.push(...verifierPack(pack));
 
@@ -162,11 +167,11 @@ if (strict && bloquants.length) {
 writeFileSync(ici + 'pack.json', JSON.stringify(pack, null, 2) + '\n');
 archiver();
 const validees = pack.phrases.filter((p) => p.valide).length;
-const termes = pack.glossaire.filter((t) => t.bulu).length;
+const termes = pack.glossaire.filter((t) => t.cible).length;
 const retraduites = pack.phrases.filter((p) => p.retraduction).length;
 console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduites} retraduites), ${pack.glossaire.length} termes (${termes} traduits) -> packs/${langue}/pack.json`);
 if (perimees.length) {
-  console.log(`Retraduction à refaire (le bulu a changé depuis) : ${perimees.join(', ')}`);
+  console.log(`Retraduction à refaire (la traduction a changé depuis) : ${perimees.join(', ')}`);
 }
 if (revision.length) console.log(`${resume(revision)} : npm run revision`);
 

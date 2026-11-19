@@ -11,6 +11,7 @@ import { choisirLangue, dossier } from './langues.js';
 const ici = dossier(choisirLangue(process.argv[2]));
 const lire = (nom) => (existsSync(ici + nom) ? lireCsv(readFileSync(ici + nom, 'utf8')) : []);
 const entetes = (nom) => (existsSync(ici + nom) ? Object.keys(lireCsv(readFileSync(ici + nom, 'utf8'))[0] || {}) : []);
+const nomLangue = JSON.parse(readFileSync(ici + 'infos.json', 'utf8')).nom.toLowerCase();
 const colonne = (noms, ...debuts) => noms.find((n) => debuts.some((d) => n.trim().toLowerCase().startsWith(d)));
 
 function ajouter(nom, colonnes, lignes) {
@@ -24,7 +25,7 @@ const glossaire = lire('glossaire.csv');
 const style = lire('style.csv');
 const nomsGlossaire = entetes('glossaire.csv');
 const colonnesGlossaire = {
-  ref: colonne(nomsGlossaire, 'réf'), bulu: colonne(nomsGlossaire, 'terme bulu', 'traduction bulu'),
+  ref: colonne(nomsGlossaire, 'réf'), cible: colonne(nomsGlossaire, `terme ${nomLangue}`, `traduction ${nomLangue}`),
   traduit: colonne(nomsGlossaire, 'traduit par', 'choisi par'), relu: colonne(nomsGlossaire, 'relu par'),
 };
 const colonneReponse = colonne(entetes('style.csv'), 'votre réponse') || 'VOTRE RÉPONSE';
@@ -33,7 +34,7 @@ const rapport = fusionner({ corpus, glossaire, colonnesGlossaire, style, colonne
 writeFileSync(ici + 'corpus.csv', ecrireCsv(entetes('corpus.csv'), corpus));
 writeFileSync(ici + 'glossaire.csv', ecrireCsv(nomsGlossaire, glossaire));
 writeFileSync(ici + 'style.csv', ecrireCsv(['Sujet', 'Question', colonneReponse], style));
-ajouter('decisions.csv', ENTETES_DECISIONS, rapport.decisions.filter((d) => !lireDecisions(ici + 'decisions.csv').some((e) => e.code === d.code && e.ref === d.ref && e.bulu === d.bulu)));
+ajouter('decisions.csv', ENTETES_DECISIONS, rapport.decisions.filter((d) => !lireDecisions(ici + 'decisions.csv').some((e) => e.code === d.code && e.ref === d.ref && e.cible === d.cible)));
 ajouter('en-attente.csv', ['ref', 'ancien', 'nouveau', 'traduit_par', 'relu_par', 'date'], rapport.attente);
 ajouter('commentaires.csv', ['ref', 'date', 'traduit_par', 'relu_par', 'commentaire'], rapport.commentaires);
 
@@ -44,7 +45,7 @@ rmSync(ici + 'reponses-revision.json');
 
 const bloc = (titre, lignes) => lignes.length && console.log(`\n${titre} (${lignes.length}) :\n  ${lignes.join('\n  ')}`);
 bloc('Traductions remplacées (deux personnes)', rapport.changements);
-bloc('En attente d\'un second nom (l\'ancien bulu validé reste affiché) -> en-attente.csv', rapport.attente.map((a) => `${a.ref} : « ${a.nouveau} » (${a.traduit_par || a.relu_par || 'sans nom'})`));
+bloc('En attente d\'un second nom (l\'ancienne traduction validée reste affichée) -> en-attente.csv', rapport.attente.map((a) => `${a.ref} : « ${a.nouveau} » (${a.traduit_par || a.relu_par || 'sans nom'})`));
 bloc('Refusées, à renvoyer aux locuteurs', rapport.refus);
 bloc('Charte d\'orthographe', rapport.charte);
 bloc('Commentaires des locuteurs, à lire -> commentaires.csv', rapport.commentaires.map((c) => `${c.ref} : ${c.commentaire}`));

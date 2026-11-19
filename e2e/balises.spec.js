@@ -52,10 +52,18 @@ test('texte coupé par des balises et messages de plusieurs phrases', async ({ p
   await page.click('#changer');
   await expect(page.locator('#solde')).toHaveText(bulu('X08', { amount: '30 000 FCFA' }));
 
-  // Deuxième clic : l'original revient
+  // Deuxième clic : la page redevient exactement celle du service, sans soulignement, étiquette, glose ni langue déclarée
   await cliquer(page);
   await expect(page.locator('#solde')).toHaveText('Votre solde est de 30 000 FCFA');
   await expect(page.locator('#mayem-host')).toHaveCount(1);
+  await expect(page.locator('[data-mayem], [data-mayem-cat], [data-mayem-glose], [data-mayem-termes], [lang="bum"]')).toHaveCount(0);
+  expect(await page.locator('#alerte').evaluate((el) => getComputedStyle(el).textDecorationLine)).toBe('none');
+
+  // Troisième clic : le bulu et ses signaux reviennent
+  await cliquer(page);
+  await expect(page.locator('#solde')).toHaveText(bulu('X08', { amount: '30 000 FCFA' }));
+  await expect(page.locator('#alerte')).toHaveAttribute('data-mayem', 'non_verifie');
+  await expect(page.locator('#alerte')).toHaveAttribute('data-mayem-cat', terme('T18'));
 });
 
 test('une seule langue embarquée : pas de liste de langues', async ({ page, cliquer }) => {
