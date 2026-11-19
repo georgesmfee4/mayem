@@ -8,11 +8,12 @@ import { repartir } from './repartir.ts';
 import { verifierPack } from './verifier.ts';
 import { controler } from './controle.ts';
 import { empreinte } from './empreinte.ts';
+import { idDeCle, verifierOctets, verifierSignature } from './signature.ts';
 import { queDesFaits, memesChiffres } from './faits.ts';
 import { termesConnus, traduireTerme } from './termes.ts';
 import { inventorier, masquerFaits } from './inventaire.ts';
 
 export {
   traduire, etiquette, categoriser, normaliser, repartir, verifierPack, controler, empreinte, queDesFaits, memesChiffres,
-  termesConnus, traduireTerme, inventorier, masquerFaits,
+  termesConnus, traduireTerme, inventorier, masquerFaits, verifierSignature, verifierOctets, idDeCle,
 };

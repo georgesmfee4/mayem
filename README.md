@@ -219,8 +219,10 @@ ne se reconnaît pas sans risque et n'est donc pas masqué. Rien n'est collecté
 ## Réutiliser les données et le moteur
 Deux rôles séparés (détails : `docs/API.md`) :
 - **Distribution des données** : `npm run export -- <langue>` produit TMX, XLIFF, TBX, i18next et Android ;
-  `npm run api` prépare `api/` (index, packs versionnés avec empreinte, exports), à servir par un
-  hébergement statique gratuit. Rien n'est mis en ligne automatiquement.
+  `npm run api` prépare l'API v1 dans `api/` : packs et script signés par l'équipe (ECDSA P-256), versions
+  figées, clés publiques, outil de vérification pour l'intégrateur, contrat OpenAPI 3.1 (`docs/openapi.json`).
+  La clé privée se crée une fois avec `npm run cle` et ne quitte jamais le poste de l'équipe. L'extension
+  n'appelle pas l'API ; l'API ne reçoit rien des pages. Rien n'est mis en ligne automatiquement.
 - **Intégration en une ligne** : `dist-web/mayem.js`, à inclure par un service dans ses pages
   (`<script src="mayem.js" integrity="…" data-langue="bum" defer>`), sans extension côté client ; packs
   embarqués, mêmes garanties (page d'essai `fixtures/integre.html`, réglages dans `docs/API.md`).

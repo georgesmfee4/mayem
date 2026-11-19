@@ -1,62 +1,146 @@
-// Prépare l'API de distribution des données dans api/ : de simples fichiers, servis tels quels par un
-// hébergement statique. Elle diffuse les packs et leurs exports ; la traduction reste sur l'appareil.
-// Usage : npm run api   ->   api/index.json, api/packs/<langue>/latest.json et <version>.json, api/exports/<langue>/
-// Données de l'équipe Mayem, tous droits réservés : seules des versions publiques sortent (tools/public.js),
-// sans aucun nom de traducteur. Rien n'est mis en ligne ici.
+// Prépare l'API v1 dans api/ : de simples fichiers signés, servis tels quels par un hébergement statique.
+// Usage : npm run api   (après npm run cle, une seule fois)
+// Elle sert les intégrateurs (script en une ligne, applis), et ceux qui réutilisent les données. L'extension
+// ne l'appelle pas, et l'API ne reçoit jamais rien des pages des usagers : la traduction reste sur l'appareil.
+// Une version publiée ne change jamais : republier la même version garde ses octets et sa signature ;
+// un contenu différent sous un numéro déjà publié arrête tout. Aucun nom de traducteur (tools/public.js).
+// Rien n'est mis en ligne ici.
 
+import { spawnSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { verifierOctets, verifierSignature } from '../core/signature.ts';
 import { dossier, langues, racine } from './langues.js';
 import { ecrireExports } from './export.js';
 import { mentionDroits, validees } from './exports/commun.js';
 import { versPublic } from './public.js';
+import { chargerCle, lireCles, signerOctets, signerPack } from './signature.js';
 
-const sortie = racine + 'api/';
+const DROITS = 'Données de l\'équipe Mayem, tous droits réservés. Utilisation selon les conditions de l\'API Mayem (docs/API.md).';
 const lireJson = (chemin) => JSON.parse(readFileSync(chemin, 'utf8'));
 const ecrireJson = (chemin, objet) => writeFileSync(chemin, JSON.stringify(objet, null, 2) + '\n');
+const sansSignature = ({ signature: _signature, ...reste }) => reste;
+const parVersion = (a, b) => a.split('.').map(Number).reduce((ecart, n, i) => ecart || n - Number(b.split('.')[i]), 0);
 
-async function publierLangue(langue) {
-  const pack = await versPublic(lireJson(dossier(langue) + 'pack.json'));
-  const ici = `${sortie}packs/${langue}/`;
-  mkdirSync(ici, { recursive: true });
-  ecrireJson(ici + 'latest.json', pack);
-  // Les versions archivées gardent les noms en interne : chacune est publiée en version publique
-  const archives = existsSync(dossier(langue) + 'versions') ? readdirSync(dossier(langue) + 'versions') : [];
-  for (const nom of archives) ecrireJson(ici + nom, await versPublic(lireJson(`${dossier(langue)}versions/${nom}`)));
-  const exports = ecrireExports(pack, `${sortie}exports/${langue}/`).map((chemin) => `exports/${langue}/${chemin}`);
-  return {
-    langue, nom: pack.nom, version: pack.version, date: pack.date, empreinte: pack.empreinte,
-    producteur: pack.producteur, droits: mentionDroits(pack),
-    phrases_validees: validees(pack).length, termes: pack.glossaire.filter((t) => t.cible).length,
-    pack: `packs/${langue}/latest.json`,
-    versions: archives.map((nom) => nom.replace(/\.json$/, '')),
-    exports,
-  };
+// Version figée d'un pack : gardée telle quelle si elle est déjà publiée et bien signée
+async function figerPack(chemin, pack, cle, cles) {
+  if (existsSync(chemin)) {
+    const deja = lireJson(chemin);
+    if (JSON.stringify(sansSignature(deja)) !== JSON.stringify(sansSignature(pack))) {
+      throw new Error(`${chemin} : une version publiée ne change jamais. Fabriquer une nouvelle version du pack.`);
+    }
+    if (!(await verifierSignature(deja, cles)).length) return deja;
+  }
+  const signe = await signerPack(pack, cle);
+  ecrireJson(chemin, signe);
+  return signe;
 }
 
-function page(sommaire) {
-  const lignes = sommaire.langues.map((l) => `<li><strong>${l.nom}</strong> (${l.langue}) ${l.version}, ${l.phrases_validees} phrases validées.
-    <a href="${l.pack}">pack</a> · ${l.exports.map((e) => `<a href="${e}">${e.split('/').slice(2).join('/')}</a>`).join(' · ')}</li>`);
+async function publierLangue(v1, langue, cle, cles) {
+  const ici = `${v1}packs/${langue}/`;
+  mkdirSync(ici, { recursive: true });
+  const archives = existsSync(dossier(langue) + 'versions') ? readdirSync(dossier(langue) + 'versions').map((nom) => nom.replace(/\.json$/, '')) : [];
+  const versions = archives.sort(parVersion);
+  const publiees = [];
+  for (const version of versions) {
+    publiees.push(await figerPack(`${ici}${version}.json`, await versPublic(lireJson(`${dossier(langue)}versions/${version}.json`)), cle, cles));
+  }
+  const courant = lireJson(dossier(langue) + 'pack.json').version;
+  const dernier = publiees.find((p) => p.version === courant);
+  if (!dernier) throw new Error(`${langue} ${courant} : version absente de packs/${langue}/versions (npm run pack)`);
+  ecrireJson(ici + 'latest.json', dernier);
+  rmSync(`${v1}exports/${langue}/`, { recursive: true, force: true });
+  const exports = ecrireExports(dernier, `${v1}exports/${langue}/`).map((chemin) => `exports/${langue}/${chemin}`);
+  const resume = {
+    langue, nom: dernier.nom, producteur: dernier.producteur, droits: mentionDroits(dernier),
+    derniere: { version: dernier.version, date: dernier.date, empreinte: dernier.empreinte, format: dernier.format || 1 },
+    phrases_validees: validees(dernier).length, termes: dernier.glossaire.filter((t) => t.cible).length,
+    liens: { pack: `packs/${langue}/latest.json`, detail: `langues/${langue}.json` },
+  };
+  mkdirSync(`${v1}langues/`, { recursive: true });
+  ecrireJson(`${v1}langues/${langue}.json`, {
+    ...resume,
+    versions: publiees.map((p) => ({ version: p.version, date: p.date, empreinte: p.empreinte, format: p.format || 1, cle: p.signature.cle, pack: `packs/${langue}/${p.version}.json` })),
+    exports,
+  });
+  return resume;
+}
+
+const integrite = async (octets) => 'sha384-' + Buffer.from(await crypto.subtle.digest('SHA-384', octets)).toString('base64');
+
+// Script en une ligne : chaque version figée dans script/<version>/, avec sa signature et son intégrité
+async function publierScript(v1, script, cle, cles) {
+  const ici = `${v1}script/${script.version}/`;
+  mkdirSync(ici, { recursive: true });
+  let fiche = existsSync(ici + 'signature.json') ? lireJson(ici + 'signature.json') : null;
+  if (existsSync(ici + 'mayem.js') && !Buffer.from(readFileSync(ici + 'mayem.js')).equals(Buffer.from(script.contenu))) {
+    throw new Error(`script ${script.version} : une version publiée ne change jamais. Changer la version de Mayem ou du pack.`);
+  }
+  if (!fiche || (await verifierOctets(script.contenu, fiche.signature, cles))) {
+    fiche = { version: script.version, packs: script.packs, integrite: await integrite(script.contenu), signature: await signerOctets(script.contenu, cle) };
+  }
+  writeFileSync(ici + 'mayem.js', script.contenu);
+  ecrireJson(ici + 'signature.json', fiche);
+  const versions = readdirSync(`${v1}script/`, { withFileTypes: true }).filter((e) => e.isDirectory())
+    .map((e) => lireJson(`${v1}script/${e.name}/signature.json`))
+    .map(({ version, packs, integrite: hash, signature }) => ({ version, packs, integrite: hash, cle: signature.cle, script: `script/${version}/mayem.js` }));
+  ecrireJson(`${v1}script/index.json`, { derniere: script.version, versions });
+}
+
+function page(langues) {
+  const lignes = langues.map((l) => `<li><strong>${l.nom}</strong> (${l.langue}) ${l.derniere.version}, ${l.phrases_validees} phrases validées : <a href="v1/${l.liens.pack}">pack</a>, <a href="v1/${l.liens.detail}">versions</a></li>`);
   return `<!doctype html>\n<html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>Mayem, données linguistiques</title>
+<title>API Mayem</title>
 <body style="font:16px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem">
-<h1>Mayem : données linguistiques validées</h1>
-<p>Phrases de services financiers, chacune validée par deux relecteurs de l'équipe Mayem. Point d'entrée :
-<a href="index.json">index.json</a> (schéma : <a href="schema.json">schema.json</a>). Chaque pack porte une version
-et une empreinte SHA-256.</p>
-<p><strong>${sommaire.droits}</strong></p>
+<h1>API Mayem v1</h1>
+<p>Packs de langue et script d'intégration, signés par l'équipe Mayem. Point d'entrée : <a href="v1/index.json">v1/index.json</a> ;
+contrat : <a href="v1/openapi.json">v1/openapi.json</a> ; clés de vérification : <a href="v1/cles-publiques.json">v1/cles-publiques.json</a>.
+L'API ne reçoit aucun texte des pages : la traduction se fait sur l'appareil.</p>
+<p><strong>${DROITS}</strong></p>
 <ul>\n${lignes.join('\n')}\n</ul>\n</body></html>\n`;
 }
 
-rmSync(sortie, { recursive: true, force: true });
-mkdirSync(sortie, { recursive: true });
-const publiees = [];
-for (const langue of langues()) publiees.push(await publierLangue(langue));
-const sommaire = {
-  format: 1, producteur: 'Équipe Mayem',
-  droits: 'Données de l\'équipe Mayem, tous droits réservés. Utilisation selon les conditions de l\'API Mayem (docs/API.md).',
-  schema: 'schema.json', langues: publiees,
-};
-cpSync(racine + 'packs/schema.json', sortie + 'schema.json');
-ecrireJson(sortie + 'index.json', sommaire);
-writeFileSync(sortie + 'index.html', page(sommaire));
-console.log(`API prête dans api/ : ${publiees.map((l) => `${l.langue} ${l.version}`).join(', ')}. Aucun nom de traducteur. Rien n'est en ligne.`);
+// sortie : dossier de l'API ; script : { version, packs, contenu } ; coeur : dist-lib/mayem-core.js (outil de l'intégrateur)
+export async function publier({ sortie, cle, cles, script = null, coeur = null }) {
+  const v1 = sortie + 'v1/';
+  // Ancienne disposition, jamais mise en ligne : remplacée par v1/
+  for (const ancien of ['packs', 'exports', 'index.json', 'schema.json']) rmSync(sortie + ancien, { recursive: true, force: true });
+  mkdirSync(v1, { recursive: true });
+  const resumes = [];
+  for (const langue of langues()) resumes.push(await publierLangue(v1, langue, cle, cles));
+  if (script) await publierScript(v1, script, cle, cles);
+  ecrireJson(v1 + 'cles-publiques.json', { cles });
+  cpSync(racine + 'packs/schema.json', v1 + 'schema.json');
+  cpSync(racine + 'docs/openapi.json', v1 + 'openapi.json');
+  if (coeur) {
+    mkdirSync(v1 + 'outils/', { recursive: true });
+    writeFileSync(v1 + 'outils/mayem-core.js', coeur);
+    const modele = readFileSync(racine + 'tools/modele-verifier.mjs', 'utf8');
+    writeFileSync(v1 + 'outils/mayem-verifier.mjs', modele.replace('/* CLES */[]', JSON.stringify(cles.filter((c) => c.statut !== 'revoquee'))));
+  }
+  ecrireJson(v1 + 'langues.json', resumes);
+  ecrireJson(v1 + 'index.json', {
+    api: 'v1', producteur: 'Équipe Mayem', droits: DROITS,
+    liens: { langues: 'langues.json', script: script ? 'script/index.json' : null, cles: 'cles-publiques.json', schema: 'schema.json', openapi: 'openapi.json', outil: coeur ? 'outils/mayem-verifier.mjs' : null },
+  });
+  writeFileSync(sortie + 'index.html', page(resumes));
+  return resumes;
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  try {
+    const cle = await chargerCle();
+    const construction = spawnSync(process.execPath, ['--experimental-strip-types', '--disable-warning=ExperimentalWarning', racine + 'tools/compile.js'], { stdio: 'inherit' });
+    if (construction.status !== 0) process.exit(1);
+    const packs = lireJson(racine + 'dist/packs/index.json').map(({ langue, version }) => ({ langue, version }));
+    const { version } = lireJson(racine + 'package.json');
+    const script = { version: `${version}+${packs.map((p) => `${p.langue}.${p.version}`).join('.')}`, packs, contenu: readFileSync(racine + 'dist-web/mayem.js') };
+    const resumes = await publier({ sortie: racine + 'api/', cle, cles: lireCles(), script, coeur: readFileSync(racine + 'dist-lib/mayem-core.js', 'utf8') });
+    console.log(`API v1 prête dans api/ : ${resumes.map((l) => `${l.langue} ${l.derniere.version}`).join(', ')}, script ${script.version}, clé ${cle.id}.`);
+    console.log('Aucun nom de traducteur. Rien n\'est en ligne.');
+  } catch (erreur) {
+    console.error(erreur.message);
+    process.exit(1);
+  }
+}
+

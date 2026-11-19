@@ -49,6 +49,8 @@ export interface Pack {
   etiquettes: Partial<Record<Categorie, string>>;
   glossaire: Terme[];
   phrases: Phrase[];
+  // Posée à la publication sur l'API (tools/api.js) : clé de l'équipe Mayem et signature de l'empreinte
+  signature?: { cle: string; valeur: string };
 }
 
 export interface Options {

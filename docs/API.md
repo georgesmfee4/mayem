@@ -59,22 +59,60 @@ Seules les phrases validées sortent. Chaque fichier porte la mention « © Équ
 - Aucune donnée personnelle : chaque phrase est validée par deux relecteurs de l'équipe, désignés par des codes
   (`Mayem-1`…) ; leurs noms ne sont jamais fournis.
 
-### API statique (`npm run api`)
+### API v1 (`npm run api`), contrat : `docs/openapi.json` (OpenAPI 3.1)
 
-`api/` est un dossier de fichiers, à servir par n'importe quel hébergement statique gratuit :
+`api/` est un dossier de fichiers signés, à servir par un hébergement statique. L'API sert les intégrateurs
+(script en une ligne, applis) et ceux qui réutilisent les données. **L'extension ne l'appelle pas**, et l'API
+ne reçoit jamais rien des pages des usagers : la traduction reste sur l'appareil.
 
 ```
-api/index.json                       langues, versions, empreintes, producteur, droits, liens
-api/schema.json                      contrat des packs
-api/packs/<langue>/latest.json       dernière version
-api/packs/<langue>/<version>.json    versions figées (citer une version précise)
-api/exports/<langue>/…               formats standards
+api/v1/index.json                          point d'entrée et liens
+api/v1/langues.json                        langues et dernière version de chacune
+api/v1/langues/<langue>.json               toutes les versions (empreinte, format, clé) et les exports
+api/v1/packs/<langue>/<version>.json       version figée et signée : ne change jamais
+api/v1/packs/<langue>/latest.json          la dernière, pour explorer
+api/v1/script/index.json                   versions du script, packs embarqués, intégrité sha384
+api/v1/script/<version>/mayem.js           le script, et signature.json à côté
+api/v1/cles-publiques.json                 clés de l'équipe (active, retirée, révoquée)
+api/v1/outils/mayem-verifier.mjs           outil de l'intégrateur, avec mayem-core.js
+api/v1/exports/<langue>/…                  formats standards (clé d'accès, voir ci-dessous)
+api/v1/schema.json, openapi.json           contrats
 ```
 
-Un client télécharge `index.json`, choisit une langue et une version, télécharge le pack et
-**recalcule son empreinte** avant de l'utiliser. Aujourd'hui ce sont des fichiers statiques ; l'accès payant
-(clé par client) se fera devant ces mêmes fichiers, sans changer leur format. La mise en ligne reste une
-décision de l'équipe Mayem.
+**Signature.** Chaque pack porte `signature: { cle, valeur }` : ECDSA P-256 (SHA-256) de son empreinte,
+par la clé de l'équipe Mayem. L'empreinte prouve que rien n'a changé ; la signature, que le pack vient bien
+de l'équipe : quiconque contrôle un serveur peut recalculer une empreinte, pas imiter la signature. Le script
+est signé octet par octet (`signature.json`), avec son intégrité `sha384`.
+
+```js
+import { verifierSignature } from './mayem-core.js';
+const cles = (await (await fetch('https://…/v1/cles-publiques.json')).json()).cles; // à épingler dans l'appli
+const erreurs = await verifierSignature(pack, cles); // [] : intact et signé par l'équipe Mayem
+```
+
+Ou, au moment de construire son site ou son appli, sans écrire de code (Node 18+, aucune dépendance) :
+
+```
+node mayem-verifier.mjs https://…/v1/script/<version>/mayem.js --sortie public/mayem.js
+node mayem-verifier.mjs https://…/v1/packs/bum/0.6.0.json --sortie src/packs/bum.json
+```
+
+Rien n'est écrit si l'empreinte, la signature ou l'intégrité ne correspond pas. Les clés de confiance sont
+inscrites dans l'outil : comparer leur identifiant à celui que publie l'équipe avant le premier usage.
+
+**Versions figées.** Republier garde les octets et la signature d'une version déjà publiée ; un contenu
+différent sous un numéro déjà publié arrête la publication. Une clé « retiree » ne signe plus mais ses
+signatures restent valables ; si une clé est « revoquee », le même contenu est signé de nouveau par la clé active.
+
+**Clé de l'équipe.** `npm run cle` la crée une fois : la clé privée va dans `~/.mayem/`, jamais dans le dépôt
+(à sauvegarder hors du poste) ; la clé publique entre dans `packs/cles.json`.
+
+**Exports et jeux de données** : servis avec une clé d'accès par client (`X-Mayem-Cle`), vérifiée devant
+ces fichiers lors de la mise en ligne. Ne pas mettre `api/v1/exports/` en ligne sans ce contrôle.
+
+**Grands packs.** Le sens reconnu indexe ses phrases au premier texte inconnu : quelques millisecondes pour
+une centaine de phrases, de l'ordre de la seconde pour 20 000. Au-delà de quelques milliers de phrases, cet
+index sera précalculé à la fabrication du pack.
 
 ## 2. Intégrer Mayem dans un site, en une ligne (`dist-web/mayem.js`)
 

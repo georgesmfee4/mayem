@@ -13,6 +13,12 @@
     "producteur": { "type": "string", "description": "Titulaire des droits sur les données (Équipe Mayem)" },
     "droits": { "type": "string", "description": "Conditions d'utilisation : tous droits réservés, voir la documentation de l'API" },
     "orthographe": { "type": "string" },
+    "signature": {
+      "type": "object",
+      "required": ["cle", "valeur"],
+      "description": "Facultatif, posé à la publication sur l'API : signature ECDSA P-256 (SHA-256) de l'empreinte par la clé « cle » de l'équipe Mayem (cles-publiques.json)",
+      "properties": { "cle": { "type": "string" }, "valeur": { "type": "string", "description": "Signature brute (r||s) en base64url" } }
+    },
     "etiquettes": {
       "type": "object",
       "description": "Catégorie d'un message inédit -> id de la phrase ou réf. du terme validé qui sert d'étiquette",
