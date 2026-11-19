@@ -14,6 +14,7 @@ import { dossier, langues, racine } from './langues.js';
 import { ecrireExports } from './export.js';
 import { mentionDroits, validees } from './exports/commun.js';
 import { versPublic } from './public.js';
+import { cheminEnLigne } from './cloudflare.js';
 import { chargerCle, lireCles, signerOctets, signerPack } from './signature.js';
 
 const DROITS = 'Données de l\'équipe Mayem, tous droits réservés. Utilisation selon les conditions de l\'API Mayem (docs/API.md).';
@@ -83,7 +84,7 @@ async function publierScript(v1, script, cle, cles) {
   ecrireJson(ici + 'signature.json', fiche);
   const versions = readdirSync(`${v1}script/`, { withFileTypes: true }).filter((e) => e.isDirectory())
     .map((e) => lireJson(`${v1}script/${e.name}/signature.json`))
-    .map(({ version, packs, integrite: hash, signature }) => ({ version, packs, integrite: hash, cle: signature.cle, script: `script/${version}/mayem.js` }));
+    .map(({ version, packs, integrite: hash, signature }) => ({ version, packs, integrite: hash, cle: signature.cle, script: cheminEnLigne(`script/${version}/mayem.js`) }));
   ecrireJson(`${v1}script/index.json`, { derniere: script.version, versions });
 }
 
@@ -95,7 +96,7 @@ function entetes(v1) {
   const figes = readdirSync(v1 + 'packs/').flatMap((langue) => readdirSync(`${v1}packs/${langue}/`)
     .filter((nom) => nom !== 'latest.json').map((nom) => `/v1/packs/${langue}/${nom}`));
   if (existsSync(v1 + 'script/')) {
-    figes.push(...readdirSync(v1 + 'script/', { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => `/v1/script/${e.name}/*`));
+    figes.push(...readdirSync(v1 + 'script/', { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => cheminEnLigne(`/v1/script/${e.name}/*`)));
   }
   if (figes.length + 1 > REGLES_MAX) throw new Error(`_headers : ${figes.length + 1} règles, Cloudflare en accepte ${REGLES_MAX}.`);
   const tous = '/*\n  Access-Control-Allow-Origin: *\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: no-referrer\n';
