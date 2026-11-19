@@ -167,6 +167,8 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Paraphrases (`packs/<langue>/paraphrases.csv`) : autres formulations françaises d'une phrase, proposées puis
   vérifiées par un francophone de l'équipe qui ne les a pas proposées. Seules les vérifiées entrent dans le pack ;
   chacune couvre à son tour toutes ses écritures (majuscules, accents, ordre, synonymes).
+  `python tools/kit.py paraphrases` crée `paraphrases-a-verifier.xlsx` (français seul : « même sens ? oui / non »
+  et un nom) ; `npm run import` le relit : « oui » signé la fait entrer, « non » la retire.
 - Texte coupé par des balises (`Votre solde est de <b>25 000 FCFA</b>`) : traduit comme un seul bloc, puis le bulu est
   rangé dans les nœuds texte existants ; montants et noms gardent leur texte exact. Si le bulu change l'ordre des
   valeurs, l'original reste.

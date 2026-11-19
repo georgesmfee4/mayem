@@ -5,6 +5,7 @@
   python3 tools/kit.py import FICHIER    -> reporte traductions, glossaire et style du fichier rempli
   python3 tools/kit.py retraduction      -> retraduction-a-envoyer.xlsx (traduction seule, pour une 3e personne)
   python3 tools/kit.py import RETRAD     -> enregistre la retraduction reçue (retraduction.csv)
+  python3 tools/kit.py paraphrases       -> paraphrases-a-verifier.xlsx (autres façons de dire, à vérifier en français)
   python3 tools/kit.py revision          -> revision-<langue>.xlsx (après npm run revision ; --precedent ANCIEN.xlsx
                                             recopie les réponses d'un ancien tableur de relecture, à confirmer ;
                                             --codes negation,politesse,… -> revision-<langue>-court.xlsx, ces points seuls)
@@ -21,6 +22,7 @@ except ImportError:
     sys.exit("openpyxl manque. L'installer une fois : python -m pip install openpyxl")
 from openpyxl.styles import Alignment, Font, PatternFill
 import revision_kit  # après la vérification d'openpyxl, qu'il utilise aussi
+import paraphrases_kit
 
 root = pathlib.Path(__file__).resolve().parent.parent
 
@@ -316,6 +318,9 @@ def import_(path):
     if 'Phrases à revoir' in full.sheetnames:
         revision_kit.extraire(full, DOSSIER)
         return
+    if paraphrases_kit.ONGLET in full.sheetnames:
+        paraphrases_kit.importer(full, DOSSIER)
+        return
     # Un fichier de retraduction n'a ni glossaire ni style : ne pas annoncer « 0 termes »
     if 'Glossaire' in full.sheetnames:
         print(f"glossaire : {import_glossary(full)} termes -> glossaire.csv")
@@ -364,6 +369,8 @@ if __name__ == '__main__':
         import_(sys.argv[2])
     elif len(sys.argv) >= 2 and sys.argv[1] == 'retraduction':
         backtranslation(None)
+    elif len(sys.argv) >= 2 and sys.argv[1] == 'paraphrases':
+        paraphrases_kit.exporter(DOSSIER, root / 'paraphrases-a-verifier.xlsx', LANGUE)
     elif len(sys.argv) >= 2 and sys.argv[1] == 'revision':
         import json
         if not (DOSSIER / 'revision.json').exists():
