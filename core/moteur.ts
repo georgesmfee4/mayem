@@ -17,6 +17,8 @@ const CHAMPS: Record<string, string> = {
   ref: MOTIFS.reference,
   phone: MOTIFS.telephone,
   code: MOTIFS.code,
+  fee: MOTIFS.montant,
+  count: String.raw`\d+`,
 };
 const LIBRE = String.raw`[^\n]+?`;
 const typeDeChamp = (nom: string) => nom.replace(/_\d+$/, ''); // amount_1 -> amount
