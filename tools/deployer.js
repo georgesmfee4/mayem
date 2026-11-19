@@ -14,6 +14,7 @@ import { dossier, langues, racine } from './langues.js';
 import { nomsInternes } from './public.js';
 import { lireCles } from './signature.js';
 import { ADRESSE, cheminEnLigne, espaceCles, wrangler } from './cloudflare.js';
+import { option } from './options.js';
 
 const lireJson = (chemin) => JSON.parse(readFileSync(chemin, 'utf8'));
 const fichiers = (ici) => readdirSync(ici).flatMap((nom) => (statSync(join(ici, nom)).isDirectory() ? fichiers(join(ici, nom)) : [join(ici, nom)]));
@@ -140,7 +141,7 @@ async function deployer(v1) {
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const v1 = racine + 'api/v1/';
   try {
-    if (process.argv.includes('--recuperer')) {
+    if (option(process.argv.slice(2), 'recuperer')) {
       if (!existsSync(ADRESSE)) throw new Error('Pas encore d\'adresse publique : rien à récupérer.');
       await recuperer(readFileSync(ADRESSE, 'utf8').trim(), v1);
     } else {

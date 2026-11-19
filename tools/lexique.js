@@ -11,6 +11,7 @@ import { pathToFileURL } from 'node:url';
 import { ecrireCsv, lireCsv } from './csv.js';
 import { choisirLangue, dossier } from './langues.js';
 import { memesChiffres } from '../core/faits.ts';
+import { valeur } from './options.js';
 
 const net = (s) => (s || '').replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
 const comparable = (s) => net(s).toLowerCase().replace(/[.!?:;]+$/, '').trim();
@@ -98,8 +99,7 @@ function importer(fichier, retenues) {
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const args = process.argv.slice(2);
-  const i = args.indexOf('--retenir');
-  const retenues = i >= 0 ? args.splice(i, 2)[1].split(',') : [];
+  const retenues = (valeur(args, 'retenir', 1) || '').split(',').filter(Boolean);
   if (!args[0]) { console.error('Usage : npm run lexique -- fichier.json [--retenir REF1,REF2]'); process.exit(1); }
   importer(args[0], retenues);
 }

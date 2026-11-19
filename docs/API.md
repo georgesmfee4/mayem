@@ -133,7 +133,9 @@ npm run deployer     contrôle, envoie, puis sonde l'adresse publique
   d'obtenir un export sans clé par neuf chemins détournés : un seul succès est une erreur.
 - **Clés d'accès** : `npm run cle-acces -- <client>` crée une clé, affichée une seule fois ; seule son
   empreinte SHA-256 va dans l'espace KV de Cloudflare. `npm run cle-acces -- --retirer <empreinte>` la
-  retire aussitôt, sans redéployer.
+  retire sans redéployer : elle est refusée partout en une minute au plus (délai de propagation de Cloudflare).
+- **Windows PowerShell** avale le `--` de `npm run x -- --option` ; les outils lisent quand même l'option
+  (`tools/options.js`), qui peut aussi s'écrire sans tirets : `npm run cle-acces -- retirer <empreinte>`.
 - **Outil** : wrangler, de Cloudflare, lancé par `npx` à une version épinglée (`tools/cloudflare.js`), hors
   de `package.json` et de l'extension. La connexion au compte (`npx wrangler login`) se fait par l'équipe.
 - L'adresse publique est notée dans `hebergement/adresse.txt` au premier envoi :
