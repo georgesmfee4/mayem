@@ -3,12 +3,16 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { reviser } from '../tools/revision.js';
 
-const phrase = (id, fr, bulu, critique = false, en = []) => ({ id, fr, en, bulu, critique, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
-const terme = (ref, francais, bulu, critique = true, sens = 'Définition') => ({ ref, terme: francais, sens, en: '', bulu, critique, a_eviter: '', traduit_par: 'A', relu_par: 'B', commentaire: '' });
+// Règles d'écriture du bulu (alphabet, formes d'adresse), lues comme le font les outils
+const bulu = JSON.parse(readFileSync(new URL('../packs/bum/infos.json', import.meta.url), 'utf8'));
+
+const phrase = (id, fr, cible, critique = false, en = []) => ({ id, fr, en, cible, critique, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
+const terme = (ref, francais, cible, critique = true, sens = 'Définition') => ({ ref, terme: francais, sens, en: '', cible, critique, a_eviter: '', traduit_par: 'A', relu_par: 'B', commentaire: '' });
 const codes = (constats, code) => constats.filter((c) => c.code === code);
-const revoir = (phrases, glossaire = [], contexte = {}, politesse = '') => reviser({ phrases, glossaire, contexte, politesse });
+const revoir = (phrases, glossaire = [], contexte = {}, politesse = '', profil = bulu) => reviser({ phrases, glossaire, contexte, politesse, profil });
 
 test('sens confondus : bloquant si critique et non critique se mêlent ; même français, rien à signaler', () => {
   const c = revoir([phrase('A', 'Alerte de sécurité', 'Zak', true), phrase('B', 'Sécurité', 'zak'), phrase('C', 'Bonjour', 'Mbo'), phrase('D', 'Bienvenue', 'Mbo')]);
@@ -71,6 +75,20 @@ test('majuscules des mots du glossaire : une seule question de charte, pas une p
 test('alphabet : ɔ et ŋ signalés, ô et ñ acceptés', () => {
   const c = revoir([phrase('P1', 'Un', 'Mɔŋ'), phrase('P2', 'Deux', 'Ntiñ ô')]);
   assert.deepEqual(codes(c, 'alphabet').map((x) => x.ref), ['P1']);
+});
+
+test('alphabet et adresse sans profil de langue : aucune règle du bulu imposée à une autre langue', () => {
+  const c = revoir([phrase('P1', 'Un', 'Mɔŋ'), phrase('P2', 'Deux', "W'ake"), phrase('P3', 'Trois', 'ô tuá')], [], {}, '', {});
+  assert.equal(codes(c, 'alphabet').length + codes(c, 'politesse').length, 0);
+});
+
+test("alphabet : l'écriture vient du profil (ISO 15924), une écriture inconnue arrête l'outil", () => {
+  const latin = { ecriture: 'Latn', orthographe: 'Essai' };
+  const c = revoir([phrase('P1', 'Un', 'Mɔŋ ŋ ɛ'), phrase('P2', 'Deux', 'ሰላም')], [], {}, '', latin);
+  assert.deepEqual(codes(c, 'alphabet').map((x) => x.ref), ['P2']);
+  assert.match(codes(c, 'alphabet')[0].explication, /alphabet choisi \(Essai\)/);
+  assert.throws(() => revoir([phrase('P1', 'Un', 'a')], [], {}, '', { ecriture: 'latin' }), /code ISO 15924/);
+  assert.throws(() => revoir([phrase('P1', 'Un', 'a')], [], {}, '', { ecriture: 'Abcd' }), /code ISO 15924/);
 });
 
 test('politesse : la forme minoritaire est interrogée, avec la réponse de la charte', () => {

@@ -6,11 +6,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { exports } from '../tools/export.js';
 
-const phrase = (id, fr, bulu, valide = true) => ({ id, fr, en: [], bulu, critique: true, traduit_par: 'A', relu_par: 'B', retraduit_par: '', retraduction: '', valide });
+const phrase = (id, fr, cible, valide = true) => ({ id, fr, en: [], cible, critique: true, traduit_par: 'A', relu_par: 'B', retraduit_par: '', retraduction: '', valide });
 const pack = {
   langue: 'xx', nom: 'Essai', version: '1.2.3', glossaire: [
-    { ref: 'T1', terme: 'solde', sens: 'argent <disponible>', bulu: 'Zolo / Zola', critique: true, a_eviter: 'Zul', traduit_par: 'A', relu_par: 'B' },
-    { ref: 'T2', terme: 'vide', sens: '', bulu: '', critique: false, a_eviter: '' },
+    { ref: 'T1', terme: 'solde', sens: 'argent <disponible>', cible: 'Zolo / Zola', critique: true, a_eviter: 'Zul', traduit_par: 'A', relu_par: 'B' },
+    { ref: 'T2', terme: 'vide', sens: '', cible: '', critique: false, a_eviter: '' },
   ],
   phrases: [
     phrase('P1', 'Frais de {percent} sur {amount}', 'Kufa {amount} « {percent} »'),

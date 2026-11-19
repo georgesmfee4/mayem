@@ -56,18 +56,18 @@ test('refus visible sur l’icône, effacé au clic suivant avec un bon pack', a
   const bon = await cliquer(pack);
   assert.equal(bon.badge, '');
   assert.equal(bon.titre, '');
-  pack.phrases.find((p) => p.id === 'X08').bulu += ' 500';
+  pack.phrases.find((p) => p.id === 'X08').cible += ' 500';
   const refus = await cliquer(pack);
   assert.equal(refus.badge, '!');
-  assert.match(refus.titre, /pack refusé, page laissée intacte\.\nX08 : les chiffres du bulu diffèrent/);
+  assert.match(refus.titre, /pack refusé, page laissée intacte\.\nX08 : les chiffres de la traduction diffèrent/);
 });
 
 test('un chiffre ajouté au bulu : rien n\'est injecté', async () => {
   const pack = lire('packs/bum/pack.json');
-  pack.phrases.find((p) => p.id === 'X08').bulu += ' 500';
+  pack.phrases.find((p) => p.id === 'X08').cible += ' 500';
   const { injections, erreurs } = await cliquer(pack);
   assert.equal(injections, 0);
-  assert.match(erreurs.join('\n'), /X08 : les chiffres du bulu diffèrent/);
+  assert.match(erreurs.join('\n'), /X08 : les chiffres de la traduction diffèrent/);
 });
 
 test('un champ manquant : rien n\'est injecté', async () => {
@@ -81,7 +81,7 @@ test('un champ manquant : rien n\'est injecté', async () => {
 test('bulu modifié sans toucher aux chiffres : refusé par l’empreinte', async () => {
   const pack = lire('packs/bum/pack.json');
   const phrase = pack.phrases.find((p) => p.id === 'X08');
-  phrase.bulu = phrase.bulu.replace(/\p{L}+/u, 'Autre');
+  phrase.cible = phrase.cible.replace(/\p{L}+/u, 'Autre');
   const { injections, erreurs } = await cliquer(pack);
   assert.equal(injections, 0);
   assert.match(erreurs.join(' '), /empreinte différente/);
@@ -90,7 +90,7 @@ test('bulu modifié sans toucher aux chiffres : refusé par l’empreinte', asyn
 test('changement de langue : le pack vérifié est rendu, un pack modifié ne l’est pas', async () => {
   const pack = lire('packs/bum/pack.json');
   assert.equal((await charger(pack).demander('bum')).empreinte, pack.empreinte);
-  pack.phrases[0].bulu = 'autre';
+  pack.phrases[0].cible = 'autre';
   assert.equal(await charger(pack).demander('bum'), null);
 });
 
@@ -107,6 +107,13 @@ test('le script à intégrer (dist-web/mayem.js) se construit, léger et sans no
   new Script(code); // syntaxe et noms de premier niveau uniques
   assert.ok(code.length < 400_000, `${code.length} octets`);
   assert.doesNotMatch(readFileSync(new URL('dom/web.ts', racine), 'utf8'), /\bbum\b/);
+});
+
+test('le navigateur affiche la version du pack embarqué, puis celle de l’extension', () => {
+  const manifeste = lire('dist/manifest.json');
+  const pack = lire('dist/packs/bum/pack.json');
+  assert.equal(manifeste.version_name, `${pack.nom} ${pack.version} (extension ${manifeste.version})`);
+  assert.match(manifeste.version, /^\d+(\.\d+){1,3}$/);
 });
 
 test('ce qui est distribué (extension, script intégré) ne contient aucun nom de traducteur', async () => {

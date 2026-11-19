@@ -18,7 +18,8 @@ export function charte(dossier) {
 
 export function revisionOuverte(pack, dossier) {
   const contexte = Object.fromEntries(lireSiPresent(dossier + 'corpus.csv').map((l) => [l.id, l]));
-  const constats = reviser({ phrases: pack.phrases, glossaire: pack.glossaire, contexte, politesse: charte(dossier).Politesse || '' });
+  const profil = existsSync(dossier + 'infos.json') ? JSON.parse(readFileSync(dossier + 'infos.json', 'utf8')) : {};
+  const constats = reviser({ phrases: pack.phrases, glossaire: pack.glossaire, contexte, politesse: charte(dossier).Politesse || '', profil });
   return constatsOuverts(constats, lireDecisions(dossier + 'decisions.csv'), pack);
 }
 

@@ -9,7 +9,7 @@ async function icone(context, page) {
   }, page.url());
 }
 
-for (const [copie, raison] of [['pack-modifie', /les chiffres du bulu diffèrent/], ['mot-change', /empreinte différente/]]) {
+for (const [copie, raison] of [['pack-modifie', /les chiffres de la traduction diffèrent/], ['mot-change', /empreinte différente/]]) {
   test.describe(copie, () => {
     test.use({ copie });
 

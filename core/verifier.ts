@@ -1,13 +1,14 @@
 // Refuse un pack de langue invalide. Utilisé à la fabrication du pack (tools/check-pack.js)
 // et par l'extension avant chaque entrée dans une page (dom/fond.ts).
 // Contrôle la forme (packs/schema.json), puis les règles qui protègent l'utilisateur :
-// mêmes champs {…} et mêmes chiffres en français et en bulu, deux personnes pour valider.
+// mêmes champs {…} et mêmes chiffres en français et dans la traduction, deux personnes pour valider.
 
 import type { Pack, Phrase } from './types.ts';
 
-// Sous-ensemble de JSON Schema suffisant pour notre schéma : type, required, properties, items
+// Sous-ensemble de JSON Schema suffisant pour notre schéma : type, const, required, properties, items
 export interface Regle {
   type?: string;
+  const?: unknown;
   required?: string[];
   properties?: Record<string, Regle>;
   items?: Regle;
@@ -21,6 +22,10 @@ const memePersonne = (a: string, b: string) => a.trim() !== '' && a.trim().toLow
 function verifierForme(valeur: any, regle: Regle, chemin: string, erreurs: string[]) {
   if (regle.type && typeDe(valeur) !== regle.type) {
     erreurs.push(`${chemin} : attendu ${regle.type}, trouvé ${typeDe(valeur)}`);
+    return;
+  }
+  if ('const' in regle && valeur !== regle.const) {
+    erreurs.push(`${chemin} : ${JSON.stringify(valeur)} au lieu de ${JSON.stringify(regle.const)} (pack d'une autre génération : mettre à jour l'outil ou refaire le pack)`);
     return;
   }
   for (const nom of regle.required || []) {
@@ -42,14 +47,14 @@ function verifierPhrase(p: Phrase, erreurs: string[]) {
   for (const en of p.en) {
     if (champs(en).join() !== fr) erreurs.push(`${id} : les champs {…} de l'anglais diffèrent du français`);
   }
-  if (p.bulu) {
-    if (champs(p.bulu).join() !== fr) erreurs.push(`${id} : les champs {…} du bulu diffèrent du français`);
-    if (chiffres(p.bulu) !== chiffres(p.fr)) erreurs.push(`${id} : les chiffres du bulu diffèrent du français`);
+  if (p.cible) {
+    if (champs(p.cible).join() !== fr) erreurs.push(`${id} : les champs {…} de la traduction diffèrent du français`);
+    if (chiffres(p.cible) !== chiffres(p.fr)) erreurs.push(`${id} : les chiffres de la traduction diffèrent du français`);
   }
   // Le traducteur connaît le français : sa retraduction ne prouverait rien
   if (memePersonne(p.retraduit_par, p.traduit_par)) erreurs.push(`${id} : retraduite par la personne qui l'a traduite`);
   if (!p.valide) return;
-  if (!p.bulu) erreurs.push(`${id} : validée mais sans traduction bulu`);
+  if (!p.cible) erreurs.push(`${id} : validée mais sans traduction`);
   if (!p.relu_par.trim()) erreurs.push(`${id} : validée sans relecteur`);
   else if (memePersonne(p.relu_par, p.traduit_par)) erreurs.push(`${id} : relue par la personne qui l'a traduite`);
 }
@@ -67,7 +72,7 @@ export function verifierPack(pack: unknown, schema: Regle): string[] {
     ids.add(p.id);
     verifierPhrase(p, erreurs);
   }
-  const termes = new Set(glossaire.filter((t) => t.bulu.trim()).map((t) => t.ref));
+  const termes = new Set(glossaire.filter((t) => t.cible.trim()).map((t) => t.ref));
   for (const [categorie, id] of Object.entries(etiquettes)) {
     if (!ids.has(id as string) && !termes.has(id as string)) erreurs.push(`étiquette « ${categorie} » : ni phrase ni terme traduit ${id}`);
   }

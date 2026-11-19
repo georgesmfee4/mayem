@@ -78,7 +78,11 @@ writeFileSync(dist + 'dom/fond.js', regrouper('dom/fond.ts'));
 const style = readFileSync(racine + 'dom/style.css', 'utf8') + (enPseudo ? CONTOUR : '');
 writeFileSync(dist + 'dom/contenu.js', regrouper('dom/entree.ts', `const STYLE_PAGE = ${JSON.stringify(style)};\n\n`));
 writeFileSync(dist + 'dom/style.css', style);
-cpSync(racine + 'manifest.json', dist + 'manifest.json');
+// Le navigateur affiche version_name à la place de version : la version des traductions embarquées,
+// celle qui change quand les locuteurs corrigent, puis celle du programme
+const manifeste = JSON.parse(readFileSync(racine + 'manifest.json', 'utf8'));
+manifeste.version_name = `${packs.map((pack) => `${pack.nom} ${pack.version}`).join(', ')} (extension ${manifeste.version})`;
+writeFileSync(dist + 'manifest.json', JSON.stringify(manifeste, null, 2) + '\n');
 // Le script de fond ne lit que le pack de la langue choisie : un clic coûte autant avec une langue qu'avec cinquante
 for (const pack of packs) {
   mkdirSync(dist + `packs/${pack.langue}`, { recursive: true });

@@ -35,7 +35,7 @@ const empreinte = (pack) => 'sha256-' + createHash('sha256').update(JSON.stringi
 // Langue d'essai : « [zz] » devant le français garde les mêmes chiffres et les mêmes champs
 function ajouterLangueEssai(dossier) {
   const pack = JSON.parse(readFileSync(join(dossier, 'packs/bum/pack.json'), 'utf8'));
-  const essai = { ...pack, langue: 'zzz', nom: 'Essai', phrases: pack.phrases.map((p) => ({ ...p, bulu: `[zz] ${p.fr}` })) };
+  const essai = { ...pack, langue: 'zzz', nom: 'Essai', phrases: pack.phrases.map((p) => ({ ...p, cible: `[zz] ${p.fr}` })) };
   essai.empreinte = empreinte(essai);
   mkdirSync(join(dossier, 'packs/zzz'), { recursive: true });
   writeFileSync(join(dossier, 'packs/zzz/pack.json'), JSON.stringify(essai));
@@ -54,7 +54,7 @@ export default function preparer() {
   rmSync(DOSSIER, { recursive: true, force: true });
   copier('bonne');
   // Un chiffre ajouté au bulu de X08 (« Votre solde est de {amount} »)
-  copier('pack-modifie', (pack) => (pack.phrases.find((p) => p.id === 'X08').bulu += ' 500'));
+  copier('pack-modifie', (pack) => (pack.phrases.find((p) => p.id === 'X08').cible += ' 500'));
   copier('deux-langues', null, ajouterLangueEssai);
   copier('pseudo', null, null, 'dist-pseudo');
   copier('mot-change', null, null, 'dist-refus/mot-change');

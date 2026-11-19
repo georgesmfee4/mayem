@@ -39,6 +39,17 @@ e2e/         tests Playwright dans Chromium, extension chargée
 fixtures/    pages d'essai
 ```
 
+## Ajouter une langue
+Aucune ligne de code : un dossier `packs/<code>/` (code ISO 639-3) suffit. `test/langue-essai.test.js` le prouve
+avec une langue d'essai (`qaa`, code réservé à l'usage local) qui passe tous les outils.
+- `infos.json` : `langue`, `nom` (il donne leurs en-têtes aux tableurs : « TRADUCTION EWONDO »), `producteur`,
+  `droits`, `orthographe`, `etiquettes`. Facultatifs, choisis par les locuteurs dans leur charte :
+  `ecriture` (code ISO 15924, `Latn`), `lettres_exclues`, `formes_adresse` (formes polies à garder cohérentes).
+  Sans eux, ni l'alphabet ni les formes d'adresse ne sont contrôlés : aucune règle du bulu n'est imposée.
+- `corpus.csv` (colonne `cible`), `glossaire.csv`, `style.csv` (charte) : remplis par les tableurs de `tools/kit.py`.
+- `npm run pack -- <code>` fabrique `pack.json` au format 2 (`packs/schema.json`), que l'extension, le script
+  intégré et les exports lisent tels quels.
+
 Aucune dépendance dans l'extension : Node 22 suffit (types retirés par Node lui-même, `node:test` pour les tests).
 Seuls les tests navigateur utilisent Playwright (gratuit, `devDependencies`).
 Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace).
@@ -49,6 +60,8 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
    `bum` est le code international du bulu (ISO 639-3) : il nomme le dossier `packs/bum/` et l'attribut
    `lang="bum"` lu par les lecteurs d'écran. Partout où une personne lit, Mayem affiche le nom « Bulu ».
 2. Chrome → `chrome://extensions` → « Mode développeur » → « Charger l'extension non empaquetée » → le dossier `dist/`.
+   La fiche de l'extension affiche la version du pack embarqué, puis celle du programme : « Bulu 0.5.3 (extension 0.3.0) ».
+   Après un nouveau `npm run build`, cliquer sur la flèche « Actualiser » de la fiche.
 3. Ouvrir `https://safinum.cm/hackathon-test?jury=1`, puis **cliquer sur l'icône Mayem** (épinglez-la dans la barre
    d'outils). Rien ne se passe avant ce clic. Le parcours reste dans la même page : un clic suffit pour les étapes 1 à 5.
    Après un rechargement de la page, recliquer.
@@ -89,7 +102,7 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
    - Les en-têtes du tableur peuvent être renommés (« TERME BULU APPROUVÉ » ou « TRADUCTION BULU »,
      « Choisi par » ou « Traduit par ») ; une colonne introuvable est signalée.
 3. Le pack n'est écrit que s'il est valide. Sinon chaque problème est listé avec le français et le bulu concernés :
-   champ manquant, champs `{…}` ou chiffres différents entre le français et le bulu, ligne validée sans relecteur
+   champ manquant, champs `{…}` ou chiffres différents entre le français et la traduction, ligne validée sans relecteur
    (ou relue par son traducteur). L'ancien pack reste en place. Après une correction à la main : `npm run pack`.
    - Si le contenu a changé, la version augmente (correction : 0.3.0 -> 0.3.1 ; phrase ou terme ajouté
      ou retiré : -> 0.4.0), la version est archivée dans `packs/<langue>/versions/` et
@@ -134,6 +147,11 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Champs de saisie jamais lus ni modifiés ; aucune donnée collectée, stockée ou envoyée ; aucun appel réseau.
 - Permissions minimales : `activeTab` et `scripting`. Mayem n'entre dans une page qu'au clic sur son icône, dans
   l'onglet en cours seulement ; aucun fichier de l'extension n'est exposé aux sites (rien qui permette de la détecter).
+- Retour à l'original : la page redevient exactement celle du service, sans soulignement, étiquette, glose ni
+  langue déclarée. Extension supprimée, désactivée ou rechargée : les pages déjà ouvertes font de même d'elles-mêmes
+  en deux secondes au plus, bouton compris (`dom/entree.ts`).
+- Texte resté dans sa langue : deux traits s'il n'a aucun mot connu, un seul si des mots sont glosés ; jamais de
+  fond de couleur.
 - Message de plusieurs phrases : traduit phrase par phrase seulement si chacune est dans le corpus ; sinon tout
   l'original reste. Rien n'est inventé.
 - Texte coupé par des balises (`Votre solde est de <b>25 000 FCFA</b>`) : traduit comme un seul bloc, puis le bulu est
@@ -162,8 +180,6 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Un Shadow DOM fermé (`mode: 'closed'`) est inaccessible à toute extension : son texte reste en français.
 - Les compteurs du bouton ne comptent que la page principale, pas les cadres.
 - La langue choisie n'est pas mémorisée (aucun stockage) : chaque clic sur l'icône repart de la première langue.
-- Le champ `bulu` du pack contient le texte dans la langue du pack, quelle qu'elle soit (nom historique, gardé
-  pour ne pas casser le contrat de données).
 
 ## Couvrir un nouveau service sans repartir de zéro
 1. `npm run inventaire -- https://service-de-test/page1 https://service-de-test/page2` (ou des fichiers `.html`).
