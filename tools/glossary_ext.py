@@ -137,7 +137,7 @@ SECTIONS = [
         ("T60", "maintenance", "maintenance", "", 0),
         ("T61", "en cours / en attente", "pending", "L'opération n'est pas encore terminée.", 1),
         ("T62", "échec / échoué", "failed", "L'opération n'a pas abouti.", 1),
-        ("T63", "réussi", "successful", "Peut-être déjà couvert par T24 (mvaé) : le dire dans Commentaire.", 1),
+        ("T63", "réussi", "successful", "Peut-être déjà couvert par T24 : le dire dans Commentaire.", 1),
         ("T64", "réessayer", "try again", "", 0),
         ("T65", "sécurisé", "secure", "« Connexion sécurisée. »", 0),
         ("T66", "nouveau / nouvelle", "new", "« Nouveau bénéficiaire. »", 1),

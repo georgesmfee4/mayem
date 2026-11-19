@@ -67,8 +67,9 @@ function personnes(validePar) {
   return { traduit_par: traduit_par.trim(), relu_par: relu_par.trim() };
 }
 
-// Apostrophes et espaces varient d'un tableur à l'autre sans changer le texte
-const comparable = (texte) => texte.replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
+// Apostrophes, espaces et majuscules varient d'un tableur à l'autre sans changer ce qui a été lu
+// (une majuscule corrigée selon la charte ne rend pas une retraduction caduque)
+const comparable = (texte) => texte.replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim().toLowerCase();
 
 // id -> { cible, texte, par } ; vide tant qu'aucune retraduction n'a été importée
 function lireRetraductions() {
