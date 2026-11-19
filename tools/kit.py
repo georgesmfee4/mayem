@@ -223,23 +223,25 @@ def retraductions_valables():
 
 def backtranslation(path):
     """Fichier séparé pour la 3e personne : la traduction des lignes critiques, sans le français.
-    Seules partent les phrases jamais retraduites ou dont la traduction a changé depuis."""
+    Seules partent les phrases jamais retraduites ou dont la traduction a changé depuis. Une phrase non critique
+    déjà retraduite repart aussi quand sa traduction change : sinon sa retraduction resterait périmée."""
     rows = {r['id']: r for r in lire_corpus()}
     valables = retraductions_valables()
+    deja = {colonne(l, 'réf') for l in lire_retraductions()[1] if colonne(l, 'votre traduction')}
     wb = Workbook(); ws = wb.active; ws.title = 'Retraduction'
     ws.append(['Réf.', f'Texte {LANGUE}', 'VOTRE TRADUCTION EN FRANÇAIS', 'Traduit par', 'Commentaire'])
     for c in ws[1]:
         c.font = Font(bold=True, color='FFFFFF'); c.fill = PatternFill('solid', fgColor='0F4C5C')
     n = 0
     for r in rows.values():
-        if r['critique'] == '1' and r['cible'] and r['id'] not in valables:
+        if (r['critique'] == '1' or r['id'] in deja) and r['cible'] and r['id'] not in valables:
             ws.append([r['id'], r['cible'], '', '', '']); n += 1
             ws.cell(row=ws.max_row, column=3).fill = PatternFill('solid', fgColor='FFF2CC')
             for col in range(1, 6): ws.cell(row=ws.max_row, column=col).alignment = Alignment(wrap_text=True, vertical='top')
     for col, w in zip('ABCDE', [7, 50, 50, 16, 30]): ws.column_dimensions[col].width = w
     out = root / 'retraduction-a-envoyer.xlsx'
     wb.save(out)
-    print(f'{n} phrases critiques à retraduire -> {out} (à envoyer à une personne qui n’a pas vu le français) ;'
+    print(f'{n} phrases à retraduire -> {out} (à envoyer à une personne qui n’a pas vu le français) ;'
           f' {len(valables)} retraductions encore valables, gardées')
 
 def colonnes_traduction(header):
