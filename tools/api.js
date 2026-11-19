@@ -87,6 +87,21 @@ async function publierScript(v1, script, cle, cles) {
   ecrireJson(`${v1}script/index.json`, { derniere: script.version, versions });
 }
 
+// En-têtes de l'hébergement (_headers, lu par Cloudflare) : ouverts à tous les sites, sinon l'intégrité
+// sha384 du script ne peut pas être contrôlée chez un intégrateur. Une version figée se garde un an ;
+// le reste (latest, index, clés) est revalidé à chaque fois.
+const REGLES_MAX = 100; // limite de Cloudflare
+function entetes(v1) {
+  const figes = readdirSync(v1 + 'packs/').flatMap((langue) => readdirSync(`${v1}packs/${langue}/`)
+    .filter((nom) => nom !== 'latest.json').map((nom) => `/v1/packs/${langue}/${nom}`));
+  if (existsSync(v1 + 'script/')) {
+    figes.push(...readdirSync(v1 + 'script/', { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => `/v1/script/${e.name}/*`));
+  }
+  if (figes.length + 1 > REGLES_MAX) throw new Error(`_headers : ${figes.length + 1} règles, Cloudflare en accepte ${REGLES_MAX}.`);
+  const tous = '/*\n  Access-Control-Allow-Origin: *\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: no-referrer\n';
+  return tous + figes.map((chemin) => `${chemin}\n  Cache-Control: public, max-age=31536000, immutable\n`).join('');
+}
+
 function page(langues) {
   const lignes = langues.map((l) => `<li><strong>${l.nom}</strong> (${l.langue}) ${l.derniere.version}, ${l.phrases_validees} phrases validées : <a href="v1/${l.liens.pack}">pack</a>, <a href="v1/${l.liens.detail}">versions</a></li>`);
   return `<!doctype html>\n<html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
@@ -124,6 +139,7 @@ export async function publier({ sortie, cle, cles, script = null, coeur = null }
     liens: { langues: 'langues.json', script: script ? 'script/index.json' : null, cles: 'cles-publiques.json', schema: 'schema.json', openapi: 'openapi.json', outil: coeur ? 'outils/mayem-verifier.mjs' : null },
   });
   writeFileSync(sortie + 'index.html', page(resumes));
+  writeFileSync(sortie + '_headers', entetes(v1));
   return resumes;
 }
 

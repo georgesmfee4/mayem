@@ -32,7 +32,8 @@ core/        moteur pur en TypeScript : reçoit une chaîne et un pack, rend un 
 dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM) ; fond.ts injecte au clic
 packs/       schema.json + un dossier par langue : packs/<code>/ (infos.json, corpus.csv, glossaire.csv,
              retraduction.csv, pack.json généré). Aucun outil ne connaît une langue par son nom.
-tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs), export, api
+tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs), export, api, deployer
+hebergement/ Worker et configuration Cloudflare de l'API en ligne
 docs/        API.md (réutiliser les données et le moteur), demo.md (déroulé de la démo)
 test/        tests node:test
 e2e/         tests Playwright dans Chromium, extension chargée
@@ -222,7 +223,9 @@ Deux rôles séparés (détails : `docs/API.md`) :
   `npm run api` prépare l'API v1 dans `api/` : packs et script signés par l'équipe (ECDSA P-256), versions
   figées, clés publiques, outil de vérification pour l'intégrateur, contrat OpenAPI 3.1 (`docs/openapi.json`).
   La clé privée se crée une fois avec `npm run cle` et ne quitte jamais le poste de l'équipe. L'extension
-  n'appelle pas l'API ; l'API ne reçoit rien des pages. Rien n'est mis en ligne automatiquement.
+  n'appelle pas l'API ; l'API ne reçoit rien des pages. `npm run deployer` la met en ligne (Cloudflare,
+  offre gratuite) après contrôle des signatures et des versions déjà publiées ; les exports demandent une
+  clé d'accès (`npm run cle-acces`).
 - **Intégration en une ligne** : `dist-web/mayem.js`, à inclure par un service dans ses pages
   (`<script src="mayem.js" integrity="…" data-langue="bum" defer>`), sans extension côté client ; packs
   embarqués, mêmes garanties (page d'essai `fixtures/integre.html`, réglages dans `docs/API.md`).
