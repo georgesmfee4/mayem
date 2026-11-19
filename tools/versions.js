@@ -6,7 +6,7 @@ const actuel = (element) => ('bulu' in element && !('cible' in element) ? { ...e
 const parCle = (liste, cle) => new Map(liste.map((element) => [element[cle], actuel(element)]));
 
 // Champs qui changent le sens affiché ; les noms des relecteurs ou un commentaire n'en font pas partie
-const PHRASE = ['fr', 'cible', 'valide', 'critique', 'variantes'];
+const PHRASE = ['fr', 'cible', 'valide', 'critique'];
 const TERME = ['terme', 'cible', 'critique'];
 // Informations générales : un changement (droits, orthographe, étiquettes…) compte comme une correction
 const INFOS = ['nom', 'producteur', 'droits', 'orthographe', 'etiquettes'];
@@ -25,13 +25,15 @@ export function differences(ancien, nouveau) {
   return {
     phrases: comparer(ancien?.phrases || [], nouveau.phrases, 'id', PHRASE),
     termes: comparer(ancien?.glossaire || [], nouveau.glossaire, 'ref', TERME),
+    // Paraphrases vérifiées ajoutées ou retirées, traduction inchangée : elles changent ce qui est reconnu
+    paraphrases: comparer(ancien?.phrases || [], nouveau.phrases, 'id', ['variantes']).modifies,
     infos: INFOS.filter((champ) => champ in nouveau && JSON.stringify(ancien?.[champ]) !== JSON.stringify(nouveau[champ])),
     format: ancien && 'format' in nouveau && ancien.format !== nouveau.format ? nouveau.format : null,
   };
 }
 
 const total = (d, ...types) => types.reduce((n, type) => n + d.phrases[type].length + d.termes[type].length, 0);
-export const aChange = (d) => total(d, 'ajoutes', 'retires', 'modifies') > 0 || (d.infos || []).length > 0 || !!d.format;
+export const aChange = (d) => total(d, 'ajoutes', 'retires', 'modifies') > 0 || (d.infos || []).length > 0 || (d.paraphrases || []).length > 0 || !!d.format;
 
 // Correction -> 0.3.1 ; phrase ou terme ajouté ou retiré -> 0.4.0. Le chiffre majeur reste aux humains
 // (changement de schéma ou d'orthographe).
@@ -39,7 +41,7 @@ export function versionSuivante(version, d) {
   const [majeur, mineur, correctif] = version.split('.').map(Number);
   // Un nouveau format n'est plus lisible par les anciens lecteurs : au moins une version mineure
   if (d.format || total(d, 'ajoutes', 'retires')) return `${majeur}.${mineur + 1}.0`;
-  if (total(d, 'modifies') || (d.infos || []).length || d.suivi) return `${majeur}.${mineur}.${correctif + 1}`;
+  if (total(d, 'modifies') || (d.infos || []).length || (d.paraphrases || []).length || d.suivi) return `${majeur}.${mineur}.${correctif + 1}`;
   return version;
 }
 
@@ -49,6 +51,7 @@ export function entreeJournal(version, date, d) {
   const ligne = (titre, ids) => ids.length && lignes.push(`- ${titre} (${ids.length}) : ${ids.join(', ')}`);
   ligne('Phrases ajoutées', d.phrases.ajoutes);
   ligne('Phrases modifiées', d.phrases.modifies);
+  ligne('Paraphrases vérifiées mises à jour, traduction inchangée', (d.paraphrases || []).filter((id) => !d.phrases.modifies.includes(id)));
   ligne('Phrases retirées', d.phrases.retires);
   ligne('Termes ajoutés', d.termes.ajoutes);
   ligne('Termes modifiés', d.termes.modifies);
