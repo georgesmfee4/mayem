@@ -3,7 +3,7 @@
 Aucune traduction n'est écrite ici : les cases « TRADUCTION <LANGUE> » reprennent la traduction actuelle, à garder ou corriger
 par les locuteurs. Les colonnes masquées (codes, groupe) servent seulement au réimport.
 """
-import csv, json
+import csv, json, re
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.worksheet.datavalidation import DataValidation
@@ -140,14 +140,20 @@ def _onglet_guide(wb):
     ws['A1'].font = Font(bold=True, size=13)
 
 
-def _onglet_charte(wb, style, sans_reponse_seulement=False, propres=None):
+# Constat de la révision -> question de la charte qu'il remet en cause
+SUJET_DU_CONSTAT = {'majuscule-glossaire': 'Majuscules du glossaire'}
+
+
+def _onglet_charte(wb, style, sans_reponse_seulement=False, propres=None, reperes=None):
+    """reperes : sujet -> ce que montrent les phrases. Une réponse que les phrases contredisent est toujours
+    reposée, en rouge, même dans le tableur court."""
     ws = wb.create_sheet("Charte d'orthographe")
-    _entete(ws, ['Sujet', 'Question', 'Réponse actuelle', 'VOTRE RÉPONSE (confirmer ou corriger)', 'Commentaire'], [20, 60, 50, 50, 30])
-    propres = propres or {}
+    _entete(ws, ['Sujet', 'Question', 'Réponse actuelle', 'Ce qui a été repéré', 'VOTRE RÉPONSE (confirmer ou corriger)', 'Commentaire'], [20, 60, 50, 48, 50, 30])
+    propres, reperes = propres or {}, reperes or {}
     charte = [(s, propres.get(s) or _n(q)) for s, q in CHARTE]
-    questions = [(s, q) for s, q in charte if not (sans_reponse_seulement and style.get(s, '').strip())]
+    questions = [(s, q) for s, q in charte if s in reperes or not (sans_reponse_seulement and style.get(s, '').strip())]
     for sujet, question in questions:
-        _ligne(ws, [sujet, question, style.get(sujet, ''), '', ''], jaunes=(4, 5))
+        _ligne(ws, [sujet, question, style.get(sujet, ''), reperes.get(sujet, ''), '', ''], jaunes=(5, 6), critique=sujet in reperes)
     _finir(ws, 'C2')
     return len(questions)
 
@@ -290,14 +296,25 @@ def exporter(dossier, sortie, precedent_fichier=None, codes=None):
     autres = [c for c in constats if c['code'] != 'sens-confondus' and c['ref'] != 'charte']
     wb = Workbook()
     _onglet_guide(wb)
-    compte = {'charte': _onglet_charte(wb, _style(dossier), bool(codes), _questions_propres(dossier)), 'sens': _onglet_sens(wb, sens, phrases, contexte, precedent)}
+    reperes = {SUJET_DU_CONSTAT[c['code']]: c['explication'] for c in constats if c['ref'] == 'charte' and c['code'] in SUJET_DU_CONSTAT}
+    compte = {'charte': _onglet_charte(wb, _style(dossier), bool(codes), _questions_propres(dossier), reperes),
+              'sens': _onglet_sens(wb, sens, phrases, contexte, precedent)}
     compte['phrases'], priorites = _onglet_phrases(wb, autres, phrases, contexte, precedent)
     compte['glossaire'] = _onglet_glossaire(wb, autres, termes)
     _onglet_recap(wb, compte, priorites)
-    # Tableur court : un onglet vide ne ferait que dérouter les locuteurs (l'import tolère son absence)
+    # Un onglet vide ne ferait que dérouter les locuteurs (l'import tolère son absence), ni sa ligne du mode d'emploi
+    guide = wb["Mode d'emploi"]
     for nom, cle in (("Charte d'orthographe", 'charte'), ('Sens à distinguer', 'sens')):
-        if codes and not compte[cle]:
+        if not compte[cle]:
             del wb[nom]
+            rang = next((c.row for c in guide['A'] if str(c.value or '').startswith(f'{"1" if cle == "charte" else "2"}. « {nom} »')), None)
+            if rang:
+                guide.delete_rows(rang)
+    # Étapes renumérotées dans le mode d'emploi et le récapitulatif : 1, 2, 3 sans trou
+    for colonne in (guide['A'], wb['Récapitulatif']['E'][1:]):
+        etapes = [c for c in colonne if re.match(r'\d\. ', str(c.value or ''))]
+        for i, cellule in enumerate(etapes, 1):
+            cellule.value = f'{i}.' + cellule.value[2:]
     wb.save(sortie)
     print(f"Tableur de révision -> {sortie}")
     print(f"  charte : {compte['charte']} questions ; sens à distinguer : {compte['sens']} lignes ({len(sens)} groupes) ;"
