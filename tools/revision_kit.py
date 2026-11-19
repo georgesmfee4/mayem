@@ -37,7 +37,7 @@ GUIDE = [
     "Quand deux idées différentes sont écrites pareil en {langue} (par exemple « confirmer » et « confirmation »), un client",
     "peut se tromper sur ce qu'il fait avec son argent. Nous avons repéré ces endroits ; vous seuls pouvez trancher.",
     "",
-    "Combien de temps ? Environ 2 à 3 heures en tout, à vous répartir (voir l'onglet « Récapitulatif »).",
+    "Combien de temps ?",  # durée calculée à l'export d'après le nombre de lignes
     "",
     "Dans quel ordre ?",
     "1. « Charte d'orthographe » : quelques questions sur la façon d'écrire. Vos réponses servent à corriger tout le reste.",
@@ -280,6 +280,15 @@ def _termes_contredits(constats):
             for c in constats if c['code'] == 'terme-critique' and c.get('terme')]
 
 
+def _duree(compte):
+    """Durée annoncée aux locuteurs, d'après le nombre de lignes à remplir : environ 5 minutes par phrase."""
+    minutes = 5 * (compte['phrases'] + compte['sens']) + 2 * compte['glossaire'] + 3 * compte['charte']
+    if minutes < 60:
+        return f"Environ {max(10, round(minutes / 10) * 10)} minutes"
+    heures = round(minutes / 30) / 2
+    return f"Environ {f'{heures:g}'.replace('.', ',')} heure{'s' if heures >= 2 else ''}"
+
+
 def exporter(dossier, sortie, precedent_fichier=None, codes=None):
     """codes : ne garder que ces constats (tableur court) ; la charte ne montre alors que les questions sans réponse."""
     _regler_langue(dossier)
@@ -302,6 +311,8 @@ def exporter(dossier, sortie, precedent_fichier=None, codes=None):
     compte['phrases'], priorites = _onglet_phrases(wb, autres, phrases, contexte, precedent)
     compte['glossaire'] = _onglet_glossaire(wb, autres, termes)
     _onglet_recap(wb, compte, priorites)
+    duree = next(c for c in wb["Mode d'emploi"]['A'] if str(c.value or '').startswith('Combien de temps ?'))
+    duree.value = f"Combien de temps ? {_duree(compte)} en tout, à vous répartir (voir l'onglet « Récapitulatif »)."
     # Un onglet vide ne ferait que dérouter les locuteurs (l'import tolère son absence), ni sa ligne du mode d'emploi.
     # « Phrases à revoir » reste toujours : c'est à lui que l'import reconnaît un tableur de révision.
     guide = wb["Mode d'emploi"]
