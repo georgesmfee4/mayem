@@ -1,6 +1,6 @@
 // Pseudo-langue « qps » (code ISO réservé à l'usage local) : trouve les textes coupés et les débordements
 // avant que les locuteurs aient tout traduit. Chaque texte français devient plus long de 40 %, prend des
-// lettres accentuées et des lettres du bulu (ô, é, ñ, ɔ, ŋ) pour vérifier les polices, et s'encadre de ⟦ ⟧ :
+// lettres accentuées et des lettres de langues africaines (ô, é, ñ, ɔ, ŋ) pour vérifier les polices, et s'encadre de ⟦ ⟧ :
 // un crochet de fin absent à l'écran signale un texte tronqué.
 // Champs {…}, montants, dates, numéros et références ne changent pas : le pack reste valide.
 
@@ -34,8 +34,8 @@ export async function packPseudo(pack) {
     langue: 'qps',
     nom: 'Pseudo',
     empreinte: '',
-    phrases: pack.phrases.map((p) => ({ ...p, bulu: pseudo(p.fr) })),
-    glossaire: pack.glossaire.map((t) => (termeUtilisable(t) ? { ...t, bulu: t.terme.split('/').map((f) => pseudo(f.trim())).join(' / ') } : t)),
+    phrases: pack.phrases.map((p) => ({ ...p, cible: pseudo(p.fr) })),
+    glossaire: pack.glossaire.map((t) => (termeUtilisable(t) ? { ...t, cible: t.terme.split('/').map((f) => pseudo(f.trim())).join(' / ') } : t)),
   };
   resultat.empreinte = await empreinte(resultat);
   return resultat;

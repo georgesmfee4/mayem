@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { differences, entreeJournal, versionSuivante } from '../tools/versions.js';
 import { empreinte } from '../core/empreinte.ts';
 
-const phrase = (id, bulu, relu_par = 'b') => ({ id, fr: 'Texte', bulu, valide: true, critique: false, relu_par });
+const phrase = (id, cible, relu_par = 'b') => ({ id, fr: 'Texte', cible, valide: true, critique: false, relu_par });
 const pack = (phrases, glossaire = []) => ({ phrases, glossaire });
 const avant = pack([phrase('A1', 'un'), phrase('A2', 'deux')]);
 
@@ -21,7 +21,7 @@ test('bulu corrigé : correctif', () => {
 });
 
 test('phrase ou terme ajouté ou retiré : version mineure, journal lisible', () => {
-  const d = differences(avant, pack([phrase('A1', 'un'), phrase('A3', 'trois')], [{ ref: 'T1', terme: 'solde', bulu: 'x', critique: true }]));
+  const d = differences(avant, pack([phrase('A1', 'un'), phrase('A3', 'trois')], [{ ref: 'T1', terme: 'solde', cible: 'x', critique: true }]));
   assert.equal(versionSuivante('0.3.4', d), '0.4.0');
   assert.equal(entreeJournal('0.4.0', '2026-11-10', d), [
     '## 0.4.0 (2026-11-10)',
@@ -29,6 +29,16 @@ test('phrase ou terme ajouté ou retiré : version mineure, journal lisible', ()
     '- Phrases retirées (1) : A2',
     '- Termes ajoutés (1) : T1',
   ].join('\n'));
+});
+
+test('passage au format 2 : version mineure, et l\'ancienne forme compte comme les mêmes traductions', () => {
+  const ancien = pack([{ id: 'A1', fr: 'Texte', bulu: 'un', valide: true, critique: false }]);
+  const d = differences(ancien, { format: 2, ...pack([phrase('A1', 'un')]) });
+  assert.deepEqual(d.phrases.modifies, []);
+  assert.equal(versionSuivante('0.5.3', d), '0.6.0');
+  assert.equal(entreeJournal('0.6.0', '2026-11-19', d),
+    '## 0.6.0 (2026-11-19)\n- Format 2 du pack (packs/schema.json) ; aucune traduction changée par ce passage');
+  assert.equal(versionSuivante('0.6.0', differences({ format: 2, ...avant }, { format: 2, ...avant })), '0.6.0');
 });
 
 test('empreinte : stable, ignore son propre champ, change au moindre caractère', async () => {

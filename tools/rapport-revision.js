@@ -7,7 +7,7 @@ import { choisirLangue, dossier } from './langues.js';
 import { resume, revisionOuverte } from './revision-donnees.js';
 
 const TITRES = {
-  'sens-confondus': 'Sens confondus (même bulu pour des phrases différentes)',
+  'sens-confondus': 'Sens confondus (même traduction pour des phrases différentes)',
   'traductions-multiples': 'Même français traduit de plusieurs façons',
   'glossaire-double': 'Glossaire : même terme pour deux idées',
   'glossaire-inclus': 'Glossaire : terme contenu dans celui d\'une autre idée',

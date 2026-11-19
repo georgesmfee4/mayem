@@ -118,7 +118,7 @@ const remplir = (modele: string, valeurs: Record<string, string>) =>
 function rendre(phrase: Phrase, valeurs: Record<string, string>, options: Options): { statut: Statut; sortie: string | null } {
   let statut: Statut = 'non_verifie';
   let sortie: string | null = null;
-  if (phrase.valide && phrase.bulu) [statut, sortie] = ['ok', remplir(phrase.bulu, valeurs)];
+  if (phrase.valide && phrase.cible) [statut, sortie] = ['ok', remplir(phrase.cible, valeurs)];
   else if (options.test) [statut, sortie] = ['test', '‹…› ' + remplir(phrase.fr, valeurs)];
   return { statut, sortie };
 }
@@ -143,7 +143,7 @@ export function etiquette(categorie: Categorie, pack: Pack, options: Options = {
   if (!id) return null;
   const phrase = indexDe(pack).parId.get(id);
   if (phrase) return rendre(phrase, {}, options).sortie;
-  return pack.glossaire.find((terme) => terme.ref === id)?.bulu.trim() || null;
+  return pack.glossaire.find((terme) => terme.ref === id)?.cible.trim() || null;
 }
 
 interface Trouve { phrase: Phrase; valeurs: Record<string, string> }

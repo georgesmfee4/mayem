@@ -74,8 +74,8 @@ test('un contenu inédit garde l’original et reçoit une catégorie', () => {
 test('étiquette d\'un message inédit : phrase validée ou terme validé du glossaire, rien sinon', () => {
   const essai = {
     ...pack,
-    phrases: [{ id: 'P1', fr: 'Sécurité', en: [], bulu: 'BULU-PHRASE', critique: true, valide: true }],
-    glossaire: [{ ref: 'T1', terme: 'erreur', bulu: ' BULU-TERME ', critique: true }, { ref: 'T2', terme: 'frais', bulu: '', critique: true }],
+    phrases: [{ id: 'P1', fr: 'Sécurité', en: [], cible: 'BULU-PHRASE', critique: true, valide: true }],
+    glossaire: [{ ref: 'T1', terme: 'erreur', cible: ' BULU-TERME ', critique: true }, { ref: 'T2', terme: 'frais', cible: '', critique: true }],
     etiquettes: { securite: 'P1', erreur: 'T1', frais: 'T2' },
   };
   assert.equal(etiquette('securite', essai), 'BULU-PHRASE');
@@ -87,10 +87,10 @@ test('étiquette d\'un message inédit : phrase validée ou terme validé du glo
 test('une traduction validée passe, et elle est rejetée si elle change un chiffre', () => {
   const copie = structuredClone(pack);
   const x08 = copie.phrases.find((p) => p.id === 'X08');
-  Object.assign(x08, { valide: true, bulu: 'BULU {amount}' });
+  Object.assign(x08, { valide: true, cible: 'BULU {amount}' });
   assert.equal(tr('Votre solde est de 5 000 FCFA', copie).sortie, 'BULU 5 000 FCFA');
 
-  x08.bulu = 'BULU {amount} 2';
+  x08.cible = 'BULU {amount} 2';
   const autre = structuredClone(copie); // nouveau pack, donc nouvel index
   assert.equal(tr('Votre solde est de 5 000 FCFA', autre).statut, 'rejete');
 });

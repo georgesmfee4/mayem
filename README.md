@@ -91,7 +91,7 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
    - Les en-têtes du tableur peuvent être renommés (« TERME BULU APPROUVÉ » ou « TRADUCTION BULU »,
      « Choisi par » ou « Traduit par ») ; une colonne introuvable est signalée.
 3. Le pack n'est écrit que s'il est valide. Sinon chaque problème est listé avec le français et le bulu concernés :
-   champ manquant, champs `{…}` ou chiffres différents entre le français et le bulu, ligne validée sans relecteur
+   champ manquant, champs `{…}` ou chiffres différents entre le français et la traduction, ligne validée sans relecteur
    (ou relue par son traducteur). L'ancien pack reste en place. Après une correction à la main : `npm run pack`.
    - Si le contenu a changé, la version augmente (correction : 0.3.0 -> 0.3.1 ; phrase ou terme ajouté
      ou retiré : -> 0.4.0), la version est archivée dans `packs/<langue>/versions/` et
@@ -169,8 +169,6 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Un Shadow DOM fermé (`mode: 'closed'`) est inaccessible à toute extension : son texte reste en français.
 - Les compteurs du bouton ne comptent que la page principale, pas les cadres.
 - La langue choisie n'est pas mémorisée (aucun stockage) : chaque clic sur l'icône repart de la première langue.
-- Le champ `bulu` du pack contient le texte dans la langue du pack, quelle qu'elle soit (nom historique, gardé
-  pour ne pas casser le contrat de données).
 
 ## Couvrir un nouveau service sans repartir de zéro
 1. `npm run inventaire -- https://service-de-test/page1 https://service-de-test/page2` (ou des fichiers `.html`).

@@ -2,6 +2,9 @@
 
 Une correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.
 
+## 0.6.0 (2026-11-19)
+- Format 2 du pack (packs/schema.json) ; aucune traduction changée par ce passage
+
 ## 0.5.3 (2026-11-12)
 - Informations modifiées (1) : etiquettes
 

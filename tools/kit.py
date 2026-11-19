@@ -40,7 +40,14 @@ def choisir_langue(args):
 
 DOSSIER = root / 'packs' / choisir_langue(sys.argv)
 CORPUS = DOSSIER / 'corpus.csv'
-FIELDS = ['id', 'priorite', 'ecran', 'element', 'critique', 'champ_fait', 'fr', 'en', 'bulu', 'valide_par', 'valide', 'consigne']
+FIELDS = ['id', 'priorite', 'ecran', 'element', 'critique', 'champ_fait', 'fr', 'en', 'cible', 'valide_par', 'valide', 'consigne']
+# Ancien nom de la colonne de traduction : lu sous le nom actuel, réécrit sous ce nom au prochain import
+ANCIENS_NOMS = {'bulu': 'cible'}
+
+
+def lire_corpus():
+    with open(CORPUS, encoding='utf-8-sig', newline='') as f:
+        return [{ANCIENS_NOMS.get(k, k): v for k, v in r.items()} for r in csv.DictReader(f)]
 HEAD = ['Réf.', 'Priorité', 'Écran', 'Où apparaît le texte', 'Critique (argent ou sécurité)',
         'Texte français', 'Texte anglais', 'À savoir', 'TRADUCTION BULU', 'Traduit par', 'Relu par', 'Commentaire / doute']
 # Glossaire : un concept = un terme bulu approuvé, utilisé partout. À remplir AVANT les phrases.
@@ -112,7 +119,7 @@ GUIDE = [
 ]
 
 def export():
-    rows = list(csv.DictReader(open(CORPUS, encoding='utf-8-sig', newline='')))
+    rows = lire_corpus()
     wb = Workbook()
     g = wb.active
     g.title = "Mode d'emploi"
@@ -159,7 +166,7 @@ def export():
     red = Font(bold=True, color='B42318')
     for r in rows:
         ws.append([r['id'], r['priorite'], r['ecran'], r['element'], 'Oui' if r['critique'] == '1' else 'Non',
-                   r['fr'], r['en'].replace('|', ' / '), r['consigne'], r['bulu'], '', '', ''])
+                   r['fr'], r['en'].replace('|', ' / '), r['consigne'], r['cible'], '', '', ''])
         row = ws.max_row
         ws.cell(row=row, column=9).fill = yellow
         if r['critique'] == '1': ws.cell(row=row, column=5).font = red
@@ -187,15 +194,15 @@ def sheet_to_csv(wb, name, out):
 
 def backtranslation(path):
     """Fichier séparé pour la 3e personne : uniquement le bulu des lignes critiques, sans le français."""
-    rows = {r['id']: r for r in csv.DictReader(open(CORPUS, encoding='utf-8-sig', newline=''))}
+    rows = {r['id']: r for r in lire_corpus()}
     wb = Workbook(); ws = wb.active; ws.title = 'Retraduction'
     ws.append(['Réf.', 'Texte bulu', 'VOTRE TRADUCTION EN FRANÇAIS', 'Traduit par', 'Commentaire'])
     for c in ws[1]:
         c.font = Font(bold=True, color='FFFFFF'); c.fill = PatternFill('solid', fgColor='0F4C5C')
     n = 0
     for r in rows.values():
-        if r['critique'] == '1' and r['bulu']:
-            ws.append([r['id'], r['bulu'], '', '', '']); n += 1
+        if r['critique'] == '1' and r['cible']:
+            ws.append([r['id'], r['cible'], '', '', '']); n += 1
             ws.cell(row=ws.max_row, column=3).fill = PatternFill('solid', fgColor='FFF2CC')
             for col in range(1, 6): ws.cell(row=ws.max_row, column=col).alignment = Alignment(wrap_text=True, vertical='top')
     for col, w in zip('ABCDE', [7, 50, 50, 16, 30]): ws.column_dimensions[col].width = w
@@ -268,16 +275,16 @@ def import_(path):
         rid, bu, by, rev = row[0], row[8], row[9], row[10]
         if rid and bu:
             filled[str(rid).strip()] = (str(bu).strip(), (by or '').strip(), (rev or '').strip())
-    rows = list(csv.DictReader(open(CORPUS, encoding='utf-8-sig', newline='')))
+    rows = lire_corpus()
     n_valid = 0
     changes = []
     for r in rows:
         if r['id'] in filled:
             bu, by, rev = filled[r['id']]
             # Un fichier plus ancien que corpus.csv écraserait des corrections récentes : on montre tout
-            if r['bulu'] and r['bulu'] != bu:
-                changes.append(f"  {r['id']} : « {r['bulu']} » -> « {bu} »")
-            r['bulu'] = bu
+            if r['cible'] and r['cible'] != bu:
+                changes.append(f"  {r['id']} : « {r['cible']} » -> « {bu} »")
+            r['cible'] = bu
             ok = bool(by and rev and by.lower() != rev.lower())
             r['valide_par'] = f'{by} / relu par {rev}' if ok else by
             r['valide'] = '1' if ok else ''

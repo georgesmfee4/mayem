@@ -5,8 +5,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { traduire } from '../core/moteur.ts';
 
-const terme = (ref, francais, bulu, traduit_par = 'A', relu_par = 'B') =>
-  ({ ref, terme: francais, sens: '', en: '', bulu, critique: true, a_eviter: '', traduit_par, relu_par, commentaire: '' });
+const terme = (ref, francais, cible, traduit_par = 'A', relu_par = 'B') =>
+  ({ ref, terme: francais, sens: '', en: '', cible, critique: true, a_eviter: '', traduit_par, relu_par, commentaire: '' });
 const pack = {
   langue: 'xx', nom: 'Essai', version: '1.0.0', etiquettes: {}, phrases: [],
   glossaire: [

@@ -1,7 +1,7 @@
 // Contrôle de la qualité des traductions validées : glossaire, cohérence, négations.
 // Ce sont des indices à faire relire, pas des refus : un locuteur peut avoir raison contre
 // le glossaire. Les chiffres et les champs {…}, eux, sont refusés par verifier.ts.
-// Seules des règles du français sont écrites ici ; le bulu attendu vient du glossaire du pack.
+// Seules des règles du français sont écrites ici ; la traduction attendue vient du glossaire du pack.
 
 import type { Pack, Phrase, Terme } from './types.ts';
 import { echapper } from './moteur.ts';
@@ -45,17 +45,17 @@ const estNegation = (terme: Terme) => NEGATIONS.some(([, cle]) => terme.terme.in
 
 // Terme utilisable tel quel : pas d'explication, d'exemple ni de forme à compléter
 const termeSimple = (terme: Terme) =>
-  terme.critique && terme.bulu.trim() !== '' && !/[(:;…]|\.\.\.|\bpour\b|\.$/.test(terme.bulu) && !terme.terme.includes(':') && !estNegation(terme);
+  terme.critique && terme.cible.trim() !== '' && !/[(:;…]|\.\.\.|\bpour\b|\.$/.test(terme.cible) && !terme.terme.includes(':') && !estNegation(terme);
 
 function controlerGlossaire(phrases: Phrase[], glossaire: Terme[]): Point[] {
   const points: Point[] = [];
   for (const terme of glossaire.filter(termeSimple)) {
-    const attendus = formes(terme.bulu);
+    const attendus = formes(terme.cible);
     for (const francais of formes(terme.terme).filter((mot) => mot.length >= 4)) {
       for (const phrase of phrases) {
         if (!variantes(francais).some((forme) => contientMot(comparable(phrase.fr), forme))) continue;
-        if (attendus.some((bulu) => comparable(phrase.bulu).includes(comparable(bulu)))) continue;
-        points.push({ type: 'glossaire', ids: [phrase.id], message: `« ${francais} » → « ${terme.bulu} » (${terme.ref}) absent : ${phrase.fr} => ${phrase.bulu}`, terme: { ref: terme.ref, fr: francais, attendu: terme.bulu } });
+        if (attendus.some((forme) => comparable(phrase.cible).includes(comparable(forme)))) continue;
+        points.push({ type: 'glossaire', ids: [phrase.id], message: `« ${francais} » → « ${terme.cible} » (${terme.ref}) absent : ${phrase.fr} => ${phrase.cible}`, terme: { ref: terme.ref, fr: francais, attendu: terme.cible } });
       }
     }
   }
@@ -75,16 +75,16 @@ function doublons<T>(elements: T[], cle: (e: T) => string): T[][] {
 function controlerCoherence(phrases: Phrase[], glossaire: Terme[]): Point[] {
   const points: Point[] = [];
   for (const groupe of doublons(phrases, (p) => comparable(p.fr))) {
-    if (new Set(groupe.map((p) => comparable(p.bulu))).size > 1) {
-      points.push({ type: 'coherence', ids: groupe.map((p) => p.id), message: `même français, bulu différents : ${groupe.map((p) => `${p.id} « ${p.bulu} »`).join(', ')}` });
+    if (new Set(groupe.map((p) => comparable(p.cible))).size > 1) {
+      points.push({ type: 'coherence', ids: groupe.map((p) => p.id), message: `même français, traductions différentes : ${groupe.map((p) => `${p.id} « ${p.cible} »`).join(', ')}` });
     }
   }
-  for (const groupe of doublons(phrases, (p) => comparable(p.bulu))) {
-    points.push({ type: 'coherence', ids: groupe.map((p) => p.id), message: `même bulu « ${groupe[0].bulu} » pour : ${groupe.map((p) => `${p.id} « ${p.fr} »`).join(', ')}` });
+  for (const groupe of doublons(phrases, (p) => comparable(p.cible))) {
+    points.push({ type: 'coherence', ids: groupe.map((p) => p.id), message: `même traduction « ${groupe[0].cible} » pour : ${groupe.map((p) => `${p.id} « ${p.fr} »`).join(', ')}` });
   }
-  for (const groupe of doublons(glossaire.filter((t) => t.bulu), (t) => comparable(t.terme))) {
-    if (new Set(groupe.map((t) => comparable(t.bulu))).size > 1) {
-      points.push({ type: 'coherence', ids: groupe.map((t) => t.ref), message: `terme « ${groupe[0].terme} » traduit de deux façons : ${groupe.map((t) => `${t.ref} « ${t.bulu} »`).join(', ')}` });
+  for (const groupe of doublons(glossaire.filter((t) => t.cible), (t) => comparable(t.terme))) {
+    if (new Set(groupe.map((t) => comparable(t.cible))).size > 1) {
+      points.push({ type: 'coherence', ids: groupe.map((t) => t.ref), message: `terme « ${groupe[0].terme} » traduit de deux façons : ${groupe.map((t) => `${t.ref} « ${t.cible} »`).join(', ')}` });
     }
   }
   return points;
@@ -94,18 +94,18 @@ function controlerNegations(phrases: Phrase[], glossaire: Terme[]): Point[] {
   const points: Point[] = [];
   for (const phrase of phrases) {
     const trouvee = NEGATIONS.find(([motif]) => motif.test(phrase.fr));
-    const terme = trouvee && glossaire.find((t) => t.bulu && t.terme.includes(trouvee[1]));
+    const terme = trouvee && glossaire.find((t) => t.cible && t.terme.includes(trouvee[1]));
     if (!terme) continue;
-    const attendus = formes(terme.bulu).map(comparable).filter(Boolean);
-    if (attendus.some((bulu) => comparable(phrase.bulu).includes(bulu))) continue;
-    points.push({ type: 'negation', ids: [phrase.id], message: `négation « ${trouvee![1]} » → « ${terme.bulu} » (${terme.ref}) absente : ${phrase.fr} => ${phrase.bulu}`, terme: { ref: terme.ref, fr: trouvee![1], attendu: terme.bulu } });
+    const attendus = formes(terme.cible).map(comparable).filter(Boolean);
+    if (attendus.some((forme) => comparable(phrase.cible).includes(forme))) continue;
+    points.push({ type: 'negation', ids: [phrase.id], message: `négation « ${trouvee![1]} » → « ${terme.cible} » (${terme.ref}) absente : ${phrase.fr} => ${phrase.cible}`, terme: { ref: terme.ref, fr: trouvee![1], attendu: terme.cible } });
   }
   return points;
 }
 
 // Points à faire relire, sur les seules phrases validées (le reste n'est pas affiché)
 export function controler(pack: Pack): Point[] {
-  const phrases = pack.phrases.filter((p) => p.valide && p.bulu);
+  const phrases = pack.phrases.filter((p) => p.valide && p.cible);
   return [
     ...controlerGlossaire(phrases, pack.glossaire),
     ...controlerCoherence(phrases, pack.glossaire),

@@ -5,8 +5,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { controler } from '../core/controle.ts';
 
-const phrase = (id, fr, bulu) => ({ id, fr, en: [], bulu, critique: true, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
-const terme = (ref, francais, bulu, critique = true) => ({ ref, terme: francais, sens: '', en: '', bulu, critique, a_eviter: '', traduit_par: 'a', relu_par: 'b', commentaire: '' });
+const phrase = (id, fr, cible) => ({ id, fr, en: [], cible, critique: true, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
+const terme = (ref, francais, cible, critique = true) => ({ ref, terme: francais, sens: '', en: '', cible, critique, a_eviter: '', traduit_par: 'a', relu_par: 'b', commentaire: '' });
 const pack = (phrases, glossaire = []) => ({ langue: 'xx', nom: '', version: '', orthographe: '', etiquettes: {}, glossaire, phrases });
 const types = (p) => controler(p).map((point) => `${point.type}:${point.ids.join('+')}`);
 

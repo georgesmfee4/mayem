@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { traduire } from '../core/moteur.ts';
 
-const phrase = (id, fr, bulu) => ({ id, fr, en: [], bulu, critique: false, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
+const phrase = (id, fr, cible) => ({ id, fr, en: [], cible, critique: false, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true });
 const mot = (i) => 'mot' + String.fromCharCode(97 + (i % 26)) + String.fromCharCode(97 + (Math.floor(i / 26) % 26));
 const phrases = [];
 for (let i = 0; i < 10000; i++) phrases.push(phrase(`E${i}`, `Texte exact numero ${mot(i)} ${mot(i + 7)}`, `Bulu exact ${mot(i)}`));

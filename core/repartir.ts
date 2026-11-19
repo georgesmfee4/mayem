@@ -1,18 +1,18 @@
 // Texte coupé par des balises : « Votre solde est de <b>25 000 FCFA</b> ».
-// Le bloc entier est traduit d'un coup ; il faut ensuite ranger le bulu dans les morceaux
+// Le bloc entier est traduit d'un coup ; il faut ensuite ranger la traduction dans les morceaux
 // d'origine, car la page ne change que la valeur des nœuds texte existants.
 // Les morceaux protégés (faits, valeurs reprises comme un nom) gardent leur texte exact.
 
 import { memesChiffres, queDesFaits } from './faits.ts';
 import { normaliser } from './moteur.ts';
 
-// Nouveau texte de chaque morceau (sans les espaces autour), ou null quand le bulu
+// Nouveau texte de chaque morceau (sans les espaces autour), ou null quand la traduction
 // ne se range pas dans la structure d'origine : la page garde alors l'original.
 export function repartir(morceaux: string[], sortie: string, valeurs: string[]): string[] | null {
   const propres = morceaux.map(normaliser);
   const protege = propres.map((texte) => texte !== '' && (queDesFaits(texte) || valeurs.includes(texte)));
 
-  // Le bulu coupé à chaque morceau protégé, dans l'ordre d'origine
+  // La traduction coupée à chaque morceau protégé, dans l'ordre d'origine
   const segments: string[] = [];
   let debut = 0;
   for (let i = 0; i < morceaux.length; i++) {

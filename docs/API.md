@@ -22,18 +22,22 @@ dans le cadre d'un accord avec l'équipe Mayem : les fichiers officiels s'utilis
 
 | Champ | Sens |
 |---|---|
-| `langue`, `nom` | Code ISO 639-3 (`bum`) et nom de la langue |
+| `format` | `2`. Un lecteur doit refuser un format qu'il ne connaît pas (`verifierPack` le fait) |
+| `langue`, `nom` | Code ISO 639-3 (`bum`), valable aussi comme étiquette BCP 47, et nom de la langue |
 | `producteur`, `droits` | « Équipe Mayem », « Tous droits réservés » |
 | `version`, `date` | Version sémantique : correction → `0.3.1`, phrase ou terme ajouté ou retiré → `0.4.0` |
 | `empreinte` | `sha256-…` du pack sans ce champ (`empreinte()` ci-dessous) : vérifier avant usage |
-| `phrases[]` | `id` stable (clé de traduction), `fr`, `en[]`, `bulu` (texte dans la langue du pack, nom historique), `critique`, `traduit_par`, `relu_par`, `retraduit_par` (codes des relecteurs Mayem, jamais leurs noms), `retraduction`, `valide` |
-| `glossaire[]` | Terminologie : `ref`, `terme`, `sens`, `bulu`, `a_eviter`, `critique`, codes des relecteurs |
+| `phrases[]` | `id` stable (clé de traduction), `fr`, `en[]`, `cible` (texte dans la langue du pack, quelle qu'elle soit), `critique`, `traduit_par`, `relu_par`, `retraduit_par` (codes des relecteurs Mayem, jamais leurs noms), `retraduction`, `valide` |
+| `glossaire[]` | Terminologie : `ref`, `terme`, `sens`, `cible`, `a_eviter`, `critique`, codes des relecteurs |
 
-Règles garanties par `verifierPack` : mêmes champs `{…}` et mêmes chiffres en français et en bulu ;
+Règles garanties par `verifierPack` : mêmes champs `{…}` et mêmes chiffres en français et dans la traduction ;
 une phrase `valide` a été traduite et relue par deux personnes différentes. **N'afficher que les phrases
 `valide: true`.** Les champs `{amount}`, `{name}`… sont remplacés par les valeurs d'origine, jamais traduites.
 
 `CHANGELOG.md` dans chaque dossier de langue liste les phrases et termes changés à chaque version.
+
+Format 1 (versions publiées jusqu'à 0.5.3) : la traduction s'appelait `bulu`, et il n'y avait pas de champ `format`.
+Ces versions restent publiées telles quelles ; le passage au format 2 (0.6.0) n'a changé aucune traduction.
 
 ### Exports (`npm run export -- <langue>`)
 
