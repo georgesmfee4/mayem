@@ -4,6 +4,12 @@
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
+  "ecriture": "Latn",
+  "lettres_exclues": "ɔŋɛ",
+  "formes_adresse": [
+    { "nom": "ô", "mots": ["ô"] },
+    { "nom": "w'/wo", "debuts": ["wo", "Wo", "WO", "w'", "W'"] }
+  ],
   "etiquettes": {
     "securite": "E02",
     "erreur": "T18",
