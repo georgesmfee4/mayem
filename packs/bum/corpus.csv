@@ -8,7 +8,7 @@ G06,P1,Toutes,Étape du parcours + libellé de champ,1,1,Frais,Fee | Fees,Minkuk
 G07,P1,Toutes,"Étape, titre et libellé de champ",1,1,Bénéficiaire,Beneficiary,Nyô a bi,lesly / relu par Alexandre et Ronald,1,La personne qui reçoit l'argent
 G08,P1,Toutes,Étape et titre,0,0,Récapitulatif,Summary,Mamesse,lesly / relu par Alexandre et Ronald,1,Résumé de l'opération avant confirmation
 G09,P1,Toutes,Étape du parcours,0,0,Confirmation,Confirmation,Ntiñtan,Georges / relu par Lesly,1,
-G10,P1,Toutes,Pied de page,1,0,Safinum Pay — environnement de démonstration. Ne saisissez aucune donnée personnelle réelle.,Safinum Pay — demonstration environment. Do not enter real personal data.,Safinum Pay — nlam a démonstration. Teké futié mfi folâ woé.,lesly / relu par Alexandre et Ronald,1,« Safinum Pay » est un nom de marque : à garder tel quel
+G10,P1,Toutes,Pied de page,1,0,Safinum Pay — environnement de démonstration. Ne saisissez aucune donnée personnelle réelle.,Safinum Pay — demonstration environment. Do not enter real personal data.,Safinum Pay — nlam ya démonstration. Teké futié mfi folâ woé.,Carrel / relu par John,1,« Safinum Pay » est un nom de marque : à garder tel quel
 A01,P1,1. Solde,Titre,0,0,Votre compte,Your account,Évôvôla moné ya èn jôé,lesly / relu par Alexandre et Ronald,1,
 A02,P1,1. Solde,Salutation,0,0,"Bonjour, {name}","Hello, {name}","Mbolo, {name}",lesly / relu par Alexandre et Ronald,1,"{name} = prénom du client : ne pas traduire, garder {name}"
 A03,P1,1. Solde,Salutation seule,0,0,Bonjour,Hello,Mbamaba tyé,Georges / relu par Lesly,1,
@@ -25,13 +25,13 @@ A13,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Salaire reçu,Salary recei
 A14,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Transfert reçu,Transfer received,Nlomane moné ô kui,Lesly / relu par Carrel,1,
 A15,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Facture électricité,Electricity bill,Nten kouran,Lesly / relu par Carrel,1,
 S01,P1,Toutes,"Encadré latéral, titre",0,0,Sécurité,Security,Ékamàn,Georges / relu par Lesly,1,
-S02,P1,Toutes,"Encadré latéral, conseil",1,0,Vérifiez toujours le nom et le numéro du bénéficiaire avant de confirmer un transfert.,Always verify the beneficiary name and number before confirming a transfer.,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Lesly / relu par Carrel,1,Avertissement de sécurité : le sens doit rester aussi fort
+S02,P1,Toutes,"Encadré latéral, conseil",1,0,Vérifiez toujours le nom et le numéro du bénéficiaire avant de confirmer un transfert.,Always verify the beneficiary name and number before confirming a transfer.,"Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Carrel / relu par John,1,Avertissement de sécurité : le sens doit rester aussi fort
 S03,P1,Toutes,Encadré latéral,0,0,Connexion sécurisée,Secure connection,Ntintan ékamàn,Georges / relu par Lesly,1,
 F01,P1,2. Frais,Titre,0,0,Frais de transfert,Transfer fees,Minkuk ya nlomane moné,Lesly / relu par Alexandre et Ronald,1,
 F02,P1,2. Frais,Sous-titre,0,0,Choisissez le type de transfert et le montant. Les frais sont calculés automatiquement.,Choose the transfer type and amount. Fees are calculated automatically.,Fialé aval nlomane moné ai abime moné. Minkuk miaye tabe mve'ane ana-ana.,Lesly / relu par Carrel,1,
 F03,P1,2. Frais,Libellé de liste,0,0,Type d'opération,Operation type,Aval nlomane moné,Lesly / relu par Carrel,1,
 F04,P1,2. Frais,Choix de la liste,0,0,Compte Safinum,Safinum account,Évôvôla moné Safinum,Lesly / relu par Alexandre et Ronald,1,« Safinum » est un nom de marque
-F05,P1,2. Frais,Description du choix,1,0,Transfert instantané et gratuit,"Instant, free transfer","Nlomane moné ana-ana, bua",Georges / relu par Lesly,1,« gratuit » = sans frais : sens critique
+F05,P1,2. Frais,Description du choix,1,0,Transfert instantané et gratuit,"Instant, free transfer",Nlomane moné ana-ana a bua,Carrel / relu par John,1,« gratuit » = sans frais : sens critique
 F06,P1,2. Frais,Choix de la liste,0,0,Mobile Money,Mobile Money,Mobile Money,Lesly / relu par Alexandre et Ronald,1,Peut rester tel quel si c'est l'usage courant
 F07,P1,2. Frais,Description du choix,1,0,"Frais de {percent} (min. {amount_1}, max. {amount_2})","{percent} fee (min. {amount_1}, max. {amount_2})","Minkuk ya {percent} (min. {amount_1}, max. {amount_2})",Lesly / relu par Alexandre et Ronald,1,"Garder {percent}, {amount_1}, {amount_2}. min. = au minimum, max. = au maximum"
 F08,P1,2. Frais,Choix de la liste,0,0,Autre banque,Other bank,Nda moné éziñ,Lesly / relu par Alexandre et Ronald,1,
@@ -42,13 +42,13 @@ F12,P1,2. Frais,Libellé de ligne,1,1,Solde après opération,Balance after tran
 F13,P1,Toutes,Bouton,1,0,Continuer,Continue,Kele ôsu,Lesly / relu par Alexandre et Ronald,1,Passer à l'étape suivante
 F14,P1,Toutes,Bouton,0,0,Retour,Back,Bulan mvùs,Lesly / relu par Alexandre et Ronald,1,Revenir à l'étape précédente
 B01,P1,3. Bénéficiaire,Sous-titre,1,0,Renseignez les informations du destinataire. Vérifiez toujours le numéro avant de valider.,Enter the recipient details. Always verify the number before confirming.,Yôlé folâ ya nyô a bi. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Lesly / relu par Carrel,1,
-B02,P1,3. Bénéficiaire,Alerte,1,0,Ce bénéficiaire n'a jamais été utilisé sur ce compte. Vérifiez le numéro avant de continuer.,This beneficiary has never been used on this account. Verify the number before continuing.,Nyô a bi nyi a be ki belan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Georges / relu par Lesly,1,Avertissement de sécurité : le sens doit rester aussi fort
+B02,P1,3. Bénéficiaire,Alerte,1,0,Ce bénéficiaire n'a jamais été utilisé sur ce compte. Vérifiez le numéro avant de continuer.,This beneficiary has never been used on this account. Verify the number before continuing.,Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Carrel / relu par John,1,Avertissement de sécurité : le sens doit rester aussi fort
 B03,P1,3. Bénéficiaire,Libellé de champ,0,0,Nom du bénéficiaire,Beneficiary name,Jôé ya nyô a bi,Georges / relu par Lesly,1,
 B04,P1,3. Bénéficiaire,Libellé de champ,0,1,Numéro de téléphone,Phone number,Nombor nsinga,Lesly / relu par Alexandre et Ronald,1,
 B05,P1,3. Bénéficiaire,Libellé de champ,0,0,Motif du transfert,Transfer reason,Amu djé ya nlomane moné,Lesly / relu par Alexandre et Ronald,1,Pourquoi on envoie l'argent
 B06,P1,3. Bénéficiaire,Libellé de champ,0,0,Note (optionnel),Note (optional),Nten (teké abui mfi),Georges / relu par Lesly,1,optionnel = pas obligatoire
 B07,P1,3. Bénéficiaire,Case à cocher,1,0,J'ai vérifié le nom et le numéro du bénéficiaire.,I have verified the beneficiary name and phone number.,M'ate tuá fômbo jôé ai nombor nsinga ya nyô a bi.,Lesly / relu par Carrel,1,Engagement de l'utilisateur : sens critique
-R01,P1,4. Récapitulatif,Sous-titre,1,0,Vérifiez les informations avant de confirmer le transfert.,Check the details before confirming the transfer.,Ô tuá fômbo folâ ôsusua na w'a ntiñ nlomane moné.,Lesly / relu par Carrel,1,
+R01,P1,4. Récapitulatif,Sous-titre,1,0,Vérifiez les informations avant de confirmer le transfert.,Check the details before confirming the transfer.,Ô tuá fômbo folâ ôsusua na wô ntiñ nlomane moné.,Carrel / relu par John,1,
 R02,P1,4 et 5,Libellé de ligne,1,1,Montant,Amount,Abime moné,Lesly / relu par Carrel,1,
 R03,P1,4 et 5,Libellé de ligne,1,1,Total débité,Total debited,Mabal máte wùlù,Georges / relu par Carrel,1,Somme retirée du compte (montant + frais)
 R04,P1,4. Récapitulatif,Libellé de ligne,0,1,Téléphone,Phone,Nombor nkô,Georges / relu par Lesly,1,
@@ -85,17 +85,17 @@ X09,P2,Autres services,Bouton,1,0,Envoyer de l'argent,Send money,E lôm moné,Le
 X10,P2,Autres services,Libellé,0,1,Numéro du bénéficiaire,Beneficiary number,Nombor nsinga ya nyô a bi,Georges / relu par Lesly,1,
 X11,P2,Autres services,Ligne,1,0,Numéro du bénéficiaire : {phone},Beneficiary number: {phone},Nombor nsinga ya nyô a bi : {phone},Georges / relu par Lesly,1,Garder {phone}
 X12,P2,Autres services,Ligne,1,0,Frais de l'opération : {amount},Transaction fee: {amount},Minkuk ya nlomane moné : {amount},Lesly / relu par Alexandre et Ronald,1,Garder {amount}
-X13,P2,Autres services,Récapitulatif,1,0,Vous allez envoyer {amount} à {name},You are about to send {amount} to {name},Nlomane moné {amount} asu {name},Lesly / relu par Carrel,1,Garder {amount} et {name}
+X13,P2,Autres services,Récapitulatif,1,0,Vous allez envoyer {amount} à {name},You are about to send {amount} to {name},wô zu lôm {amount} asù {name},Carrel / relu par John,1,Garder {amount} et {name}
 X14,P2,Autres services,Ligne,1,0,Total débité : {amount},Total debited: {amount},Mabal máte wùlù : {amount},Georges / relu par Carrel,1,Garder {amount}
 X15,P2,Autres services,Bouton,1,0,Confirmer,Confirm,Ntiñti,Georges / relu par Lesly,1,Action définitive
-X16,P2,Autres services,Avertissement,1,0,Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.,Check the beneficiary's name and number before confirming. A confirmed transaction cannot be cancelled.,"Ô tuá fômbo jôé na nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",Lesly / relu par Carrel,1,
+X16,P2,Autres services,Avertissement,1,0,Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.,Check the beneficiary's name and number before confirming. A confirmed transaction cannot be cancelled.,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",Carrel / relu par John,1,
 X17,P2,Autres services,Statut,0,0,Opération réussie,Transaction successful,Mam mese ma'ate bo'obane mvôé,Alexandre / relu par Carrel,1,
 X18,P2,Autres services,Statut,0,0,Opération en cours de traitement,Transaction in progress,yangué mone nté,Lesly / relu par Carrel,1,
 X19,P2,Autres services,Ligne,0,0,Référence de l'opération : {ref},Transaction reference: {ref},Mendém ya nlomane moné : {ref},Lesly / relu par Alexandre et Ronald,1,Garder {ref}
 X20,P2,Autres services,Erreur,1,0,Solde insuffisant,Insufficient balance,Mebal teké njalan,Georges / relu par Lesly,1,
 X21,P2,Autres services,Erreur,1,0,Numéro invalide,Invalid number,Nombor nsinga teké mbamba,Georges / relu par Lesly,1,
 X22,P2,Autres services,Erreur,1,0,Une erreur est survenue. Veuillez réessayer.,An error occurred. Please try again.,Djom dzing éte bo'oban abé. Beta'a ve'ele,Lesly / relu par Alexandre et Ronald,1,
-X23,P2,Autres services,Erreur,1,0,Montant invalide,Invalid amount,Abime moné teké mvoé,Georges / relu par Lesly,1,
+X23,P2,Autres services,Erreur,1,0,Montant invalide,Invalid amount,Abime moné é ndji bô mbamba,Carrel / relu par John,1,
 X24,P2,Autres services,Avertissement,1,0,Attention : ne partagez jamais votre code secret. Aucun agent ne vous le demandera.,Warning: never share your secret code. No agent will ever ask you for it.,Fôé éne mfi : Amos dzing te wô ve môt nten bafili wôé. Momo môt ésaé a ye sili wo jôé.,Lesly / relu par Carrel,1,Avertissement anti-arnaque : sens critique
 X25,P2,Autres services,Libellé,0,0,Saisissez votre code PIN,Enter your PIN,Yôlé nten bafili ya èn jôé,Georges / relu par Lesly,1,
 X26,P2,Autres services,SMS,1,0,Votre code de confirmation est {code}. Ne le partagez avec personne.,Your confirmation code is {code}. Do not share it with anyone.,Nten bafili ya ntiñ ane {code}. wô yiane ki dje ve môt.,Lesly / relu par Carrel,1,Garder {code}
