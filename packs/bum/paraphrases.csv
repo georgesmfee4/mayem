@@ -1,0 +1,46 @@
+id,fr,propose_par,verifie_par,source,commentaire
+X08,Votre solde actuel est de {amount},,,proposition,
+X08,Le solde de votre compte est de {amount},,,proposition,
+X08,Solde disponible : {amount},,,proposition,
+X20,Fonds insuffisants,,,proposition,
+E06,Solde insuffisant pour cette opération.,,,proposition,
+E06,Vous n'avez pas assez d'argent pour effectuer ce transfert.,,,proposition,
+E01,Une erreur s'est produite,,,proposition,
+E01,Une erreur inattendue s'est produite,,,proposition,ajoute « inattendue »
+X22,Une erreur s'est produite. Veuillez réessayer.,,,proposition,
+X22,Une erreur inattendue est survenue. Veuillez réessayer.,,,proposition,ajoute « inattendue »
+E10,Service temporairement indisponible. Veuillez réessayer plus tard.,,,proposition,"sans « Erreur réseau », ajoute « plus tard »"
+E05,Veuillez saisir un montant supérieur à zéro.,,,proposition,
+X21,Numéro non valide,,,proposition,
+X21,Numéro incorrect,,,proposition,« incorrect » au lieu de « invalide »
+X23,Montant non valide,,,proposition,
+X23,Montant incorrect,,,proposition,« incorrect » au lieu de « invalide »
+X03,Retour à la page d'accueil,,,proposition,
+X03,Revenir à l'accueil,,,proposition,
+C02,Votre argent a été envoyé avec succès.,,,proposition,« argent » au lieu de « transfert »
+X17,Transaction effectuée avec succès,,,proposition,
+X18,Opération en cours,,,proposition,sans « de traitement »
+X18,Traitement en cours,,,proposition,
+X27,Cette opération ne peut pas être annulée,,,proposition,même sens que « irréversible »
+X24,Ne communiquez jamais votre code secret. Aucun agent ne vous le demandera.,,,proposition,sans « Attention » : la traduction affichée le garde
+X24,Attention : ne donnez jamais votre code secret. Aucun agent ne vous le demandera.,,,proposition,« donner » au lieu de « partager »
+X26,Votre code de vérification est {code}. Ne le partagez avec personne.,,,proposition,« vérification » au lieu de « confirmation »
+X26,Votre code à usage unique est {code}. Ne le communiquez à personne.,,,proposition,
+S02,Vérifiez toujours les coordonnées du bénéficiaire avant de confirmer un transfert.,,,proposition,« coordonnées » pour « nom et numéro »
+B07,Je certifie avoir vérifié le nom et le numéro du bénéficiaire.,,,proposition,
+R07,Je certifie que les informations ci-dessus sont exactes.,,,proposition,
+E11,Veuillez confirmer les informations avant de valider le transfert.,,,proposition,« veuillez » au lieu de « vous devez »
+X09,Envoyer des fonds,,,proposition,
+X09,Transférer des fonds,,,proposition,
+A09,Faire un transfert,,,proposition,
+A09,Faire un virement,,,proposition,
+X07,Voir mon solde,,,proposition,
+F09,Montant du transfert,,,proposition,
+F11,Montant total à débiter,,,proposition,
+R03,Montant total débité,,,proposition,
+X14,Montant total débité : {amount},,,proposition,
+X12,Frais appliqués : {amount},,,proposition,
+X19,Numéro de référence : {ref},,,proposition,
+X11,Téléphone du bénéficiaire : {phone},,,proposition,
+A06,Numéro de votre compte : {account},,,proposition,
+X16,Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Cette opération ne pourra pas être annulée.,,,proposition,futur : « ne pourra pas »

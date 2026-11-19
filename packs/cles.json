@@ -1,0 +1,15 @@
+{
+  "cles": [
+    {
+      "id": "1c10b43b239ef42e",
+      "jwk": {
+        "kty": "EC",
+        "crv": "P-256",
+        "x": "ChFGMnvZ2zuP3IAQJNR-blOryy6_8ncM1QEBzYQwpBM",
+        "y": "GVUX6VDj6ADsYHBlGJXBJiUTDBGatkzDDSHzcHL1ZAY"
+      },
+      "statut": "active",
+      "depuis": "2026-11-19"
+    }
+  ]
+}
