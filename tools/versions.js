@@ -6,7 +6,7 @@ const actuel = (element) => ('bulu' in element && !('cible' in element) ? { ...e
 const parCle = (liste, cle) => new Map(liste.map((element) => [element[cle], actuel(element)]));
 
 // Champs qui changent le sens affiché ; les noms des relecteurs ou un commentaire n'en font pas partie
-const PHRASE = ['fr', 'cible', 'valide', 'critique'];
+const PHRASE = ['fr', 'cible', 'valide', 'critique', 'variantes'];
 const TERME = ['terme', 'cible', 'critique'];
 // Informations générales : un changement (droits, orthographe, étiquettes…) compte comme une correction
 const INFOS = ['nom', 'producteur', 'droits', 'orthographe', 'etiquettes'];

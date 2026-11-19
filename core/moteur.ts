@@ -1,8 +1,9 @@
-// Moteur de traduction : phrase exacte -> modèle à trous -> catégorie -> repli sûr.
+// Moteur de traduction : phrase exacte -> modèle à trous -> sens reconnu -> libellé du glossaire -> repli sûr.
 // Il ne connaît aucune page : il reçoit une chaîne et un pack, il rend un résultat.
 
 import { MOTIFS, memesChiffres, queDesFaits, retirerFaits } from './faits.ts';
 import { estLangage, sansAccents } from './langage.ts';
+import { reconnaitre } from './sens.ts';
 import type { Categorie, Options, Pack, Phrase, Resultat, Statut } from './types.ts';
 import { termesConnus, traduireTerme } from './termes.ts';
 
@@ -146,9 +147,10 @@ export function etiquette(categorie: Categorie, pack: Pack, options: Options = {
   return pack.glossaire.find((terme) => terme.ref === id)?.cible.trim() || null;
 }
 
-interface Trouve { phrase: Phrase; valeurs: Record<string, string> }
+interface Trouve { phrase: Phrase; valeurs: Record<string, string>; reconnu?: boolean }
 
-function chercher(texte: string, index: Index): Trouve | null {
+// sens : à défaut de phrase exacte ou de modèle, chercher une phrase validée de même sens (niveau 3)
+function chercher(texte: string, index: Index, pack: Pack | null): Trouve | null {
   const exacte = index.exactes.get(texte.toLowerCase());
   if (exacte) return { phrase: exacte, valeurs: {} };
   const candidats = [...(index.parMot.get(premierMot(texte)) || []), ...index.sansMot].sort(plusPrecis);
@@ -160,7 +162,8 @@ function chercher(texte: string, index: Index): Trouve | null {
     const valeurs = trouve?.groups || {};
     if (trouve && Object.entries(valeurs).every(([nom, valeur]) => champValide(nom, valeur))) return { phrase: modele.phrase, valeurs };
   }
-  return null;
+  const reconnu = pack && reconnaitre(texte, pack);
+  return reconnu ? { ...reconnu, reconnu: true } : null;
 }
 
 // Fin de phrase suivie d'une majuscule : « 2.500 » n'est pas coupé (pas d'espace après le point)
@@ -171,13 +174,13 @@ interface Morceau { texte: string; trouve: Trouve | null }
 // Message entier, sinon phrase par phrase : traduit seulement si chaque phrase est connue.
 // Une phrase du corpus peut en contenir plusieurs : on essaie d'abord les plus longues suites.
 // Une phrase faite uniquement de faits passe telle quelle.
-function chercherMessage(texte: string, index: Index): Morceau[] | null {
+function chercherMessage(texte: string, index: Index, pack: Pack | null): Morceau[] | null {
   const phrases = texte.split(COUPURE);
   const morceaux: Morceau[] = [];
   for (let debut = 0; debut < phrases.length; ) {
     let fin = phrases.length;
     let trouve: Trouve | null = null;
-    for (; fin > debut && !trouve; fin--) trouve = chercher(phrases.slice(debut, fin).join(' '), index);
+    for (; fin > debut && !trouve; fin--) trouve = chercher(phrases.slice(debut, fin).join(' '), index, pack);
     if (trouve) fin++;
     else if (queDesFaits(phrases[debut])) fin = debut + 1;
     else return null;
@@ -197,6 +200,7 @@ function assembler(morceaux: Morceau[], options: Options) {
     critique: connues.some((trouve) => trouve.phrase.critique),
     id: connues.map((trouve) => trouve.phrase.id).join('+'),
     valeurs: connues.flatMap((trouve) => Object.values(trouve.valeurs)),
+    reconnu: connues.some((trouve) => trouve.reconnu),
   };
 }
 
@@ -225,14 +229,16 @@ export function traduire(brut: string, pack: Pack, options: Options = {}): Resul
   const texte = normaliser(brut);
   if (!texte || queDesFaits(texte)) return null;
 
-  const morceaux = chercherMessage(texte, indexDe(pack));
+  // Le sens reconnu ne sert qu'en dernier recours : une phrase exacte ou un modèle passe toujours avant
+  const index = indexDe(pack);
+  const morceaux = chercherMessage(texte, index, null) || chercherMessage(texte, index, pack);
   if (!morceaux) return traduireLibelle(texte, pack) || inedit(texte, pack);
 
-  let { statut, sortie, critique, id, valeurs } = assembler(morceaux, options);
+  let { statut, sortie, critique, id, valeurs, reconnu } = assembler(morceaux, options);
   // Garde-fou : jamais de champ non rempli, jamais un chiffre ou une devise qui change
   if (sortie && (/\{\w+\}/.test(sortie) || !memesChiffres(texte, sortie))) {
     sortie = null;
     statut = 'rejete';
   }
-  return { statut, critique, sortie, id, categorie: null, valeurs };
+  return { statut, critique, sortie, id, categorie: null, valeurs, ...(reconnu ? { sens: 'reconnu' as const } : {}) };
 }

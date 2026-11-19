@@ -12,6 +12,9 @@ export interface Phrase {
   retraduit_par: string;
   retraduction: string;
   valide: boolean;
+  // Autres formulations françaises de la même phrase, vérifiées par un francophone de l'équipe :
+  // elles mènent à la même traduction validée (niveau 3, core/sens.ts)
+  variantes?: string[];
 }
 
 export interface Terme {
@@ -46,6 +49,8 @@ export interface Pack {
   etiquettes: Partial<Record<Categorie, string>>;
   glossaire: Terme[];
   phrases: Phrase[];
+  // Posée à la publication sur l'API (tools/api.js) : clé de l'équipe Mayem et signature de l'empreinte
+  signature?: { cle: string; valeur: string };
 }
 
 export interface Options {
@@ -66,6 +71,9 @@ export interface Resultat {
   categorie: Categorie | null;
   // Valeurs reprises telles quelles (montants, noms…) : la page ne doit jamais les déplacer
   valeurs: string[];
+  // reconnu : au moins une phrase n'est pas dans le corpus mais dit exactement la même chose
+  // qu'une phrase validée, dont la traduction est affichée (niveau 3, core/sens.ts)
+  sens?: 'reconnu';
   // Phrase inconnue : termes validés du glossaire qu'elle contient, à signaler sans traduire la phrase
   termes?: { ref: string; fr: string; traduction: string; critique: boolean }[];
 }

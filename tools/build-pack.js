@@ -130,7 +130,28 @@ function lirePhrases() {
     erreurs.push(`corpus.csv : colonne(s) manquante(s) : ${manquantes.join(', ')}`);
     return [];
   }
-  return lignes.map(versPhrase);
+  const variantes = lireVariantes();
+  return lignes.map(versPhrase).map((p) => (variantes.has(p.id) ? { ...p, variantes: variantes.get(p.id) } : p));
+}
+
+// paraphrases.csv : autres formulations françaises d'une phrase (id, fr, propose_par, verifie_par).
+// Une paraphrase n'entre dans le pack que vérifiée par un francophone de l'équipe qui ne l'a pas proposée :
+// elle mènera à la traduction validée de sa phrase (niveau 3, core/sens.ts). Les noms restent ici.
+const paraphrases = { verifiees: 0, enAttente: 0 };
+function lireVariantes() {
+  const variantes = new Map();
+  if (!existsSync(ici + 'paraphrases.csv')) return variantes;
+  for (const ligne of lireCsv(lire('paraphrases.csv'))) {
+    const [id, fr, propose, verifie] = ['id', 'fr', 'propose_par', 'verifie_par'].map((c) => (ligne[c] || '').trim());
+    if (!id || !fr) continue;
+    if (!verifie || verifie.toLowerCase() === propose.toLowerCase()) {
+      paraphrases.enAttente++;
+      continue;
+    }
+    variantes.set(id, [...(variantes.get(id) || []), fr]);
+    paraphrases.verifiees++;
+  }
+  return variantes;
 }
 
 // Message d'erreur suivi du texte concerné, pour que la correction se fasse sans chercher
@@ -172,6 +193,9 @@ const retraduites = pack.phrases.filter((p) => p.retraduction).length;
 console.log(`${pack.phrases.length} phrases (${validees} validées, ${retraduites} retraduites), ${pack.glossaire.length} termes (${termes} traduits) -> packs/${langue}/pack.json`);
 if (perimees.length) {
   console.log(`Retraduction à refaire (la traduction a changé depuis) : ${perimees.join(', ')}`);
+}
+if (paraphrases.verifiees || paraphrases.enAttente) {
+  console.log(`Paraphrases : ${paraphrases.verifiees} vérifiées dans le pack, ${paraphrases.enAttente} à vérifier (paraphrases.csv)`);
 }
 if (revision.length) console.log(`${resume(revision)} : npm run revision`);
 
