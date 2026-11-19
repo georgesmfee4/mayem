@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "date": "2026-11-19",
-  "empreinte": "sha256-bbd7a2e708b694065f1349620ac33a35103ce3b2a92cd5f7cbda88eeb86eef56",
+  "empreinte": "sha256-56b0ea9c5f885e779ea2180e63783294ab0b534e8c7359d240e2aa2c979463ae",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -4125,8 +4125,8 @@
       "critique": true,
       "traduit_par": "Carrel",
       "relu_par": "John",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Safinum Pay - environnement de d´monstration. Ne mettez aucune information impotante",
       "valide": true
     },
     {
@@ -4181,8 +4181,8 @@
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Consultez votre solde, continuer vers les transferts en toute sécurité",
       "valide": true
     },
     {
@@ -4321,8 +4321,8 @@
       "critique": false,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Transfert recu",
       "valide": true
     },
     {
@@ -4363,8 +4363,8 @@
       "critique": true,
       "traduit_par": "Carrel",
       "relu_par": "John",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Vérifiez toujours le nom et le numéro de téléphone du bénéficiaire, avant de continuer le transfert",
       "valide": true
     },
     {
@@ -4405,8 +4405,8 @@
       "critique": false,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Choisir le type de transfert. Les frais sont calculés automatiquement",
       "valide": true
     },
     {
@@ -4447,8 +4447,8 @@
       "critique": true,
       "traduit_par": "Carrel",
       "relu_par": "John",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Transfert automatique gratuit",
       "valide": true
     },
     {
@@ -4601,8 +4601,8 @@
       "critique": true,
       "traduit_par": "Carrel",
       "relu_par": "John",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Ce bénéficiaire n'a jamais étéutilisé sur ce compte. Vérifiz le numéro de téléphone avant de continuer",
       "valide": true
     },
     {
@@ -4657,8 +4657,8 @@
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Note (optionnel)",
       "valide": true
     },
     {
@@ -4685,8 +4685,8 @@
       "critique": true,
       "traduit_par": "Carrel",
       "relu_par": "John",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Vérifiez les informations avant de confirmer le transfert",
       "valide": true
     },
     {
@@ -4867,8 +4867,8 @@
       "critique": false,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Nouveau transfert",
       "valide": true
     },
     {
@@ -5214,8 +5214,8 @@
       "critique": true,
       "traduit_par": "Carrel",
       "relu_par": "John",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Vous allez envoyer {amount} à {name}",
       "valide": true
     },
     {
@@ -5256,8 +5256,8 @@
       "critique": true,
       "traduit_par": "Carrel",
       "relu_par": "John",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Vérifiez le nom et le numéro de téléphone du bénéficiaire avant de continuer. En acceptant de continuer, vous ne pourrez plus annuler",
       "valide": true
     },
     {
@@ -5284,8 +5284,8 @@
       "critique": false,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Patientez un moment / opération en cours",
       "valide": true
     },
     {
@@ -5354,8 +5354,8 @@
       "critique": true,
       "traduit_par": "Carrel",
       "relu_par": "John",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Joseph",
+      "retraduction": "Le montant est insuffisant",
       "valide": true
     },
     {
