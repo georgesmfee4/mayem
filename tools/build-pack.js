@@ -11,11 +11,13 @@ import { choisirLangue, dossier } from './langues.js';
 import { differences, entreeJournal, versionSuivante } from './versions.js';
 import { resume, revisionOuverte } from './revision-donnees.js';
 import { BLOQUANT } from './revision-commun.js';
+import { option } from './options.js';
 
-const strict = process.argv.includes('--strict');
+const args = process.argv.slice(2);
+const strict = option(args, 'strict');
 // Le format attendu est celui du schéma : un seul endroit à changer quand la forme du pack change
 const FORMAT = JSON.parse(readFileSync(new URL('../packs/schema.json', import.meta.url), 'utf8')).properties.format.const;
-const langue = choisirLangue(process.argv.slice(2).find((argument) => !argument.startsWith('--')));
+const langue = choisirLangue(args.find((argument) => !argument.startsWith('--')));
 const ici = dossier(langue);
 const lire = (nom) => readFileSync(ici + nom, 'utf8');
 const oui = (v) => ['1', 'oui', 'yes', 'x'].includes((v || '').trim().toLowerCase());
