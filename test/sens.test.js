@@ -71,6 +71,11 @@ test('valeurs : reprises telles quelles, et abstention quand deux valeurs du mê
   assert.equal(reconnu('Commission de 2 % (min. 100 FCFA, max. 5 000 FCFA)', p), null);
 });
 
+test('un « {date} » écrit tel quel dans la page : abstention, jamais d\'erreur', () => {
+  const p = petit(phrase('PA', 'Votre échéance de {amount} est prévue le {date}.'));
+  assert.equal(reconnu('Votre échéance de 25 000 FCFA est prévue le {date}.', p), null);
+});
+
 test('un nom ({name}) n\'est placé que par un modèle exact, jamais par le sens reconnu', () => {
   const p = petit(phrase('PA', 'Vous allez envoyer {amount} à {name}'));
   assert.equal(reconnu('Vous allez transférer 25 000 FCFA à Awa Ndongo', p), null);
