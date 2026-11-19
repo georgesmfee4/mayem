@@ -10,6 +10,9 @@ export const WRANGLER = 'wrangler@4.157.0';
 export const CONFIG = racine + 'hebergement/wrangler.json';
 export const ADRESSE = racine + 'hebergement/adresse.txt';
 
+// Cloudflare redirige un « + » du chemin (0.3.0+bum.0.8.2) vers « %2B » : règles, liens et lectures l'écrivent déjà ainsi
+export const cheminEnLigne = (chemin) => chemin.replace(/\+/g, '%2B');
+
 // Lancé par npm run, npx est à côté de npm : appelé par Node directement, sans interpréteur de commandes
 // qui découperait les arguments ; sinon npx du système.
 function npx() {

@@ -13,7 +13,7 @@ import { verifierOctets, verifierSignature } from '../core/signature.ts';
 import { dossier, langues, racine } from './langues.js';
 import { nomsInternes } from './public.js';
 import { lireCles } from './signature.js';
-import { ADRESSE, espaceCles, wrangler } from './cloudflare.js';
+import { ADRESSE, cheminEnLigne, espaceCles, wrangler } from './cloudflare.js';
 
 const lireJson = (chemin) => JSON.parse(readFileSync(chemin, 'utf8'));
 const fichiers = (ici) => readdirSync(ici).flatMap((nom) => (statSync(join(ici, nom)).isDirectory() ? fichiers(join(ici, nom)) : [join(ici, nom)]));
@@ -84,7 +84,7 @@ function brut(adresse, chemin, entetes = {}) {
 }
 
 const distantDe = (adresse) => async (chemin) => {
-  const rep = await brut(adresse, '/v1/' + chemin);
+  const rep = await brut(adresse, cheminEnLigne('/v1/' + chemin));
   return rep.statut === 200 ? rep.corps : null;
 };
 

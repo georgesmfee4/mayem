@@ -81,7 +81,9 @@ test('_headers : versions figées gardées un an, latest et index revalidés, ou
   const version = lire(racine + 'packs/bum/pack.json').version;
   assert.match(entetes, /^\/\*\n {2}Access-Control-Allow-Origin: \*\n/);
   assert.match(entetes, new RegExp(`/v1/packs/bum/${version.replace(/\./g, '\\.')}\\.json\\n {2}Cache-Control: public, max-age=31536000, immutable`));
-  assert.match(entetes, /\/v1\/script\/0\.0\.0\+essai\/\*\n {2}Cache-Control: public, max-age=31536000, immutable/);
+  // Cloudflare redirige « + » vers « %2B » : la règle et le lien publié visent déjà l'adresse finale
+  assert.match(entetes, /\/v1\/script\/0\.0\.0%2Bessai\/\*\n {2}Cache-Control: public, max-age=31536000, immutable/);
+  assert.equal(lire(sortie + 'v1/script/index.json').versions[0].script, 'script/0.0.0%2Bessai/mayem.js');
   assert.doesNotMatch(entetes, /latest|index|cles-publiques/);
   rmSync(sortie, { recursive: true, force: true });
 });
