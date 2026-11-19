@@ -57,6 +57,7 @@
           "relu_par": { "type": "string" },
           "retraduit_par": { "type": "string", "description": "Personne qui a retraduit la traduction en français sans voir l'original" },
           "retraduction": { "type": "string", "description": "Sa retraduction, à comparer au français" },
+          "variantes": { "type": "array", "items": { "type": "string" }, "description": "Facultatif : autres formulations françaises vérifiées par un francophone de l'équipe ; elles mènent à la même traduction (sens reconnu)" },
           "valide": { "type": "boolean" }
         }
       }

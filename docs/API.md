@@ -27,7 +27,7 @@ dans le cadre d'un accord avec l'équipe Mayem : les fichiers officiels s'utilis
 | `producteur`, `droits` | « Équipe Mayem », « Tous droits réservés » |
 | `version`, `date` | Version sémantique : correction → `0.3.1`, phrase ou terme ajouté ou retiré → `0.4.0` |
 | `empreinte` | `sha256-…` du pack sans ce champ (`empreinte()` ci-dessous) : vérifier avant usage |
-| `phrases[]` | `id` stable (clé de traduction), `fr`, `en[]`, `cible` (texte dans la langue du pack, quelle qu'elle soit), `critique`, `traduit_par`, `relu_par`, `retraduit_par` (codes des relecteurs Mayem, jamais leurs noms), `retraduction`, `valide` |
+| `phrases[]` | `id` stable (clé de traduction), `fr`, `en[]`, `cible` (texte dans la langue du pack, quelle qu'elle soit), `critique`, `traduit_par`, `relu_par`, `retraduit_par` (codes des relecteurs Mayem, jamais leurs noms), `retraduction`, `valide`, `variantes` (facultatif : autres formulations françaises vérifiées, qui mènent à la même traduction) |
 | `glossaire[]` | Terminologie : `ref`, `terme`, `sens`, `cible`, `a_eviter`, `critique`, codes des relecteurs |
 
 Règles garanties par `verifierPack` : mêmes champs `{…}` et mêmes chiffres en français et dans la traduction ;
@@ -135,7 +135,7 @@ const r = traduire('Votre solde est de 25 000 FCFA', pack);
 | Fonction | Rôle |
 |---|---|
 | `traduire(texte, pack, { test? })` | `null` si rien à traduire (vide, ou seulement des montants, dates…) ; sinon un résultat |
-| (dans `traduire`) | Un libellé qui est un terme validé du glossaire est traduit (`id` = réf. du terme) ; une phrase inconnue rend `termes` : ses termes validés, sans traduire la phrase |
+| (dans `traduire`) | Une phrase de même sens qu'une phrase validée reçoit sa traduction (`sens: 'reconnu'`, `id` = la phrase validée) ; un libellé qui est un terme validé du glossaire est traduit (`id` = réf. du terme) ; une phrase inconnue rend `termes` : ses termes validés, sans traduire la phrase |
 | `etiquette(categorie, pack)` | Étiquette validée d'un message inconnu (`securite`, `erreur`, `frais`, `info`) |
 | `categoriser(texte)` | Catégorie d'un texte français ou anglais inconnu |
 | `repartir(morceaux, sortie, valeurs)` | Répartit une traduction entre plusieurs nœuds de texte sans déplacer les valeurs |
@@ -155,6 +155,10 @@ Résultat de `traduire` :
 | `test` | `sortie` en mode test seulement (bulu pas encore validé) |
 | `non_verifie` | l'original ; `categorie` permet d'afficher l'étiquette validée |
 | `rejete` | l'original : la sortie aurait changé un chiffre |
+
+`sens: 'reconnu'` : la phrase n'était pas mot pour mot dans le corpus, mais elle a exactement le sens de la phrase
+validée `id` (mêmes mots porteurs de sens, même négation, même temps, même personne, même modalité, même sens de
+l'argent, mêmes valeurs). Seule une traduction validée est affichée ; il est conseillé de le signaler à l'écran.
 
 ## Garanties d'une version à l'autre
 

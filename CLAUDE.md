@@ -34,8 +34,10 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
 - Le script intégré (`dom/web.ts`, `dist-web/mayem.js`) suit les mêmes règles : packs embarqués et vérifiés,
   aucune requête réseau après son chargement, rien dans la page avant que le pack soit accepté.
 - Montants, dates, numéros, références, noms : jamais traduits. Une sortie dont les chiffres diffèrent de l'entrée est rejetée.
-- Jamais de phrase composée mot à mot : hors corpus, seul un libellé qui est un terme validé est traduit ;
-  une phrase inconnue reste dans sa langue d'origine (étiquette et gloses en CSS).
+- Jamais de phrase composée mot à mot. Hors corpus, deux cas seulement affichent une traduction, toujours une
+  traduction déjà validée : une phrase de même sens qu'une phrase validée (sens reconnu, `core/sens.ts`, garde-fous
+  de négation, temps, personne, modalité, sens de l'argent et valeurs), ou un libellé qui est un terme validé.
+  Toute autre phrase reste dans sa langue d'origine (étiquette et gloses en CSS).
 - Seul le bulu validé par deux personnes s'affiche (`MODE_TEST` à `false` dans `dom/entree.ts` pour la démo).
 - Aucune dépendance payante. Toute dépendance ajoutée est déclarée dans `THIRD_PARTY.md`.
 - Code et données : © Équipe Mayem, tous droits réservés (`LICENSE`), aucune licence libre. Aucun nom de traducteur dans ce qui est distribué ou publié

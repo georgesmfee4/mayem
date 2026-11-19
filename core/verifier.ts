@@ -47,6 +47,11 @@ function verifierPhrase(p: Phrase, erreurs: string[]) {
   for (const en of p.en) {
     if (champs(en).join() !== fr) erreurs.push(`${id} : les champs {…} de l'anglais diffèrent du français`);
   }
+  // Une paraphrase mène à la même traduction : elle doit porter les mêmes champs et les mêmes chiffres
+  for (const variante of p.variantes || []) {
+    if (champs(variante).join() !== fr) erreurs.push(`${id} : les champs {…} d'une paraphrase diffèrent du français`);
+    if (chiffres(variante) !== chiffres(p.fr)) erreurs.push(`${id} : les chiffres d'une paraphrase diffèrent du français`);
+  }
   if (p.cible) {
     if (champs(p.cible).join() !== fr) erreurs.push(`${id} : les champs {…} de la traduction diffèrent du français`);
     if (chiffres(p.cible) !== chiffres(p.fr)) erreurs.push(`${id} : les chiffres de la traduction diffèrent du français`);
