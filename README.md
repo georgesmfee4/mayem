@@ -152,8 +152,20 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
   en deux secondes au plus, bouton compris (`dom/entree.ts`).
 - Texte resté dans sa langue : deux traits s'il n'a aucun mot connu, un seul si des mots sont glosés ; jamais de
   fond de couleur.
-- Message de plusieurs phrases : traduit phrase par phrase seulement si chacune est dans le corpus ; sinon tout
+- Message de plusieurs phrases : traduit phrase par phrase seulement si chacune est connue ; sinon tout
   l'original reste. Rien n'est inventé.
+- Sens reconnu (`core/sens.ts`) : une phrase française que le corpus n'a pas, mais qui dit exactement la même chose
+  qu'une phrase validée (« Votre virement a bien été envoyé. » pour « Votre transfert a été envoyé avec succès. »),
+  reçoit la traduction déjà validée de celle-ci. Les deux phrases doivent avoir la même forme canonique : mêmes mots
+  porteurs de sens, une fois mis à part la casse, les accents, l'ordre, les mots outils, les accords, la politesse
+  et les synonymes métier ; et les mêmes traits de sens : négation (comptée), temps (« débité » n'est pas
+  « à débiter »), personne (« J'ai vérifié » n'est pas « Vérifiez »), modalité, sens de l'argent, valeurs.
+  Un trait différent, deux traductions possibles, un mot seul ou un nom propre à placer : l'original reste.
+  Le texte traduit ainsi est souligné d'un pointillé fin et compté à part dans le panneau.
+  `npm run sens` mesure le jeu d'essai : 66 paraphrases sur 66 reconnues, 813 pièges, 0 faux rapprochement.
+- Paraphrases (`packs/<langue>/paraphrases.csv`) : autres formulations françaises d'une phrase, proposées puis
+  vérifiées par un francophone de l'équipe qui ne les a pas proposées. Seules les vérifiées entrent dans le pack ;
+  chacune couvre à son tour toutes ses écritures (majuscules, accents, ordre, synonymes).
 - Texte coupé par des balises (`Votre solde est de <b>25 000 FCFA</b>`) : traduit comme un seul bloc, puis le bulu est
   rangé dans les nœuds texte existants ; montants et noms gardent leur texte exact. Si le bulu change l'ordre des
   valeurs, l'original reste.

@@ -15,6 +15,7 @@
     "api": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/api.js",
     "inventaire": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js",
     "couverture": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js fixtures/simple.html fixtures/balises.html fixtures/react.html fixtures/iframe.html fixtures/shadow.html",
+    "sens": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/mesure-sens.js",
     "build": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js",
     "build:pseudo": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js --pseudo",
     "demo:refus": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/demo-refus.js",
