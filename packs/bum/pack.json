@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "date": "2026-11-19",
-  "empreinte": "sha256-8ac76d9d189f6d71a4ea5090ea1b790d5c9d9b63f19b983806c7fbfc8675d409",
+  "empreinte": "sha256-45ca175ebd8e07df7bb21f73f22ff3a52859c8817df6532d4f951bddb0d6e781",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -1460,10 +1460,22 @@
       "en": "hi / informal hello",
       "sens": "Salutation familière et informelle, sans indication d’heure.",
       "critique": false,
-      "cible": "",
+      "cible": "Mbôlô",
       "a_eviter": "Registre familier ; traduction Bene à confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
+      "commentaire": ""
+    },
+    {
+      "ref": "QP20",
+      "terme": "joie / bonheur",
+      "en": "joy / happiness",
+      "sens": "Sentiment de joie, de bonheur.",
+      "critique": false,
+      "cible": "mvaé",
+      "a_eviter": "Ne pas employer pour « succès » ou « réussi » (T63) : dire « bo'obane mvo'é ».",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -1533,7 +1545,7 @@
       "sens": "",
       "critique": true,
       "cible": "bulane moné",
-      "a_eviter": "Éviter de confondre remboursement avec annulation (« fetek »), succès (« mvaé ») ou remise de dette (« jame »). Il s'agit de rendre l'argent.",
+      "a_eviter": "Éviter de confondre remboursement avec annulation (« fetek »), succès (« bo'obane mvo'é ») ou remise de dette (« jame »). Il s'agit de rendre l'argent.",
       "traduit_par": "Georges",
       "relu_par": "Alexandre et Ronald",
       "commentaire": ""
@@ -1785,7 +1797,7 @@
       "sens": "",
       "critique": false,
       "cible": "é ne valé",
-      "a_eviter": "Éviter de confondre « disponible » avec « réussi » (« mvaé ») : un service peut être disponible sans qu'une opération ait été effectuée.",
+      "a_eviter": "Éviter de confondre « disponible » avec « réussi » (« bo'obane mvo'é ») : un service peut être disponible sans qu'une opération ait été effectuée.",
       "traduit_par": "Georges",
       "relu_par": "Alexandre et Ronald",
       "commentaire": ""
@@ -1854,12 +1866,12 @@
       "ref": "T63",
       "terme": "réussi",
       "en": "successful",
-      "sens": "Peut-être déjà couvert par T24 (mvaé) : le dire dans Commentaire.",
+      "sens": "Peut-être déjà couvert par T24 : le dire dans Commentaire.",
       "critique": true,
-      "cible": "mvaé (réussi / succès ; cohérent avec T24)",
+      "cible": "bo'obane mvo'é",
       "a_eviter": "Éviter d'alterner les formes de succès dans les notifications : reprendre la forme déjà retenue en T24.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -1904,10 +1916,10 @@
       "en": "history",
       "sens": "Liste des opérations passées.",
       "critique": false,
-      "cible": "",
+      "cible": "Mam ya ô bô ya",
       "a_eviter": "Éviter de réutiliser « Mamesse » (récapitulatif) pour « historique » : l'historique est une liste d'opérations passées, pas un résumé avant confirmation.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3308,10 +3320,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn metil",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « janvier » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3320,10 +3332,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn mesan",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « février » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3332,10 +3344,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn étota'a",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « mars » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3344,10 +3356,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn abé",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « avril » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3356,10 +3368,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn ébala'a",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « mai » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3368,10 +3380,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn mefumin",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « juin » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3380,10 +3392,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn atata'a oyon",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « juillet » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3392,10 +3404,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn oyon",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « août » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3404,10 +3416,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn mindumu",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « septembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3416,10 +3428,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn su'u",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « octobre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3428,10 +3440,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn esep",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « novembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3440,10 +3452,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn mfum",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « décembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3982,12 +3994,12 @@
       "en": [
         "Test environment — fictional data, no real transaction."
       ],
-      "cible": "Nlam a test — folâ é ndji bô bebelà, Teké nya nlomane moné.",
+      "cible": "Nlam a test — folâ é ndji bô bebelà, teké nya nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Environnement de test - Informations fictives, aucun transfert réel",
       "valide": true
     },
     {
@@ -4057,8 +4069,8 @@
       "critique": true,
       "traduit_par": "lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Frais.",
       "valide": true
     },
     {
@@ -4113,8 +4125,8 @@
       "critique": true,
       "traduit_par": "lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Safinum Pay - environemment de démonstration. Ne mettez aucune information utile",
       "valide": true
     },
     {
@@ -4165,10 +4177,10 @@
       "en": [
         "Check your balance and start a secure transfer."
       ],
-      "cible": "Yené Mebal ya èn jôé, kele ôsu nlomane moné évovoé été.",
+      "cible": "Yené mebal môé, kele ôsu nlomane moné évovoé été.",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -4183,8 +4195,8 @@
       "critique": true,
       "traduit_par": "lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Solde disponible",
       "valide": true
     },
     {
@@ -4193,12 +4205,12 @@
       "en": [
         "Account number: {account}"
       ],
-      "cible": "Nombor ya Évôvôla moné : {account}",
+      "cible": "Nombor ya évôvôla moné : {account}",
       "critique": true,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Numéro de compte : {account}",
       "valide": true
     },
     {
@@ -4207,10 +4219,10 @@
       "en": [
         "Account number"
       ],
-      "cible": "Nombor ya Évôvôla moné",
+      "cible": "Nombor ya évôvôla moné",
       "critique": false,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -4239,8 +4251,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Efeectuer un transfert",
       "valide": true
     },
     {
@@ -4249,10 +4261,10 @@
       "en": [
         "View fees"
       ],
-      "cible": "Yené Minkuk",
+      "cible": "Yené minkuk",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -4351,8 +4363,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Vérifiez le nom et le numéro du bénéficiaire avant de continuer",
       "valide": true
     },
     {
@@ -4431,12 +4443,12 @@
       "en": [
         "Instant, free transfer"
       ],
-      "cible": "Nlomane moné ana-ana, Bua",
+      "cible": "Nlomane moné ana-ana, bua",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Transfert d'argent automatique, gratuit",
       "valide": true
     },
     {
@@ -4491,8 +4503,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Montant du transfert d'argent",
       "valide": true
     },
     {
@@ -4505,8 +4517,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Gratuit",
       "valide": true
     },
     {
@@ -4519,8 +4531,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Solde à débiter",
       "valide": true
     },
     {
@@ -4533,8 +4545,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Solde après le transfert",
       "valide": true
     },
     {
@@ -4547,8 +4559,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Continuer",
       "valide": true
     },
     {
@@ -4575,8 +4587,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Renseignez les informations du bénéficiaire. Vérifiez le numéro de téléphone avant de continuer",
       "valide": true
     },
     {
@@ -4585,12 +4597,12 @@
       "en": [
         "This beneficiary has never been used on this account. Verify the number before continuing."
       ],
-      "cible": "Nyô a bi nyi a be ki bela évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.",
+      "cible": "Nyô a bi nyi a be ki belan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Ce bénéficiaire n'a jamais utilisé ce compte. Vérifiez le numéro de téléphone avant de continuer",
       "valide": true
     },
     {
@@ -4599,10 +4611,10 @@
       "en": [
         "Beneficiary name"
       ],
-      "cible": "Jôé ya Nyô a bi",
+      "cible": "Jôé ya nyô a bi",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Nom du destinataire (ou du bénéficiaire)",
       "valide": true
@@ -4641,10 +4653,10 @@
       "en": [
         "Note (optional)"
       ],
-      "cible": "Nten (Teké abui mfi)",
+      "cible": "Nten (teké abui mfi)",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -4659,8 +4671,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "J'ai vérifié le nom et le numéro de téléphone du bénéficiaire",
       "valide": true
     },
     {
@@ -4673,8 +4685,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Vérifiez les informations avant de continuer avec le transfert",
       "valide": true
     },
     {
@@ -4687,8 +4699,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Montant",
       "valide": true
     },
     {
@@ -4701,8 +4713,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Solde débité",
       "valide": true
     },
     {
@@ -4753,12 +4765,12 @@
       "en": [
         "I confirm the information above is correct."
       ],
-      "cible": "Ma ntiñ na folâ bi ke mbamba.",
+      "cible": "Ma ntiñ na folâ éne mbamba.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Je confirme que les inforations sont correctes",
       "valide": true
     },
     {
@@ -4771,8 +4783,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "changer",
       "valide": true
     },
     {
@@ -4785,8 +4797,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Confrmer le transfert d'argent",
       "valide": true
     },
     {
@@ -4799,8 +4811,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "transfert effectué",
       "valide": true
     },
     {
@@ -4813,8 +4825,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Votre transfert a été effectué avec succès",
       "valide": true
     },
     {
@@ -4837,10 +4849,10 @@
       "en": [
         "Success"
       ],
-      "cible": "Mvaé",
+      "cible": "Bo'obane mvo'é",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -4883,8 +4895,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Alerte de sécurité",
       "valide": true
     },
     {
@@ -4911,8 +4923,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Message trés important",
       "valide": true
     },
     {
@@ -4925,8 +4937,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Le solde doit être supérieur à zéro",
       "valide": true
     },
     {
@@ -4935,10 +4947,10 @@
       "en": [
         "Insufficient balance for this transfer."
       ],
-      "cible": "Mebal Teké njalan asu nlomane moné.",
+      "cible": "Mebal teké njalan asu nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "solde insuffisant pour le transfert d'argent",
       "valide": true
@@ -4949,12 +4961,12 @@
       "en": [
         "Please provide the beneficiary name and phone number."
       ],
-      "cible": "Nyô a ya'a, futié Yôlé jôé ai Nombor nsinga ya Nyô a bi.",
+      "cible": "Nyô a ya'a, futié yôlé jôé ai nombor nsinga ya nyô a bi.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "S'il vous plaît, veillez renseigner le nom et le numéro de téléphone du bénéficiaire",
       "valide": true
     },
     {
@@ -4967,8 +4979,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Attention : Vérifiez le numéro de téléphone du bénéficiaire avant de continuer",
       "valide": true
     },
     {
@@ -4981,8 +4993,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Attention : Ce bénéficiaire n'a jamais été utilisé sur ce compte.",
       "valide": true
     },
     {
@@ -4995,8 +5007,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Erreur de réseau. Rien à afficher pour le moment.",
       "valide": true
     },
     {
@@ -5005,12 +5017,12 @@
       "en": [
         "You must confirm the details before validating the transfer."
       ],
-      "cible": "W'ayiane ntiñ folâ Ôsusua na w'ake ôsu a nlomane moné.",
+      "cible": "W'ayiane ntiñ folâ ôsusua na w'ake ôsu a nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Vous devez confirmer les informations avant de continuer avec le transfert",
       "valide": true
     },
     {
@@ -5065,8 +5077,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Fermer",
       "valide": true
     },
     {
@@ -5103,10 +5115,10 @@
       "en": [
         "Check balance"
       ],
-      "cible": "Yené Mebal",
+      "cible": "Yené mebal",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -5117,13 +5129,24 @@
       "en": [
         "Your balance is {amount}"
       ],
-      "cible": "Mebal ya èn jôé: {amount}",
+      "cible": "Mebal môé: {amount}",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Votre solde : {amount}",
+      "valide": true,
+      "variantes": [
+        "Votre solde actuel est de {amount}",
+        "Le solde de votre compte est de {amount}",
+        "Votre solde actuel : {amount}",
+        "Le solde de votre compte : {amount}",
+        "Solde de votre compte : {amount}",
+        "Solde du compte : {amount}",
+        "Votre solde s'élève à {amount}",
+        "Le solde de votre compte s'élève à {amount}",
+        "Vous disposez d'un solde de {amount}"
+      ]
     },
     {
       "id": "X09",
@@ -5135,8 +5158,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Transferer de l'argent",
       "valide": true
     },
     {
@@ -5145,10 +5168,10 @@
       "en": [
         "Beneficiary number"
       ],
-      "cible": "Nombor nsinga ya Nyô a bi",
+      "cible": "Nombor nsinga ya nyô a bi",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Numero de telphone du beneficiaire",
       "valide": true
@@ -5159,10 +5182,10 @@
       "en": [
         "Beneficiary number: {phone}"
       ],
-      "cible": "Nombor nsinga ya Nyô a bi : {phone}",
+      "cible": "Nombor nsinga ya nyô a bi : {phone}",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Numero de telphone du beneficiaire : {phone}",
       "valide": true
@@ -5177,8 +5200,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Frais de transfert : {amount}",
       "valide": true
     },
     {
@@ -5191,8 +5214,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Transfert de {amount} à {name}",
       "valide": true
     },
     {
@@ -5205,8 +5228,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Solde débité : {amount}",
       "valide": true
     },
     {
@@ -5219,8 +5242,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Confirmer / Valider",
       "valide": true
     },
     {
@@ -5233,8 +5256,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Vérifiez le nom et le numéro du bénéficiaire avant de continuer. En acceptant de continuer, vous ne pourrez plus annuler",
       "valide": true
     },
     {
@@ -5285,12 +5308,12 @@
       "en": [
         "Insufficient balance"
       ],
-      "cible": "Mebal Teké njalan",
+      "cible": "Mebal teké njalan",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Solde insuffisant",
       "valide": true
     },
     {
@@ -5299,10 +5322,10 @@
       "en": [
         "Invalid number"
       ],
-      "cible": "Nombor nsinga Teké mbamba",
+      "cible": "Nombor nsinga teké mbamba",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "mauvais nuéro de téléphone",
       "valide": true
@@ -5317,8 +5340,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Un erreur est survenue. Réessayez",
       "valide": true
     },
     {
@@ -5327,12 +5350,12 @@
       "en": [
         "Invalid amount"
       ],
-      "cible": "Abime moné Teké mvoé",
+      "cible": "Abime moné teké mvoé",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Le solde est insuffisant",
       "valide": true
     },
     {
@@ -5345,8 +5368,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Attention : Ne partagez votre code secret à personne. Aucun agent ne vous le demandera",
       "valide": true
     },
     {
@@ -5355,10 +5378,10 @@
       "en": [
         "Enter your PIN"
       ],
-      "cible": "Yôlé Nten bafili ya èn jôé",
+      "cible": "Yôlé nten bafili ya èn jôé",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -5373,8 +5396,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "votre code de confirmation est {code}. Vous ne devez le partager à personne",
       "valide": true
     },
     {
@@ -5387,8 +5410,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "En acceptant de continuer, vous ne pourrez plus annuler",
       "valide": true
     },
     {
@@ -5401,9 +5424,30 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
+      "retraduit_par": "John",
+      "retraduction": "Détails du transfert",
+      "valide": true
+    },
+    {
+      "id": "X29",
+      "fr": "Votre solde",
+      "en": [
+        "Your balance"
+      ],
+      "cible": "Mebal môé",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Solde de votre compte",
+        "Le solde de votre compte",
+        "Solde du compte",
+        "Votre solde actuel",
+        "Solde actuel de votre compte"
+      ]
     }
   ]
 }
