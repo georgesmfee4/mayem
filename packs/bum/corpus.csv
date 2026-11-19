@@ -16,7 +16,7 @@ A04,P1,1. Solde,Sous-titre,0,0,Consultez votre solde et lancez un transfert en t
 A05,P1,1. Solde,Libellé au-dessus du solde,1,1,Solde disponible,Available balance,Mebal mené,lesly / relu par Alexandre et Ronald,1,
 A06,P1,1. Solde,Numéro de compte,1,0,Numéro de compte : {account},Account number: {account},Nombor ya évôvôla moné : {account},Georges / relu par Lesly,1,{account} = numéro de compte : ne pas traduire
 A07,P1,1. Solde,Libellé seul,0,1,Numéro de compte,Account number,Nombor ya évôvôla moné,Georges / relu par Lesly,1,
-A08,P1,1. Solde,Type de compte,0,0,Compte courant,Current account,Évôvôla moné,lesly / relu par Alexandre et Ronald,1,
+A08,P1,1. Solde,Type de compte,0,0,Compte courant,Current account,Évôvôla moné ya amane ngôn,Georges / relu par Lesly,1,
 A09,P1,1. Solde,Bouton,1,0,Effectuer un transfert,Make a transfer,E bô nlomane moné,Lesly / relu par Carrel,1,Envoyer de l'argent à quelqu'un
 A10,P1,1. Solde,Bouton,0,0,Consulter les frais,View fees,Yené minkuk,Georges / relu par Lesly,1,
 A11,P1,1. Solde,Titre,0,0,Transactions récentes,Recent transactions,Nlomane moné ya melú ma,Lesly / relu par Carrel,1,

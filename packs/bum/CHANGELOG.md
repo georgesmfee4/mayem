@@ -2,6 +2,10 @@
 
 Une correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.
 
+## 0.8.1 (2026-11-19)
+- Phrases modifiées (1) : A08
+- Termes modifiés (7) : T33, T34, T75, T76, CNJ012, LIA003, MOM034
+
 ## 0.8.0 (2026-11-19)
 - Phrases ajoutées (24) : MSG001, MSG002, MSG003, MSG004, MSG005, MSG006, MSG007, MSG008, MSG010, MSG011, MSG012, MSG013, MSG014, MSG015, MSG016, MSG017, MSG019, MSG020, MSG021, MSG022, MSG023, MSG024, MSG025, MSG026
 - Paraphrases vérifiées mises à jour, traduction inchangée (1) : E06
