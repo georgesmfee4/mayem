@@ -2,6 +2,9 @@
 
 Une correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.
 
+## 0.8.2 (2026-11-19)
+- Termes modifiés (4) : T34, VB24, VB25, MOM040
+
 ## 0.8.1 (2026-11-19)
 - Phrases modifiées (1) : A08
 - Termes modifiés (7) : T33, T34, T75, T76, CNJ012, LIA003, MOM034
