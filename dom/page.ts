@@ -16,7 +16,7 @@ export interface Reglages { chargerPack: ChargerPack; bouton?: boolean }
 
 const IGNORES = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'SELECT_VALUE', 'CODE', 'PRE', 'svg', 'SVG']);
 const ATTRIBUTS = ['placeholder', 'title', 'aria-label'];
-const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-cat', 'data-mayem-glose', 'data-mayem-termes', 'data-mayem-court', 'data-mayem-deborde'];
+const MARQUES = ['data-mayem', 'data-mayem-critique', 'data-mayem-sens', 'data-mayem-cat', 'data-mayem-glose', 'data-mayem-termes', 'data-mayem-court', 'data-mayem-deborde'];
 // lang d'origine d'un élément traduit, rendu quand on change de langue (vide : il n'en avait pas)
 const LANG_ORIGINE = 'data-mayem-lang';
 // Balises de mise en forme : le texte qu'elles coupent est lu comme un seul bloc
@@ -49,6 +49,8 @@ function marquer(el: Element, res: Resultat, texte: string) {
   for (const nom of MARQUES) el.removeAttribute(nom);
   el.setAttribute('data-mayem', res.statut);
   if (res.critique) el.setAttribute('data-mayem-critique', '1');
+  // Traduction validée d'une phrase de même sens (niveau 3) : affichée, et signalée comme telle
+  if (res.sens) el.setAttribute('data-mayem-sens', res.sens);
   if (res.statut === 'ok') {
     if (!el.hasAttribute(LANG_ORIGINE)) el.setAttribute(LANG_ORIGINE, el.getAttribute('lang') ?? '');
     el.setAttribute('lang', pack.langue);
@@ -77,9 +79,11 @@ function montrerGloses(visibles: boolean) {
   }
 }
 
-function ecrire(noeud: Text, sortie: string, brut = noeud.nodeValue || '') {
-  // On garde les espaces autour du texte : la mise en page en dépend parfois
-  const traduit = brut.match(/^\s*/)![0] + sortie + brut.match(/\s*$/)![0];
+// On garde les espaces autour du texte : la mise en page en dépend parfois. Dans un bloc, l'appelant
+// dit lesquels garder (fin : l'espace à laisser derrière, vide pour un morceau vidé)
+function ecrire(noeud: Text, sortie: string, brut = noeud.nodeValue || '', fin = brut.match(/\s*$/)![0]) {
+  const devant = sortie === '' ? '' : brut.match(/^\s*/)![0];
+  const traduit = devant + sortie + (sortie === '' ? '' : fin);
   ecrits.set(noeud, { origine: brut, traduit });
   if (afficheTraduit && noeud.nodeValue !== traduit) noeud.nodeValue = traduit;
 }
@@ -121,8 +125,15 @@ function traiterBloc(bloc: Element): boolean {
   const res = traduire(origines.join(''), pack, options);
   const textes = res?.sortie ? repartir(origines, res.sortie, res.valeurs) : null;
   if (!res || !textes) return false;
+  // Un morceau vidé emporte ses espaces ; un morceau écrit garde derrière lui l'espace qui précédait,
+  // dans la page d'origine, le prochain morceau resté visible (aucun avant un point final) :
+  // sinon les espaces s'accumulent dans la phrase traduite (« … moné   . »)
+  const fin = (i: number) => {
+    const suivant = textes.findIndex((texte, j) => j > i && texte !== '');
+    return suivant < 0 ? '' : origines[suivant - 1].match(/\s*$/)![0];
+  };
   noeuds.forEach((noeud, i) => {
-    if (textes[i] !== normaliser(origines[i])) return ecrire(noeud, textes[i], origines[i]);
+    if (textes[i] !== normaliser(origines[i])) return ecrire(noeud, textes[i], origines[i], fin(i));
     ecrits.delete(noeud); // morceau protégé (montant, nom) : jamais réécrit
     if (noeud.nodeValue !== origines[i]) noeud.nodeValue = origines[i];
   });
@@ -306,7 +317,8 @@ function prevoirCompteurs() {
     }
     const conserves = racines.reduce((n, racine) => n + racine.querySelectorAll('[data-mayem="non_verifie"],[data-mayem="rejete"]').length, 0);
     const chiffres = ecarts ? `${ecarts} écart(s) !` : `${verifies} ✓`;
-    ui?.afficherCompteurs({ traduits, conserves, chiffres, debordements: compterDebordements() });
+    const reconnus = racines.reduce((n, racine) => n + racine.querySelectorAll('[data-mayem-sens="reconnu"]').length, 0);
+    ui?.afficherCompteurs({ traduits, reconnus, conserves, chiffres, debordements: compterDebordements() });
   });
 }
 

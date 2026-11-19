@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Essai : phrases écrites autrement que le corpus</title>
+  <style>body { font-family: sans-serif; max-width: 40rem; margin: 2rem auto; } .valeur { font-weight: bold; }</style>
+</head>
+<body>
+  <!-- Un service qui dit la même chose que le corpus avec d'autres mots, et des pièges d'un seul mot -->
+  <h1>Votre opération</h1>
+  <p id="reformule">Votre virement a bien été envoyé.</p>
+  <p id="balises">Veuillez <em>vérifier</em> les informations avant de confirmer le <b>virement</b>.</p>
+  <p id="code">Votre code de confirmation est <b class="valeur">4821</b>. Ne le communiquez à personne.</p>
+  <p id="majuscules">VIREMENT EFFECTUE</p>
+  <p id="negation">Votre virement n'a pas été envoyé.</p>
+  <p id="temps">Votre virement sera envoyé.</p>
+  <p id="personne">Vérifiez le nom et le numéro du destinataire.</p>
+  <carte-message id="ombre"></carte-message>
+  <script>
+    class CarteMessage extends HTMLElement {
+      connectedCallback() {
+        if (this.shadowRoot) return;
+        const racine = this.attachShadow({ mode: 'open' });
+        racine.append(Object.assign(document.createElement('p'), { textContent: 'Un problème est survenu. Veuillez réessayer.' }));
+      }
+    }
+    customElements.define('carte-message', CarteMessage);
+    // Message affiché plus tard par le service, comme une réponse du serveur
+    setTimeout(() => document.body.append(Object.assign(document.createElement('p'), { id: 'tardif', textContent: 'Transaction réussie' })), 800);
+  </script>
+</body>
+</html>
