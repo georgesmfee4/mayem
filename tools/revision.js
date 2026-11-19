@@ -92,11 +92,12 @@ const rangPriorite = (contexte, refs) => Math.min(...refs.map((ref) => {
 }));
 
 // Tous les constats, bloquants puis à revoir, P1 critiques d'abord. contexte : id -> ligne du corpus
-// (priorité, écran, élément, consigne) ; politesse : réponse de la charte (style.csv)
-export function reviser({ phrases, glossaire, contexte = {}, politesse = '' }) {
+// (priorité, écran, élément, consigne) ; politesse : réponse de la charte (style.csv) ;
+// profil : règles d'écriture de la langue (infos.json)
+export function reviser({ phrases, glossaire, contexte = {}, politesse = '', profil = {} }) {
   const constats = [
     ...sensConfondus(phrases), ...traductionsMultiples(phrases), ...collisionsGlossaire(glossaire),
-    ...termesCritiques(phrases, glossaire), ...sansTraduction(glossaire), ...controlerForme(phrases, glossaire, contexte, politesse),
+    ...termesCritiques(phrases, glossaire), ...sansTraduction(glossaire), ...controlerForme(phrases, glossaire, contexte, politesse, profil),
   ];
   for (const c of constats) {
     const consignes = c.refs.map((ref) => contexte[ref]?.consigne).filter(Boolean);
