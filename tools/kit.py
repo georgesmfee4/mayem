@@ -196,8 +196,8 @@ def sheet_to_csv(wb, name, out):
     return max(0, len(rows) - 1)
 
 def comparable(texte):
-    """Apostrophes et espaces varient d'un tableur à l'autre sans changer le texte (comme tools/build-pack.js)."""
-    return re.sub(r'\s+', ' ', texte.replace('’', "'").replace('‘', "'")).strip()
+    """Apostrophes, espaces et majuscules varient d'un tableur à l'autre sans changer ce qui a été lu (comme tools/build-pack.js)."""
+    return re.sub(r'\s+', ' ', texte.replace('’', "'").replace('‘', "'")).strip().lower()
 
 def lire_retraductions():
     """En-tête et lignes de retraduction.csv, chaque ligne en dictionnaire par en-tête (en minuscules)."""
