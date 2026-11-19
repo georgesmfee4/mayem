@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "date": "2026-11-19",
-  "empreinte": "sha256-56b0ea9c5f885e779ea2180e63783294ab0b534e8c7359d240e2aa2c979463ae",
+  "empreinte": "sha256-e266752906ffeaa0632503c9cea3c70294586f444a171d6e354904802c29119d",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -4000,7 +4000,18 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "Environnement de test - Informations fictives, aucun transfert réel",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Environnement de test : les données sont fictives et aucune transaction n'est réelle.",
+        "Mode test — données fictives, aucune transaction réelle.",
+        "Version de test : les données sont fictives, aucune transaction réelle n'est effectuée.",
+        "Environnement de démonstration — données fictives, aucune transaction réelle.",
+        "Espace de test : toutes les données sont fictives, aucune transaction réelle.",
+        "Environnement d'essai — données fictives, aucune transaction réelle.",
+        "Plateforme de test — données fictives, aucune transaction réelle.",
+        "Ceci est un site de test : les données sont fictives et aucune transaction n'est réelle.",
+        "Environnement de test. Les données affichées sont fictives et aucune transaction réelle n'est effectuée."
+      ]
     },
     {
       "id": "G02",
@@ -4014,7 +4025,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Procédure de test",
+        "Protocole d'essai",
+        "Déroulé du test",
+        "Mode opératoire du test",
+        "Démarche de test"
+      ]
     },
     {
       "id": "G03",
@@ -4028,7 +4046,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Revenir au hackathon",
+        "Retourner au hackathon",
+        "Retour à la page du hackathon",
+        "Revenir sur le site du hackathon",
+        "Retour au site du hackathon",
+        "Retour vers le hackathon"
+      ]
     },
     {
       "id": "G04",
@@ -4042,7 +4068,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Banque numérique",
+        "Services bancaires en ligne",
+        "Banque sur internet",
+        "Banque digitale",
+        "Espace bancaire en ligne",
+        "Accès bancaire en ligne"
+      ]
     },
     {
       "id": "G05",
@@ -4071,7 +4105,16 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Frais.",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Frais appliqués",
+        "Frais de l'opération",
+        "Montant des frais",
+        "Frais de service",
+        "Frais facturés",
+        "Coût de l'opération",
+        "Frais associés"
+      ]
     },
     {
       "id": "G07",
@@ -4085,7 +4128,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "bénéficiaire",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Bénéficiaire du transfert",
+        "Bénéficiaire de l'opération",
+        "Destinataire des fonds",
+        "Personne bénéficiaire",
+        "Destinataire de l'argent"
+      ]
     },
     {
       "id": "G08",
@@ -4099,7 +4149,11 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Récapitulatif avant confirmation",
+        "Résumé avant confirmation"
+      ]
     },
     {
       "id": "G09",
@@ -4113,7 +4167,14 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Étape de confirmation",
+        "Confirmation du transfert",
+        "Confirmation de l'opération",
+        "Validation du transfert",
+        "Confirmation finale"
+      ]
     },
     {
       "id": "G10",
@@ -4127,7 +4188,18 @@
       "relu_par": "John",
       "retraduit_par": "Joseph",
       "retraduction": "Safinum Pay - environnement de d´monstration. Ne mettez aucune information impotante",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Safinum Pay — version de démonstration. Ne saisissez aucune information personnelle réelle.",
+        "Safinum Pay — environnement de démonstration. N'utilisez pas de vraies données personnelles.",
+        "Safinum Pay — démo. Ne saisissez aucune donnée personnelle réelle.",
+        "Safinum Pay, environnement de démonstration. Ne saisissez pas vos vraies données personnelles.",
+        "Safinum Pay — site de démonstration. N'entrez aucune donnée personnelle réelle.",
+        "Safinum Pay — environnement de démonstration. Ne saisissez aucune donnée personnelle véritable.",
+        "Safinum Pay — environnement de démonstration. N'indiquez aucune information personnelle réelle.",
+        "Safinum Pay — mode démonstration. Aucune donnée personnelle réelle ne doit être saisie.",
+        "Safinum Pay — environnement de démonstration. N'utilisez aucune donnée personnelle réelle."
+      ]
     },
     {
       "id": "A01",
@@ -4141,7 +4213,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Votre compte bancaire",
+        "Votre espace compte",
+        "Aperçu de votre compte",
+        "Vue d'ensemble du compte",
+        "Synthèse du compte"
+      ]
     },
     {
       "id": "A02",
@@ -4183,7 +4262,18 @@
       "relu_par": "Lesly",
       "retraduit_par": "Joseph",
       "retraduction": "Consultez votre solde, continuer vers les transferts en toute sécurité",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Consultez votre solde et effectuez un transfert en toute sécurité.",
+        "Vérifiez votre solde et faites un transfert en toute sécurité.",
+        "Consultez votre solde et envoyez de l'argent en toute sécurité.",
+        "Consultez votre solde et réalisez vos transferts en toute sécurité.",
+        "Consultez votre solde et initiez un transfert en toute sécurité.",
+        "Accédez à votre solde et lancez un transfert en toute sécurité.",
+        "Consultez votre solde puis lancez un transfert en toute sécurité.",
+        "Consultez votre solde et démarrez un transfert en toute sécurité.",
+        "Consultez votre solde et effectuez vos transferts de manière sécurisée."
+      ]
     },
     {
       "id": "A05",
@@ -4197,7 +4287,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Solde disponible",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Fonds disponibles",
+        "Argent disponible",
+        "Montant disponible",
+        "Solde disponible du compte",
+        "Solde actuellement disponible",
+        "Disponible sur votre compte"
+      ]
     },
     {
       "id": "A06",
@@ -4211,7 +4309,13 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "Numéro de compte : {account}",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro de votre compte : {account}",
+        "Numéro de compte bancaire : {account}",
+        "Num. de compte : {account}",
+        "No de compte : {account}"
+      ]
     },
     {
       "id": "A07",
@@ -4225,7 +4329,12 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Num. de compte",
+        "No de compte",
+        "Numéro de compte bancaire"
+      ]
     },
     {
       "id": "A08",
@@ -4239,7 +4348,11 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Compte chèques",
+        "Compte à vue"
+      ]
     },
     {
       "id": "A09",
@@ -4253,7 +4366,18 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Efeectuer un transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Faire un transfert",
+        "Faire un virement",
+        "Réaliser un transfert",
+        "Lancer un transfert",
+        "Initier un transfert",
+        "Démarrer un transfert",
+        "Procéder à un transfert",
+        "Effectuer un transfert d'argent",
+        "Commencer un transfert"
+      ]
     },
     {
       "id": "A10",
@@ -4267,7 +4391,14 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Connaître les frais",
+        "Vérifier les frais",
+        "Consulter les tarifs",
+        "Consulter la grille tarifaire",
+        "Découvrir les frais"
+      ]
     },
     {
       "id": "A11",
@@ -4281,7 +4412,15 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Dernières transactions",
+        "Derniers mouvements",
+        "Mouvements récents",
+        "Activité récente",
+        "Historique récent",
+        "Dernières activités"
+      ]
     },
     {
       "id": "A12",
@@ -4295,7 +4434,13 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Paiement chez un commerçant",
+        "Paiement commerçant",
+        "Règlement marchand",
+        "Achat chez un commerçant"
+      ]
     },
     {
       "id": "A13",
@@ -4309,7 +4454,14 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Salaire crédité",
+        "Salaire perçu",
+        "Paie reçue",
+        "Versement de salaire reçu",
+        "Salaire encaissé"
+      ]
     },
     {
       "id": "A14",
@@ -4323,7 +4475,14 @@
       "relu_par": "Carrel",
       "retraduit_par": "Joseph",
       "retraduction": "Transfert recu",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Argent reçu",
+        "Fonds reçus",
+        "Transfert entrant",
+        "Réception d'un transfert",
+        "Transfert crédité"
+      ]
     },
     {
       "id": "A15",
@@ -4337,7 +4496,12 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Facture de courant",
+        "Paiement facture d'électricité",
+        "Facture électrique"
+      ]
     },
     {
       "id": "S01",
@@ -4365,7 +4529,18 @@
       "relu_par": "John",
       "retraduit_par": "Joseph",
       "retraduction": "Vérifiez toujours le nom et le numéro de téléphone du bénéficiaire, avant de continuer le transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vérifiez toujours les coordonnées du bénéficiaire avant de confirmer un transfert.",
+        "Vérifiez systématiquement le nom et le numéro du bénéficiaire avant de confirmer un transfert.",
+        "Vérifiez toujours le nom et le numéro du bénéficiaire avant de valider un transfert.",
+        "Vérifiez toujours le nom et le numéro de téléphone du bénéficiaire avant de confirmer un transfert.",
+        "Assurez-vous toujours du nom et du numéro du bénéficiaire avant de confirmer un transfert.",
+        "Vérifiez bien le nom et le numéro du bénéficiaire avant de confirmer tout transfert.",
+        "Pensez toujours à vérifier le nom et le numéro du bénéficiaire avant de confirmer un transfert.",
+        "Avant toute confirmation de transfert, vérifiez le nom et le numéro du bénéficiaire.",
+        "Il faut toujours vérifier le nom et le numéro du bénéficiaire avant de confirmer un transfert."
+      ]
     },
     {
       "id": "S03",
@@ -4379,7 +4554,15 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Connexion chiffrée",
+        "Accès sécurisé",
+        "Session sécurisée",
+        "Liaison sécurisée",
+        "Connexion protégée",
+        "Navigation sécurisée"
+      ]
     },
     {
       "id": "F01",
@@ -4393,7 +4576,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "frais de transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Coût du transfert",
+        "Tarif du transfert",
+        "Frais liés au transfert",
+        "Frais applicables au transfert",
+        "Frais de transfert d'argent"
+      ]
     },
     {
       "id": "F02",
@@ -4407,7 +4597,17 @@
       "relu_par": "Carrel",
       "retraduit_par": "Joseph",
       "retraduction": "Choisir le type de transfert. Les frais sont calculés automatiquement",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Sélectionnez le type de transfert et le montant. Les frais sont calculés automatiquement.",
+        "Choisissez le type de transfert et saisissez le montant. Les frais sont calculés automatiquement.",
+        "Choisissez le type de transfert et le montant ; les frais seront calculés automatiquement.",
+        "Indiquez le type de transfert et le montant. Le calcul des frais est automatique.",
+        "Choisissez le mode de transfert et le montant. Les frais sont calculés automatiquement.",
+        "Choisissez le type de transfert puis le montant. Les frais sont calculés automatiquement.",
+        "Choisissez le type de transfert et le montant. Le calcul des frais se fait automatiquement.",
+        "Sélectionnez le type d'opération et le montant. Les frais sont calculés automatiquement."
+      ]
     },
     {
       "id": "F03",
@@ -4421,7 +4621,13 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Type de transfert",
+        "Nature de l'opération",
+        "Catégorie d'opération",
+        "Mode de transfert"
+      ]
     },
     {
       "id": "F04",
@@ -4435,7 +4641,13 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vers un compte Safinum",
+        "Compte Safinum Pay",
+        "Transfert vers un compte Safinum",
+        "Entre comptes Safinum"
+      ]
     },
     {
       "id": "F05",
@@ -4449,7 +4661,15 @@
       "relu_par": "John",
       "retraduit_par": "Joseph",
       "retraduction": "Transfert automatique gratuit",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Transfert immédiat et gratuit",
+        "Transfert instantané et sans frais",
+        "Transfert immédiat et sans frais",
+        "Transfert en temps réel et gratuit",
+        "Transfert en temps réel, sans frais",
+        "L'argent arrive tout de suite, sans frais"
+      ]
     },
     {
       "id": "F06",
@@ -4463,7 +4683,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Argent mobile",
+        "Portefeuille mobile",
+        "Monnaie mobile",
+        "Vers un compte Mobile Money",
+        "Compte Mobile Money"
+      ]
     },
     {
       "id": "F07",
@@ -4491,7 +4718,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vers une autre banque",
+        "Compte dans une autre banque",
+        "Autre établissement bancaire",
+        "Banque tierce",
+        "Transfert vers une autre banque",
+        "Banque externe"
+      ]
     },
     {
       "id": "F09",
@@ -4505,7 +4740,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Montant du transfert d'argent",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Montant du transfert",
+        "Combien voulez-vous envoyer ?",
+        "Montant que vous envoyez",
+        "Saisissez le montant à envoyer",
+        "Montant à envoyer au bénéficiaire",
+        "Quel montant souhaitez-vous envoyer ?"
+      ]
     },
     {
       "id": "F10",
@@ -4519,7 +4762,13 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Gratuit",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Frais offerts",
+        "Zéro frais",
+        "Entièrement gratuit",
+        "Gratuit, sans frais"
+      ]
     },
     {
       "id": "F11",
@@ -4533,7 +4782,15 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "Solde à débiter",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Montant total à débiter",
+        "Total à prélever",
+        "Total à payer",
+        "Total qui sera débité",
+        "Total à débiter de votre compte",
+        "Montant total à prélever"
+      ]
     },
     {
       "id": "F12",
@@ -4547,7 +4804,16 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Solde après le transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Solde après le transfert",
+        "Solde restant",
+        "Nouveau solde",
+        "Solde final",
+        "Solde après débit",
+        "Solde restant après l'opération",
+        "Solde une fois l'opération effectuée"
+      ]
     },
     {
       "id": "F13",
@@ -4561,7 +4827,12 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Continuer",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Étape suivante",
+        "Passer à l'étape suivante",
+        "Continuer vers l'étape suivante"
+      ]
     },
     {
       "id": "F14",
@@ -4575,7 +4846,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Revenir en arrière",
+        "Étape précédente",
+        "Retour en arrière",
+        "Revenir à l'étape précédente",
+        "Page précédente"
+      ]
     },
     {
       "id": "B01",
@@ -4589,7 +4867,18 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Renseignez les informations du bénéficiaire. Vérifiez le numéro de téléphone avant de continuer",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Renseignez les coordonnées du destinataire. Vérifiez toujours le numéro avant de valider.",
+        "Remplissez les informations du destinataire. Vérifiez toujours le numéro avant de valider.",
+        "Renseignez les informations du destinataire. Vérifiez toujours le numéro avant de confirmer.",
+        "Complétez les informations du destinataire. Vérifiez toujours le numéro avant de valider.",
+        "Renseignez les détails du destinataire. Vérifiez toujours le numéro avant de valider.",
+        "Renseignez les informations du destinataire. Vérifiez systématiquement le numéro avant de valider.",
+        "Renseignez les informations du destinataire. Vérifiez toujours le numéro de téléphone avant de valider.",
+        "Renseignez les informations du destinataire. Contrôlez bien le numéro avant toute validation.",
+        "Indiquez les informations du destinataire, puis vérifiez toujours le numéro avant de valider."
+      ]
     },
     {
       "id": "B02",
@@ -4603,7 +4892,18 @@
       "relu_par": "John",
       "retraduit_par": "Joseph",
       "retraduction": "Ce bénéficiaire n'a jamais étéutilisé sur ce compte. Vérifiz le numéro de téléphone avant de continuer",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vous n'avez jamais envoyé d'argent à ce bénéficiaire depuis ce compte. Vérifiez le numéro avant de continuer.",
+        "Ce bénéficiaire n'a encore jamais été utilisé sur ce compte. Vérifiez le numéro avant de continuer.",
+        "Premier transfert vers ce bénéficiaire depuis ce compte. Vérifiez le numéro avant de continuer.",
+        "Nouveau bénéficiaire : il n'a jamais été utilisé sur ce compte. Vérifiez le numéro avant de continuer.",
+        "Ce bénéficiaire n'a jamais été utilisé sur ce compte. Vérifiez son numéro avant de poursuivre.",
+        "Ce bénéficiaire n'a jamais été utilisé sur ce compte. Contrôlez le numéro avant d'aller plus loin.",
+        "C'est la première fois que vous utilisez ce bénéficiaire sur ce compte. Vérifiez le numéro avant de continuer.",
+        "Ce bénéficiaire n'a jamais été utilisé sur ce compte. Vérifiez le numéro de téléphone avant de continuer.",
+        "Bénéficiaire jamais utilisé sur ce compte. Vérifiez le numéro avant de continuer."
+      ]
     },
     {
       "id": "B03",
@@ -4617,7 +4917,12 @@
       "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Nom du destinataire (ou du bénéficiaire)",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Nom complet du bénéficiaire",
+        "Nom et prénom du bénéficiaire",
+        "Nom du bénéficiaire du transfert"
+      ]
     },
     {
       "id": "B04",
@@ -4631,7 +4936,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro de portable",
+        "Numéro mobile",
+        "Numéro de téléphone mobile",
+        "Numéro de téléphone portable",
+        "No de téléphone",
+        "Num. de téléphone"
+      ]
     },
     {
       "id": "B05",
@@ -4645,7 +4958,16 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "Le motif du transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Objet du transfert",
+        "Raison du transfert",
+        "Libellé du transfert",
+        "Description du transfert",
+        "Objet de l'opération",
+        "Motif de l'opération",
+        "Pourquoi envoyez-vous cet argent ?"
+      ]
     },
     {
       "id": "B06",
@@ -4659,7 +4981,16 @@
       "relu_par": "Lesly",
       "retraduit_par": "Joseph",
       "retraduction": "Note (optionnel)",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Note (facultatif)",
+        "Commentaire (optionnel)",
+        "Commentaire (facultatif)",
+        "Message (optionnel)",
+        "Remarque (facultatif)",
+        "Note (non obligatoire)",
+        "Ajouter une note (optionnel)"
+      ]
     },
     {
       "id": "B07",
@@ -4673,7 +5004,18 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "J'ai vérifié le nom et le numéro de téléphone du bénéficiaire",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Je certifie avoir vérifié le nom et le numéro du bénéficiaire.",
+        "J'ai contrôlé le nom et le numéro du bénéficiaire.",
+        "Je confirme avoir vérifié le nom et le numéro du bénéficiaire.",
+        "J'ai vérifié les coordonnées du bénéficiaire.",
+        "J'ai vérifié le nom et le numéro de téléphone du bénéficiaire.",
+        "Je déclare avoir vérifié le nom et le numéro du bénéficiaire.",
+        "Je reconnais avoir vérifié le nom et le numéro du bénéficiaire.",
+        "J'atteste avoir vérifié le nom et le numéro du bénéficiaire.",
+        "J'ai pris soin de vérifier le nom et le numéro du bénéficiaire."
+      ]
     },
     {
       "id": "R01",
@@ -4687,7 +5029,18 @@
       "relu_par": "John",
       "retraduit_par": "Joseph",
       "retraduction": "Vérifiez les informations avant de confirmer le transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vérifiez les informations avant de valider le transfert.",
+        "Vérifiez les détails avant de confirmer le transfert.",
+        "Relisez les informations avant de confirmer le transfert.",
+        "Vérifiez attentivement les informations avant de confirmer le transfert.",
+        "Vérifiez les informations ci-dessous avant de confirmer le transfert.",
+        "Vérifiez le récapitulatif avant de confirmer le transfert.",
+        "Vérifiez les informations saisies avant de confirmer le transfert.",
+        "Relisez attentivement les informations avant de valider le transfert.",
+        "Vérifiez les données avant de confirmer le transfert."
+      ]
     },
     {
       "id": "R02",
@@ -4701,7 +5054,10 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Montant",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Montant de l'opération"
+      ]
     },
     {
       "id": "R03",
@@ -4715,7 +5071,17 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Solde débité",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Montant total débité",
+        "Total prélevé",
+        "Montant total prélevé",
+        "Total débité du compte",
+        "Total retiré du compte",
+        "Somme totale débitée",
+        "Total payé",
+        "Montant total débité de votre compte"
+      ]
     },
     {
       "id": "R04",
@@ -4729,7 +5095,11 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Téléphone du bénéficiaire",
+        "Tél. du bénéficiaire"
+      ]
     },
     {
       "id": "R05",
@@ -4743,7 +5113,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Référence de l'opération",
+        "Numéro de référence",
+        "Réf. de l'opération",
+        "Référence du transfert",
+        "Code de référence"
+      ]
     },
     {
       "id": "R06",
@@ -4771,7 +5148,20 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "Je confirme que les inforations sont correctes",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Je certifie que les informations ci-dessus sont exactes.",
+        "Je certifie l'exactitude des informations ci-dessus.",
+        "Je confirme l'exactitude des informations ci-dessus.",
+        "Je confirme que les informations indiquées sont correctes.",
+        "Je confirme que ces informations sont correctes.",
+        "J'atteste que les informations ci-dessus sont correctes.",
+        "Je déclare que les informations ci-dessus sont exactes.",
+        "Je confirme que les informations saisies sont correctes.",
+        "Je confirme l'exactitude des informations fournies.",
+        "Je certifie que les informations fournies sont exactes.",
+        "Je confirme que les données ci-dessus sont correctes."
+      ]
     },
     {
       "id": "R08",
@@ -4785,7 +5175,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "changer",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Modifier les informations",
+        "Corriger les informations",
+        "Modifier les détails",
+        "Éditer les informations",
+        "Modifier le transfert"
+      ]
     },
     {
       "id": "R09",
@@ -4799,7 +5196,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Confrmer le transfert d'argent",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Valider le transfert",
+        "Confirmer et envoyer",
+        "Je confirme le transfert",
+        "Valider et envoyer",
+        "Confirmer l'envoi d'argent"
+      ]
     },
     {
       "id": "C01",
@@ -4813,7 +5217,14 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "transfert effectué",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Transfert réalisé",
+        "Transfert accompli",
+        "Transfert exécuté",
+        "Opération de transfert réussie",
+        "Transfert finalisé"
+      ]
     },
     {
       "id": "C02",
@@ -4827,7 +5238,15 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Votre transfert a été effectué avec succès",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Votre argent a été envoyé avec succès.",
+        "Votre transfert est parti avec succès.",
+        "Votre transfert a été transmis avec succès.",
+        "Les fonds ont été envoyés avec succès.",
+        "Votre transfert a été envoyé au bénéficiaire.",
+        "L'argent a bien été envoyé au bénéficiaire."
+      ]
     },
     {
       "id": "C03",
@@ -4841,7 +5260,13 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Statut de l'opération",
+        "État de l'opération",
+        "Statut du transfert",
+        "État du transfert"
+      ]
     },
     {
       "id": "C04",
@@ -4869,7 +5294,14 @@
       "relu_par": "Carrel",
       "retraduit_par": "Joseph",
       "retraduction": "Nouveau transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Nouvel envoi",
+        "Faire un nouveau transfert",
+        "Effectuer un autre transfert",
+        "Autre transfert",
+        "Faire un autre transfert"
+      ]
     },
     {
       "id": "E01",
@@ -4883,7 +5315,17 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "erreur est survenue",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Une erreur s'est produite",
+        "Une erreur inattendue s'est produite",
+        "Une erreur a eu lieu",
+        "Oups, une erreur est survenue",
+        "Désolé, une erreur est survenue",
+        "Un incident est survenu",
+        "Quelque chose s'est mal passé",
+        "Une anomalie est survenue"
+      ]
     },
     {
       "id": "E02",
@@ -4897,7 +5339,11 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Alerte de sécurité",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Avertissement de sécurité",
+        "Mise en garde de sécurité"
+      ]
     },
     {
       "id": "E03",
@@ -4911,7 +5357,12 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Fermer le message",
+        "Fermer la fenêtre",
+        "Fermer l'alerte"
+      ]
     },
     {
       "id": "E04",
@@ -4925,7 +5376,13 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Message trés important",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Information importante",
+        "Avis important",
+        "Note importante",
+        "Communication importante"
+      ]
     },
     {
       "id": "E05",
@@ -4939,7 +5396,16 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Le solde doit être supérieur à zéro",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Veuillez saisir un montant supérieur à zéro.",
+        "Le montant doit être plus grand que zéro.",
+        "Le montant saisi doit être supérieur à zéro.",
+        "Le montant doit être strictement positif.",
+        "Le montant doit dépasser zéro.",
+        "Montant supérieur à zéro obligatoire.",
+        "Vous devez saisir un montant supérieur à zéro."
+      ]
     },
     {
       "id": "E06",
@@ -4953,7 +5419,18 @@
       "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "solde insuffisant pour le transfert d'argent",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Solde insuffisant pour cette opération.",
+        "Vous n'avez pas assez d'argent pour effectuer ce transfert.",
+        "Solde insuffisant pour ce transfert.",
+        "Fonds insuffisants pour effectuer ce transfert.",
+        "Votre solde ne permet pas d'effectuer ce transfert.",
+        "Solde insuffisant pour réaliser ce transfert.",
+        "Provision insuffisante pour effectuer ce transfert.",
+        "Solde insuffisant : impossible d'effectuer ce transfert.",
+        "Votre solde est trop faible pour effectuer ce transfert."
+      ]
     },
     {
       "id": "E07",
@@ -4967,7 +5444,17 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "S'il vous plaît, veillez renseigner le nom et le numéro de téléphone du bénéficiaire",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Le nom et le numéro du bénéficiaire sont obligatoires.",
+        "Veuillez remplir le nom et le numéro du bénéficiaire.",
+        "Veuillez compléter le nom et le numéro du bénéficiaire.",
+        "Veuillez renseigner les coordonnées du bénéficiaire.",
+        "Le nom et le numéro du bénéficiaire doivent être renseignés.",
+        "Nom et numéro du bénéficiaire requis.",
+        "Veuillez renseigner le nom et le numéro de téléphone du bénéficiaire.",
+        "Veuillez fournir le nom et le numéro du bénéficiaire."
+      ]
     },
     {
       "id": "E08",
@@ -4981,7 +5468,14 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Attention : Vérifiez le numéro de téléphone du bénéficiaire avant de continuer",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Avertissement de sécurité : vérifiez le numéro du bénéficiaire avant de continuer.",
+        "Alerte de sécurité : vérifiez le numéro du bénéficiaire avant de poursuivre.",
+        "Alerte de sécurité : vérifiez bien le numéro du bénéficiaire avant d'aller plus loin.",
+        "Alerte de sécurité : vérifiez le numéro de téléphone du bénéficiaire avant de continuer.",
+        "Mise en garde : vérifiez le numéro du bénéficiaire avant de continuer."
+      ]
     },
     {
       "id": "E09",
@@ -4995,7 +5489,17 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Attention : Ce bénéficiaire n'a jamais été utilisé sur ce compte.",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Avertissement de sécurité : ce bénéficiaire n'a jamais été utilisé sur ce compte.",
+        "Alerte de sécurité : ce bénéficiaire n'a encore jamais été utilisé sur ce compte.",
+        "Alerte de sécurité : vous n'avez jamais envoyé d'argent à ce bénéficiaire depuis ce compte.",
+        "Alerte de sécurité : premier transfert vers ce bénéficiaire depuis ce compte.",
+        "Alerte de sécurité : nouveau bénéficiaire, jamais utilisé sur ce compte.",
+        "Alerte de sécurité : bénéficiaire jamais utilisé sur ce compte.",
+        "Alerte de sécurité : c'est la première fois que vous utilisez ce bénéficiaire sur ce compte.",
+        "Mise en garde : ce bénéficiaire n'a jamais été utilisé sur ce compte."
+      ]
     },
     {
       "id": "E10",
@@ -5009,7 +5513,18 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Erreur de réseau. Rien à afficher pour le moment.",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Service temporairement indisponible. Veuillez réessayer plus tard.",
+        "Erreur de connexion : le service est temporairement indisponible. Réessayez.",
+        "Erreur réseau : le service est temporairement inaccessible. Réessayez.",
+        "Erreur réseau : le service n'est pas disponible pour le moment. Réessayez.",
+        "Erreur réseau : le service est temporairement indisponible. Veuillez réessayer plus tard.",
+        "Erreur réseau : le service est provisoirement indisponible. Réessayez.",
+        "Erreur réseau : le service est temporairement hors service. Réessayez.",
+        "Erreur réseau : le service est temporairement indisponible. Essayez à nouveau.",
+        "Erreur réseau, service temporairement indisponible : réessayez dans quelques instants."
+      ]
     },
     {
       "id": "E11",
@@ -5023,7 +5538,17 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "Vous devez confirmer les informations avant de continuer avec le transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Veuillez confirmer les informations avant de valider le transfert.",
+        "Les informations doivent être confirmées avant de valider le transfert.",
+        "Vous devez d'abord confirmer les informations pour valider le transfert.",
+        "Confirmation des informations obligatoire avant validation du transfert.",
+        "Vous devez confirmer les informations avant de finaliser le transfert.",
+        "Vous devez confirmer les données avant de valider le transfert.",
+        "Vous devez confirmer les informations avant de procéder au transfert.",
+        "Veuillez d'abord confirmer les informations, puis validez le transfert."
+      ]
     },
     {
       "id": "X01",
@@ -5037,7 +5562,11 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Soyez le bienvenu",
+        "Bienvenue sur votre espace"
+      ]
     },
     {
       "id": "X02",
@@ -5051,7 +5580,11 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Mon espace client",
+        "Mon compte client"
+      ]
     },
     {
       "id": "X03",
@@ -5065,7 +5598,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "retour à l'accueil",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Retour à la page d'accueil",
+        "Revenir à l'accueil",
+        "Revenir à la page d'accueil",
+        "Retourner à l'accueil",
+        "Page d'accueil",
+        "Retour vers l'accueil"
+      ]
     },
     {
       "id": "X04",
@@ -5093,7 +5634,12 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Fermer la session",
+        "Quitter la session",
+        "Déconnexion du compte"
+      ]
     },
     {
       "id": "X06",
@@ -5107,7 +5653,13 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Historique du compte",
+        "Liste des transactions",
+        "Historique des mouvements",
+        "Journal des transactions"
+      ]
     },
     {
       "id": "X07",
@@ -5121,7 +5673,15 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Voir mon solde",
+        "Vérifier le solde",
+        "Vérifier mon solde",
+        "Connaître mon solde",
+        "Interrogation de solde",
+        "Consultation du solde"
+      ]
     },
     {
       "id": "X08",
@@ -5145,7 +5705,9 @@
         "Solde du compte : {amount}",
         "Votre solde s'élève à {amount}",
         "Le solde de votre compte s'élève à {amount}",
-        "Vous disposez d'un solde de {amount}"
+        "Vous disposez d'un solde de {amount}",
+        "Votre compte affiche un solde de {amount}",
+        "Votre compte présente un solde de {amount}"
       ]
     },
     {
@@ -5160,7 +5722,13 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Transferer de l'argent",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Envoyer des fonds",
+        "Transférer des fonds",
+        "Envoi d'argent",
+        "Faire un envoi d'argent"
+      ]
     },
     {
       "id": "X10",
@@ -5174,7 +5742,12 @@
       "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Numero de telphone du beneficiaire",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro de téléphone du bénéficiaire",
+        "Numéro mobile du bénéficiaire",
+        "No du bénéficiaire"
+      ]
     },
     {
       "id": "X11",
@@ -5188,7 +5761,13 @@
       "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Numero de telphone du beneficiaire : {phone}",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Téléphone du bénéficiaire : {phone}",
+        "Numéro de téléphone du bénéficiaire : {phone}",
+        "Tél. du bénéficiaire : {phone}",
+        "Numéro mobile du bénéficiaire : {phone}"
+      ]
     },
     {
       "id": "X12",
@@ -5202,7 +5781,16 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Frais de transfert : {amount}",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Frais appliqués : {amount}",
+        "Frais du transfert : {amount}",
+        "Coût de l'opération : {amount}",
+        "Frais de service : {amount}",
+        "Frais facturés : {amount}",
+        "Montant des frais : {amount}",
+        "Frais prélevés : {amount}"
+      ]
     },
     {
       "id": "X13",
@@ -5230,7 +5818,16 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Solde débité : {amount}",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Montant total débité : {amount}",
+        "Total prélevé : {amount}",
+        "Montant total prélevé : {amount}",
+        "Total payé : {amount}",
+        "Total retiré du compte : {amount}",
+        "Somme totale débitée : {amount}",
+        "Total débité du compte : {amount}"
+      ]
     },
     {
       "id": "X15",
@@ -5244,7 +5841,12 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "Confirmer / Valider",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Confirmer l'opération",
+        "Valider l'opération",
+        "Oui, confirmer"
+      ]
     },
     {
       "id": "X16",
@@ -5258,7 +5860,18 @@
       "relu_par": "John",
       "retraduit_par": "Joseph",
       "retraduction": "Vérifiez le nom et le numéro de téléphone du bénéficiaire avant de continuer. En acceptant de continuer, vous ne pourrez plus annuler",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Cette opération ne pourra pas être annulée.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée est irréversible.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une fois confirmée, l'opération ne peut pas être annulée.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de valider. Une opération validée ne peut pas être annulée.",
+        "Vérifiez les coordonnées du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer : une opération confirmée ne peut plus être annulée.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Après confirmation, l'opération ne peut pas être annulée.",
+        "Avant de confirmer, vérifiez le nom et le numéro du bénéficiaire : toute opération confirmée est irréversible.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut être annulée."
+      ]
     },
     {
       "id": "X17",
@@ -5272,7 +5885,14 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Transaction effectuée avec succès",
+        "Opération réalisée avec succès",
+        "Opération accomplie",
+        "Opération exécutée",
+        "Opération finalisée"
+      ]
     },
     {
       "id": "X18",
@@ -5286,7 +5906,15 @@
       "relu_par": "Carrel",
       "retraduit_par": "Joseph",
       "retraduction": "Patientez un moment / opération en cours",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Opération en cours",
+        "Traitement en cours",
+        "Opération en traitement",
+        "Traitement en cours, veuillez patienter",
+        "Opération en cours d'exécution",
+        "Votre demande est en cours de traitement"
+      ]
     },
     {
       "id": "X19",
@@ -5300,7 +5928,16 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro de référence : {ref}",
+        "Réf. de l'opération : {ref}",
+        "Référence du transfert : {ref}",
+        "Code de référence : {ref}",
+        "Identifiant de l'opération : {ref}",
+        "ID de transaction : {ref}",
+        "Numéro de transaction : {ref}"
+      ]
     },
     {
       "id": "X20",
@@ -5314,7 +5951,16 @@
       "relu_par": "Lesly",
       "retraduit_par": "John",
       "retraduction": "Solde insuffisant",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Fonds insuffisants",
+        "Provision insuffisante",
+        "Solde trop faible",
+        "Vous n'avez pas assez d'argent",
+        "Montant disponible insuffisant",
+        "Solde du compte insuffisant",
+        "Fonds disponibles insuffisants"
+      ]
     },
     {
       "id": "X21",
@@ -5328,7 +5974,17 @@
       "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "mauvais nuéro de téléphone",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro non valide",
+        "Numéro incorrect",
+        "Numéro erroné",
+        "Numéro de téléphone invalide",
+        "Ce numéro n'est pas valide",
+        "Numéro de téléphone incorrect",
+        "Numéro saisi invalide",
+        "Le numéro saisi est incorrect"
+      ]
     },
     {
       "id": "X22",
@@ -5342,7 +5998,19 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Un erreur est survenue. Réessayez",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Une erreur s'est produite. Veuillez réessayer.",
+        "Une erreur inattendue est survenue. Veuillez réessayer.",
+        "Une erreur est survenue. Réessayez plus tard.",
+        "Une erreur est survenue. Veuillez essayer à nouveau.",
+        "Oups, une erreur est survenue. Veuillez réessayer.",
+        "Désolé, une erreur est survenue. Veuillez réessayer.",
+        "Un incident est survenu. Veuillez réessayer.",
+        "Quelque chose s'est mal passé. Veuillez réessayer.",
+        "Une erreur a eu lieu. Veuillez réessayer.",
+        "Une erreur est survenue. Veuillez réessayer dans quelques instants."
+      ]
     },
     {
       "id": "X23",
@@ -5356,7 +6024,15 @@
       "relu_par": "John",
       "retraduit_par": "Joseph",
       "retraduction": "Le montant est insuffisant",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Montant non valide",
+        "Montant incorrect",
+        "Montant erroné",
+        "Le montant saisi est invalide",
+        "Montant saisi incorrect",
+        "Ce montant n'est pas valide"
+      ]
     },
     {
       "id": "X24",
@@ -5370,7 +6046,16 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "Attention : Ne partagez votre code secret à personne. Aucun agent ne vous le demandera",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Ne communiquez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Attention : ne donnez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Important : ne partagez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Attention : ne partagez jamais votre code secret. Aucun agent ne vous le demandera jamais.",
+        "Attention : ne révélez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Attention : ne transmettez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Mise en garde : ne partagez jamais votre code secret. Aucun agent ne vous le demandera."
+      ]
     },
     {
       "id": "X25",
@@ -5384,7 +6069,14 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Tapez votre code PIN",
+        "Composez votre code PIN",
+        "Saisissez votre code confidentiel",
+        "Saisissez votre PIN",
+        "Introduisez votre code PIN"
+      ]
     },
     {
       "id": "X26",
@@ -5398,7 +6090,17 @@
       "relu_par": "Carrel",
       "retraduit_par": "John",
       "retraduction": "votre code de confirmation est {code}. Vous ne devez le partager à personne",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Votre code de vérification est {code}. Ne le partagez avec personne.",
+        "Votre code à usage unique est {code}. Ne le communiquez à personne.",
+        "Votre code de validation est {code}. Ne le partagez avec personne.",
+        "Votre code de confirmation est {code}. Ne le donnez à personne.",
+        "Votre code de confirmation est {code}. Ne le transmettez à personne.",
+        "Votre code OTP est {code}. Ne le partagez avec personne.",
+        "Votre code de sécurité est {code}. Ne le partagez avec personne.",
+        "Votre code de confirmation est {code}. Ne le révélez à personne."
+      ]
     },
     {
       "id": "X27",
@@ -5412,7 +6114,17 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "En acceptant de continuer, vous ne pourrez plus annuler",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Cette opération ne peut pas être annulée",
+        "Cette opération ne pourra pas être annulée",
+        "Une fois confirmée, cette opération ne peut pas être annulée",
+        "Cette opération ne peut plus être annulée",
+        "Aucune annulation n'est possible pour cette opération",
+        "Il n'est pas possible d'annuler cette opération",
+        "Cette opération est sans retour",
+        "Cette opération ne peut être annulée"
+      ]
     },
     {
       "id": "X28",
@@ -5426,7 +6138,13 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "John",
       "retraduction": "Détails du transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Résumé de l'opération",
+        "Récapitulatif du transfert",
+        "Résumé du transfert",
+        "Synthèse de l'opération"
+      ]
     },
     {
       "id": "X29",
