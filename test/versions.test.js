@@ -14,6 +14,12 @@ test('rien de changé (sauf un relecteur) : même version', () => {
   assert.equal(versionSuivante('0.3.0', d), '0.3.0');
 });
 
+test('signature ou retraduction ajoutée à une version déjà archivée : correctif, journal sans traduction changée', () => {
+  const d = { ...differences(avant, pack([phrase('A1', 'un', 'c'), phrase('A2', 'deux')])), suivi: true };
+  assert.equal(versionSuivante('0.7.1', d), '0.7.2');
+  assert.match(entreeJournal('0.7.2', '2026-11-19', d), /aucune traduction changée/);
+});
+
 test('bulu corrigé : correctif', () => {
   const d = differences(avant, pack([phrase('A1', 'un'), phrase('A2', 'deux bis')]));
   assert.deepEqual(d.phrases.modifies, ['A2']);
