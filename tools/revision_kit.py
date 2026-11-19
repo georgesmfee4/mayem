@@ -302,12 +302,13 @@ def exporter(dossier, sortie, precedent_fichier=None, codes=None):
     compte['phrases'], priorites = _onglet_phrases(wb, autres, phrases, contexte, precedent)
     compte['glossaire'] = _onglet_glossaire(wb, autres, termes)
     _onglet_recap(wb, compte, priorites)
-    # Un onglet vide ne ferait que dérouter les locuteurs (l'import tolère son absence), ni sa ligne du mode d'emploi
+    # Un onglet vide ne ferait que dérouter les locuteurs (l'import tolère son absence), ni sa ligne du mode d'emploi.
+    # « Phrases à revoir » reste toujours : c'est à lui que l'import reconnaît un tableur de révision.
     guide = wb["Mode d'emploi"]
-    for nom, cle in (("Charte d'orthographe", 'charte'), ('Sens à distinguer', 'sens')):
+    for nom, cle in (("Charte d'orthographe", 'charte'), ('Sens à distinguer', 'sens'), ('Glossaire à compléter', 'glossaire')):
         if not compte[cle]:
             del wb[nom]
-            rang = next((c.row for c in guide['A'] if str(c.value or '').startswith(f'{"1" if cle == "charte" else "2"}. « {nom} »')), None)
+            rang = next((c.row for c in guide['A'] if re.match(rf'\d\. « {re.escape(nom)} »', str(c.value or ''))), None)
             if rang:
                 guide.delete_rows(rang)
     # Étapes renumérotées dans le mode d'emploi et le récapitulatif : 1, 2, 3 sans trou
