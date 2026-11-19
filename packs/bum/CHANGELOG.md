@@ -2,6 +2,18 @@
 
 Une correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.
 
+## 0.7.0 (2026-11-19)
+- Phrases ajoutées (1) : X29
+- Phrases modifiées (1) : X08
+- Termes ajoutés (1) : QP20
+
+## 0.6.2 (2026-11-19)
+- Phrases modifiées (22) : G01, A04, A06, A07, A10, F05, B02, B03, B06, R07, C04, E06, E07, E11, X07, X08, X10, X11, X20, X21, X23, X25
+- Termes modifiés (1) : T63
+
+## 0.6.1 (2026-11-19)
+- Termes modifiés (14) : QP19, T67, TP20, TP21, TP22, TP23, TP24, TP25, TP26, TP27, TP28, TP29, TP30, TP31
+
 ## 0.6.0 (2026-11-19)
 - Format 2 du pack (packs/schema.json) ; aucune traduction changée par ce passage
 
