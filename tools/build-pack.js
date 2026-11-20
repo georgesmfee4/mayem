@@ -11,11 +11,13 @@ import { choisirLangue, dossier } from './langues.js';
 import { differences, entreeJournal, versionSuivante } from './versions.js';
 import { resume, revisionOuverte } from './revision-donnees.js';
 import { BLOQUANT } from './revision-commun.js';
+import { option } from './options.js';
 
-const strict = process.argv.includes('--strict');
+const args = process.argv.slice(2);
+const strict = option(args, 'strict');
 // Le format attendu est celui du schéma : un seul endroit à changer quand la forme du pack change
 const FORMAT = JSON.parse(readFileSync(new URL('../packs/schema.json', import.meta.url), 'utf8')).properties.format.const;
-const langue = choisirLangue(process.argv.slice(2).find((argument) => !argument.startsWith('--')));
+const langue = choisirLangue(args.find((argument) => !argument.startsWith('--')));
 const ici = dossier(langue);
 const lire = (nom) => readFileSync(ici + nom, 'utf8');
 const oui = (v) => ['1', 'oui', 'yes', 'x'].includes((v || '').trim().toLowerCase());
@@ -67,8 +69,9 @@ function personnes(validePar) {
   return { traduit_par: traduit_par.trim(), relu_par: relu_par.trim() };
 }
 
-// Apostrophes et espaces varient d'un tableur à l'autre sans changer le texte
-const comparable = (texte) => texte.replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
+// Apostrophes, espaces et majuscules varient d'un tableur à l'autre sans changer ce qui a été lu
+// (une majuscule corrigée selon la charte ne rend pas une retraduction caduque)
+const comparable = (texte) => texte.replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim().toLowerCase();
 
 // id -> { cible, texte, par } ; vide tant qu'aucune retraduction n'a été importée
 function lireRetraductions() {
@@ -165,10 +168,24 @@ const { langue: code, nom, producteur, droits, orthographe, etiquettes } = infos
 const contenu = { glossaire: lireGlossaire(), phrases: lirePhrases() };
 const ancien = existsSync(ici + 'pack.json') ? JSON.parse(lire('pack.json')) : null;
 const changements = differences(ancien, { format: FORMAT, ...contenu, nom, producteur, droits, orthographe, etiquettes });
-const version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
+
+async function fabriquer(numero, jour) {
+  const fabrique = { format: FORMAT, langue: code, nom, version: numero, date: jour, empreinte: '', producteur, droits, orthographe, etiquettes, ...contenu };
+  fabrique.empreinte = await empreinte(fabrique);
+  return fabrique;
+}
+
+let version = ancien ? versionSuivante(ancien.version, changements) : '0.1.0';
 const date = version === ancien?.version && ancien.date ? ancien.date : new Date().toISOString().slice(0, 10);
-const pack = { format: FORMAT, langue: code, nom, version, date, empreinte: '', producteur, droits, orthographe, etiquettes, ...contenu };
-pack.empreinte = await empreinte(pack);
+let pack = await fabriquer(version, date);
+// Une version archivée ne change jamais : une signature ou une retraduction ajoutée fait une nouvelle version
+if (version === ancien?.version && existsSync(`${ici}versions/${version}.json`)
+    && JSON.parse(lire(`versions/${version}.json`)).empreinte !== pack.empreinte) {
+  changements.suivi = true;
+  version = versionSuivante(version, changements);
+  pack = await fabriquer(version, new Date().toISOString().slice(0, 10));
+}
+
 if (!erreurs.length) erreurs.push(...verifierPack(pack));
 
 if (erreurs.length) {
@@ -207,7 +224,7 @@ function archiver() {
   writeFileSync(archive, JSON.stringify(pack, null, 2) + '\n');
   const journal = ici + 'CHANGELOG.md';
   const entree = ancien?.date
-    ? entreeJournal(version, date, changements)
+    ? entreeJournal(version, pack.date, changements)
     : `## ${version} (${date})\n- Première version suivie : ${pack.phrases.length} phrases, ${pack.glossaire.length} termes`;
   const titre = `# Journal du pack ${nom} (${code})\n\nUne correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.\n`;
   // Les entrées déjà écrites, à partir du premier « ## » (git peut avoir mis des fins de ligne Windows)

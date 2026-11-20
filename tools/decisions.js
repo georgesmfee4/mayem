@@ -17,7 +17,9 @@ export function texteDe(pack, ref) {
   return terme ? { fr: terme.terme, cible: terme.cible, critique: terme.critique } : { fr: '', cible: '', critique: false };
 }
 
-const cle = (code, ref, cible) => [code, ref, (cible || '').trim()].join('\u0000');
+// Une majuscule, une apostrophe ou une espace corrigée ne change pas ce qui a été décidé
+const comparable = (cible) => (cible || '').replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim().toLowerCase();
+const cle = (code, ref, cible) => [code, ref, comparable(cible)].join('\u0000');
 
 // Constats encore ouverts : réglé quand chacune de ses références a été gardée, sur sa traduction actuelle
 export function constatsOuverts(constats, decisions, pack) {

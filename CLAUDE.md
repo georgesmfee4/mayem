@@ -8,7 +8,8 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
   `tools/compile.js` les retire avec Node, sans compilateur installé. `tools/` et `test/` restent en JavaScript.
 - Modules ES, une responsabilité par fichier. Aucune dépendance dans l'extension ;
   seule exception, Playwright pour les tests navigateur (`e2e/`) et l'inventaire (`tools/inventaire.js`),
-  en `devDependencies`, jamais dans l'extension.
+  en `devDependencies`, jamais dans l'extension. La mise en ligne de l'API passe par wrangler (Cloudflare),
+  lancé par `npx` à la version épinglée dans `tools/cloudflare.js`, hors de `package.json`.
 - Noms de variables et de fonctions en français, courts et parlants : `trouverMontants`, `traduire`, `queDesFaits`.
   Pas de jargon : `noeud` plutôt que `n`, `regles` plutôt que `registreHeuristique`.
 - Fonctions courtes. Si une fonction ne tient pas sur un écran, la couper.

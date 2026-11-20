@@ -3,7 +3,7 @@
 Aucune traduction n'est écrite ici : les cases « TRADUCTION <LANGUE> » reprennent la traduction actuelle, à garder ou corriger
 par les locuteurs. Les colonnes masquées (codes, groupe) servent seulement au réimport.
 """
-import csv, json
+import csv, json, re
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.worksheet.datavalidation import DataValidation
@@ -37,7 +37,7 @@ GUIDE = [
     "Quand deux idées différentes sont écrites pareil en {langue} (par exemple « confirmer » et « confirmation »), un client",
     "peut se tromper sur ce qu'il fait avec son argent. Nous avons repéré ces endroits ; vous seuls pouvez trancher.",
     "",
-    "Combien de temps ? Environ 2 à 3 heures en tout, à vous répartir (voir l'onglet « Récapitulatif »).",
+    "Combien de temps ?",  # durée calculée à l'export d'après le nombre de lignes
     "",
     "Dans quel ordre ?",
     "1. « Charte d'orthographe » : quelques questions sur la façon d'écrire. Vos réponses servent à corriger tout le reste.",
@@ -140,14 +140,20 @@ def _onglet_guide(wb):
     ws['A1'].font = Font(bold=True, size=13)
 
 
-def _onglet_charte(wb, style, sans_reponse_seulement=False, propres=None):
+# Constat de la révision -> question de la charte qu'il remet en cause
+SUJET_DU_CONSTAT = {'majuscule-glossaire': 'Majuscules du glossaire'}
+
+
+def _onglet_charte(wb, style, sans_reponse_seulement=False, propres=None, reperes=None):
+    """reperes : sujet -> ce que montrent les phrases. Une réponse que les phrases contredisent est toujours
+    reposée, en rouge, même dans le tableur court."""
     ws = wb.create_sheet("Charte d'orthographe")
-    _entete(ws, ['Sujet', 'Question', 'Réponse actuelle', 'VOTRE RÉPONSE (confirmer ou corriger)', 'Commentaire'], [20, 60, 50, 50, 30])
-    propres = propres or {}
+    _entete(ws, ['Sujet', 'Question', 'Réponse actuelle', 'Ce qui a été repéré', 'VOTRE RÉPONSE (confirmer ou corriger)', 'Commentaire'], [20, 60, 50, 48, 50, 30])
+    propres, reperes = propres or {}, reperes or {}
     charte = [(s, propres.get(s) or _n(q)) for s, q in CHARTE]
-    questions = [(s, q) for s, q in charte if not (sans_reponse_seulement and style.get(s, '').strip())]
+    questions = [(s, q) for s, q in charte if s in reperes or not (sans_reponse_seulement and style.get(s, '').strip())]
     for sujet, question in questions:
-        _ligne(ws, [sujet, question, style.get(sujet, ''), '', ''], jaunes=(4, 5))
+        _ligne(ws, [sujet, question, style.get(sujet, ''), reperes.get(sujet, ''), '', ''], jaunes=(5, 6), critique=sujet in reperes)
     _finir(ws, 'C2')
     return len(questions)
 
@@ -274,6 +280,15 @@ def _termes_contredits(constats):
             for c in constats if c['code'] == 'terme-critique' and c.get('terme')]
 
 
+def _duree(compte):
+    """Durée annoncée aux locuteurs, d'après le nombre de lignes à remplir : environ 5 minutes par phrase."""
+    minutes = 5 * (compte['phrases'] + compte['sens']) + 2 * compte['glossaire'] + 3 * compte['charte']
+    if minutes < 60:
+        return f"Environ {max(10, round(minutes / 10) * 10)} minutes"
+    heures = round(minutes / 30) / 2
+    return f"Environ {f'{heures:g}'.replace('.', ',')} heure{'s' if heures >= 2 else ''}"
+
+
 def exporter(dossier, sortie, precedent_fichier=None, codes=None):
     """codes : ne garder que ces constats (tableur court) ; la charte ne montre alors que les questions sans réponse."""
     _regler_langue(dossier)
@@ -290,14 +305,28 @@ def exporter(dossier, sortie, precedent_fichier=None, codes=None):
     autres = [c for c in constats if c['code'] != 'sens-confondus' and c['ref'] != 'charte']
     wb = Workbook()
     _onglet_guide(wb)
-    compte = {'charte': _onglet_charte(wb, _style(dossier), bool(codes), _questions_propres(dossier)), 'sens': _onglet_sens(wb, sens, phrases, contexte, precedent)}
+    reperes = {SUJET_DU_CONSTAT[c['code']]: c['explication'] for c in constats if c['ref'] == 'charte' and c['code'] in SUJET_DU_CONSTAT}
+    compte = {'charte': _onglet_charte(wb, _style(dossier), bool(codes), _questions_propres(dossier), reperes),
+              'sens': _onglet_sens(wb, sens, phrases, contexte, precedent)}
     compte['phrases'], priorites = _onglet_phrases(wb, autres, phrases, contexte, precedent)
     compte['glossaire'] = _onglet_glossaire(wb, autres, termes)
     _onglet_recap(wb, compte, priorites)
-    # Tableur court : un onglet vide ne ferait que dérouter les locuteurs (l'import tolère son absence)
-    for nom, cle in (("Charte d'orthographe", 'charte'), ('Sens à distinguer', 'sens')):
-        if codes and not compte[cle]:
+    duree = next(c for c in wb["Mode d'emploi"]['A'] if str(c.value or '').startswith('Combien de temps ?'))
+    duree.value = f"Combien de temps ? {_duree(compte)} en tout, à vous répartir (voir l'onglet « Récapitulatif »)."
+    # Un onglet vide ne ferait que dérouter les locuteurs (l'import tolère son absence), ni sa ligne du mode d'emploi.
+    # « Phrases à revoir » reste toujours : c'est à lui que l'import reconnaît un tableur de révision.
+    guide = wb["Mode d'emploi"]
+    for nom, cle in (("Charte d'orthographe", 'charte'), ('Sens à distinguer', 'sens'), ('Glossaire à compléter', 'glossaire')):
+        if not compte[cle]:
             del wb[nom]
+            rang = next((c.row for c in guide['A'] if re.match(rf'\d\. « {re.escape(nom)} »', str(c.value or ''))), None)
+            if rang:
+                guide.delete_rows(rang)
+    # Étapes renumérotées dans le mode d'emploi et le récapitulatif : 1, 2, 3 sans trou
+    for colonne in (guide['A'], wb['Récapitulatif']['E'][1:]):
+        etapes = [c for c in colonne if re.match(r'\d\. ', str(c.value or ''))]
+        for i, cellule in enumerate(etapes, 1):
+            cellule.value = f'{i}.' + cellule.value[2:]
     wb.save(sortie)
     print(f"Tableur de révision -> {sortie}")
     print(f"  charte : {compte['charte']} questions ; sens à distinguer : {compte['sens']} lignes ({len(sens)} groupes) ;"

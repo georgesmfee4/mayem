@@ -5,6 +5,7 @@
   python3 tools/kit.py import FICHIER    -> reporte traductions, glossaire et style du fichier rempli
   python3 tools/kit.py retraduction      -> retraduction-a-envoyer.xlsx (traduction seule, pour une 3e personne)
   python3 tools/kit.py import RETRAD     -> enregistre la retraduction reçue (retraduction.csv)
+  python3 tools/kit.py paraphrases       -> paraphrases-a-verifier.xlsx (autres façons de dire, à vérifier en français)
   python3 tools/kit.py revision          -> revision-<langue>.xlsx (après npm run revision ; --precedent ANCIEN.xlsx
                                             recopie les réponses d'un ancien tableur de relecture, à confirmer ;
                                             --codes negation,politesse,… -> revision-<langue>-court.xlsx, ces points seuls)
@@ -21,6 +22,7 @@ except ImportError:
     sys.exit("openpyxl manque. L'installer une fois : python -m pip install openpyxl")
 from openpyxl.styles import Alignment, Font, PatternFill
 import revision_kit  # après la vérification d'openpyxl, qu'il utilise aussi
+import paraphrases_kit
 
 root = pathlib.Path(__file__).resolve().parent.parent
 
@@ -195,23 +197,54 @@ def sheet_to_csv(wb, name, out):
         csv.writer(f).writerows(rows)
     return max(0, len(rows) - 1)
 
+def comparable(texte):
+    """Apostrophes, espaces et majuscules varient d'un tableur à l'autre sans changer ce qui a été lu (comme tools/build-pack.js)."""
+    return re.sub(r'\s+', ' ', texte.replace('’', "'").replace('‘', "'")).strip().lower()
+
+def lire_retraductions():
+    """En-tête et lignes de retraduction.csv, chaque ligne en dictionnaire par en-tête (en minuscules)."""
+    path = DOSSIER / 'retraduction.csv'
+    if not path.exists():
+        return [], []
+    with open(path, encoding='utf-8-sig', newline='') as f:
+        lignes = [l for l in csv.reader(f) if any(c.strip() for c in l)]
+    if not lignes:
+        return [], []
+    tete = lignes[0]
+    return tete, [{h.strip().lower(): (l[i] if i < len(l) else '') for i, h in enumerate(tete)} for l in lignes[1:]]
+
+def colonne(ligne, debut):
+    return next((v for k, v in ligne.items() if k.startswith(debut)), '').strip()
+
+def retraductions_valables():
+    """Réf. -> texte retraduit, pour les phrases dont la retraduction porte encore sur leur traduction actuelle."""
+    actuel = {r['id']: r['cible'] for r in lire_corpus()}
+    _, lignes = lire_retraductions()
+    return {colonne(l, 'réf'): l for l in lignes
+            if colonne(l, 'votre traduction') and comparable(colonne(l, 'texte')) == comparable(actuel.get(colonne(l, 'réf'), ''))}
+
 def backtranslation(path):
-    """Fichier séparé pour la 3e personne : uniquement la traduction des lignes critiques, sans le français."""
+    """Fichier séparé pour la 3e personne : la traduction des lignes critiques, sans le français.
+    Seules partent les phrases jamais retraduites ou dont la traduction a changé depuis. Une phrase non critique
+    déjà retraduite repart aussi quand sa traduction change : sinon sa retraduction resterait périmée."""
     rows = {r['id']: r for r in lire_corpus()}
+    valables = retraductions_valables()
+    deja = {colonne(l, 'réf') for l in lire_retraductions()[1] if colonne(l, 'votre traduction')}
     wb = Workbook(); ws = wb.active; ws.title = 'Retraduction'
     ws.append(['Réf.', f'Texte {LANGUE}', 'VOTRE TRADUCTION EN FRANÇAIS', 'Traduit par', 'Commentaire'])
     for c in ws[1]:
         c.font = Font(bold=True, color='FFFFFF'); c.fill = PatternFill('solid', fgColor='0F4C5C')
     n = 0
     for r in rows.values():
-        if r['critique'] == '1' and r['cible']:
+        if (r['critique'] == '1' or r['id'] in deja) and r['cible'] and r['id'] not in valables:
             ws.append([r['id'], r['cible'], '', '', '']); n += 1
             ws.cell(row=ws.max_row, column=3).fill = PatternFill('solid', fgColor='FFF2CC')
             for col in range(1, 6): ws.cell(row=ws.max_row, column=col).alignment = Alignment(wrap_text=True, vertical='top')
     for col, w in zip('ABCDE', [7, 50, 50, 16, 30]): ws.column_dimensions[col].width = w
     out = root / 'retraduction-a-envoyer.xlsx'
     wb.save(out)
-    print(f'{n} phrases critiques -> {out} (à envoyer à une personne qui n’a pas vu le français)')
+    print(f'{n} phrases à retraduire -> {out} (à envoyer à une personne qui n’a pas vu le français) ;'
+          f' {len(valables)} retraductions encore valables, gardées')
 
 def colonnes_traduction(header):
     """Indices des colonnes de traduction, traducteur et relecteur, quel que soit le nom donné par les locuteurs."""
@@ -251,6 +284,30 @@ def import_glossary(wb):
         print(f'glossaire : {kept} terme(s) vide(s) dans le tableur, traduction existante conservée')
     return n
 
+def importer_retraduction(wb):
+    """Ajoute à retraduction.csv les phrases retraduites dans le tableur, sans effacer les autres :
+    le tableur ne contient que les phrases à refaire, et une case vide ne retire jamais une retraduction."""
+    feuille = [[('' if v is None else str(v).strip()) for v in row] for row in wb['Retraduction'].iter_rows(values_only=True)]
+    feuille = [r for r in feuille if any(r)]
+    if not feuille:
+        return
+    tete_feuille = feuille[0]
+    tete_ancienne, anciennes = lire_retraductions()
+    tete = tete_feuille + [h for h in tete_ancienne if h.strip().lower() not in {t.strip().lower() for t in tete_feuille}]
+    par_ref = {colonne(l, 'réf'): l for l in anciennes if colonne(l, 'réf')}
+    nouvelles = 0
+    for r in feuille[1:]:
+        ligne = {h.strip().lower(): (r[i] if i < len(r) else '') for i, h in enumerate(tete_feuille)}
+        if colonne(ligne, 'réf') and colonne(ligne, 'votre traduction'):
+            par_ref[colonne(ligne, 'réf')] = ligne
+            nouvelles += 1
+    with open(DOSSIER / 'retraduction.csv', 'w', encoding='utf-8-sig', newline='') as f:
+        ecrire = csv.writer(f)
+        ecrire.writerow(tete)
+        for ligne in par_ref.values():
+            ecrire.writerow([ligne.get(h.strip().lower(), '') for h in tete])
+    print(f'retraduction : {nouvelles} phrases retraduites ajoutées, {len(par_ref) - nouvelles} autres gardées -> retraduction.csv')
+
 def import_(path):
     try:
         full = load_workbook(path, data_only=True)
@@ -261,13 +318,16 @@ def import_(path):
     if 'Phrases à revoir' in full.sheetnames:
         revision_kit.extraire(full, DOSSIER)
         return
+    if paraphrases_kit.ONGLET in full.sheetnames:
+        paraphrases_kit.importer(full, DOSSIER)
+        return
     # Un fichier de retraduction n'a ni glossaire ni style : ne pas annoncer « 0 termes »
     if 'Glossaire' in full.sheetnames:
         print(f"glossaire : {import_glossary(full)} termes -> glossaire.csv")
     if 'Choix de style' in full.sheetnames:
         print(f"style : {sheet_to_csv(full, 'Choix de style', DOSSIER / 'style.csv')} réponses -> style.csv")
     if 'Retraduction' in full.sheetnames:
-        print(f"retraduction : {sheet_to_csv(full, 'Retraduction', DOSSIER / 'retraduction.csv')} lignes -> retraduction.csv")
+        importer_retraduction(full)
         return
     if 'À traduire' not in full.sheetnames:
         print("pas d'onglet « À traduire » : seuls le glossaire et le style ont été importés")
@@ -309,6 +369,8 @@ if __name__ == '__main__':
         import_(sys.argv[2])
     elif len(sys.argv) >= 2 and sys.argv[1] == 'retraduction':
         backtranslation(None)
+    elif len(sys.argv) >= 2 and sys.argv[1] == 'paraphrases':
+        paraphrases_kit.exporter(DOSSIER, root / 'paraphrases-a-verifier.xlsx', LANGUE)
     elif len(sys.argv) >= 2 and sys.argv[1] == 'revision':
         import json
         if not (DOSSIER / 'revision.json').exists():
