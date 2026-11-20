@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Mayem",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Mayem affiche les services financiers numériques en bulu, sans modifier leur code source. Prototype SAFINUM Innovate Challenge.",
   "permissions": ["activeTab", "scripting"],
   "action": {
