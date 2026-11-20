@@ -74,18 +74,65 @@ export const PARAPHRASES = [
   ['Motif du virement', 'B05'],
   ['Numéro du destinataire', 'X10'],
   ['Nom du destinataire', 'B03'],
-];
-
-// Hors de portée de la forme canonique seule : un mot en plus ou en moins (« actuel », « Attention »)
-// suffit à empêcher la reconnaissance, tant qu'aucune paraphrase vérifiée ne couvre cette formulation.
-// Ils disent honnêtement ce que la méthode ne fait pas ; aucun ne doit recevoir une autre traduction.
-export const HORS_PORTEE = [
+  // Couverts depuis par une paraphrase vérifiée (packs/bum/paraphrases.csv)
   ['Le solde de votre compte est de 25 000 FCFA', 'X08'],
   ['Votre solde actuel est de 25 000 FCFA', 'X08'],
   ['Une erreur s\'est produite. Veuillez réessayer.', 'X22'],
   ['Numéro incorrect', 'X21'],
   ['Retour à la page d\'accueil', 'X03'],
   ['Ne communiquez jamais votre code secret. Aucun agent ne vous le demandera.', 'X24'],
+  // Tenus à l'écart du pack : reconnus par la forme canonique seule, sans paraphrase écrite ainsi
+  ['VOUS AVEZ RECU 15 000 FCFA DE MARIE NGO. NOUVEAU SOLDE : 265 000 FCFA.', 'MSG001'],
+  ['Votre compte est bloqué. Veuillez contacter le service client.', 'MSG010'],
+  ['Vous avez atteint le plafond journalier.', 'MSG012'],
+  ['Votre prêt de 50 000 FCFA a bien été approuvé.', 'MSG016'],
+  ['Votre cotisation de 2 000 FCFA a bien été enregistrée.', 'MSG019'],
+  ['Si vous n\'êtes pas à l\'origine de cette transaction, appelez le service client.', 'MSG022'],
+  ['Contrôlez le nom du destinataire avant de confirmer.', 'MSG023'],
+  ['Ce numéro n\'est pas enregistré sur Mobile Money', 'MSG024'],
+  ['Le destinataire recevra 25 000 FCFA.', 'MSG025'],
+  ['Transaction en attente. Composez #150# pour la confirmer.', 'MSG013'],
+  ['Votre facture de 7 500 FCFA a bien été payée. Référence : TX-482913.', 'MSG006'],
+  ['Le transfert a bien été effectué', 'C01'],
+  ['Saisissez un montant supérieur à zéro.', 'E05'],
+  ['Vérifiez bien les informations avant de valider le transfert.', 'R01'],
+  ['Les frais sont calculés automatiquement. Choisissez le type de transfert et le montant.', 'F02'],
+  ['NUMERO DE TELEPHONE INVALIDE', 'X21'],
+  ['Transfert immédiat sans frais', 'F05'],
+  ['Votre solde s\'élève à 25 000 FCFA', 'X08'],
+  ['Je confirme que les informations sont correctes.', 'R07'],
+  ['Opération réalisée avec succès.', 'X17'],
+  ['Votre virement a bien été transmis avec succès.', 'C02'],
+  ['Envoyez de l\'argent', 'X09'],
+  ['Solde du compte : 25 000 FCFA', 'X08'],
+  ['Frais de la transaction : 500 FCFA', 'X12'],
+  ['Référence de la transaction : TX-482913', 'X19'],
+  ['Total prélevé : 10 150 FCFA', 'X14'],
+  ['Montant à transférer', 'F09'],
+  ['Votre code de confirmation : 4821. Ne le communiquez à personne.', 'X26'],
+  ['Cette transaction est définitive', 'X27'],
+  ['Veuillez renseigner les coordonnées du destinataire.', 'E07'],
+];
+
+// Hors de portée de la forme canonique seule : un mot en plus ou en moins (« actuel », « Attention »)
+// suffit à empêcher la reconnaissance, tant qu'aucune paraphrase vérifiée ne couvre cette formulation.
+// Ils disent honnêtement ce que la méthode ne fait pas ; aucun ne doit recevoir une autre traduction.
+export const HORS_PORTEE = [
+  // Tenus à l'écart du pack (aucune paraphrase vérifiée ne les écrit ainsi), mesurés le 20 novembre
+  ['Vous avez bien reçu 15 000 FCFA de Marie Ngo. Nouveau solde : 265 000 FCFA.', 'MSG001'],
+  ['Retrait de 10 000 FCFA effectué. Commission : 150 FCFA. Nouveau solde : 90 000 FCFA.', 'MSG003'],
+  ['Code PIN incorrect. Il vous reste 2 tentatives.', 'MSG008'],
+  ['Opération annulée. Aucun montant n\'a été prélevé.', 'MSG014'],
+  ['Le service est temporairement indisponible. Réessayez plus tard.', 'MSG015'],
+  ['Attention : aucun agent ne vous demandera votre code PIN.', 'MSG020'],
+  ['Ne répondez pas aux SMS vous annonçant un gain. C\'est une arnaque.', 'MSG021'],
+  ['Frais inclus : 150 FCFA. Montant total : 10 150 FCFA.', 'MSG026'],
+  ['Votre code de validation est 4821. Il expire dans 5 minutes.', 'MSG007'],
+  ['Votre échéance de 25 000 FCFA est fixée au 15/12/2026.', 'MSG017'],
+  ['Ne communiquez jamais votre PIN. Aucun agent ne vous le demandera.', 'X24'],
+  ['Veuillez vérifier le numéro du bénéficiaire avant de continuer.', 'E08'],
+  ['Opération en cours de traitement, veuillez patienter', 'X18'],
+  ['Fonds insuffisants pour ce transfert.', 'E06'],
 ];
 
 // Pièges écrits à la main : [texte, ce qui change, phrase validée dont il ne doit pas recevoir la traduction]
@@ -115,6 +162,31 @@ export const PIEGES = [
   ['Virement à effectuer', 'temps', 'C01'],
   ['Montant débité', 'temps', 'F09'],
   ['Votre virement est en cours.', 'temps', 'C01'],
+  // Messages types (lexique relu, pack 0.8)
+  ['Vous avez envoyé 15 000 FCFA à Marie Ngo. Nouveau solde : 265 000 FCFA.', "sens de l'argent", 'MSG001'],
+  ['Vous avez reçu 15 000 FCFA de Marie Ngo. Ancien solde : 265 000 FCFA.', 'temps', 'MSG001'],
+  ['Le bénéficiaire a reçu 25 000 FCFA.', 'temps', 'MSG025'],
+  ['Le bénéficiaire ne recevra pas 25 000 FCFA.', 'négation', 'MSG025'],
+  ['Opération annulée. Un montant a été débité.', 'négation', 'MSG014'],
+  ['Votre prêt de 25 000 FCFA a été refusé.', 'action', 'MSG016'],
+  ['Votre prêt de 25 000 FCFA sera approuvé.', 'temps', 'MSG016'],
+  ['Retrait de 25 000 FCFA effectué sur votre compte.', "sens de l'argent", 'MSG004'],
+  ['Code PIN correct. Il vous reste 2 essais.', 'négation', 'MSG008'],
+  ["Vous n'avez pas atteint votre plafond journalier.", 'négation', 'MSG012'],
+  ['Attention : un agent vous demandera votre code PIN.', 'négation', 'MSG020'],
+  ['Répondez aux messages vous annonçant un gain.', 'négation', 'MSG021'],
+  ["Votre facture de 25 000 FCFA n'a pas été payée. Référence : TX-482913.", 'négation', 'MSG006'],
+  ['Frais non compris : 150 FCFA. Montant total : 10 150 FCFA.', 'négation', 'MSG026'],
+  ["Si vous êtes à l'origine de cette opération, appelez le service client.", 'négation', 'MSG022'],
+  ['Vérifiez le nom du bénéficiaire après avoir confirmé.', 'temps', 'MSG023'],
+  ['Ce numéro est enregistré sur Mobile Money.', 'négation', 'MSG024'],
+  ['Votre cotisation de 25 000 FCFA a été annulée.', 'action', 'MSG019'],
+  ['Votre échéance de 25 000 FCFA était prévue le 15/12/2026.', 'temps', 'MSG017'],
+  ['Votre compte est débloqué. Contactez le service client.', 'négation', 'MSG010'],
+  ['Le service est disponible. Réessayez plus tard.', 'négation', 'MSG015'],
+  ['Retrait de 25 000 FCFA refusé. Frais : 150 FCFA. Nouveau solde : 265 000 FCFA.', 'action', 'MSG003'],
+  ["Opération en attente. Composez #150# pour l'annuler.", 'action', 'MSG013'],
+  ['Votre code de confirmation est 4821. Il a expiré il y a 5 minutes.', 'temps', 'MSG007'],
 ];
 
 // Pièges qui disent exactement ce que dit une autre phrase validée : la reconnaître est juste.
@@ -123,6 +195,8 @@ export const AUTRE_PHRASE_JUSTE = new Map([
   ['Votre transfert a été reçu avec succès.', 'A14'],
   ['Transfert envoyé', 'C02'],
   ['Virement envoyé', 'C02'],
+  // Juste une fois vérifiée la paraphrase « Votre argent a été envoyé avec succès. » de C02
+  ['Argent envoyé', 'C02'],
   // Justes une fois vérifiée la paraphrase « Opération en cours » de X18 (packs/bum/paraphrases.csv)
   ['Opération en cours', 'X18'],
   ['OPERATION EN COURS', 'X18'],
@@ -143,6 +217,8 @@ const REGLES = [
   [/\bsont\b/u, 'ne sont pas', 'négation'],
   [/^Vérifiez\b/u, 'Ne vérifiez pas', 'négation'],
   [/\ba été\b/u, 'sera', 'temps'],
+  [/\best\b/u, 'était', 'temps'],
+  [/\ba été\b/u, 'avait été', 'temps'],
   [/\bdébité\b/u, 'à débiter', 'temps'],
   [/\bà débiter\b/u, 'débité', 'temps'],
   [/\bà envoyer\b/u, 'envoyé', 'temps'],
@@ -205,10 +281,12 @@ const exemple = (texte) => texte.replace(/\{amount(_\d+)?\}/g, '25 000 FCFA').re
   .replace(/\{code\}/g, '4821').replace(/\{name\}/g, 'Awa Ndongo').replace(/\{date\}/g, '15/12/2026')
   .replace(/\{fee\}/g, '150 FCFA').replace(/\{count\}/g, '2');
 
-// Chaque règle appliquée seule à chaque phrase validée et à chaque paraphrase reconnue (ce qui éprouve
+// Chaque règle appliquée seule à chaque phrase validée, à ses paraphrases vérifiées et à chaque paraphrase reconnue (ce qui éprouve
 // la forme canonique elle-même), puis le même texte en capitales sans accents
 export function pieges(pack) {
-  const sources = [...pack.phrases.filter((p) => p.valide && p.cible).map((p) => [exemple(p.fr), p.id]), ...PARAPHRASES];
+  const validees = pack.phrases.filter((p) => p.valide && p.cible);
+  // Les paraphrases vérifiées du pack aussi : chacune élargit ce que le moteur reconnaît, chacune est éprouvée
+  const sources = [...validees.flatMap((p) => [p.fr, ...(p.variantes || [])].map((texte) => [exemple(texte), p.id])), ...PARAPHRASES];
   const sortie = [...PIEGES];
   for (const [source, id] of sources) {
     for (const [motif, remplacement, change] of REGLES) {
