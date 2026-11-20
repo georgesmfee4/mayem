@@ -29,7 +29,7 @@ const OUTILS = new Set(`le la les l un une des de du d a au aux en et ou pour su
   avoir sera seront serez serai aura auront aurez aurai ne n pas jamais aucun aucune rien ni non sans nul nulle peux
   peut pouvez pouvons peuvent pourrez pourra pourront pourrai pouvoir dois doit devez devons doivent devrez devra
   devront devoir faut veuillez veuille merci svp plait bien toujours maintenant ici desormais simplement succes
-  allez va vont allons vais aller`.split(/\s+/));
+  allez va vont allons vais aller etaient etais etiez etions avait avaient avais aviez avions`.split(/\s+/));
 
 // Conjugaisons que la règle « -ez -> -er » ne ramène pas à l'infinitif
 const IRREGULIERS: Record<string, string> = {
@@ -59,6 +59,9 @@ const POUVOIR = /^(peux|peut|pouvez|pouvons|peuvent|pourr\w*|possible|impossible
 const DEVOIR = /^(dois|doit|devez|devons|doivent|devr\w*|faut|obligatoire|necessaire)$/;
 // Participes sans « é » final (« reçu », « réussi ») : le temps ne se voit qu'à eux
 const PARTICIPES = new Set(['recu', 'recue', 'reussi', 'reussie', 'survenu', 'survenue', 'abouti', 'aboutie', 'fait', 'parvenu', 'pris', 'mis']);
+// Imparfait d'« être » et d'« avoir » : « était prévue » n'est pas « est prévue » (une échéance passée est un retard)
+const PASSE = new Set(['etait', 'etaient', 'etais', 'etiez', 'etions', 'avait', 'avaient', 'avais', 'aviez', 'avions']);
+const VOUS_SUJET = /(?:^|[^\p{L}])vous\s+(?!(?:devez|pouvez|allez|avez)(?!\p{L}))\p{L}+ez(?!\p{L})/u;
 const FUTUR = /^(sera|seront|serez|serai|serons|aura|auront|aurez|aurai)$|\p{L}(?:erai|eras|era|erons|erez|eront|irai|ira|irez|iront|rrai|rra|rrez|rront|vrai|vra|vrez|vront)$/u;
 
 // Mots qui finissent par s ou x au singulier : ce n'est pas un pluriel
@@ -96,6 +99,7 @@ function aspect(mots: string[], nus: string[], bas: string): string[] {
   mots.forEach((mot, i) => {
     const nu = nus[i];
     if (FUTUR.test(nu) || nu === 'bientot' || nu === 'prochainement') traits.add('a-faire');
+    if (PASSE.has(nu)) traits.add('passe');
     if (/\p{L}{2}é(?:e?s?)$/u.test(mot) || PARTICIPES.has(nu) || ['ete', 'avez', 'ont', 'ai', 'avons'].includes(nu)) traits.add('fait');
   });
   return [...traits].sort();
@@ -110,7 +114,10 @@ function traits(mots: string[], nus: string[], lemmes: string[], bas: string, ty
   // Seule la première personne est notée : « J'ai vérifié » n'est pas « Vérifiez ». « Vérifiez »
   // et « Vérifier », consigne écrite à l'impératif ou à l'infinitif, disent la même chose.
   const premiere = nus.some((m) => PREMIERE.has(m)) ? 'je' : '';
-  return [negation.join('+'), modalite.join('+'), argent.join('+'), aspect(mots, nus, bas).join('+'), premiere, [...types].sort().join('+')].join('|');
+  // « Vous confirmez le transfert » constate ou demande ; « Confirmez le transfert » ordonne. Les verbes
+  // d'appoint (devez, pouvez, allez, avez) sont déjà relevés par la modalité ou le temps.
+  const constat = VOUS_SUJET.test(bas) ? 'vous' : '';
+  return [negation.join('+'), modalite.join('+'), argent.join('+'), aspect(mots, nus, bas).join('+'), premiere + constat, [...types].sort().join('+')].join('|');
 }
 
 // Forme canonique d'un texte dont les valeurs sont déjà remplacées par « {type} ».

@@ -163,10 +163,12 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
   reçoit la traduction déjà validée de celle-ci. Les deux phrases doivent avoir la même forme canonique : mêmes mots
   porteurs de sens, une fois mis à part la casse, les accents, l'ordre, les mots outils, les accords, la politesse
   et les synonymes métier ; et les mêmes traits de sens : négation (comptée), temps (« débité » n'est pas
-  « à débiter »), personne (« J'ai vérifié » n'est pas « Vérifiez »), modalité, sens de l'argent, valeurs.
+  « à débiter »), personne (« J'ai vérifié » n'est pas « Vérifiez », « Vous confirmez » n'est pas « Confirmez »),
+  imparfait (« était prévue » n'est pas « est prévue »), modalité, sens de l'argent, valeurs.
   Un trait différent, deux traductions possibles, un mot seul ou un nom propre à placer : l'original reste.
   Le texte traduit ainsi est souligné d'un pointillé fin et compté à part dans le panneau.
-  `npm run sens` mesure le jeu d'essai : 66 paraphrases sur 66 reconnues, 813 pièges, 0 faux rapprochement.
+  `npm run sens` mesure le jeu d'essai : 102 paraphrases sur 102 reconnues (dont 30 tenues à l'écart du pack), 4 151 pièges
+  tirés des phrases, des paraphrases vérifiées et des messages types, 0 faux rapprochement.
 - Paraphrases (`packs/<langue>/paraphrases.csv`) : autres formulations françaises d'une phrase, proposées puis
   vérifiées par un francophone de l'équipe qui ne les a pas proposées. Seules les vérifiées entrent dans le pack ;
   chacune couvre à son tour toutes ses écritures (majuscules, accents, ordre, synonymes).
