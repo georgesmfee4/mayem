@@ -1,7 +1,7 @@
 // Inventaire d'un ou de plusieurs services : ouvre leurs pages dans un navigateur, relève tous les textes que
 // Mayem verrait, mesure ce qui est déjà repris du pack et liste ce qui manque, faits masqués ({amount}, {date}…),
 // regroupé, les textes communs à plusieurs services d'abord.
-// Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--profil <fichier.json>] [--ajouter [--etat <liste>]]
+// Usage : npm run inventaire -- <adresse ou fichier.html>… [--liste <fichier.txt>] [--voir] [--langue <code>] [--profil <fichier.json>] [--ajouter [--etat <liste>]]
 //   -> packs/<langue>/a-traduire.csv ; avec --ajouter, les modèles manquants entrent aussi dans corpus.csv
 //      (sans traduction) : python tools/kit.py export les envoie alors aux locuteurs.
 //   --etat proche : seuls les textes proches d'une entrée validée (pluriels, variantes) sont ajoutés. Un pluriel
@@ -52,19 +52,36 @@ function releverTextes() {
   return textes;
 }
 
+const PAUSE = 1000; // ms entre deux pages d'un site en ligne
+// Un site qui garde des connexions ouvertes (statistiques, discussion) n'est jamais « au repos » : on lit après ce délai
+const ATTENTE = 12000;
 const adresse = (cible) => (/^https?:\/\//.test(cible) ? cible : pathToFileURL(resolve(cible)).href);
 // Un service = un site ; une page enregistrée compte pour un service à elle seule
 const serviceDe = (cible) => (/^https?:\/\//.test(cible) ? new URL(cible).hostname : basename(cible));
 
-async function relever(cibles) {
-  const navigateur = await chromium.launch({ channel: process.env.NAVIGATEUR || (process.platform === 'win32' ? 'msedge' : 'chromium') });
+// voir : fenêtre du navigateur visible, pour suivre le relevé page par page
+async function relever(cibles, voir) {
+  const navigateur = await chromium.launch({ headless: !voir, channel: process.env.NAVIGATEUR || (process.platform === 'win32' ? 'msedge' : 'chromium') });
   const parPage = [];
   try {
     const page = await navigateur.newPage();
-    for (const cible of cibles) {
-      await page.goto(adresse(cible), { waitUntil: 'networkidle' });
-      const parCadre = await Promise.all(page.frames().map((cadre) => cadre.evaluate(releverTextes).catch(() => [])));
+    for (const [i, cible] of cibles.entries()) {
+      // Une page lente ou en panne est notée et sautée ; une pause entre deux pages ménage le service relevé
+      try {
+        await page.goto(adresse(cible), { waitUntil: 'networkidle', timeout: ATTENTE });
+      } catch (erreur) {
+        if (!page.url().startsWith('http') && !page.url().startsWith('file')) { console.error(`${cible} : non chargée (${erreur.message.split('\n')[0]})`); continue; }
+      }
+      const lirePage = () => Promise.all(page.frames().map((cadre) => cadre.evaluate(releverTextes).catch(() => [])));
+      let parCadre = await lirePage();
+      // Page lue pendant qu'elle se recharge (redirection, script) : une seconde lecture un peu plus tard
+      if (!parCadre.flat().length) {
+        await page.waitForTimeout(4000);
+        parCadre = await lirePage();
+      }
       parPage.push({ cible, textes: parCadre.flat() });
+      console.log(`[${i + 1}/${cibles.length}] ${cible} : ${parCadre.flat().length} textes`);
+      if (/^https?:\/\//.test(cible)) await page.waitForTimeout(PAUSE);
     }
   } finally {
     await navigateur.close();
@@ -104,7 +121,9 @@ const langue = choisirLangue(options.includes('--langue') ? options[options.inde
 const profil = options.includes('--profil') ? JSON.parse(readFileSync(options[options.indexOf('--profil') + 1], 'utf8')) : {};
 // --etat proche,partiel : seuls ces états partent chez les locuteurs avec --ajouter (les pluriels d'abord, par exemple)
 const etats = options.includes('--etat') ? options[options.indexOf('--etat') + 1].split(',') : null;
-const cibles = options.filter((o, i) => !o.startsWith('--') && !['--langue', '--profil', '--etat'].includes(options[i - 1]));
+// --liste fichier.txt : une adresse par ligne (un site entier, par exemple)
+const liste = options.includes('--liste') ? readFileSync(options[options.indexOf('--liste') + 1], 'utf8').split(/\r?\n/).map((l) => l.trim()).filter(Boolean) : [];
+const cibles = [...liste, ...options.filter((o, i) => !o.startsWith('--') && !['--langue', '--profil', '--etat', '--liste'].includes(options[i - 1]))];
 if (!cibles.length) {
   console.error('Usage : npm run inventaire -- <adresse ou fichier.html>… [--langue <code>] [--profil <fichier.json>] [--ajouter [--etat <liste>]]');
   process.exit(1);
@@ -112,7 +131,7 @@ if (!cibles.length) {
 const ici = dossier(langue);
 const pack = JSON.parse(readFileSync(ici + 'pack.json', 'utf8'));
 const intacts = profil.ne_pas_traduire || [];
-const pages = await relever(cibles);
+const pages = await relever(cibles, options.includes('--voir') || Boolean(process.env.npm_config_voir));
 for (const { cible, textes } of pages) console.log(`${cible}\n  ${ligneCouverture(inventorier(textes, pack, { intacts }).couverture)}`);
 const services = pages.flatMap((p) => p.textes.map(() => serviceDe(p.cible)));
 const rapport = inventorier(pages.flatMap((p) => p.textes), pack, { services, intacts });
