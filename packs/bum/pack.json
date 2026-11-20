@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.8.2",
-  "date": "2026-11-19",
-  "empreinte": "sha256-4f60e522b554af692eb6c34d5c2829a45f49ae05296e7e6e8a5817033acaa5c2",
+  "version": "0.8.3",
+  "date": "2026-11-20",
+  "empreinte": "sha256-ee1b208795f8cd1e25c10802d9ae5d71d02f6c52f3813b6b29077104fa5fdcff",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -9138,8 +9138,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9150,8 +9150,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9162,8 +9162,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9174,8 +9174,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9186,8 +9186,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9198,8 +9198,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9210,8 +9210,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9222,8 +9222,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9234,8 +9234,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9246,8 +9246,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9258,8 +9258,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9270,8 +9270,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9282,8 +9282,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9294,8 +9294,8 @@
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9306,8 +9306,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9318,8 +9318,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9330,8 +9330,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9342,8 +9342,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9354,8 +9354,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9366,8 +9366,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9378,8 +9378,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9390,8 +9390,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9402,8 +9402,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     },
     {
@@ -9414,8 +9414,8 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Sylvie",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "Carrel",
+      "retraduction": "Même sens que le français, confirmé à l'oral",
       "valide": true
     }
   ]
