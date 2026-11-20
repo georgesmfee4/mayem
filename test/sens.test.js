@@ -71,6 +71,19 @@ test('valeurs : reprises telles quelles, et abstention quand deux valeurs du mê
   assert.equal(reconnu('Commission de 2 % (min. 100 FCFA, max. 5 000 FCFA)', p), null);
 });
 
+test('imparfait : une échéance passée n\'est pas une échéance à venir', () => {
+  const p = petit(phrase('PA', 'Votre échéance de {amount} est prévue demain.'));
+  assert.equal(reconnu('Votre échéance de 25 000 FCFA est bien prévue demain.', p), 'PA');
+  assert.equal(reconnu('Votre échéance de 25 000 FCFA était bien prévue demain.', p), null);
+});
+
+test('« vous confirmez » constate ou demande : ce n\'est pas l\'ordre « confirmez »', () => {
+  const p = petit(phrase('PA', 'Confirmer le transfert'));
+  assert.equal(reconnu('Confirmez le transfert', p), 'PA');
+  assert.equal(reconnu('Vous confirmez le transfert', p), null);
+  assert.equal(reconnu('Vous devez confirmer le transfert', petit(phrase('PB', 'Vous devez confirmer le transfert.'))), 'PB');
+});
+
 test('un « {date} » écrit tel quel dans la page : abstention, jamais d\'erreur', () => {
   const p = petit(phrase('PA', 'Votre échéance de {amount} est prévue le {date}.'));
   assert.equal(reconnu('Votre échéance de 25 000 FCFA est prévue le {date}.', p), null);
