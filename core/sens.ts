@@ -187,6 +187,8 @@ export function reconnaitre(texte: string, pack: Pack): Reconnu | null {
   if (!entree) return null;
   // Deux valeurs du même type (minimum et maximum) : rien ne dit laquelle va où, on s'abstient
   if ([...valeurs.values()].some((liste) => liste.length > 1)) return null;
+  // Un « {date} » écrit tel quel dans la page a la forme d'un champ mais aucune valeur : on s'abstient
+  if (entree.champs.some((champ) => !valeurs.has(champ.replace(/_\d+$/, '')))) return null;
   const rangees: Record<string, string> = {};
   for (const champ of entree.champs) rangees[champ] = valeurs.get(champ.replace(/_\d+$/, ''))![0];
   return { phrase: entree.phrase, valeurs: rangees };

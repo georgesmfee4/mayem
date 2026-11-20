@@ -1,4 +1,4 @@
-﻿code,ref,bulu,decide_par,relu_par,date,commentaire
+﻿code,ref,cible,decide_par,relu_par,date,commentaire
 negation,G10,Safinum Pay — nlam a démonstration. Teké futié mfi folâ woé.,Lesly,Carrel,2026-11-11,
 apostrophe,X27,"Éyoñ ô ntiñ ya nkeàn ôsu, ô vo’o ki fe bulan mvùs",Lesly,Carrel,2026-11-11,
 politesse,X27,"Éyoñ ô ntiñ ya nkeàn ôsu, ô vo’o ki fe bulan mvùs",Lesly,Carrel,2026-11-11,
@@ -45,5 +45,33 @@ glossaire-vide,T24,,Georges,Lesly,2026-11-12,Pas de traduction isolée : le sens
 glossaire-double,T19,Nten bafili,Georges,Carrel,2026-11-12,"Code secret, mot de passe et code de confirmation : même idée en bulu, aucun ne se partage"
 glossaire-double,T46,Nten bafili,Georges,Carrel,2026-11-12,"Code secret, mot de passe et code de confirmation : même idée en bulu, aucun ne se partage"
 glossaire-double,T47,Nten bafili,Georges,Carrel,2026-11-12,"Code secret, mot de passe et code de confirmation : même idée en bulu, aucun ne se partage"
-glossaire-double,T81,Fôé éne mfi,Georges,Carrel,2026-11-12,"Même terme voulu pour attention et message important"
-glossaire-double,T27,Fôé éne mfi,Georges,Carrel,2026-11-12,"Même terme voulu pour attention et message important"
+glossaire-double,T81,Fôé éne mfi,Georges,Carrel,2026-11-12,Même terme voulu pour attention et message important
+glossaire-double,T27,Fôé éne mfi,Georges,Carrel,2026-11-12,Même terme voulu pour attention et message important
+retraduction,B01,Yôlé folâ ya nyô a bi. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Carrel,John,2026-11-19,
+retraduction,E05,Abime moné dayiane bô ôsu momo,Carrel,John,2026-11-19,
+retraduction,E10,Nkúán ya nsinga: teké e djom etó dji. Beta'a ve'ele.,Carrel,John,2026-11-19,
+retraduction,E11,W'ayiane ntiñ folâ ôsusua na w'ake ôsu a nlomane moné.,Carrel,John,2026-11-19,
+retraduction,F11,Mebal mazù wulu,Carrel,John,2026-11-19,
+retraduction,R03,Mabal máte wùlù,Carrel,John,2026-11-19,
+retraduction,B02,Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Joseph,Lesly,2026-11-19,
+terme-critique,B02,Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Joseph,Lesly,2026-11-19,
+negation,B02,Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Joseph,Lesly,2026-11-19,
+politesse,B02,Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.,Joseph,Lesly,2026-11-19,
+retraduction,F05,Nlomane moné ana-ana a bua,Joseph,Lesly,2026-11-19,
+retraduction,G10,Safinum Pay — nlam ya démonstration. Teké futié mfi folâ woé.,Joseph,Lesly,2026-11-19,
+negation,G10,Safinum Pay — nlam ya démonstration. Teké futié mfi folâ woé.,Joseph,Lesly,2026-11-19,
+politesse,R01,Ô tuá fômbo folâ ôsusua na wô ntiñ nlomane moné.,Joseph,Lesly,2026-11-19,
+retraduction,S02,"Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Joseph,Lesly,2026-11-19,
+terme-critique,S02,"Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Joseph,Lesly,2026-11-19,
+politesse,S02,"Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Joseph,Lesly,2026-11-19,
+retraduction,X04,Fetek,Joseph,Lesly,2026-11-19,
+minuscule,X13,wô zu lôm {amount} asù {name},Joseph,Lesly,2026-11-19,
+retraduction,X16,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",Joseph,Lesly,2026-11-19,
+negation,X16,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",Joseph,Lesly,2026-11-19,
+ponctuation,X16,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",Joseph,Lesly,2026-11-19,
+politesse,X16,"Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",Joseph,Lesly,2026-11-19,
+retraduction,X23,Abime moné é ndji bô mbamba,Joseph,Lesly,2026-11-19,
+lexique,A07,Nombor ya évôvôla moné,Georges,Lesly,2026-11-19,
+lexique,A12,Éya'an ya be nyi a kuane,Georges,Lesly,2026-11-19,
+lexique,X07,Yené mebal,Georges,Lesly,2026-11-19,
+lexique,MSG003,Mvà'àn moné ya {amount} ô te bo'oban mvo'é. Minkuk : {fee}. Mféfé mebal : {amount_2}.,Georges,Lesly,2026-11-19,

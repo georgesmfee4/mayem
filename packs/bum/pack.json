@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.6.0",
+  "version": "0.8.2",
   "date": "2026-11-19",
-  "empreinte": "sha256-8ac76d9d189f6d71a4ea5090ea1b790d5c9d9b63f19b983806c7fbfc8675d409",
+  "empreinte": "sha256-4f60e522b554af692eb6c34d5c2829a45f49ae05296e7e6e8a5817033acaa5c2",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -1460,10 +1460,22 @@
       "en": "hi / informal hello",
       "sens": "Salutation familière et informelle, sans indication d’heure.",
       "critique": false,
-      "cible": "",
+      "cible": "Mbôlô",
       "a_eviter": "Registre familier ; traduction Bene à confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
+      "commentaire": ""
+    },
+    {
+      "ref": "QP20",
+      "terme": "joie / bonheur",
+      "en": "joy / happiness",
+      "sens": "Sentiment de joie, de bonheur.",
+      "critique": false,
+      "cible": "mvaé",
+      "a_eviter": "Ne pas employer pour « succès » ou « réussi » (T63) : dire « bo'obane mvo'é ».",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -1496,10 +1508,10 @@
       "en": "to receive",
       "sens": "« Vous avez reçu 10 000 FCFA. »",
       "critique": true,
-      "cible": "ya'a (recevoir)",
+      "cible": "E bi",
       "a_eviter": "Éviter de confondre la personne bénéficiaire (« Nyô a bi » dans le glossaire) avec l'action de recevoir.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -1508,10 +1520,10 @@
       "en": "withdraw / withdrawal",
       "sens": "Sortir de l'argent en espèces.",
       "critique": true,
-      "cible": "Enôngnán ya moné",
+      "cible": "Mvà'àn",
       "a_eviter": "Éviter d'utiliser « fetek » (annuler) ou « lôm » (envoyer) pour « retirer de l'argent ». Le retrait d'espèces doit être validé comme expression complète en Bene.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -1533,7 +1545,7 @@
       "sens": "",
       "critique": true,
       "cible": "bulane moné",
-      "a_eviter": "Éviter de confondre remboursement avec annulation (« fetek »), succès (« mvaé ») ou remise de dette (« jame »). Il s'agit de rendre l'argent.",
+      "a_eviter": "Éviter de confondre remboursement avec annulation (« fetek »), succès (« bo'obane mvo'é ») ou remise de dette (« jame »). Il s'agit de rendre l'argent.",
       "traduit_par": "Georges",
       "relu_par": "Alexandre et Ronald",
       "commentaire": ""
@@ -1785,7 +1797,7 @@
       "sens": "",
       "critique": false,
       "cible": "é ne valé",
-      "a_eviter": "Éviter de confondre « disponible » avec « réussi » (« mvaé ») : un service peut être disponible sans qu'une opération ait été effectuée.",
+      "a_eviter": "Éviter de confondre « disponible » avec « réussi » (« bo'obane mvo'é ») : un service peut être disponible sans qu'une opération ait été effectuée.",
       "traduit_par": "Georges",
       "relu_par": "Alexandre et Ronald",
       "commentaire": ""
@@ -1854,12 +1866,12 @@
       "ref": "T63",
       "terme": "réussi",
       "en": "successful",
-      "sens": "Peut-être déjà couvert par T24 (mvaé) : le dire dans Commentaire.",
+      "sens": "Peut-être déjà couvert par T24 : le dire dans Commentaire.",
       "critique": true,
-      "cible": "mvaé (réussi / succès ; cohérent avec T24)",
+      "cible": "bo'obane mvo'é",
       "a_eviter": "Éviter d'alterner les formes de succès dans les notifications : reprendre la forme déjà retenue en T24.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -1904,10 +1916,10 @@
       "en": "history",
       "sens": "Liste des opérations passées.",
       "critique": false,
-      "cible": "",
+      "cible": "Mam ya ô bô ya",
       "a_eviter": "Éviter de réutiliser « Mamesse » (récapitulatif) pour « historique » : l'historique est une liste d'opérations passées, pas un résumé avant confirmation.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -2000,10 +2012,10 @@
       "en": "airtime / top-up",
       "sens": "",
       "critique": false,
-      "cible": "moné nsinga",
+      "cible": "kredi",
       "a_eviter": "Éviter de confondre le crédit téléphonique avec l'argent disponible sur le compte Mobile Money.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -2012,10 +2024,10 @@
       "en": "savings / save",
       "sens": "",
       "critique": false,
-      "cible": "Évôvôla moné (épargne) / Ba'ale moné (épargner)",
+      "cible": "E na'an",
       "a_eviter": "Éviter « nyii » pour l'épargne financière : le verbe est attesté au sens de sauver / préserver une personne ou une chose.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -2576,10 +2588,10 @@
       "en": "",
       "sens": "« Retirez votre argent chez un agent. »",
       "critique": true,
-      "cible": "Nôngé moné wôé yá môt ésaé.",
+      "cible": "nyôñ moné wôé be môt ésaé.",
       "a_eviter": "Bannissons le mot \"vaa\" (enlever), pour une extraction de cash sécurisante au guichet nous devons utiliser la racine \"nôngé\".",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -2588,10 +2600,10 @@
       "en": "",
       "sens": "« Vous avez retiré 20 000 FCFA. »",
       "critique": true,
-      "cible": "Wo nôngéya 20 000 FCFA.",
+      "cible": "Wo nyôñ ya 20 000 FCFA",
       "a_eviter": "Évitons d'oublier la liaison, la notification d'un débit réel doit utiliser le verbe d'extraction financière à l'accompli.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Lesly",
       "commentaire": ""
     },
     {
@@ -3308,10 +3320,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn metil",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « janvier » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3320,10 +3332,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn mesan",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « février » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3332,10 +3344,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn étota'a",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « mars » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3344,10 +3356,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn abé",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « avril » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3356,10 +3368,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn ébala'a",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « mai » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3368,10 +3380,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn mefumin",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « juin » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3380,10 +3392,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn atata'a oyon",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « juillet » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3392,10 +3404,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn oyon",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « août » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3404,10 +3416,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn mindumu",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « septembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3416,10 +3428,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn su'u",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « octobre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3428,10 +3440,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn esep",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « novembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3440,10 +3452,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "",
+      "cible": "Ngôn mfum",
       "a_eviter": "Éviter de créer un nom de mois artificiel. Conserver « décembre » si ce nom français est celui employé localement en Bene, puis faire confirmer par un locuteur.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Carrel",
       "commentaire": ""
     },
     {
@@ -3973,6 +3985,2970 @@
       "traduit_par": "",
       "relu_par": "Alexandre et Ronald",
       "commentaire": ""
+    },
+    {
+      "ref": "BAN001",
+      "terme": "virement",
+      "en": "",
+      "sens": "Transfert d'un compte bancaire à un autre.",
+      "critique": true,
+      "cible": "Nlomane moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN002",
+      "terme": "virement permanent",
+      "en": "",
+      "sens": "Virement répété chaque mois.",
+      "critique": true,
+      "cible": "Nlomane moné ya ngôn ése",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN003",
+      "terme": "ajouter un bénéficiaire",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E futi'i nyô a bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN004",
+      "terme": "supprimer un bénéficiaire",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E và'à môt a nyôñ",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN006",
+      "terme": "code de la carte",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Code ya carte",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN007",
+      "terme": "carte bloquée",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Carte a fete",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN008",
+      "terme": "faire opposition",
+      "en": "",
+      "sens": "Bloquer une carte perdue ou volée.",
+      "critique": true,
+      "cible": "E tele carte",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN009",
+      "terme": "paiement sans contact",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Yà'àn teké contact",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN010",
+      "terme": "paiement en ligne",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "E yà'àn en ligne",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN013",
+      "terme": "chèque / chéquier",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Afep é bili moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN015",
+      "terme": "solde créditeur",
+      "en": "",
+      "sens": "Le compte a de l'argent.",
+      "critique": true,
+      "cible": "Mebal mene mvo'é",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN016",
+      "terme": "solde débiteur / découvert",
+      "en": "",
+      "sens": "Le compte est en négatif.",
+      "critique": true,
+      "cible": "Mebal me ndji bô mvo'é",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN017",
+      "terme": "frais de tenue de compte",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Minkuk asù mbà'àlàn évôvôla jôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN019",
+      "terme": "devise",
+      "en": "",
+      "sens": "Monnaie étrangère.",
+      "critique": false,
+      "cible": "Moné ya meyôn messì mefe",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN020",
+      "terme": "taux de change",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Tañ ya nfôlane moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN021",
+      "terme": "conversion",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Nfôlane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN022",
+      "terme": "euro",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Euro",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN023",
+      "terme": "dollar",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Dollar",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN024",
+      "terme": "date de valeur",
+      "en": "",
+      "sens": "La date où l'argent est vraiment disponible.",
+      "critique": false,
+      "cible": "Éyôñ moné a né",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "BAN025",
+      "terme": "rendez-vous",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "E tobà'ane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ001",
+      "terme": "je reçois",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "Ma bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ002",
+      "terme": "tu reçois",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "Wô bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ003",
+      "terme": "il / elle reçoit",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "a bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ004",
+      "terme": "nous recevons",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "Bìa bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ005",
+      "terme": "vous recevez",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "Mìa bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ006",
+      "terme": "ils / elles reçoivent",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "Bâ bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ007",
+      "terme": "j'ai reçu",
+      "en": "",
+      "sens": "Passé.",
+      "critique": false,
+      "cible": "Me nga bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ008",
+      "terme": "il / elle a reçu",
+      "en": "",
+      "sens": "Passé.",
+      "critique": false,
+      "cible": "A nga bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ009",
+      "terme": "vous avez reçu",
+      "en": "",
+      "sens": "Passé.",
+      "critique": false,
+      "cible": "Mí nga bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ010",
+      "terme": "je recevrai",
+      "en": "",
+      "sens": "Futur.",
+      "critique": false,
+      "cible": "Ma ye bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ011",
+      "terme": "il / elle recevra",
+      "en": "",
+      "sens": "Futur.",
+      "critique": false,
+      "cible": "A ye bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ012",
+      "terme": "vous recevrez",
+      "en": "",
+      "sens": "Futur.",
+      "critique": false,
+      "cible": "Wô ye bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ013",
+      "terme": "je n'ai pas reçu",
+      "en": "",
+      "sens": "Passé négatif.",
+      "critique": true,
+      "cible": "Me ndji bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ014",
+      "terme": "vous n'avez pas reçu",
+      "en": "",
+      "sens": "Passé négatif.",
+      "critique": true,
+      "cible": "Mí ndji bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ015",
+      "terme": "je paie",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "Ma yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ016",
+      "terme": "il / elle paie",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "A yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ017",
+      "terme": "vous payez",
+      "en": "",
+      "sens": "Présent.",
+      "critique": false,
+      "cible": "Mìa yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ018",
+      "terme": "j'ai payé",
+      "en": "",
+      "sens": "Passé.",
+      "critique": false,
+      "cible": "Me nga yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ019",
+      "terme": "il / elle a payé",
+      "en": "",
+      "sens": "Passé.",
+      "critique": false,
+      "cible": "A nga yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ020",
+      "terme": "vous avez payé",
+      "en": "",
+      "sens": "Passé.",
+      "critique": false,
+      "cible": "Mì nga yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ021",
+      "terme": "je paierai",
+      "en": "",
+      "sens": "Futur.",
+      "critique": false,
+      "cible": "Ma ye yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ022",
+      "terme": "vous paierez",
+      "en": "",
+      "sens": "Futur.",
+      "critique": false,
+      "cible": "Mìa ye yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ023",
+      "terme": "je n'ai pas payé",
+      "en": "",
+      "sens": "Passé négatif.",
+      "critique": true,
+      "cible": "Me ndji yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CNJ024",
+      "terme": "vous n'avez pas payé",
+      "en": "",
+      "sens": "Passé négatif.",
+      "critique": true,
+      "cible": "Mí ndji yà'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT001",
+      "terme": "ouvrir un compte",
+      "en": "",
+      "sens": "« Ouvrez un compte en 2 minutes. »",
+      "critique": false,
+      "cible": "E yieôye évôvôla",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT002",
+      "terme": "s'inscrire / inscription",
+      "en": "",
+      "sens": "Créer son compte sur l'application.",
+      "critique": false,
+      "cible": "E tyiliban",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT003",
+      "terme": "créer un compte",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "E té évôvôla",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT004",
+      "terme": "se connecter / connexion",
+      "en": "",
+      "sens": "Entrer dans son compte.",
+      "critique": false,
+      "cible": "E ntiñetan",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT005",
+      "terme": "se déconnecter",
+      "en": "",
+      "sens": "Sortir de son compte.",
+      "critique": false,
+      "cible": "Ma kolo",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT007",
+      "terme": "profil",
+      "en": "",
+      "sens": "La page avec vos informations.",
+      "critique": false,
+      "cible": "Mboka'ane mam môé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": "Corrigé par le relecteur"
+    },
+    {
+      "ref": "CPT008",
+      "terme": "titulaire du compte",
+      "en": "",
+      "sens": "La personne à qui appartient le compte.",
+      "critique": true,
+      "cible": "Nyô a bili évôvôla",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT010",
+      "terme": "compte d'épargne",
+      "en": "",
+      "sens": "Compte où l'on met l'argent de côté.",
+      "critique": false,
+      "cible": "Évôvôla ya ésouane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT011",
+      "terme": "compte joint",
+      "en": "",
+      "sens": "Compte partagé par deux personnes.",
+      "critique": false,
+      "cible": "Évôvôla ya abui bôt",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT012",
+      "terme": "compte marchand",
+      "en": "",
+      "sens": "Compte d'un commerçant qui reçoit des paiements.",
+      "critique": false,
+      "cible": "Évôvôla moné a sùane wô mban",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT014",
+      "terme": "relevé d'identité bancaire (RIB)",
+      "en": "",
+      "sens": "Garder « RIB » si c'est l'usage.",
+      "critique": false,
+      "cible": "Afep y'a vo'ôlo na biyem évôvôla jôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT015",
+      "terme": "agence",
+      "en": "",
+      "sens": "Le bureau de la banque.",
+      "critique": false,
+      "cible": "Nda ya bâ bâ na'ane moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT016",
+      "terme": "conseiller / conseillère",
+      "en": "",
+      "sens": "La personne de la banque qui vous suit.",
+      "critique": false,
+      "cible": "Nyô a leb wô mejô me moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT017",
+      "terme": "vérification d'identité",
+      "en": "",
+      "sens": "Contrôle des papiers avant d'ouvrir le compte.",
+      "critique": true,
+      "cible": "Nfómban ya mefep moé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT018",
+      "terme": "carte nationale d'identité (CNI)",
+      "en": "",
+      "sens": "Garder « CNI » si c'est l'usage.",
+      "critique": false,
+      "cible": "Identité",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT019",
+      "terme": "passeport",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Passport",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT020",
+      "terme": "récépissé",
+      "en": "",
+      "sens": "Le papier provisoire en attendant la CNI.",
+      "critique": false,
+      "cible": "Récépissé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT021",
+      "terme": "photo / prendre une photo",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Foto",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT022",
+      "terme": "selfie",
+      "en": "",
+      "sens": "Photo de son propre visage pour la vérification.",
+      "critique": false,
+      "cible": "Etun foto",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT023",
+      "terme": "signature / signer",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Nsanane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT024",
+      "terme": "date de naissance",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Éyôñ ô ngá bialé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT026",
+      "terme": "profession",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Esaé jôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT027",
+      "terme": "pièce justificative",
+      "en": "",
+      "sens": "Document qui prouve une information.",
+      "critique": false,
+      "cible": "Afep yà liti",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT028",
+      "terme": "compte vérifié",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Évôvôla éne mfòmban",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT029",
+      "terme": "compte non vérifié",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Évôvôla e ndji bô mfomban",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT030",
+      "terme": "compte activé / activer",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Évôvôla joé ya wulu",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT031",
+      "terme": "compte désactivé / désactiver",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Évôvôla jôé éne mfetán",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT032",
+      "terme": "compte suspendu",
+      "en": "",
+      "sens": "Bloqué pour un temps.",
+      "critique": true,
+      "cible": "Évôvôla jôé éne mfetán asù moné éyôñ",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT033",
+      "terme": "fermer le compte / clôture",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E tyam évôvôla",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT034",
+      "terme": "paramètres",
+      "en": "",
+      "sens": "Le menu des réglages.",
+      "critique": false,
+      "cible": "Be paramètres",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT035",
+      "terme": "langue",
+      "en": "",
+      "sens": "« Choisir la langue. »",
+      "critique": false,
+      "cible": "Nkôbo",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT036",
+      "terme": "notifications",
+      "en": "",
+      "sens": "Les messages envoyés par l'application.",
+      "critique": false,
+      "cible": "Me fôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "CPT037",
+      "terme": "mettre à jour ses informations",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Futi'i abeng eyôn mintiñtan miowe",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA001",
+      "terme": "cependant / toutefois",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Ve",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA002",
+      "terme": "puis / ensuite",
+      "en": "",
+      "sens": "« Saisissez le montant, puis confirmez. »",
+      "critique": false,
+      "cible": "Mvùs ya valé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA003",
+      "terme": "d'abord",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "ôsu",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA004",
+      "terme": "enfin",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Asu'ulan",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA005",
+      "terme": "sinon",
+      "en": "",
+      "sens": "« Sinon, l'opération sera annulée. »",
+      "critique": true,
+      "cible": "Nge ki",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA006",
+      "terme": "alors",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Éyôñ te",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA007",
+      "terme": "ainsi",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Nde",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA008",
+      "terme": "en cas de",
+      "en": "",
+      "sens": "« En cas de perte de votre téléphone… »",
+      "critique": true,
+      "cible": "Nge... a bo'obane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA009",
+      "terme": "à condition que",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Ve nge",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA010",
+      "terme": "dès que",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Ve éyoñ",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA011",
+      "terme": "tant que",
+      "en": "",
+      "sens": "« Tant que le code n'est pas saisi… »",
+      "critique": true,
+      "cible": "Nté ôse",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA012",
+      "terme": "au lieu de",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "É vôm ya",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA013",
+      "terme": "grâce à",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Amu",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA014",
+      "terme": "en raison de",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Asu ya",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA015",
+      "terme": "selon",
+      "en": "",
+      "sens": "« Selon le montant. »",
+      "critique": false,
+      "cible": "Aval ane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA016",
+      "terme": "environ",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Abime ane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA017",
+      "terme": "immédiatement",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Été été",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA018",
+      "terme": "plus tard",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Mvùs ya valé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA019",
+      "terme": "de nouveau",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Fe",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA020",
+      "terme": "par jour / par mois",
+      "en": "",
+      "sens": "« 500 000 FCFA par jour. »",
+      "critique": true,
+      "cible": "Môs ôse",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA021",
+      "terme": "chaque mois",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Ngôn ése",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA022",
+      "terme": "par erreur",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Teké yi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA023",
+      "terme": "entre … et …",
+      "en": "",
+      "sens": "« Entre 100 et 5 000 FCFA. »",
+      "critique": true,
+      "cible": "É zezañ... a...",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA024",
+      "terme": "au total",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Tañ ése",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA025",
+      "terme": "y compris",
+      "en": "",
+      "sens": "« Frais compris. »",
+      "critique": true,
+      "cible": "A làt a",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "LIA026",
+      "terme": "hors frais",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Teké minkuk ya esaé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": "Corrigé par le relecteur"
+    },
+    {
+      "ref": "MIC002",
+      "terme": "épargne bloquée",
+      "en": "",
+      "sens": "Argent qu'on ne peut pas retirer avant une date.",
+      "critique": true,
+      "cible": "E nà'àn ône mfetane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC003",
+      "terme": "dépôt à terme",
+      "en": "",
+      "sens": "Placement pour une durée fixée.",
+      "critique": true,
+      "cible": "E nà'àn moné asù eyôn ézing",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC004",
+      "terme": "intérêts gagnés",
+      "en": "",
+      "sens": "L'argent que rapporte l'épargne.",
+      "critique": true,
+      "cible": "Ngab wô nyong",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC005",
+      "terme": "tontine / njangi",
+      "en": "",
+      "sens": "Groupe où chacun cotise à tour de rôle.",
+      "critique": false,
+      "cible": "Esouane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC006",
+      "terme": "cotisation / cotiser",
+      "en": "",
+      "sens": "La somme versée régulièrement.",
+      "critique": false,
+      "cible": "Nlañane moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC007",
+      "terme": "réunion",
+      "en": "",
+      "sens": "La rencontre des membres.",
+      "critique": false,
+      "cible": "Ekuane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC008",
+      "terme": "membre / adhérent",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "E Nyôñ ngab",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC009",
+      "terme": "adhésion",
+      "en": "",
+      "sens": "Devenir membre.",
+      "critique": false,
+      "cible": "E nyin",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC010",
+      "terme": "part sociale",
+      "en": "",
+      "sens": "Ce que chaque membre apporte à la coopérative.",
+      "critique": false,
+      "cible": "Ngab môt asse asô'ô je ekuane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC011",
+      "terme": "coopérative",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Esouane bôt",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC012",
+      "terme": "établissement de microfinance",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Vòm ya mam ma lôtebane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC013",
+      "terme": "demande de prêt",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E sili ékola",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC014",
+      "terme": "microcrédit",
+      "en": "",
+      "sens": "Petit prêt.",
+      "critique": false,
+      "cible": "Moné ékola",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC015",
+      "terme": "montant du prêt",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Tañ ya ékola",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC016",
+      "terme": "durée du prêt",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Éyôñ ékola é bili",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC017",
+      "terme": "taux d'intérêt",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Abime ya enyôñ ngab",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC018",
+      "terme": "échéance",
+      "en": "",
+      "sens": "La date à laquelle il faut payer.",
+      "critique": true,
+      "cible": "Éyôñ ya sù'ùlan yo yiane yà'an",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC019",
+      "terme": "échéancier",
+      "en": "",
+      "sens": "Le calendrier des remboursements.",
+      "critique": true,
+      "cible": "Môs môt asse é bùlan ngab a ngá nyôñ",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC020",
+      "terme": "mensualité",
+      "en": "",
+      "sens": "La somme à payer chaque mois.",
+      "critique": true,
+      "cible": "Tañ bâ yiane ngôn ése",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC021",
+      "terme": "remboursement anticipé",
+      "en": "",
+      "sens": "Rembourser avant la date prévue.",
+      "critique": true,
+      "cible": "E mbulan moné ôsusua môs Wa kpàn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC022",
+      "terme": "retard de paiement",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E yà'àn ya mvùs",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC023",
+      "terme": "pénalité de retard",
+      "en": "",
+      "sens": "Somme en plus quand on paie en retard.",
+      "critique": true,
+      "cible": "Tañ ya beteban",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC024",
+      "terme": "impayé",
+      "en": "",
+      "sens": "Somme qui n'a pas été payée.",
+      "critique": true,
+      "cible": "Tañ é ndji yà'àban",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC025",
+      "terme": "garantie",
+      "en": "",
+      "sens": "Ce qui protège le prêteur si on ne rembourse pas.",
+      "critique": true,
+      "cible": "Mvà'àn añyù",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC026",
+      "terme": "avaliste / caution",
+      "en": "",
+      "sens": "La personne qui s'engage à payer à votre place.",
+      "critique": true,
+      "cible": "Môt a yà'àn sein jôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC027",
+      "terme": "dossier de prêt",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Mefep ya ékola",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC028",
+      "terme": "prêt accordé",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Ékola é tabe ya mve'ane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC029",
+      "terme": "prêt refusé",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Ékola é tabe mbenane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC030",
+      "terme": "décaissement / déblocage des fonds",
+      "en": "",
+      "sens": "Le moment où l'argent du prêt arrive.",
+      "critique": true,
+      "cible": "Éyôñ moné ékola a sô",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC031",
+      "terme": "emprunteur",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Nyô a nyôñ ékolà",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC032",
+      "terme": "prêteur",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Nyô a ve ékolà",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC033",
+      "terme": "capacité de remboursement",
+      "en": "",
+      "sens": "Ce qu'on peut rembourser chaque mois.",
+      "critique": false,
+      "cible": "Abime ône bùlan ngôn ése",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC034",
+      "terme": "revenu",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Mà'àn môé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC035",
+      "terme": "dépense",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Abime wô ve",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MIC036",
+      "terme": "budget",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Ngùmbà etotòk",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM001",
+      "terme": "portefeuille électronique",
+      "en": "",
+      "sens": "L'argent gardé sur le téléphone.",
+      "critique": false,
+      "cible": "Moné wôe",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM002",
+      "terme": "monnaie électronique",
+      "en": "",
+      "sens": "L'argent qui n'est pas en espèces.",
+      "critique": false,
+      "cible": "Moné a ndji bô etié",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM003",
+      "terme": "espèces / cash",
+      "en": "",
+      "sens": "Billets et pièces.",
+      "critique": false,
+      "cible": "Afep moné / étié moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM004",
+      "terme": "dépôt d'argent",
+      "en": "",
+      "sens": "Mettre des espèces sur son compte chez un agent.",
+      "critique": true,
+      "cible": "Mbo'ane moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": "Corrigé par le relecteur"
+    },
+    {
+      "ref": "MOM006",
+      "terme": "transfert d'argent",
+      "en": "",
+      "sens": "Envoyer de l'argent à une autre personne.",
+      "critique": true,
+      "cible": "Nlomane moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM007",
+      "terme": "transfert international",
+      "en": "",
+      "sens": "Vers un autre pays.",
+      "critique": true,
+      "cible": "Nlomane ya meyôn messì messe",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM008",
+      "terme": "transfert vers un autre réseau",
+      "en": "",
+      "sens": "D'Orange vers MTN, par exemple.",
+      "critique": true,
+      "cible": "Nlomane moné nsinga ofe",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM012",
+      "terme": "code marchand",
+      "en": "",
+      "sens": "Le numéro qui identifie le commerçant.",
+      "critique": true,
+      "cible": "Nombo mbô makite",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM013",
+      "terme": "scanner le code QR",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "E scanner code ya QR",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM014",
+      "terme": "payer une facture",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Eya'an facture",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM015",
+      "terme": "facture d'électricité",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Afep ya kouran",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM016",
+      "terme": "facture d'eau",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Afep ya mendip",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM017",
+      "terme": "abonnement télé",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Abonnement ya tele",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM018",
+      "terme": "frais de scolarité",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Moné ya sikolo",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM019",
+      "terme": "acheter du crédit",
+      "en": "",
+      "sens": "Crédit de communication.",
+      "critique": false,
+      "cible": "E kùs kredi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM021",
+      "terme": "forfait internet",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Forfait ya internet",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM022",
+      "terme": "forfait d'appels",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Forfait ya nlo'on",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM023",
+      "terme": "code USSD",
+      "en": "",
+      "sens": "Les codes qui commencent par # ou *.",
+      "critique": false,
+      "cible": "Code ya USSD",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM024",
+      "terme": "composer",
+      "en": "",
+      "sens": "« Composez #150#. »",
+      "critique": false,
+      "cible": "E composer",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM025",
+      "terme": "menu principal",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Menu principal",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM026",
+      "terme": "mini-relevé",
+      "en": "",
+      "sens": "Les dernières opérations.",
+      "critique": false,
+      "cible": "B'opérations ba sù'ùlan",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM028",
+      "terme": "nouveau solde",
+      "en": "",
+      "sens": "Le solde après l'opération.",
+      "critique": true,
+      "cible": "Mféfé mabal",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM029",
+      "terme": "ancien solde",
+      "en": "",
+      "sens": "Le solde avant l'opération.",
+      "critique": true,
+      "cible": "Enoma mebal",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM030",
+      "terme": "frais de retrait",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Minkuk ya nvà'àn moné",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM033",
+      "terme": "taxe",
+      "en": "",
+      "sens": "Prélèvement de l'État sur une opération.",
+      "critique": true,
+      "cible": "Be tax",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM034",
+      "terme": "plafond journalier",
+      "en": "",
+      "sens": "Le maximum par jour.",
+      "critique": true,
+      "cible": "Abîmé moné ône lôm môs",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM035",
+      "terme": "plafond mensuel",
+      "en": "",
+      "sens": "Le maximum par mois.",
+      "critique": true,
+      "cible": "Abime moné one lôm ngôn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM036",
+      "terme": "montant minimum",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Abime moné éne titiòy",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM037",
+      "terme": "montant maximum",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Abime moné éne nnemba'ane",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM038",
+      "terme": "point de vente / point Mobile Money",
+      "en": "",
+      "sens": "Le lieu où se trouve l'agent.",
+      "critique": false,
+      "cible": "Vôm ba kùàn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM040",
+      "terme": "retrait sans carte",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Mvà'àn moné teké kart",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM042",
+      "terme": "carte SIM",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Puce",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM043",
+      "terme": "changement de carte SIM",
+      "en": "",
+      "sens": "Remplacer sa puce : moment à risque de fraude.",
+      "critique": true,
+      "cible": "E tyendan puce",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM044",
+      "terme": "numéro bénéficiaire",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Nombor ya nyô a bi",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM045",
+      "terme": "transaction / numéro de transaction",
+      "en": "",
+      "sens": "Le code qui identifie l'opération.",
+      "critique": false,
+      "cible": "Nombo ya opération",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "MOM046",
+      "terme": "ID de transaction",
+      "en": "",
+      "sens": "Garder « ID » si c'est l'usage.",
+      "critique": false,
+      "cible": "Nombo ya opération",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC001",
+      "terme": "code à usage unique (OTP)",
+      "en": "",
+      "sens": "Code envoyé par SMS, valable une seule fois.",
+      "critique": true,
+      "cible": "Nten ya wô belan éyôñ dìa",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC002",
+      "terme": "authentification",
+      "en": "",
+      "sens": "Prouver que c'est bien vous.",
+      "critique": true,
+      "cible": "Liti na a ne wô",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC003",
+      "terme": "double authentification",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Liti na a ne wô biyoñ bìbaé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC004",
+      "terme": "empreinte digitale",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Futi'i ôñù wôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC005",
+      "terme": "reconnaissance faciale",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Bìa combo yen asù dôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC006",
+      "terme": "code PIN incorrect",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Nten bafili ô ndji bô mbamba",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC007",
+      "terme": "nombre d'essais / tentative",
+      "en": "",
+      "sens": "« Il vous reste 2 essais. »",
+      "critique": true,
+      "cible": "Abime biyoñ ô bili",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC008",
+      "terme": "réinitialiser le code PIN",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E beta tate nten bafili",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC009",
+      "terme": "code PIN oublié",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Ôvù'an nten bafili",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC010",
+      "terme": "changer le code PIN",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Tyendé nten bafili",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC011",
+      "terme": "escroc / arnaqueur",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E nwùwùb",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC012",
+      "terme": "faux SMS",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Fôé minsôs",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC013",
+      "terme": "faux appel",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Nlo'on minsôs",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC014",
+      "terme": "faux site / faux lien",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Lien minsôs",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC015",
+      "terme": "usurpation d'identité",
+      "en": "",
+      "sens": "Quelqu'un se fait passer pour vous.",
+      "critique": true,
+      "cible": "E wùb jôé môt mfe",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC016",
+      "terme": "compte piraté",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Évôvôla bate wùb",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC017",
+      "terme": "activité suspecte",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Jam ya é ndji yéné zôso'o",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC018",
+      "terme": "signaler une fraude",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E Kate mindu'àn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC019",
+      "terme": "service client officiel",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Nya vôm ya kôbo a bìa",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC020",
+      "terme": "numéro officiel",
+      "en": "",
+      "sens": "Le seul numéro à appeler.",
+      "critique": true,
+      "cible": "Nya nombor nsinga wôngan",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC021",
+      "terme": "ne communiquez jamais votre code",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Teké Wa ve môt môs dzing nten bafili wôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": "Corrigé par le relecteur"
+    },
+    {
+      "ref": "SEC022",
+      "terme": "personne ne doit connaître votre code",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Môt dzing a ndji yiane yem nten bafili wôé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC023",
+      "terme": "vérifiez l'expéditeur",
+      "en": "",
+      "sens": "Qui a envoyé le message.",
+      "critique": true,
+      "cible": "Tuà fômbo nyô a te lôm",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "SEC025",
+      "terme": "remboursez-moi",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "E bùlan ma moné wôm",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA001",
+      "terme": "en attente de validation",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Bìa yangue na ô ntiñti",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA002",
+      "terme": "en cours de traitement",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Bìa fômbo mam mézing",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA003",
+      "terme": "traité",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "É maneya",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA004",
+      "terme": "rejeté",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "É tabe mbenan",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA005",
+      "terme": "expiré",
+      "en": "",
+      "sens": "Le délai est passé.",
+      "critique": true,
+      "cible": "Awolo é lôteya",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA006",
+      "terme": "annulé par l'utilisateur",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Môt a belane nnye a nga tyi'i",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA007",
+      "terme": "remboursé",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Moné a bulaneya",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA008",
+      "terme": "délai",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Abime éyoñ",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA009",
+      "terme": "date et heure",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Môs a awolo",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA010",
+      "terme": "reçu de paiement",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Afep da lili n'a ô ya'aneya",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA011",
+      "terme": "preuve de paiement",
+      "en": "",
+      "sens": "",
+      "critique": true,
+      "cible": "Nten ya eya'an",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA012",
+      "terme": "alerte",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Foé ya ntyel",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA013",
+      "terme": "rappel",
+      "en": "",
+      "sens": "« Rappel : votre échéance est demain. »",
+      "critique": false,
+      "cible": "Fôé ya ôsimsan",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "STA014",
+      "terme": "mise à jour disponible",
+      "en": "",
+      "sens": "",
+      "critique": false,
+      "cible": "Mfefé nkôman ô ne va",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB001",
+      "terme": "ouvrir — ordre",
+      "en": "",
+      "sens": "« Ouvrez l'application. »",
+      "critique": false,
+      "cible": "E djiin",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB002",
+      "terme": "se connecter — ordre",
+      "en": "",
+      "sens": "« Connectez-vous à votre compte. »",
+      "critique": false,
+      "cible": "E nyiin",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB003",
+      "terme": "s'inscrire — passé",
+      "en": "",
+      "sens": "« Vous êtes inscrit. »",
+      "critique": false,
+      "cible": "E tyiliban",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB004",
+      "terme": "activer — passé",
+      "en": "",
+      "sens": "« Votre compte a été activé. »",
+      "critique": true,
+      "cible": "E yio'oy",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB005",
+      "terme": "désactiver — passé",
+      "en": "",
+      "sens": "« Votre compte a été désactivé. »",
+      "critique": true,
+      "cible": "E fet",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB006",
+      "terme": "bloquer — passé",
+      "en": "",
+      "sens": "« Votre compte a été bloqué. »",
+      "critique": true,
+      "cible": "E fetàn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB007",
+      "terme": "débloquer — ordre",
+      "en": "",
+      "sens": "« Rendez-vous en agence pour débloquer votre compte. »",
+      "critique": true,
+      "cible": "E yio'oy",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB008",
+      "terme": "changer — ordre",
+      "en": "",
+      "sens": "« Changez votre code PIN. »",
+      "critique": true,
+      "cible": "E tyendé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB009",
+      "terme": "oublier — passé",
+      "en": "",
+      "sens": "« Vous avez oublié votre code ? »",
+      "critique": true,
+      "cible": "Ô vùàn",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB010",
+      "terme": "choisir — ordre",
+      "en": "",
+      "sens": "« Choisissez un bénéficiaire. »",
+      "critique": false,
+      "cible": "Fialé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB011",
+      "terme": "sélectionner — ordre",
+      "en": "",
+      "sens": "« Sélectionnez le type d'opération. »",
+      "critique": false,
+      "cible": "Fialé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB012",
+      "terme": "scanner — ordre",
+      "en": "",
+      "sens": "« Scannez le code QR du commerçant. »",
+      "critique": true,
+      "cible": "E scaner",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB013",
+      "terme": "télécharger — ordre",
+      "en": "",
+      "sens": "« Téléchargez votre reçu. »",
+      "critique": false,
+      "cible": "E Nyôñ",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB014",
+      "terme": "accepter — ordre",
+      "en": "",
+      "sens": "« Acceptez les conditions. »",
+      "critique": true,
+      "cible": "E kañesse",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB015",
+      "terme": "refuser — passé",
+      "en": "",
+      "sens": "« Votre demande a été refusée. »",
+      "critique": true,
+      "cible": "E ben",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB016",
+      "terme": "signaler — ordre",
+      "en": "",
+      "sens": "« Signalez tout message suspect. »",
+      "critique": true,
+      "cible": "E kate",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB017",
+      "terme": "contacter — ordre",
+      "en": "",
+      "sens": "« Contactez le service client. »",
+      "critique": false,
+      "cible": "Kôbo",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB018",
+      "terme": "rembourser — futur",
+      "en": "",
+      "sens": "« Vous serez remboursé sous 48 heures. »",
+      "critique": true,
+      "cible": "E bùlan",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB019",
+      "terme": "emprunter — ordre négatif",
+      "en": "",
+      "sens": "« N'empruntez pas plus que vous ne pouvez rembourser. »",
+      "critique": true,
+      "cible": "E kolé",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB020",
+      "terme": "épargner — ordre",
+      "en": "",
+      "sens": "« Épargnez un peu chaque mois. »",
+      "critique": false,
+      "cible": "E na'an",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB021",
+      "terme": "cotiser — passé",
+      "en": "",
+      "sens": "« Vous avez cotisé {amount}. »",
+      "critique": true,
+      "cible": "E bô nyôñ ngab",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB022",
+      "terme": "acheter — passé",
+      "en": "",
+      "sens": "« Vous avez acheté du crédit. »",
+      "critique": false,
+      "cible": "Kùs",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB023",
+      "terme": "recharger — passé",
+      "en": "",
+      "sens": "« Votre compte a été rechargé de {amount}. »",
+      "critique": true,
+      "cible": "Beta futi'i",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB024",
+      "terme": "valider — ordre",
+      "en": "",
+      "sens": "« Validez avec votre code PIN. »",
+      "critique": true,
+      "cible": "E ntiñti",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB025",
+      "terme": "approuver — passé",
+      "en": "",
+      "sens": "« Votre prêt a été approuvé. »",
+      "critique": true,
+      "cible": "Kañesse",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB026",
+      "terme": "rejeter — passé",
+      "en": "",
+      "sens": "« Votre opération a été rejetée. »",
+      "critique": true,
+      "cible": "Benan",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB027",
+      "terme": "expirer — futur",
+      "en": "",
+      "sens": "« Ce code expire dans 5 minutes. »",
+      "critique": true,
+      "cible": "A ye lôte awolo",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB028",
+      "terme": "dépasser — passé",
+      "en": "",
+      "sens": "« Vous avez dépassé votre plafond. »",
+      "critique": true,
+      "cible": "Lôt ya",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB029",
+      "terme": "atteindre — passé",
+      "en": "",
+      "sens": "« Vous avez atteint la limite autorisée. »",
+      "critique": true,
+      "cible": "Kui ya",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB030",
+      "terme": "consulter — ordre",
+      "en": "",
+      "sens": "« Consultez votre historique. »",
+      "critique": false,
+      "cible": "Yené",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB031",
+      "terme": "saisir — ordre négatif",
+      "en": "",
+      "sens": "« Ne saisissez jamais votre code devant quelqu'un. »",
+      "critique": true,
+      "cible": "Teké futi'i nten bafili wôé ôsu môt",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": "Corrigé par le relecteur"
+    },
+    {
+      "ref": "VRB032",
+      "terme": "attendre — ordre",
+      "en": "",
+      "sens": "« Attendez le SMS de confirmation. »",
+      "critique": false,
+      "cible": "Yangué",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB033",
+      "terme": "se tromper — passé",
+      "en": "",
+      "sens": "« Je me suis trompé de numéro. »",
+      "critique": true,
+      "cible": "Me ngà kôb",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
+    },
+    {
+      "ref": "VRB034",
+      "terme": "renvoyer — ordre négatif",
+      "en": "",
+      "sens": "« Ne renvoyez pas d'argent à un inconnu. »",
+      "critique": true,
+      "cible": "Teké bulan moné be môt wô yem ki",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": "Corrigé par le relecteur"
+    },
+    {
+      "ref": "VRB036",
+      "terme": "gagner — passé",
+      "en": "",
+      "sens": "« Félicitations, vous avez gagné ! »",
+      "critique": true,
+      "cible": "Wate dañ",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "commentaire": ""
     }
   ],
   "phrases": [
@@ -3982,13 +6958,24 @@
       "en": [
         "Test environment — fictional data, no real transaction."
       ],
-      "cible": "Nlam a test — folâ é ndji bô bebelà, Teké nya nlomane moné.",
+      "cible": "Nlam a test — folâ é ndji bô bebelà, teké nya nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Environnement de test - Informations fictives, aucun transfert réel",
+      "valide": true,
+      "variantes": [
+        "Environnement de test : les données sont fictives et aucune transaction n'est réelle.",
+        "Mode test — données fictives, aucune transaction réelle.",
+        "Version de test : les données sont fictives, aucune transaction réelle n'est effectuée.",
+        "Environnement de démonstration — données fictives, aucune transaction réelle.",
+        "Espace de test : toutes les données sont fictives, aucune transaction réelle.",
+        "Environnement d'essai — données fictives, aucune transaction réelle.",
+        "Plateforme de test — données fictives, aucune transaction réelle.",
+        "Ceci est un site de test : les données sont fictives et aucune transaction n'est réelle.",
+        "Environnement de test. Les données affichées sont fictives et aucune transaction réelle n'est effectuée."
+      ]
     },
     {
       "id": "G02",
@@ -4002,7 +6989,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Procédure de test",
+        "Protocole d'essai",
+        "Déroulé du test",
+        "Mode opératoire du test",
+        "Démarche de test"
+      ]
     },
     {
       "id": "G03",
@@ -4016,7 +7010,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Revenir au hackathon",
+        "Retourner au hackathon",
+        "Retour à la page du hackathon",
+        "Revenir sur le site du hackathon",
+        "Retour au site du hackathon",
+        "Retour vers le hackathon"
+      ]
     },
     {
       "id": "G04",
@@ -4030,7 +7032,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Banque numérique",
+        "Services bancaires en ligne",
+        "Banque sur internet",
+        "Banque digitale",
+        "Espace bancaire en ligne",
+        "Accès bancaire en ligne"
+      ]
     },
     {
       "id": "G05",
@@ -4057,9 +7067,18 @@
       "critique": true,
       "traduit_par": "lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Frais.",
+      "valide": true,
+      "variantes": [
+        "Frais appliqués",
+        "Frais de l'opération",
+        "Montant des frais",
+        "Frais de service",
+        "Frais facturés",
+        "Coût de l'opération",
+        "Frais associés"
+      ]
     },
     {
       "id": "G07",
@@ -4073,7 +7092,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "bénéficiaire",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Bénéficiaire du transfert",
+        "Bénéficiaire de l'opération",
+        "Destinataire des fonds",
+        "Personne bénéficiaire",
+        "Destinataire de l'argent"
+      ]
     },
     {
       "id": "G08",
@@ -4087,7 +7113,11 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Récapitulatif avant confirmation",
+        "Résumé avant confirmation"
+      ]
     },
     {
       "id": "G09",
@@ -4101,7 +7131,14 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Étape de confirmation",
+        "Confirmation du transfert",
+        "Confirmation de l'opération",
+        "Validation du transfert",
+        "Confirmation finale"
+      ]
     },
     {
       "id": "G10",
@@ -4109,13 +7146,24 @@
       "en": [
         "Safinum Pay — demonstration environment. Do not enter real personal data."
       ],
-      "cible": "Safinum Pay — nlam a démonstration. Teké futié mfi folâ woé.",
+      "cible": "Safinum Pay — nlam ya démonstration. Teké futié mfi folâ woé.",
       "critique": true,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "Joseph",
+      "retraduction": "Safinum Pay - environnement de d´monstration. Ne mettez aucune information impotante",
+      "valide": true,
+      "variantes": [
+        "Safinum Pay — version de démonstration. Ne saisissez aucune information personnelle réelle.",
+        "Safinum Pay — environnement de démonstration. N'utilisez pas de vraies données personnelles.",
+        "Safinum Pay — démo. Ne saisissez aucune donnée personnelle réelle.",
+        "Safinum Pay, environnement de démonstration. Ne saisissez pas vos vraies données personnelles.",
+        "Safinum Pay — site de démonstration. N'entrez aucune donnée personnelle réelle.",
+        "Safinum Pay — environnement de démonstration. Ne saisissez aucune donnée personnelle véritable.",
+        "Safinum Pay — environnement de démonstration. N'indiquez aucune information personnelle réelle.",
+        "Safinum Pay — mode démonstration. Aucune donnée personnelle réelle ne doit être saisie.",
+        "Safinum Pay — environnement de démonstration. N'utilisez aucune donnée personnelle réelle."
+      ]
     },
     {
       "id": "A01",
@@ -4129,7 +7177,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Votre compte bancaire",
+        "Votre espace compte",
+        "Aperçu de votre compte",
+        "Vue d'ensemble du compte",
+        "Synthèse du compte"
+      ]
     },
     {
       "id": "A02",
@@ -4165,13 +7220,24 @@
       "en": [
         "Check your balance and start a secure transfer."
       ],
-      "cible": "Yené Mebal ya èn jôé, kele ôsu nlomane moné évovoé été.",
+      "cible": "Yené mebal môé, kele ôsu nlomane moné évovoé été.",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "Joseph",
+      "retraduction": "Consultez votre solde, continuer vers les transferts en toute sécurité",
+      "valide": true,
+      "variantes": [
+        "Consultez votre solde et effectuez un transfert en toute sécurité.",
+        "Vérifiez votre solde et faites un transfert en toute sécurité.",
+        "Consultez votre solde et envoyez de l'argent en toute sécurité.",
+        "Consultez votre solde et réalisez vos transferts en toute sécurité.",
+        "Consultez votre solde et initiez un transfert en toute sécurité.",
+        "Accédez à votre solde et lancez un transfert en toute sécurité.",
+        "Consultez votre solde puis lancez un transfert en toute sécurité.",
+        "Consultez votre solde et démarrez un transfert en toute sécurité.",
+        "Consultez votre solde et effectuez vos transferts de manière sécurisée."
+      ]
     },
     {
       "id": "A05",
@@ -4183,9 +7249,17 @@
       "critique": true,
       "traduit_par": "lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Solde disponible",
+      "valide": true,
+      "variantes": [
+        "Fonds disponibles",
+        "Argent disponible",
+        "Montant disponible",
+        "Solde disponible du compte",
+        "Solde actuellement disponible",
+        "Disponible sur votre compte"
+      ]
     },
     {
       "id": "A06",
@@ -4193,13 +7267,19 @@
       "en": [
         "Account number: {account}"
       ],
-      "cible": "Nombor ya Évôvôla moné : {account}",
+      "cible": "Nombor ya évôvôla moné : {account}",
       "critique": true,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Numéro de compte : {account}",
+      "valide": true,
+      "variantes": [
+        "Numéro de votre compte : {account}",
+        "Numéro de compte bancaire : {account}",
+        "Num. de compte : {account}",
+        "No de compte : {account}"
+      ]
     },
     {
       "id": "A07",
@@ -4207,13 +7287,18 @@
       "en": [
         "Account number"
       ],
-      "cible": "Nombor ya Évôvôla moné",
+      "cible": "Nombor ya évôvôla moné",
       "critique": false,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Num. de compte",
+        "No de compte",
+        "Numéro de compte bancaire"
+      ]
     },
     {
       "id": "A08",
@@ -4221,13 +7306,17 @@
       "en": [
         "Current account"
       ],
-      "cible": "Évôvôla moné",
+      "cible": "Évôvôla moné ya amane ngôn",
       "critique": false,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Compte chèques",
+        "Compte à vue"
+      ]
     },
     {
       "id": "A09",
@@ -4239,9 +7328,20 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Efeectuer un transfert",
+      "valide": true,
+      "variantes": [
+        "Faire un transfert",
+        "Faire un virement",
+        "Réaliser un transfert",
+        "Lancer un transfert",
+        "Initier un transfert",
+        "Démarrer un transfert",
+        "Procéder à un transfert",
+        "Effectuer un transfert d'argent",
+        "Commencer un transfert"
+      ]
     },
     {
       "id": "A10",
@@ -4249,13 +7349,20 @@
       "en": [
         "View fees"
       ],
-      "cible": "Yené Minkuk",
+      "cible": "Yené minkuk",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Connaître les frais",
+        "Vérifier les frais",
+        "Consulter les tarifs",
+        "Consulter la grille tarifaire",
+        "Découvrir les frais"
+      ]
     },
     {
       "id": "A11",
@@ -4269,7 +7376,15 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Dernières transactions",
+        "Derniers mouvements",
+        "Mouvements récents",
+        "Activité récente",
+        "Historique récent",
+        "Dernières activités"
+      ]
     },
     {
       "id": "A12",
@@ -4283,7 +7398,13 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Paiement chez un commerçant",
+        "Paiement commerçant",
+        "Règlement marchand",
+        "Achat chez un commerçant"
+      ]
     },
     {
       "id": "A13",
@@ -4297,7 +7418,14 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Salaire crédité",
+        "Salaire perçu",
+        "Paie reçue",
+        "Versement de salaire reçu",
+        "Salaire encaissé"
+      ]
     },
     {
       "id": "A14",
@@ -4309,9 +7437,16 @@
       "critique": false,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "Joseph",
+      "retraduction": "Transfert recu",
+      "valide": true,
+      "variantes": [
+        "Argent reçu",
+        "Fonds reçus",
+        "Transfert entrant",
+        "Réception d'un transfert",
+        "Transfert crédité"
+      ]
     },
     {
       "id": "A15",
@@ -4325,7 +7460,12 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Facture de courant",
+        "Paiement facture d'électricité",
+        "Facture électrique"
+      ]
     },
     {
       "id": "S01",
@@ -4347,13 +7487,24 @@
       "en": [
         "Always verify the beneficiary name and number before confirming a transfer."
       ],
-      "cible": "Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",
+      "cible": "Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "Joseph",
+      "retraduction": "Vérifiez toujours le nom et le numéro de téléphone du bénéficiaire, avant de continuer le transfert",
+      "valide": true,
+      "variantes": [
+        "Vérifiez toujours les coordonnées du bénéficiaire avant de confirmer un transfert.",
+        "Vérifiez systématiquement le nom et le numéro du bénéficiaire avant de confirmer un transfert.",
+        "Vérifiez toujours le nom et le numéro du bénéficiaire avant de valider un transfert.",
+        "Vérifiez toujours le nom et le numéro de téléphone du bénéficiaire avant de confirmer un transfert.",
+        "Assurez-vous toujours du nom et du numéro du bénéficiaire avant de confirmer un transfert.",
+        "Vérifiez bien le nom et le numéro du bénéficiaire avant de confirmer tout transfert.",
+        "Pensez toujours à vérifier le nom et le numéro du bénéficiaire avant de confirmer un transfert.",
+        "Avant toute confirmation de transfert, vérifiez le nom et le numéro du bénéficiaire.",
+        "Il faut toujours vérifier le nom et le numéro du bénéficiaire avant de confirmer un transfert."
+      ]
     },
     {
       "id": "S03",
@@ -4367,7 +7518,15 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Connexion chiffrée",
+        "Accès sécurisé",
+        "Session sécurisée",
+        "Liaison sécurisée",
+        "Connexion protégée",
+        "Navigation sécurisée"
+      ]
     },
     {
       "id": "F01",
@@ -4381,7 +7540,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "frais de transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Coût du transfert",
+        "Tarif du transfert",
+        "Frais liés au transfert",
+        "Frais applicables au transfert",
+        "Frais de transfert d'argent"
+      ]
     },
     {
       "id": "F02",
@@ -4393,9 +7559,19 @@
       "critique": false,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "Joseph",
+      "retraduction": "Choisir le type de transfert. Les frais sont calculés automatiquement",
+      "valide": true,
+      "variantes": [
+        "Sélectionnez le type de transfert et le montant. Les frais sont calculés automatiquement.",
+        "Choisissez le type de transfert et saisissez le montant. Les frais sont calculés automatiquement.",
+        "Choisissez le type de transfert et le montant ; les frais seront calculés automatiquement.",
+        "Indiquez le type de transfert et le montant. Le calcul des frais est automatique.",
+        "Choisissez le mode de transfert et le montant. Les frais sont calculés automatiquement.",
+        "Choisissez le type de transfert puis le montant. Les frais sont calculés automatiquement.",
+        "Choisissez le type de transfert et le montant. Le calcul des frais se fait automatiquement.",
+        "Sélectionnez le type d'opération et le montant. Les frais sont calculés automatiquement."
+      ]
     },
     {
       "id": "F03",
@@ -4409,7 +7585,13 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Type de transfert",
+        "Nature de l'opération",
+        "Catégorie d'opération",
+        "Mode de transfert"
+      ]
     },
     {
       "id": "F04",
@@ -4423,7 +7605,13 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vers un compte Safinum",
+        "Compte Safinum Pay",
+        "Transfert vers un compte Safinum",
+        "Entre comptes Safinum"
+      ]
     },
     {
       "id": "F05",
@@ -4431,13 +7619,21 @@
       "en": [
         "Instant, free transfer"
       ],
-      "cible": "Nlomane moné ana-ana, Bua",
+      "cible": "Nlomane moné ana-ana a bua",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "Joseph",
+      "retraduction": "Transfert automatique gratuit",
+      "valide": true,
+      "variantes": [
+        "Transfert immédiat et gratuit",
+        "Transfert instantané et sans frais",
+        "Transfert immédiat et sans frais",
+        "Transfert en temps réel et gratuit",
+        "Transfert en temps réel, sans frais",
+        "L'argent arrive tout de suite, sans frais"
+      ]
     },
     {
       "id": "F06",
@@ -4451,7 +7647,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Argent mobile",
+        "Portefeuille mobile",
+        "Monnaie mobile",
+        "Vers un compte Mobile Money",
+        "Compte Mobile Money"
+      ]
     },
     {
       "id": "F07",
@@ -4479,7 +7682,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vers une autre banque",
+        "Compte dans une autre banque",
+        "Autre établissement bancaire",
+        "Banque tierce",
+        "Transfert vers une autre banque",
+        "Banque externe"
+      ]
     },
     {
       "id": "F09",
@@ -4491,9 +7702,17 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Montant du transfert d'argent",
+      "valide": true,
+      "variantes": [
+        "Montant du transfert",
+        "Combien voulez-vous envoyer ?",
+        "Montant que vous envoyez",
+        "Saisissez le montant à envoyer",
+        "Montant à envoyer au bénéficiaire",
+        "Quel montant souhaitez-vous envoyer ?"
+      ]
     },
     {
       "id": "F10",
@@ -4505,9 +7724,15 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Gratuit",
+      "valide": true,
+      "variantes": [
+        "Frais offerts",
+        "Zéro frais",
+        "Entièrement gratuit",
+        "Gratuit, sans frais"
+      ]
     },
     {
       "id": "F11",
@@ -4519,9 +7744,17 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Solde à débiter",
+      "valide": true,
+      "variantes": [
+        "Montant total à débiter",
+        "Total à prélever",
+        "Total à payer",
+        "Total qui sera débité",
+        "Total à débiter de votre compte",
+        "Montant total à prélever"
+      ]
     },
     {
       "id": "F12",
@@ -4533,9 +7766,18 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Solde après le transfert",
+      "valide": true,
+      "variantes": [
+        "Solde après le transfert",
+        "Solde restant",
+        "Nouveau solde",
+        "Solde final",
+        "Solde après débit",
+        "Solde restant après l'opération",
+        "Solde une fois l'opération effectuée"
+      ]
     },
     {
       "id": "F13",
@@ -4547,9 +7789,14 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Continuer",
+      "valide": true,
+      "variantes": [
+        "Étape suivante",
+        "Passer à l'étape suivante",
+        "Continuer vers l'étape suivante"
+      ]
     },
     {
       "id": "F14",
@@ -4563,7 +7810,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Revenir en arrière",
+        "Étape précédente",
+        "Retour en arrière",
+        "Revenir à l'étape précédente",
+        "Page précédente"
+      ]
     },
     {
       "id": "B01",
@@ -4575,9 +7829,20 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Renseignez les informations du bénéficiaire. Vérifiez le numéro de téléphone avant de continuer",
+      "valide": true,
+      "variantes": [
+        "Renseignez les coordonnées du destinataire. Vérifiez toujours le numéro avant de valider.",
+        "Remplissez les informations du destinataire. Vérifiez toujours le numéro avant de valider.",
+        "Renseignez les informations du destinataire. Vérifiez toujours le numéro avant de confirmer.",
+        "Complétez les informations du destinataire. Vérifiez toujours le numéro avant de valider.",
+        "Renseignez les détails du destinataire. Vérifiez toujours le numéro avant de valider.",
+        "Renseignez les informations du destinataire. Vérifiez systématiquement le numéro avant de valider.",
+        "Renseignez les informations du destinataire. Vérifiez toujours le numéro de téléphone avant de valider.",
+        "Renseignez les informations du destinataire. Contrôlez bien le numéro avant toute validation.",
+        "Indiquez les informations du destinataire, puis vérifiez toujours le numéro avant de valider."
+      ]
     },
     {
       "id": "B02",
@@ -4585,13 +7850,24 @@
       "en": [
         "This beneficiary has never been used on this account. Verify the number before continuing."
       ],
-      "cible": "Nyô a bi nyi a be ki bela évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.",
+      "cible": "Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "Joseph",
+      "retraduction": "Ce bénéficiaire n'a jamais étéutilisé sur ce compte. Vérifiz le numéro de téléphone avant de continuer",
+      "valide": true,
+      "variantes": [
+        "Vous n'avez jamais envoyé d'argent à ce bénéficiaire depuis ce compte. Vérifiez le numéro avant de continuer.",
+        "Ce bénéficiaire n'a encore jamais été utilisé sur ce compte. Vérifiez le numéro avant de continuer.",
+        "Premier transfert vers ce bénéficiaire depuis ce compte. Vérifiez le numéro avant de continuer.",
+        "Nouveau bénéficiaire : il n'a jamais été utilisé sur ce compte. Vérifiez le numéro avant de continuer.",
+        "Ce bénéficiaire n'a jamais été utilisé sur ce compte. Vérifiez son numéro avant de poursuivre.",
+        "Ce bénéficiaire n'a jamais été utilisé sur ce compte. Contrôlez le numéro avant d'aller plus loin.",
+        "C'est la première fois que vous utilisez ce bénéficiaire sur ce compte. Vérifiez le numéro avant de continuer.",
+        "Ce bénéficiaire n'a jamais été utilisé sur ce compte. Vérifiez le numéro de téléphone avant de continuer.",
+        "Bénéficiaire jamais utilisé sur ce compte. Vérifiez le numéro avant de continuer."
+      ]
     },
     {
       "id": "B03",
@@ -4599,13 +7875,18 @@
       "en": [
         "Beneficiary name"
       ],
-      "cible": "Jôé ya Nyô a bi",
+      "cible": "Jôé ya nyô a bi",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Nom du destinataire (ou du bénéficiaire)",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Nom complet du bénéficiaire",
+        "Nom et prénom du bénéficiaire",
+        "Nom du bénéficiaire du transfert"
+      ]
     },
     {
       "id": "B04",
@@ -4619,7 +7900,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro de portable",
+        "Numéro mobile",
+        "Numéro de téléphone mobile",
+        "Numéro de téléphone portable",
+        "No de téléphone",
+        "Num. de téléphone"
+      ]
     },
     {
       "id": "B05",
@@ -4633,7 +7922,16 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "Le motif du transfert",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Objet du transfert",
+        "Raison du transfert",
+        "Libellé du transfert",
+        "Description du transfert",
+        "Objet de l'opération",
+        "Motif de l'opération",
+        "Pourquoi envoyez-vous cet argent ?"
+      ]
     },
     {
       "id": "B06",
@@ -4641,13 +7939,22 @@
       "en": [
         "Note (optional)"
       ],
-      "cible": "Nten (Teké abui mfi)",
+      "cible": "Nten (teké abui mfi)",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "Joseph",
+      "retraduction": "Note (optionnel)",
+      "valide": true,
+      "variantes": [
+        "Note (facultatif)",
+        "Commentaire (optionnel)",
+        "Commentaire (facultatif)",
+        "Message (optionnel)",
+        "Remarque (facultatif)",
+        "Note (non obligatoire)",
+        "Ajouter une note (optionnel)"
+      ]
     },
     {
       "id": "B07",
@@ -4659,9 +7966,20 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "J'ai vérifié le nom et le numéro de téléphone du bénéficiaire",
+      "valide": true,
+      "variantes": [
+        "Je certifie avoir vérifié le nom et le numéro du bénéficiaire.",
+        "J'ai contrôlé le nom et le numéro du bénéficiaire.",
+        "Je confirme avoir vérifié le nom et le numéro du bénéficiaire.",
+        "J'ai vérifié les coordonnées du bénéficiaire.",
+        "J'ai vérifié le nom et le numéro de téléphone du bénéficiaire.",
+        "Je déclare avoir vérifié le nom et le numéro du bénéficiaire.",
+        "Je reconnais avoir vérifié le nom et le numéro du bénéficiaire.",
+        "J'atteste avoir vérifié le nom et le numéro du bénéficiaire.",
+        "J'ai pris soin de vérifier le nom et le numéro du bénéficiaire."
+      ]
     },
     {
       "id": "R01",
@@ -4669,13 +7987,24 @@
       "en": [
         "Check the details before confirming the transfer."
       ],
-      "cible": "Ô tuá fômbo folâ ôsusua na w'a ntiñ nlomane moné.",
+      "cible": "Ô tuá fômbo folâ ôsusua na wô ntiñ nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "Joseph",
+      "retraduction": "Vérifiez les informations avant de confirmer le transfert",
+      "valide": true,
+      "variantes": [
+        "Vérifiez les informations avant de valider le transfert.",
+        "Vérifiez les détails avant de confirmer le transfert.",
+        "Relisez les informations avant de confirmer le transfert.",
+        "Vérifiez attentivement les informations avant de confirmer le transfert.",
+        "Vérifiez les informations ci-dessous avant de confirmer le transfert.",
+        "Vérifiez le récapitulatif avant de confirmer le transfert.",
+        "Vérifiez les informations saisies avant de confirmer le transfert.",
+        "Relisez attentivement les informations avant de valider le transfert.",
+        "Vérifiez les données avant de confirmer le transfert."
+      ]
     },
     {
       "id": "R02",
@@ -4687,9 +8016,12 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Montant",
+      "valide": true,
+      "variantes": [
+        "Montant de l'opération"
+      ]
     },
     {
       "id": "R03",
@@ -4701,9 +8033,19 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Solde débité",
+      "valide": true,
+      "variantes": [
+        "Montant total débité",
+        "Total prélevé",
+        "Montant total prélevé",
+        "Total débité du compte",
+        "Total retiré du compte",
+        "Somme totale débitée",
+        "Total payé",
+        "Montant total débité de votre compte"
+      ]
     },
     {
       "id": "R04",
@@ -4717,7 +8059,11 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Téléphone du bénéficiaire",
+        "Tél. du bénéficiaire"
+      ]
     },
     {
       "id": "R05",
@@ -4731,7 +8077,14 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Référence de l'opération",
+        "Numéro de référence",
+        "Réf. de l'opération",
+        "Référence du transfert",
+        "Code de référence"
+      ]
     },
     {
       "id": "R06",
@@ -4753,13 +8106,26 @@
       "en": [
         "I confirm the information above is correct."
       ],
-      "cible": "Ma ntiñ na folâ bi ke mbamba.",
+      "cible": "Ma ntiñ na folâ éne mbamba.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Je confirme que les inforations sont correctes",
+      "valide": true,
+      "variantes": [
+        "Je certifie que les informations ci-dessus sont exactes.",
+        "Je certifie l'exactitude des informations ci-dessus.",
+        "Je confirme l'exactitude des informations ci-dessus.",
+        "Je confirme que les informations indiquées sont correctes.",
+        "Je confirme que ces informations sont correctes.",
+        "J'atteste que les informations ci-dessus sont correctes.",
+        "Je déclare que les informations ci-dessus sont exactes.",
+        "Je confirme que les informations saisies sont correctes.",
+        "Je confirme l'exactitude des informations fournies.",
+        "Je certifie que les informations fournies sont exactes.",
+        "Je confirme que les données ci-dessus sont correctes."
+      ]
     },
     {
       "id": "R08",
@@ -4771,9 +8137,16 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "changer",
+      "valide": true,
+      "variantes": [
+        "Modifier les informations",
+        "Corriger les informations",
+        "Modifier les détails",
+        "Éditer les informations",
+        "Modifier le transfert"
+      ]
     },
     {
       "id": "R09",
@@ -4785,9 +8158,16 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Confrmer le transfert d'argent",
+      "valide": true,
+      "variantes": [
+        "Valider le transfert",
+        "Confirmer et envoyer",
+        "Je confirme le transfert",
+        "Valider et envoyer",
+        "Confirmer l'envoi d'argent"
+      ]
     },
     {
       "id": "C01",
@@ -4799,9 +8179,16 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "transfert effectué",
+      "valide": true,
+      "variantes": [
+        "Transfert réalisé",
+        "Transfert accompli",
+        "Transfert exécuté",
+        "Opération de transfert réussie",
+        "Transfert finalisé"
+      ]
     },
     {
       "id": "C02",
@@ -4813,9 +8200,17 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Votre transfert a été effectué avec succès",
+      "valide": true,
+      "variantes": [
+        "Votre argent a été envoyé avec succès.",
+        "Votre transfert est parti avec succès.",
+        "Votre transfert a été transmis avec succès.",
+        "Les fonds ont été envoyés avec succès.",
+        "Votre transfert a été envoyé au bénéficiaire.",
+        "L'argent a bien été envoyé au bénéficiaire."
+      ]
     },
     {
       "id": "C03",
@@ -4829,7 +8224,13 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Statut de l'opération",
+        "État de l'opération",
+        "Statut du transfert",
+        "État du transfert"
+      ]
     },
     {
       "id": "C04",
@@ -4837,12 +8238,12 @@
       "en": [
         "Success"
       ],
-      "cible": "Mvaé",
+      "cible": "Bo'obane mvo'é",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "Carrel",
+      "retraduction": "Reussi",
       "valide": true
     },
     {
@@ -4855,9 +8256,16 @@
       "critique": false,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "Joseph",
+      "retraduction": "Nouveau transfert",
+      "valide": true,
+      "variantes": [
+        "Nouvel envoi",
+        "Faire un nouveau transfert",
+        "Effectuer un autre transfert",
+        "Autre transfert",
+        "Faire un autre transfert"
+      ]
     },
     {
       "id": "E01",
@@ -4871,7 +8279,17 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "erreur est survenue",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Une erreur s'est produite",
+        "Une erreur inattendue s'est produite",
+        "Une erreur a eu lieu",
+        "Oups, une erreur est survenue",
+        "Désolé, une erreur est survenue",
+        "Un incident est survenu",
+        "Quelque chose s'est mal passé",
+        "Une anomalie est survenue"
+      ]
     },
     {
       "id": "E02",
@@ -4883,9 +8301,13 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Alerte de sécurité",
+      "valide": true,
+      "variantes": [
+        "Avertissement de sécurité",
+        "Mise en garde de sécurité"
+      ]
     },
     {
       "id": "E03",
@@ -4899,7 +8321,12 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Fermer le message",
+        "Fermer la fenêtre",
+        "Fermer l'alerte"
+      ]
     },
     {
       "id": "E04",
@@ -4911,9 +8338,15 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Message trés important",
+      "valide": true,
+      "variantes": [
+        "Information importante",
+        "Avis important",
+        "Note importante",
+        "Communication importante"
+      ]
     },
     {
       "id": "E05",
@@ -4925,9 +8358,18 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Le solde doit être supérieur à zéro",
+      "valide": true,
+      "variantes": [
+        "Veuillez saisir un montant supérieur à zéro.",
+        "Le montant doit être plus grand que zéro.",
+        "Le montant saisi doit être supérieur à zéro.",
+        "Le montant doit être strictement positif.",
+        "Le montant doit dépasser zéro.",
+        "Montant supérieur à zéro obligatoire.",
+        "Vous devez saisir un montant supérieur à zéro."
+      ]
     },
     {
       "id": "E06",
@@ -4935,13 +8377,23 @@
       "en": [
         "Insufficient balance for this transfer."
       ],
-      "cible": "Mebal Teké njalan asu nlomane moné.",
+      "cible": "Mebal teké njalan asu nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "solde insuffisant pour le transfert d'argent",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Vous n'avez pas assez d'argent pour effectuer ce transfert.",
+        "Solde insuffisant pour ce transfert.",
+        "Fonds insuffisants pour effectuer ce transfert.",
+        "Votre solde ne permet pas d'effectuer ce transfert.",
+        "Solde insuffisant pour réaliser ce transfert.",
+        "Provision insuffisante pour effectuer ce transfert.",
+        "Solde insuffisant : impossible d'effectuer ce transfert.",
+        "Votre solde est trop faible pour effectuer ce transfert."
+      ]
     },
     {
       "id": "E07",
@@ -4949,13 +8401,23 @@
       "en": [
         "Please provide the beneficiary name and phone number."
       ],
-      "cible": "Nyô a ya'a, futié Yôlé jôé ai Nombor nsinga ya Nyô a bi.",
+      "cible": "Nyô a ya'a, futié yôlé jôé ai nombor nsinga ya nyô a bi.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "S'il vous plaît, veillez renseigner le nom et le numéro de téléphone du bénéficiaire",
+      "valide": true,
+      "variantes": [
+        "Le nom et le numéro du bénéficiaire sont obligatoires.",
+        "Veuillez remplir le nom et le numéro du bénéficiaire.",
+        "Veuillez compléter le nom et le numéro du bénéficiaire.",
+        "Veuillez renseigner les coordonnées du bénéficiaire.",
+        "Le nom et le numéro du bénéficiaire doivent être renseignés.",
+        "Nom et numéro du bénéficiaire requis.",
+        "Veuillez renseigner le nom et le numéro de téléphone du bénéficiaire.",
+        "Veuillez fournir le nom et le numéro du bénéficiaire."
+      ]
     },
     {
       "id": "E08",
@@ -4967,9 +8429,16 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Attention : Vérifiez le numéro de téléphone du bénéficiaire avant de continuer",
+      "valide": true,
+      "variantes": [
+        "Avertissement de sécurité : vérifiez le numéro du bénéficiaire avant de continuer.",
+        "Alerte de sécurité : vérifiez le numéro du bénéficiaire avant de poursuivre.",
+        "Alerte de sécurité : vérifiez bien le numéro du bénéficiaire avant d'aller plus loin.",
+        "Alerte de sécurité : vérifiez le numéro de téléphone du bénéficiaire avant de continuer.",
+        "Mise en garde : vérifiez le numéro du bénéficiaire avant de continuer."
+      ]
     },
     {
       "id": "E09",
@@ -4981,9 +8450,19 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Attention : Ce bénéficiaire n'a jamais été utilisé sur ce compte.",
+      "valide": true,
+      "variantes": [
+        "Avertissement de sécurité : ce bénéficiaire n'a jamais été utilisé sur ce compte.",
+        "Alerte de sécurité : ce bénéficiaire n'a encore jamais été utilisé sur ce compte.",
+        "Alerte de sécurité : vous n'avez jamais envoyé d'argent à ce bénéficiaire depuis ce compte.",
+        "Alerte de sécurité : premier transfert vers ce bénéficiaire depuis ce compte.",
+        "Alerte de sécurité : nouveau bénéficiaire, jamais utilisé sur ce compte.",
+        "Alerte de sécurité : bénéficiaire jamais utilisé sur ce compte.",
+        "Alerte de sécurité : c'est la première fois que vous utilisez ce bénéficiaire sur ce compte.",
+        "Mise en garde : ce bénéficiaire n'a jamais été utilisé sur ce compte."
+      ]
     },
     {
       "id": "E10",
@@ -4995,9 +8474,20 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Erreur de réseau. Rien à afficher pour le moment.",
+      "valide": true,
+      "variantes": [
+        "Service temporairement indisponible. Veuillez réessayer plus tard.",
+        "Erreur de connexion : le service est temporairement indisponible. Réessayez.",
+        "Erreur réseau : le service est temporairement inaccessible. Réessayez.",
+        "Erreur réseau : le service n'est pas disponible pour le moment. Réessayez.",
+        "Erreur réseau : le service est temporairement indisponible. Veuillez réessayer plus tard.",
+        "Erreur réseau : le service est provisoirement indisponible. Réessayez.",
+        "Erreur réseau : le service est temporairement hors service. Réessayez.",
+        "Erreur réseau : le service est temporairement indisponible. Essayez à nouveau.",
+        "Erreur réseau, service temporairement indisponible : réessayez dans quelques instants."
+      ]
     },
     {
       "id": "E11",
@@ -5005,13 +8495,23 @@
       "en": [
         "You must confirm the details before validating the transfer."
       ],
-      "cible": "W'ayiane ntiñ folâ Ôsusua na w'ake ôsu a nlomane moné.",
+      "cible": "W'ayiane ntiñ folâ ôsusua na w'ake ôsu a nlomane moné.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Vous devez confirmer les informations avant de continuer avec le transfert",
+      "valide": true,
+      "variantes": [
+        "Veuillez confirmer les informations avant de valider le transfert.",
+        "Les informations doivent être confirmées avant de valider le transfert.",
+        "Vous devez d'abord confirmer les informations pour valider le transfert.",
+        "Confirmation des informations obligatoire avant validation du transfert.",
+        "Vous devez confirmer les informations avant de finaliser le transfert.",
+        "Vous devez confirmer les données avant de valider le transfert.",
+        "Vous devez confirmer les informations avant de procéder au transfert.",
+        "Veuillez d'abord confirmer les informations, puis validez le transfert."
+      ]
     },
     {
       "id": "X01",
@@ -5025,7 +8525,11 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Soyez le bienvenu",
+        "Bienvenue sur votre espace"
+      ]
     },
     {
       "id": "X02",
@@ -5039,7 +8543,11 @@
       "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Mon espace client",
+        "Mon compte client"
+      ]
     },
     {
       "id": "X03",
@@ -5053,7 +8561,15 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "Carrel",
       "retraduction": "retour à l'accueil",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Retour à la page d'accueil",
+        "Revenir à l'accueil",
+        "Revenir à la page d'accueil",
+        "Retourner à l'accueil",
+        "Page d'accueil",
+        "Retour vers l'accueil"
+      ]
     },
     {
       "id": "X04",
@@ -5065,8 +8581,8 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
+      "retraduit_par": "John",
+      "retraduction": "Fermer",
       "valide": true
     },
     {
@@ -5081,7 +8597,12 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Fermer la session",
+        "Quitter la session",
+        "Déconnexion du compte"
+      ]
     },
     {
       "id": "X06",
@@ -5095,7 +8616,13 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Historique du compte",
+        "Liste des transactions",
+        "Historique des mouvements",
+        "Journal des transactions"
+      ]
     },
     {
       "id": "X07",
@@ -5103,13 +8630,21 @@
       "en": [
         "Check balance"
       ],
-      "cible": "Yené Mebal",
+      "cible": "Yené mebal",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Voir mon solde",
+        "Vérifier le solde",
+        "Vérifier mon solde",
+        "Connaître mon solde",
+        "Interrogation de solde",
+        "Consultation du solde"
+      ]
     },
     {
       "id": "X08",
@@ -5117,13 +8652,26 @@
       "en": [
         "Your balance is {amount}"
       ],
-      "cible": "Mebal ya èn jôé: {amount}",
+      "cible": "Mebal môé: {amount}",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Votre solde : {amount}",
+      "valide": true,
+      "variantes": [
+        "Votre solde actuel est de {amount}",
+        "Le solde de votre compte est de {amount}",
+        "Votre solde actuel : {amount}",
+        "Le solde de votre compte : {amount}",
+        "Solde de votre compte : {amount}",
+        "Solde du compte : {amount}",
+        "Votre solde s'élève à {amount}",
+        "Le solde de votre compte s'élève à {amount}",
+        "Vous disposez d'un solde de {amount}",
+        "Votre compte affiche un solde de {amount}",
+        "Votre compte présente un solde de {amount}"
+      ]
     },
     {
       "id": "X09",
@@ -5135,9 +8683,15 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Transferer de l'argent",
+      "valide": true,
+      "variantes": [
+        "Envoyer des fonds",
+        "Transférer des fonds",
+        "Envoi d'argent",
+        "Faire un envoi d'argent"
+      ]
     },
     {
       "id": "X10",
@@ -5145,13 +8699,18 @@
       "en": [
         "Beneficiary number"
       ],
-      "cible": "Nombor nsinga ya Nyô a bi",
+      "cible": "Nombor nsinga ya nyô a bi",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Numero de telphone du beneficiaire",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro de téléphone du bénéficiaire",
+        "Numéro mobile du bénéficiaire",
+        "No du bénéficiaire"
+      ]
     },
     {
       "id": "X11",
@@ -5159,13 +8718,19 @@
       "en": [
         "Beneficiary number: {phone}"
       ],
-      "cible": "Nombor nsinga ya Nyô a bi : {phone}",
+      "cible": "Nombor nsinga ya nyô a bi : {phone}",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "Numero de telphone du beneficiaire : {phone}",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Téléphone du bénéficiaire : {phone}",
+        "Numéro de téléphone du bénéficiaire : {phone}",
+        "Tél. du bénéficiaire : {phone}",
+        "Numéro mobile du bénéficiaire : {phone}"
+      ]
     },
     {
       "id": "X12",
@@ -5177,9 +8742,18 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Frais de transfert : {amount}",
+      "valide": true,
+      "variantes": [
+        "Frais appliqués : {amount}",
+        "Frais du transfert : {amount}",
+        "Coût de l'opération : {amount}",
+        "Frais de service : {amount}",
+        "Frais facturés : {amount}",
+        "Montant des frais : {amount}",
+        "Frais prélevés : {amount}"
+      ]
     },
     {
       "id": "X13",
@@ -5187,12 +8761,12 @@
       "en": [
         "You are about to send {amount} to {name}"
       ],
-      "cible": "Nlomane moné {amount} asu {name}",
+      "cible": "wô zu lôm {amount} asù {name}",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "Joseph",
+      "retraduction": "Vous allez envoyer {amount} à {name}",
       "valide": true
     },
     {
@@ -5205,9 +8779,18 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Solde débité : {amount}",
+      "valide": true,
+      "variantes": [
+        "Montant total débité : {amount}",
+        "Total prélevé : {amount}",
+        "Montant total prélevé : {amount}",
+        "Total payé : {amount}",
+        "Total retiré du compte : {amount}",
+        "Somme totale débitée : {amount}",
+        "Total débité du compte : {amount}"
+      ]
     },
     {
       "id": "X15",
@@ -5219,9 +8802,14 @@
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Confirmer / Valider",
+      "valide": true,
+      "variantes": [
+        "Confirmer l'opération",
+        "Valider l'opération",
+        "Oui, confirmer"
+      ]
     },
     {
       "id": "X16",
@@ -5229,13 +8817,24 @@
       "en": [
         "Check the beneficiary's name and number before confirming. A confirmed transaction cannot be cancelled."
       ],
-      "cible": "Ô tuá fômbo jôé na nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",
+      "cible": "Ô tuá fômbo jôé ai nombor nsinga ya nyô a bi ôsusua na w'ake ôsu. Éyoñ ô ntiñ ya nkeàn ôsu, ô vo'o ki fe bulan mvùs",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "Joseph",
+      "retraduction": "Vérifiez le nom et le numéro de téléphone du bénéficiaire avant de continuer. En acceptant de continuer, vous ne pourrez plus annuler",
+      "valide": true,
+      "variantes": [
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Cette opération ne pourra pas être annulée.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée est irréversible.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une fois confirmée, l'opération ne peut pas être annulée.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de valider. Une opération validée ne peut pas être annulée.",
+        "Vérifiez les coordonnées du bénéficiaire avant de confirmer. Une opération confirmée ne peut pas être annulée.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer : une opération confirmée ne peut plus être annulée.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Après confirmation, l'opération ne peut pas être annulée.",
+        "Avant de confirmer, vérifiez le nom et le numéro du bénéficiaire : toute opération confirmée est irréversible.",
+        "Vérifiez le nom et le numéro du bénéficiaire avant de confirmer. Une opération confirmée ne peut être annulée."
+      ]
     },
     {
       "id": "X17",
@@ -5249,7 +8848,14 @@
       "relu_par": "Carrel",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Transaction effectuée avec succès",
+        "Opération réalisée avec succès",
+        "Opération accomplie",
+        "Opération exécutée",
+        "Opération finalisée"
+      ]
     },
     {
       "id": "X18",
@@ -5261,9 +8867,17 @@
       "critique": false,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "Joseph",
+      "retraduction": "Patientez un moment / opération en cours",
+      "valide": true,
+      "variantes": [
+        "Opération en cours",
+        "Traitement en cours",
+        "Opération en traitement",
+        "Traitement en cours, veuillez patienter",
+        "Opération en cours d'exécution",
+        "Votre demande est en cours de traitement"
+      ]
     },
     {
       "id": "X19",
@@ -5277,7 +8891,16 @@
       "relu_par": "Alexandre et Ronald",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro de référence : {ref}",
+        "Réf. de l'opération : {ref}",
+        "Référence du transfert : {ref}",
+        "Code de référence : {ref}",
+        "Identifiant de l'opération : {ref}",
+        "ID de transaction : {ref}",
+        "Numéro de transaction : {ref}"
+      ]
     },
     {
       "id": "X20",
@@ -5285,13 +8908,22 @@
       "en": [
         "Insufficient balance"
       ],
-      "cible": "Mebal Teké njalan",
+      "cible": "Mebal teké njalan",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "John",
+      "retraduction": "Solde insuffisant",
+      "valide": true,
+      "variantes": [
+        "Fonds insuffisants",
+        "Provision insuffisante",
+        "Solde trop faible",
+        "Vous n'avez pas assez d'argent",
+        "Montant disponible insuffisant",
+        "Solde du compte insuffisant",
+        "Fonds disponibles insuffisants"
+      ]
     },
     {
       "id": "X21",
@@ -5299,13 +8931,23 @@
       "en": [
         "Invalid number"
       ],
-      "cible": "Nombor nsinga Teké mbamba",
+      "cible": "Nombor nsinga teké mbamba",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "Carrel",
       "retraduction": "mauvais nuéro de téléphone",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Numéro non valide",
+        "Numéro incorrect",
+        "Numéro erroné",
+        "Numéro de téléphone invalide",
+        "Ce numéro n'est pas valide",
+        "Numéro de téléphone incorrect",
+        "Numéro saisi invalide",
+        "Le numéro saisi est incorrect"
+      ]
     },
     {
       "id": "X22",
@@ -5317,9 +8959,21 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Un erreur est survenue. Réessayez",
+      "valide": true,
+      "variantes": [
+        "Une erreur s'est produite. Veuillez réessayer.",
+        "Une erreur inattendue est survenue. Veuillez réessayer.",
+        "Une erreur est survenue. Réessayez plus tard.",
+        "Une erreur est survenue. Veuillez essayer à nouveau.",
+        "Oups, une erreur est survenue. Veuillez réessayer.",
+        "Désolé, une erreur est survenue. Veuillez réessayer.",
+        "Un incident est survenu. Veuillez réessayer.",
+        "Quelque chose s'est mal passé. Veuillez réessayer.",
+        "Une erreur a eu lieu. Veuillez réessayer.",
+        "Une erreur est survenue. Veuillez réessayer dans quelques instants."
+      ]
     },
     {
       "id": "X23",
@@ -5327,13 +8981,21 @@
       "en": [
         "Invalid amount"
       ],
-      "cible": "Abime moné Teké mvoé",
+      "cible": "Abime moné é ndji bô mbamba",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "traduit_par": "Carrel",
+      "relu_par": "John",
+      "retraduit_par": "Joseph",
+      "retraduction": "Le montant est insuffisant",
+      "valide": true,
+      "variantes": [
+        "Montant non valide",
+        "Montant incorrect",
+        "Montant erroné",
+        "Le montant saisi est invalide",
+        "Montant saisi incorrect",
+        "Ce montant n'est pas valide"
+      ]
     },
     {
       "id": "X24",
@@ -5345,9 +9007,18 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "Attention : Ne partagez votre code secret à personne. Aucun agent ne vous le demandera",
+      "valide": true,
+      "variantes": [
+        "Ne communiquez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Attention : ne donnez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Important : ne partagez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Attention : ne partagez jamais votre code secret. Aucun agent ne vous le demandera jamais.",
+        "Attention : ne révélez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Attention : ne transmettez jamais votre code secret. Aucun agent ne vous le demandera.",
+        "Mise en garde : ne partagez jamais votre code secret. Aucun agent ne vous le demandera."
+      ]
     },
     {
       "id": "X25",
@@ -5355,13 +9026,20 @@
       "en": [
         "Enter your PIN"
       ],
-      "cible": "Yôlé Nten bafili ya èn jôé",
+      "cible": "Yôlé nten bafili ya èn jôé",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
-      "valide": true
+      "valide": true,
+      "variantes": [
+        "Tapez votre code PIN",
+        "Composez votre code PIN",
+        "Saisissez votre code confidentiel",
+        "Saisissez votre PIN",
+        "Introduisez votre code PIN"
+      ]
     },
     {
       "id": "X26",
@@ -5373,9 +9051,19 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "votre code de confirmation est {code}. Vous ne devez le partager à personne",
+      "valide": true,
+      "variantes": [
+        "Votre code de vérification est {code}. Ne le partagez avec personne.",
+        "Votre code à usage unique est {code}. Ne le communiquez à personne.",
+        "Votre code de validation est {code}. Ne le partagez avec personne.",
+        "Votre code de confirmation est {code}. Ne le donnez à personne.",
+        "Votre code de confirmation est {code}. Ne le transmettez à personne.",
+        "Votre code OTP est {code}. Ne le partagez avec personne.",
+        "Votre code de sécurité est {code}. Ne le partagez avec personne.",
+        "Votre code de confirmation est {code}. Ne le révélez à personne."
+      ]
     },
     {
       "id": "X27",
@@ -5387,9 +9075,19 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
+      "retraduit_par": "John",
+      "retraduction": "En acceptant de continuer, vous ne pourrez plus annuler",
+      "valide": true,
+      "variantes": [
+        "Cette opération ne peut pas être annulée",
+        "Cette opération ne pourra pas être annulée",
+        "Une fois confirmée, cette opération ne peut pas être annulée",
+        "Cette opération ne peut plus être annulée",
+        "Aucune annulation n'est possible pour cette opération",
+        "Il n'est pas possible d'annuler cette opération",
+        "Cette opération est sans retour",
+        "Cette opération ne peut être annulée"
+      ]
     },
     {
       "id": "X28",
@@ -5401,6 +9099,321 @@
       "critique": true,
       "traduit_par": "Lesly",
       "relu_par": "Alexandre et Ronald",
+      "retraduit_par": "John",
+      "retraduction": "Détails du transfert",
+      "valide": true,
+      "variantes": [
+        "Résumé de l'opération",
+        "Récapitulatif du transfert",
+        "Résumé du transfert",
+        "Synthèse de l'opération"
+      ]
+    },
+    {
+      "id": "X29",
+      "fr": "Votre solde",
+      "en": [
+        "Your balance"
+      ],
+      "cible": "Mebal môé",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "Carrel",
+      "retraduction": "Votre solde",
+      "valide": true,
+      "variantes": [
+        "Solde de votre compte",
+        "Le solde de votre compte",
+        "Solde du compte",
+        "Votre solde actuel",
+        "Solde actuel de votre compte"
+      ]
+    },
+    {
+      "id": "MSG001",
+      "fr": "Vous avez reçu {amount} de {name}. Nouveau solde : {amount_2}.",
+      "en": [],
+      "cible": "Wa te bi {amount} ya {name}. Mféfé mebal : {amount_2}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG002",
+      "fr": "Transfert de {amount} vers {name} effectué. Frais : {fee}.",
+      "en": [],
+      "cible": "Nlomane moné ya {amount} e be {name}. Minkuk : {fee}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG003",
+      "fr": "Retrait de {amount} effectué. Frais : {fee}. Nouveau solde : {amount_2}.",
+      "en": [],
+      "cible": "Mvà'àn moné ya {amount} ô te bo'oban mvo'é. Minkuk : {fee}. Mféfé mebal : {amount_2}.",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG004",
+      "fr": "Dépôt de {amount} effectué sur votre compte.",
+      "en": [],
+      "cible": "Mboà'àne moné ya {amount} ô te bo'oban évôvôla jôé",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG005",
+      "fr": "Paiement de {amount} au marchand {name} effectué.",
+      "en": [],
+      "cible": "E yà'àn ya {amount} e be nyô a bô makite {name} ô bo'oban ya.",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG006",
+      "fr": "Votre facture de {amount} a été payée. Référence : {ref}.",
+      "en": [],
+      "cible": "Faktur wôé ya {amount} a tabe ya e yà'àn. Ndem : {ref}.",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG007",
+      "fr": "Votre code de confirmation est {code}. Il expire dans 5 minutes.",
+      "en": [],
+      "cible": "Nten bafili ya ntiñ wôé ane {code}. A ye lôte awolo mvùs ya be minut 5.",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG008",
+      "fr": "Code PIN incorrect. Il vous reste {count} essais.",
+      "en": [],
+      "cible": "Nten bafili ô ndji bô mbamba. Biyoñ {count} bi li'i ya wô",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG010",
+      "fr": "Votre compte est bloqué. Contactez le service client.",
+      "en": [],
+      "cible": "Évôvôla jôé éne mfetán. Lo'on service client",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG011",
+      "fr": "Solde insuffisant. Votre solde est de {amount}.",
+      "en": [],
+      "cible": "Mebal na yian ki. Mebal moé mene : {amount}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG012",
+      "fr": "Vous avez atteint votre plafond journalier.",
+      "en": [],
+      "cible": "Ô vino ki fe lôm nge bi moné den",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG013",
+      "fr": "Opération en attente. Composez #150# pour la confirmer.",
+      "en": [],
+      "cible": "Nlomane Wa yangué. Bô'ô #150# asù na ô ntiñti",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG014",
+      "fr": "Opération annulée. Aucun montant n'a été débité.",
+      "en": [],
+      "cible": "Wate kòlo nlomane. Teké abime moné ézing ya te ke",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG015",
+      "fr": "Le service est momentanément indisponible. Réessayez plus tard.",
+      "en": [],
+      "cible": "Service a ndji bo éyoñ ji. Ve'ele'e fe mvùs ya valé.",
+      "critique": false,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG016",
+      "fr": "Votre prêt de {amount} a été approuvé.",
+      "en": [],
+      "cible": "Ékolà jôé ya {amount} ya te tabe nkañessan.",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG017",
+      "fr": "Votre échéance de {amount} est prévue le {date}.",
+      "en": [],
+      "cible": "Wo yiane ya'ane {amount} môs {date}.",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG019",
+      "fr": "Votre cotisation de {amount} a été enregistrée.",
+      "en": [],
+      "cible": "Enyôñ ngab jôé ya {amount} ya te tabe mfutian",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG020",
+      "fr": "Attention : un agent ne vous demandera jamais votre code PIN.",
+      "en": [],
+      "cible": "Ntye : teké môt esaé dzing aye wô sili nten bafili wôé",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG021",
+      "fr": "Ne répondez pas aux messages vous annonçant un gain. C'est une arnaque.",
+      "en": [],
+      "cible": "Teké wô yialan me fôé ma kôbo ajó moné a bet. Ane minsôs",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG022",
+      "fr": "Si vous n'êtes pas à l'origine de cette opération, appelez le service client.",
+      "en": [],
+      "cible": "Nge esaké wô ô taté nlomane wù, lo'on service client",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG023",
+      "fr": "Vérifiez le nom du bénéficiaire avant de confirmer.",
+      "en": [],
+      "cible": "Ô tuà fômbo jôé ya nyô a bi ôsusua na wa ntiñti",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG024",
+      "fr": "Ce numéro n'est pas enregistré sur Mobile Money.",
+      "en": [],
+      "cible": "Nombor nsinga nyô a ndji bô Mobile Money",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG025",
+      "fr": "Le bénéficiaire recevra {amount}.",
+      "en": [],
+      "cible": "Nyô a bi aye bi {amount}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MSG026",
+      "fr": "Frais compris : {fee}. Montant total : {amount}.",
+      "en": [],
+      "cible": "Minkuk ya été : {fee}. Abime moné ése : {amount}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true

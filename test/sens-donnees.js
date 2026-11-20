@@ -202,7 +202,8 @@ const REGLES = [
 // Valeurs d'exemple à la place des champs {…}
 const exemple = (texte) => texte.replace(/\{amount(_\d+)?\}/g, '25 000 FCFA').replace(/\{percent\}/g, '2 %')
   .replace(/\{phone\}/g, '+237 699 00 00 00').replace(/\{account\}/g, 'CM21 1000 2000 3000').replace(/\{ref\}/g, 'TX-482913')
-  .replace(/\{code\}/g, '4821').replace(/\{name\}/g, 'Awa Ndongo');
+  .replace(/\{code\}/g, '4821').replace(/\{name\}/g, 'Awa Ndongo').replace(/\{date\}/g, '15/12/2026')
+  .replace(/\{fee\}/g, '150 FCFA').replace(/\{count\}/g, '2');
 
 // Chaque règle appliquée seule à chaque phrase validée et à chaque paraphrase reconnue (ce qui éprouve
 // la forme canonique elle-même), puis le même texte en capitales sans accents

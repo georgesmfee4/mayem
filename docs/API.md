@@ -107,8 +107,39 @@ signatures restent valables ; si une clé est « revoquee », le même contenu e
 **Clé de l'équipe.** `npm run cle` la crée une fois : la clé privée va dans `~/.mayem/`, jamais dans le dépôt
 (à sauvegarder hors du poste) ; la clé publique entre dans `packs/cles.json`.
 
-**Exports et jeux de données** : servis avec une clé d'accès par client (`X-Mayem-Cle`), vérifiée devant
-ces fichiers lors de la mise en ligne. Ne pas mettre `api/v1/exports/` en ligne sans ce contrôle.
+**Exports et jeux de données** : servis avec une clé d'accès par client, à envoyer dans l'en-tête
+`X-Mayem-Cle`. Sans clé connue : 401.
+
+### Mise en ligne (Cloudflare Workers, offre gratuite)
+
+```
+npm run api          prépare api/ (signé, versions figées, _headers)
+npm run deployer     contrôle, envoie, puis sonde l'adresse publique
+```
+
+- **Hébergement** (`hebergement/`) : les fichiers de `api/` sont servis tels quels par Cloudflare. Le Worker
+  (`hebergement/worker.js`) ne passe que devant les chemins qui ne sont pas explicitement publics
+  (`run_worker_first` dans `wrangler.json`) : il décode le chemin (encodage, casse, `..`, `\`) et refuse
+  tout export sans clé connue. Journaux de requêtes désactivés : on ne garde pas qui consulte l'API.
+- **En-têtes** (`api/_headers`, écrit par `npm run api`) : `Access-Control-Allow-Origin: *`, sans quoi
+  l'intégrité `sha384` du script ne peut pas être contrôlée chez un intégrateur ; une version figée se garde
+  un an (`immutable`) ; `latest.json`, les index et les clés sont revalidés à chaque fois.
+- **Avant d'envoyer**, `npm run deployer` vérifie les signatures de `api/`, l'absence de tout nom interne,
+  que `api/` est à jour du pack, et que **chaque version déjà en ligne est identique octet pour octet** à
+  celle de `api/`. Une signature ECDSA change à chaque calcul : sans ce contrôle, un `api/` perdu puis refait
+  sur un autre poste changerait des versions publiées. Dans ce cas, `npm run deployer -- --recuperer` copie
+  d'abord dans `api/` les versions en ligne, puis `npm run api` les garde telles quelles.
+- **Après l'envoi**, il télécharge le pack depuis l'adresse publique, vérifie sa signature, et tente
+  d'obtenir un export sans clé par neuf chemins détournés : un seul succès est une erreur.
+- **Clés d'accès** : `npm run cle-acces -- <client>` crée une clé, affichée une seule fois ; seule son
+  empreinte SHA-256 va dans l'espace KV de Cloudflare. `npm run cle-acces -- --retirer <empreinte>` la
+  retire sans redéployer : elle est refusée partout en une minute au plus (délai de propagation de Cloudflare).
+- **Windows PowerShell** avale le `--` de `npm run x -- --option` ; les outils lisent quand même l'option
+  (`tools/options.js`), qui peut aussi s'écrire sans tirets : `npm run cle-acces -- retirer <empreinte>`.
+- **Outil** : wrangler, de Cloudflare, lancé par `npx` à une version épinglée (`tools/cloudflare.js`), hors
+  de `package.json` et de l'extension. La connexion au compte (`npx wrangler login`) se fait par l'équipe.
+- L'adresse publique est notée dans `hebergement/adresse.txt` au premier envoi :
+  **https://mayem-api.mayem.workers.dev** (point d'entrée : `/v1/index.json`).
 
 **Grands packs.** Le sens reconnu indexe ses phrases au premier texte inconnu : quelques millisecondes pour
 une centaine de phrases, de l'ordre de la seconde pour 20 000. Au-delà de quelques milliers de phrases, cet

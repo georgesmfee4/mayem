@@ -32,7 +32,8 @@ core/        moteur pur en TypeScript : reçoit une chaîne et un pack, rend un 
 dom/         couche page : parcours du DOM, observateur, bouton (Shadow DOM) ; fond.ts injecte au clic
 packs/       schema.json + un dossier par langue : packs/<code>/ (infos.json, corpus.csv, glossaire.csv,
              retraduction.csv, pack.json généré). Aucun outil ne connaît une langue par son nom.
-tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs), export, api
+tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs), export, api, deployer
+hebergement/ Worker et configuration Cloudflare de l'API en ligne
 docs/        API.md (réutiliser les données et le moteur), demo.md (déroulé de la démo)
 test/        tests node:test
 e2e/         tests Playwright dans Chromium, extension chargée
@@ -108,6 +109,9 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
      ou retiré : -> 0.4.0), la version est archivée dans `packs/<langue>/versions/` et
      `packs/<langue>/CHANGELOG.md` liste les phrases et termes changés.
    - Le pack porte une empreinte SHA-256 (`core/empreinte.ts`) : toute modification après fabrication se voit.
+   - Lexique relu reçu en JSON (format `mayem-lexique`) : `npm run lexique -- fichier.json [--retenir REF1,REF2]`.
+     Seules les entrées « valide » signées de deux noms entrent : un terme dans le glossaire, une phrase complète
+     dans le corpus. Rien n'est remplacé : un français déjà présent garde sa traduction, et l'entrée est signalée.
 4. Retraduction : `python tools/kit.py retraduction` crée `retraduction-a-envoyer.xlsx` (bulu seul). Une troisième
    personne, qui n'a pas vu le français, le retraduit. Fichier reçu : `npm run import -- fichier.xlsx`.
    - Chaque phrase du pack garde `retraduit_par` et `retraduction`, à comparer au français.
@@ -166,6 +170,8 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Paraphrases (`packs/<langue>/paraphrases.csv`) : autres formulations françaises d'une phrase, proposées puis
   vérifiées par un francophone de l'équipe qui ne les a pas proposées. Seules les vérifiées entrent dans le pack ;
   chacune couvre à son tour toutes ses écritures (majuscules, accents, ordre, synonymes).
+  `python tools/kit.py paraphrases` crée `paraphrases-a-verifier.xlsx` (français seul : « même sens ? oui / non »
+  et un nom) ; `npm run import` le relit : « oui » signé la fait entrer, « non » la retire.
 - Texte coupé par des balises (`Votre solde est de <b>25 000 FCFA</b>`) : traduit comme un seul bloc, puis le bulu est
   rangé dans les nœuds texte existants ; montants et noms gardent leur texte exact. Si le bulu change l'ordre des
   valeurs, l'original reste.
@@ -222,7 +228,9 @@ Deux rôles séparés (détails : `docs/API.md`) :
   `npm run api` prépare l'API v1 dans `api/` : packs et script signés par l'équipe (ECDSA P-256), versions
   figées, clés publiques, outil de vérification pour l'intégrateur, contrat OpenAPI 3.1 (`docs/openapi.json`).
   La clé privée se crée une fois avec `npm run cle` et ne quitte jamais le poste de l'équipe. L'extension
-  n'appelle pas l'API ; l'API ne reçoit rien des pages. Rien n'est mis en ligne automatiquement.
+  n'appelle pas l'API ; l'API ne reçoit rien des pages. `npm run deployer` la met en ligne (Cloudflare,
+  offre gratuite) après contrôle des signatures et des versions déjà publiées ; les exports demandent une
+  clé d'accès (`npm run cle-acces`).
 - **Intégration en une ligne** : `dist-web/mayem.js`, à inclure par un service dans ses pages
   (`<script src="mayem.js" integrity="…" data-langue="bum" defer>`), sans extension côté client ; packs
   embarqués, mêmes garanties (page d'essai `fixtures/integre.html`, réglages dans `docs/API.md`).

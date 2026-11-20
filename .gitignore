@@ -5,6 +5,7 @@ dist/
 *.zip
 __pycache__/
 retraduction-a-envoyer.xlsx
+paraphrases-a-verifier.xlsx
 test-results/
 playwright-report/
 exports/

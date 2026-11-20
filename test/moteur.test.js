@@ -43,6 +43,16 @@ test('les textes composés sont reconnus et gardent leurs valeurs', () => {
   }
 });
 
+test('{fee} n’accepte qu’un montant et {count} qu’un nombre', () => {
+  // Traduction factice : seul le remplissage des champs est éprouvé ici
+  const essai = { ...pack, phrases: [...pack.phrases, { id: 'Z1', fr: 'Frais : {fee}. Il vous reste {count} essais.', en: [], cible: 'ESSAI {fee} ESSAI {count}', valide: true, critique: true, traduit_par: 'a', relu_par: 'b' }] };
+  const r = tr('Frais : 500 FCFA. Il vous reste 2 essais.', essai);
+  assert.equal(r?.id, 'Z1');
+  assert.equal(r.sortie, 'ESSAI 500 FCFA ESSAI 2');
+  assert.notEqual(tr('Frais : beaucoup. Il vous reste 2 essais.', essai)?.id, 'Z1');
+  assert.notEqual(tr('Frais : 500 FCFA. Il vous reste deux essais.', essai)?.id, 'Z1');
+});
+
 test('un texte fait uniquement de faits n’est jamais touché', () => {
   const faits = ['250 000 FCFA', '-12 500 FCFA', '+180 000 FCFA', '05 nov. 2026', 'Nov 5, 2026', 'Oct 31, 2026',
     'SAF-2026-K3P9QZ', 'SECURITY_002', 'CM 001 2345 6789 01', '+237 6 99 12 34 56', '25 000 FCFA', '2,500 FCFA', '0 FCFA'];

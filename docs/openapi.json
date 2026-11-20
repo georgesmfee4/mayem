@@ -8,7 +8,7 @@
     "contact": { "name": "Équipe Mayem" },
     "license": { "name": "Tous droits réservés", "identifier": "LicenseRef-Mayem" }
   },
-  "servers": [{ "url": "/", "description": "Hébergement de l'équipe Mayem (adresse définitive à la mise en ligne)" }],
+  "servers": [{ "url": "https://mayem-api.mayem.workers.dev", "description": "Hébergement de l'équipe Mayem (Cloudflare)" }],
   "tags": [
     { "name": "Découverte", "description": "Ce que l'API publie" },
     { "name": "Packs", "description": "Packs de langue signés, une version figée par fichier" },

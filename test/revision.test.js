@@ -97,6 +97,11 @@ test('politesse : la forme minoritaire est interrogée, avec la réponse de la c
   assert.match(codes(c, 'politesse')[0].explication, /La charte dit : « on va utiliser le : Wo »/);
 });
 
+test('politesse : « wô » accentué et « Ô » en début de phrase sont reconnus', () => {
+  const c = revoir([phrase('P1', 'Un', 'Wô zu'), phrase('P2', 'Deux', 'mebal wôé'), phrase('P3', 'Trois', 'Ô tuá')]);
+  assert.deepEqual(codes(c, 'politesse').map((x) => x.ref), ['P3']);
+});
+
 test('boutons : plus de 3 mots signalé, libellé court non ; consigne recopiée', () => {
   const contexte = { B1: { element: 'Bouton', consigne: 'Action définitive' }, B2: { element: 'Bouton' }, T1: { element: 'Titre' } };
   const c = revoir([phrase('B1', 'Envoyer', 'e bô nlo ya'), phrase('B2', 'Annuler', 'Fetek'), phrase('T1', 'Titre', 'a b c d e')], [], contexte);
