@@ -53,7 +53,7 @@
     "/v1/packs/{langue}/{version}.json": {
       "get": {
         "tags": ["Packs"], "operationId": "pack", "summary": "Une version figée du pack",
-        "description": "Ne change jamais. Les versions jusqu'à 0.5.3 du bulu sont au format 1 (traduction dans « bulu ») ; les suivantes au format 2 (« cible »).",
+        "description": "Ne change jamais. Les premières versions (jusqu'à 0.5.3, pack bulu) sont au format 1, avec la traduction dans un champ nommé « bulu » ; les suivantes sont au format 2 (« cible »).",
         "parameters": [{ "$ref": "#/components/parameters/langue" }, { "$ref": "#/components/parameters/version" }],
         "responses": {
           "200": { "description": "Pack signé", "content": { "application/json": { "schema": { "$ref": "schema.json" } } } },

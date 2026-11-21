@@ -1,9 +1,11 @@
-# Mayem — prototype v0.3
+# Mayem, prototype v0.3
 
-Mayem est une extension de navigateur (Manifest V3) qui affiche un service financier web en bulu **sans modifier son code source**.
+Mayem est une extension de navigateur (Manifest V3) qui affiche un service financier web dans une langue nationale
+camerounaise choisie par l'utilisateur, **sans modifier le code source du service**. Langue prise en charge
+aujourd'hui : le bulu. D'autres langues s'ajoutent sans toucher au code (voir « Ajouter une langue »).
 Testée en direct le 7 novembre 2026 sur l'environnement officiel `https://safinum.cm/hackathon-test`.
 
-## Résultats sur l'environnement officiel (mode test, avant validation du bulu)
+## Résultats sur l'environnement officiel (mode test, avant validation des traductions)
 
 | Contrôle (outil du jury, `?jury=1`) | Résultat |
 |---|---|
@@ -47,7 +49,7 @@ avec une langue d'essai (`qaa`, code réservé à l'usage local) qui passe tous 
 - `infos.json` : `langue`, `nom` (il donne leurs en-têtes aux tableurs : « TRADUCTION EWONDO »), `producteur`,
   `droits`, `orthographe`, `etiquettes`. Facultatifs, choisis par les locuteurs dans leur charte :
   `ecriture` (code ISO 15924, `Latn`), `lettres_exclues`, `formes_adresse` (formes polies à garder cohérentes).
-  Sans eux, ni l'alphabet ni les formes d'adresse ne sont contrôlés : aucune règle du bulu n'est imposée.
+  Sans eux, ni l'alphabet ni les formes d'adresse ne sont contrôlés : aucune règle d'une autre langue n'est imposée.
 - `corpus.csv` (colonne `cible`), `glossaire.csv`, `style.csv` (charte) : remplis par les tableurs de `tools/kit.py`.
 - `npm run pack -- <code>` fabrique `pack.json` au format 2 (`packs/schema.json`), que l'extension, le script
   intégré et les exports lisent tels quels.
@@ -67,7 +69,7 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
 3. Ouvrir `https://safinum.cm/hackathon-test?jury=1`, puis **cliquer sur l'icône Mayem** (épinglez-la dans la barre
    d'outils). Rien ne se passe avant ce clic. Le parcours reste dans la même page : un clic suffit pour les étapes 1 à 5.
    Après un rechargement de la page, recliquer.
-4. Un nouveau clic sur l'icône, ou le bouton en bas à gauche, bascule bulu ⇄ original ; le bouton « i » affiche
+4. Un nouveau clic sur l'icône, ou le bouton en bas à gauche, bascule traduction ⇄ original ; le bouton « i » affiche
    les compteurs et le contrôle des chiffres. Avec plusieurs langues embarquées, une liste à côté du bouton
    change la langue de la page (et de ses cadres) sans la recharger.
 5. Pages d'essai construites autrement, pour prouver l'indépendance : `python -m http.server 8000` à la racine,
@@ -77,7 +79,7 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
      montants au format anglais (`XAF 25,000.00`) ;
    - `iframe.html` : formulaire dans un cadre du même site ; `shadow.html` : composants à Shadow DOM, dont un ajouté plus tard.
 6. Longueur des traductions : `npm run build:pseudo` prépare `dist-pseudo/`, une extension en pseudo-langue
-   (`qps`) : chaque texte est 40 % plus long, porte des lettres du bulu (ô, é, ñ, ɔ, ŋ) et s'encadre de ⟦ ⟧.
+   (`qps`) : chaque texte est 40 % plus long, porte des lettres accentuées des langues nationales (ô, é, ñ, ɔ, ŋ) et s'encadre de ⟦ ⟧.
    Un crochet de fin absent signale un texte coupé ; chaque traduction qui déborde de sa boîte est entourée
    en pointillés rouges, et le bouton « i » compte les débordements. Page d'essai : `fixtures/etroit.html`.
    Champs, montants et références ne changent pas : le pack pseudo passe les mêmes contrôles.
@@ -90,20 +92,23 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
    d'un pack modifié. Playwright ne sait pas cliquer sur l'icône : les tests appellent la même fonction depuis le
    script de fond, avec une copie du manifeste qui autorise `127.0.0.1` (le vrai manifeste n'est pas touché).
 
-## Faire valider le bulu
+## Faire valider les traductions d'une langue
+Les noms de fichiers prennent le nom de la langue ; les exemples ci-dessous utilisent le bulu, seule langue prise en
+charge aujourd'hui.
+
 Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `THIRD_PARTY.md`).
 
-1. `python tools/kit.py export` crée `kit-validation-bulu.xlsx` (mode d'emploi inclus). L'envoyer aux locuteurs, en commençant par les lignes P1.
+1. `python tools/kit.py export` crée `kit-validation-<langue>.xlsx` (mode d'emploi inclus). L'envoyer aux locuteurs, en commençant par les lignes P1.
 2. Fichier rempli reçu (le fermer dans Excel d'abord) : `npm run import -- fichier.xlsx`.
    - Les traductions vont dans `packs/<langue>/corpus.csv`, le glossaire dans `glossaire.csv`, puis le pack est reconstruit.
    - S'il y a plusieurs langues : `npm run import -- fichier.xlsx <langue>` (et `--langue <code>` pour `kit.py`).
    - Une ligne n'est validée que si « Traduit par » et « Relu par » portent deux noms différents.
-   - Chaque traduction bulu remplacée est affichée (ancien -> nouveau) : un tableur plus ancien que `corpus.csv`
+   - Chaque traduction remplacée est affichée (ancien -> nouveau) : un tableur plus ancien que `corpus.csv`
      se voit tout de suite. Pour annuler : `git checkout packs/<langue>/`.
    - Une case vide du glossaire n'efface jamais un terme déjà traduit.
-   - Les en-têtes du tableur peuvent être renommés (« TERME BULU APPROUVÉ » ou « TRADUCTION BULU »,
+   - Les en-têtes du tableur peuvent être renommés (« TERME <LANGUE> APPROUVÉ » ou « TRADUCTION <LANGUE> »,
      « Choisi par » ou « Traduit par ») ; une colonne introuvable est signalée.
-3. Le pack n'est écrit que s'il est valide. Sinon chaque problème est listé avec le français et le bulu concernés :
+3. Le pack n'est écrit que s'il est valide. Sinon chaque problème est listé avec le français et la traduction concernés :
    champ manquant, champs `{…}` ou chiffres différents entre le français et la traduction, ligne validée sans relecteur
    (ou relue par son traducteur). L'ancien pack reste en place. Après une correction à la main : `npm run pack`.
    - Si le contenu a changé, la version augmente (correction : 0.3.0 -> 0.3.1 ; phrase ou terme ajouté
@@ -113,26 +118,26 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
    - Lexique relu reçu en JSON (format `mayem-lexique`) : `npm run lexique -- fichier.json [--retenir REF1,REF2]`.
      Seules les entrées « valide » signées de deux noms entrent : un terme dans le glossaire, une phrase complète
      dans le corpus. Rien n'est remplacé : un français déjà présent garde sa traduction, et l'entrée est signalée.
-4. Retraduction : `python tools/kit.py retraduction` crée `retraduction-a-envoyer.xlsx` (bulu seul). Une troisième
+4. Retraduction : `python tools/kit.py retraduction` crée `retraduction-a-envoyer.xlsx` (traduction seule). Une troisième
    personne, qui n'a pas vu le français, le retraduit. Fichier reçu : `npm run import -- fichier.xlsx`.
    - Chaque phrase du pack garde `retraduit_par` et `retraduction`, à comparer au français.
-   - Une retraduction faite sur un bulu qui a changé depuis est écartée, et la phrase est listée « à refaire ».
+   - Une retraduction faite sur une traduction qui a changé depuis est écartée, et la phrase est listée « à refaire ».
    - Une phrase retraduite par son propre traducteur est refusée.
 5. Révision de fidélité : `npm run revision` liste tout ce qui peut faire perdre des points à un jury linguiste
    (son total s'affiche aussi après `npm run pack`) et écrit `packs/<langue>/revision.json`.
-   - Bloquant : un même bulu pour des phrases différentes dont l'une est critique et l'autre non.
+   - Bloquant : une même traduction pour des phrases différentes dont l'une est critique et l'autre non.
    - À revoir : sens confondus, même français traduit de plusieurs façons, collisions du glossaire (mots entiers),
      terme critique ou négation du glossaire absents, termes sans traduction, orthographe (majuscules,
      apostrophes, espaces, ponctuation, alphabet), forme de politesse, boutons de plus de 3 mots.
    - Ce sont des questions pour les locuteurs : un locuteur peut avoir raison contre le glossaire.
      `npm run pack -- --strict` refuse le pack tant qu'il reste un constat bloquant (version finale).
-   - `python tools/kit.py revision` en fait `revision-bulu.xlsx` : mode d'emploi, charte d'orthographe, sens à
+   - `python tools/kit.py revision` en fait `revision-<langue>.xlsx` : mode d'emploi, charte d'orthographe, sens à
      distinguer, phrases à revoir (P1 critiques d'abord), glossaire à compléter, récapitulatif. Les cases
-     « TRADUCTION BULU » reprennent le bulu actuel ; aucun bulu n'est proposé. `--precedent ancien.xlsx` recopie
+     « TRADUCTION <LANGUE> » reprennent la traduction actuelle ; aucune traduction n'est proposée. `--precedent ancien.xlsx` recopie
      les réponses d'un ancien tableur de relecture, à confirmer.
-   - Retour : `npm run import -- revision-bulu.xlsx`. Ligne inchangée : la validation reste ; « garder » à deux
-     noms est noté (`decisions.csv`) et n'est plus redemandé tant que ce bulu ne change pas ; bulu changé à deux
-     noms différents : remplacé et validé ; à un seul nom : l'ancien bulu reste affiché et la proposition attend
+   - Retour : `npm run import -- revision-<langue>.xlsx`. Ligne inchangée : la validation reste ; « garder » à deux
+     noms est noté (`decisions.csv`) et n'est plus redemandé tant que cette traduction ne change pas ; traduction changée
+     à deux noms différents : remplacée et validée ; à un seul nom : l'ancienne traduction reste affichée et la proposition attend
      (`en-attente.csv`) ; explication du type « … pour dire … », chiffre ou champ {…} changé, deux propositions
      différentes : refusé et listé. La charte va dans `style.csv`, les commentaires dans `commentaires.csv`.
      L'import reconstruit le pack puis affiche ce qui reste à revoir.
@@ -175,14 +180,14 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
   chacune couvre à son tour toutes ses écritures (majuscules, accents, ordre, synonymes).
   `python tools/kit.py paraphrases` crée `paraphrases-a-verifier.xlsx` (français seul : « même sens ? oui / non »
   et un nom) ; `npm run import` le relit : « oui » signé la fait entrer, « non » la retire.
-- Texte coupé par des balises (`Votre solde est de <b>25 000 FCFA</b>`) : traduit comme un seul bloc, puis le bulu est
-  rangé dans les nœuds texte existants ; montants et noms gardent leur texte exact. Si le bulu change l'ordre des
+- Texte coupé par des balises (`Votre solde est de <b>25 000 FCFA</b>`) : traduit comme un seul bloc, puis la traduction
+  est rangée dans les nœuds texte existants ; montants et noms gardent leur texte exact. Si la traduction change l'ordre des
   valeurs, l'original reste.
 - Contenu inédit : original conservé + étiquette de catégorie validée affichée en CSS, hors du texte de la page.
 - Libellé court qui est un terme du glossaire relu par deux personnes (« Solde », « Annuler »,
   « Frais : 500 FCFA ») : traduit par ce terme, la valeur reste telle quelle (`core/termes.ts`).
-- Phrase inconnue : jamais composée mot à mot (classes nominales, négation et tons du bulu la rendraient
-  fausse). Elle reste en français ; ses termes validés sont donnés à côté, en CSS (« solde : Mebal »),
+- Phrase inconnue : jamais composée mot à mot (classes nominales, négation et tons la rendraient
+  fausse). Elle reste en français ; ses termes validés sont donnés à côté, en CSS (en bulu : « solde : Mebal »),
   et peuvent être masqués depuis le panneau.
 - Interface de l'extension dans un Shadow DOM séparé, utilisable au clavier.
 - Shadow DOM ouverts parcourus et surveillés comme la page ; cadres du même site traduits, un seul bouton
