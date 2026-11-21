@@ -10,7 +10,7 @@ Traduction (toujours sur l'appareil : aucun texte affiché ne quitte l'appareil)
   interface (extension, site, appli)  ──►  moteur (dist-lib/mayem-core.js)  ──►  pack local
 ```
 
-Un service qui veut le bulu (ou toute autre langue de `packs/`) prend le pack et le moteur ; un outil
+Un service qui veut une langue de `packs/` (aujourd'hui le bulu) prend le pack et le moteur ; un outil
 de traduction ou un grand moteur prend les exports. Personne ne réécrit rien.
 
 **Code et données : © Équipe Mayem, tous droits réservés** (`LICENSE`, `packs/LICENCE.md`). Tout usage se fait
@@ -49,7 +49,7 @@ Ces versions restent publiées telles quelles ; le passage au format 2 (0.6.0) n
 | `i18next/fr.json`, `i18next/<langue>.json` | i18next v4, `{{champ}}` | Sites et applis web |
 | `android/values/…`, `android/values-b+<langue>/strings.xml` | Ressources Android, `%1$s` | Applis Android |
 
-Seules les phrases validées sortent. Chaque fichier porte la mention « © Équipe Mayem — Tous droits réservés ».
+Seules les phrases validées sortent. Chaque fichier porte la mention « © Équipe Mayem. Tous droits réservés. »
 
 ## Conditions d'utilisation
 - Les données appartiennent à l'équipe Mayem, tous droits réservés (`packs/LICENCE.md`). Elles s'utilisent
@@ -220,8 +220,8 @@ Résultat de `traduire` :
 
 | `statut` | Afficher |
 |---|---|
-| `ok` | `sortie` (bulu validé) |
-| `test` | `sortie` en mode test seulement (bulu pas encore validé) |
+| `ok` | `sortie` (traduction validée) |
+| `test` | `sortie` en mode test seulement (traduction pas encore validée) |
 | `non_verifie` | l'original ; `categorie` permet d'afficher l'étiquette validée |
 | `rejete` | l'original : la sortie aurait changé un chiffre |
 
