@@ -16,6 +16,8 @@
   --param: #8a5d00;
   --carte: #ffffff;
   --badge: #fbe7a6;
+  --titre-doux: #56676d;
+  --pointilles: #a7b3b7;
   --ombre: 0 1px 2px rgba(8, 41, 51, .06), 0 18px 40px -16px rgba(8, 41, 51, .22);
   --i-fond: #cfe3e8;
   --i-carte: #ffffff;
@@ -47,6 +49,8 @@
     --param: #f2c94c;
     --carte: #0d2c34;
     --badge: #f2b705;
+    --titre-doux: #b6c7cc;
+    --pointilles: #3e6770;
     --ombre: 0 1px 2px rgba(0, 0, 0, .3), 0 18px 40px -16px rgba(0, 0, 0, .6);
     --i-fond: #0f3a43;
     --i-carte: #0f3039;
@@ -200,8 +204,6 @@ a:hover { text-decoration-thickness: 2px; }
 .texte ol:not([class]) { counter-reset: etape; }
 .texte ol:not([class]) > li { position: relative; padding-left: 44px; margin: 18px 0; counter-increment: etape; }
 .texte ol:not([class]) > li::before { content: counter(etape); position: absolute; left: 0; top: .1em; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 800 14px/1 var(--texte); color: var(--profond); background: var(--badge); }
-.resume { margin: 0 0 8px; padding: 22px 26px; background: var(--creme-clair); border: 1px solid var(--ligne); border-left: 4px solid var(--or); border-radius: 6px 14px 14px 6px; }
-.resume p { margin: 6px 0; }
 .note { margin: 22px 0; padding: 16px 20px; background: var(--creme-clair); border-left: 3px solid var(--or); border-radius: 0 12px 12px 0; font-size: 16px; }
 .note p { margin: 0; }
 .texte code { font: 550 .87em/1.5 var(--code); color: var(--encre); background: var(--creme); padding: 2px 6px; border-radius: 6px; overflow-wrap: anywhere; }
@@ -215,8 +217,12 @@ a:hover { text-decoration-thickness: 2px; }
 .texte td:first-child { white-space: nowrap; }
 @media (max-width: 560px) { .texte td:first-child { white-space: normal; } .texte th, .texte td { padding-inline: 8px; } }
 
-/* Confidentialité : une seule colonne */
+/* Confidentialité : une seule colonne, des titres discrets soulignés de pointillés */
 .page-texte { padding-block: 72px 104px; }
+.entree p { margin: 0 0 14px; font-size: 19px; line-height: 1.8; }
+.entree strong { font-weight: 650; }
+.politique h2 { margin: 60px 0 22px; padding-bottom: 16px; border-bottom: 2px dotted var(--pointilles); font: italic 400 27px/1.3 var(--titres); letter-spacing: 0; color: var(--titre-doux); }
+.politique ul:not([class]) > li::before { width: 6px; height: 6px; background: var(--pointilles); }
 
 /* Documentation : sommaire à gauche */
 .doc { display: grid; grid-template-columns: 220px minmax(0, 760px); justify-content: center; gap: 72px; padding-block: 72px 104px; }
