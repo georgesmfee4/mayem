@@ -113,7 +113,7 @@ function page(langues) {
 contrat : <a href="v1/openapi.json">v1/openapi.json</a> ; clés de vérification : <a href="v1/cles-publiques.json">v1/cles-publiques.json</a>.
 L'API ne reçoit aucun texte des pages : la traduction se fait sur l'appareil.</p>
 <p><strong>${DROITS}</strong></p>
-<ul>\n${lignes.join('\n')}\n</ul>\n</body></html>\n`;
+<ul>\n${lignes.join('\n')}\n</ul>\n<p><a href="demo">Page de démonstration</a> · <a href="confidentialite">Politique de confidentialité</a></p>\n</body></html>\n`;
 }
 
 // sortie : dossier de l'API ; script : { version, packs, contenu } ; coeur : dist-lib/mayem-core.js (outil de l'intégrateur)
@@ -140,6 +140,10 @@ export async function publier({ sortie, cle, cles, script = null, coeur = null }
     liens: { langues: 'langues.json', script: script ? 'script/index.json' : null, cles: 'cles-publiques.json', schema: 'schema.json', openapi: 'openapi.json', outil: coeur ? 'outils/mayem-verifier.mjs' : null },
   });
   writeFileSync(sortie + 'index.html', page(resumes));
+  // Politique de confidentialité de l'extension et du script : l'adresse que demandent les boutiques
+  cpSync(racine + 'docs/confidentialite.html', sortie + 'confidentialite.html');
+  // Banque fictive où essayer l'extension (relecteurs de la boutique, jury) : rien n'y est envoyé
+  cpSync(racine + 'docs/demo.html', sortie + 'demo.html');
   writeFileSync(sortie + '_headers', entetes(v1));
   return resumes;
 }

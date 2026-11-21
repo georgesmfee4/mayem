@@ -34,7 +34,8 @@ packs/       schema.json + un dossier par langue : packs/<code>/ (infos.json, co
              retraduction.csv, pack.json généré). Aucun outil ne connaît une langue par son nom.
 tools/       build-pack, check-pack, compile, kit.py (tableurs pour les locuteurs), export, api, deployer
 hebergement/ Worker et configuration Cloudflare de l'API en ligne
-docs/        API.md (réutiliser les données et le moteur), demo.md (déroulé de la démo)
+docs/        API.md (réutiliser les données et le moteur), demo.md (déroulé de la démo), boutique.md (dépôt sur la boutique Edge),
+             confidentialite.html et demo.html (publiées avec l'API)
 test/        tests node:test
 e2e/         tests Playwright dans Chromium, extension chargée
 fixtures/    pages d'essai
@@ -238,6 +239,10 @@ Deux rôles séparés (détails : `docs/API.md`) :
   embarqués, mêmes garanties (page d'essai `fixtures/integre.html`, réglages dans `docs/API.md`).
 - **Traduction** : toujours locale. `npm run build` produit aussi `dist-lib/mayem-core.js`, le moteur seul
   en module ES sans dépendance (site, appli, serveur). Aucun texte affiché ne quitte l'appareil.
+- **Boutique des extensions** : `npm run boutique` contrôle l'extension (autorisations, `MODE_TEST`, icônes,
+  aucun nom de traducteur) et prépare `boutique/mayem-<version>.zip`. Le dépôt sur Microsoft Edge Add-ons,
+  pas à pas, avec les textes de la fiche : `docs/boutique.md`. L'API publie aussi la politique de
+  confidentialité (`/confidentialite`) et une banque fictive pour essayer l'extension (`/demo`).
 
 ## Droits
 - **Données linguistiques** (`packs/` et tout ce qui en est tiré) : © Équipe Mayem, tous droits réservés
