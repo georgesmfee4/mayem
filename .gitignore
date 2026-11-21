@@ -20,4 +20,4 @@ revision-*.xlsx
 REVISION-BULU.md
 packs/*/reponses-revision.json
 *.jwk
-boutique/
+/boutique/
