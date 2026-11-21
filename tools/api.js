@@ -15,6 +15,7 @@ import { ecrireExports } from './export.js';
 import { mentionDroits, validees } from './exports/commun.js';
 import { versPublic } from './public.js';
 import { cheminEnLigne } from './cloudflare.js';
+import { ecrireSite } from './site.js';
 import { chargerCle, lireCles, signerOctets, signerPack } from './signature.js';
 
 const DROITS = 'Données de l\'équipe Mayem, tous droits réservés. Utilisation selon les conditions de l\'API Mayem (docs/API.md).';
@@ -103,19 +104,6 @@ function entetes(v1) {
   return tous + figes.map((chemin) => `${chemin}\n  Cache-Control: public, max-age=31536000, immutable\n`).join('');
 }
 
-function page(langues) {
-  const lignes = langues.map((l) => `<li><strong>${l.nom}</strong> (${l.langue}) ${l.derniere.version}, ${l.phrases_validees} phrases validées : <a href="v1/${l.liens.pack}">pack</a>, <a href="v1/${l.liens.detail}">versions</a></li>`);
-  return `<!doctype html>\n<html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>API Mayem</title>
-<body style="font:16px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem">
-<h1>API Mayem v1</h1>
-<p>Packs de langue et script d'intégration, signés par l'équipe Mayem. Point d'entrée : <a href="v1/index.json">v1/index.json</a> ;
-contrat : <a href="v1/openapi.json">v1/openapi.json</a> ; clés de vérification : <a href="v1/cles-publiques.json">v1/cles-publiques.json</a>.
-L'API ne reçoit aucun texte des pages : la traduction se fait sur l'appareil.</p>
-<p><strong>${DROITS}</strong></p>
-<ul>\n${lignes.join('\n')}\n</ul>\n<p><a href="demo">Page de démonstration</a> · <a href="confidentialite">Politique de confidentialité</a></p>\n</body></html>\n`;
-}
-
 // sortie : dossier de l'API ; script : { version, packs, contenu } ; coeur : dist-lib/mayem-core.js (outil de l'intégrateur)
 export async function publier({ sortie, cle, cles, script = null, coeur = null }) {
   const v1 = sortie + 'v1/';
@@ -139,11 +127,7 @@ export async function publier({ sortie, cle, cles, script = null, coeur = null }
     api: 'v1', producteur: 'Équipe Mayem', droits: DROITS,
     liens: { langues: 'langues.json', script: script ? 'script/index.json' : null, cles: 'cles-publiques.json', schema: 'schema.json', openapi: 'openapi.json', outil: coeur ? 'outils/mayem-verifier.mjs' : null },
   });
-  writeFileSync(sortie + 'index.html', page(resumes));
-  // Politique de confidentialité de l'extension et du script : l'adresse que demandent les boutiques
-  cpSync(racine + 'docs/confidentialite.html', sortie + 'confidentialite.html');
-  // Banque fictive où essayer l'extension (relecteurs de la boutique, jury) : rien n'y est envoyé
-  cpSync(racine + 'docs/demo.html', sortie + 'demo.html');
+  ecrireSite(sortie, resumes);
   writeFileSync(sortie + '_headers', entetes(v1));
   return resumes;
 }

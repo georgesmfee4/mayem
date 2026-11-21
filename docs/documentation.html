@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentation de l'API Mayem</title>
+<meta name="description" content="Intégrer Mayem en une ligne, vérifier les signatures, toutes les adresses de l'API v1, exports et conditions d'utilisation.">
+<link rel="icon" href="icone.svg" type="image/svg+xml">
+<link rel="preload" href="polices/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="polices/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<div class="bandeau vannerie">
+  <div class="conteneur">
+    <header class="barre">
+      <a class="logo" href="./" aria-label="API Mayem, accueil">
+        <svg viewBox="0 0 128 128" aria-hidden="true"><rect x="4" y="4" width="120" height="120" rx="28" fill="#0F4C5C"/><g transform="translate(64 79) scale(0.88) translate(-64 -65)"><path d="M30 94V36h14l20 30 20-30h14v58H84V60L64 89 44 60v34z" fill="#fff"/></g><path d="M47 39 L64 24 L81 39" fill="none" stroke="#F2B705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Mayem <span class="api">API</span>
+      </a>
+      <nav aria-label="Pages du site">
+        <ul class="menu">
+          <li><a href="documentation" aria-current="page">Documentation</a></li>
+          <li><a href="demo">Démonstration</a></li>
+          <li><a href="confidentialite">Confidentialité</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="bandeau-titre doc-titre">
+      <p class="surtitre">Documentation</p>
+      <h1>API Mayem v1</h1>
+      <p class="date">Pour les services qui intègrent Mayem, et pour ceux qui réutilisent ses données. Mise à jour le 21 novembre 2026.</p>
+      <p class="date">Adresse : <code>https://mayem-api.mayem.workers.dev</code>, contrat <a href="v1/openapi.json">OpenAPI 3.1</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="conteneur doc">
+  <nav class="sommaire" aria-label="Sommaire">
+    <p>Sommaire</p>
+    <ol>
+      <li><a href="#bref">En bref</a></li>
+      <li><a href="#integrer">Intégrer en une ligne</a></li>
+      <li><a href="#verifier">Vérifier ce que vous recevez</a></li>
+      <li><a href="#adresses">Les adresses</a></li>
+      <li><a href="#exports">Exports et clés d'accès</a></li>
+      <li><a href="#moteur">Le moteur</a></li>
+      <li><a href="#versions">Versions et garanties</a></li>
+      <li><a href="#conditions">Conditions d'utilisation</a></li>
+    </ol>
+  </nav>
+
+  <main class="texte">
+    <h2 id="bref">En bref</h2>
+    <ul>
+      <li>L'API publie des fichiers statiques, en lecture seule : les packs de langue (les traductions validées), le script d'intégration et de quoi les vérifier.</li>
+      <li><strong>Elle ne reçoit jamais le texte de vos pages.</strong> La traduction se fait sur l'appareil de l'usager, avec le moteur Mayem.</li>
+      <li>Chaque traduction publiée a été validée par deux locuteurs. Les montants, dates, numéros, références et noms ne sont jamais traduits : une traduction dont les chiffres diffèrent de l'original est rejetée.</li>
+      <li>Chaque pack et chaque script porte une signature de l'équipe Mayem (ECDSA P-256). Vérifiez-la avant tout usage.</li>
+      <li>Une version publiée ne change jamais. Dans un produit livré, citez une version précise ; <code>latest</code> sert à explorer.</li>
+    </ul>
+
+    <h2 id="integrer">Intégrer Mayem en une ligne</h2>
+    <p>Pour proposer la langue à vos clients sans leur demander d'installer une extension. Le script contient déjà les packs : une fois chargé, il ne fait plus aucune requête, ne stocke rien et n'envoie aucun texte de la page.</p>
+    <ol>
+      <li><strong>Récupérez le script et vérifiez-le</strong> avec l'outil de l'intégrateur (<a href="#verifier">voir plus bas</a>). La dernière version et sa valeur d'intégrité sont dans <a href="v1/script/index.json"><code>/v1/script/index.json</code></a>.
+<pre><code>node mayem-verifier.mjs https://mayem-api.mayem.workers.dev/v1/script/&lt;version&gt;/mayem.js --sortie public/js/mayem.js</code></pre></li>
+      <li><strong>Servez le fichier depuis votre propre site</strong> et ajoutez une ligne à vos pages :
+<pre><code>&lt;script src="/js/mayem.js" integrity="sha384-…" data-langue="bum" defer&gt;&lt;/script&gt;</code></pre>
+        <code>data-langue</code> reçoit le code de la langue de départ, par exemple <code>bum</code> pour le bulu. L'attribut <code>integrity</code> empêche le navigateur d'exécuter un fichier modifié.</li>
+      <li><strong>C'est tout.</strong> Un bouton Mayem apparaît sur la page : l'usager passe à la langue choisie, et revient au texte d'origine quand il veut.</li>
+    </ol>
+    <div class="note"><p>Le fichier s'utilise tel quel : le modifier rompt l'accord avec l'équipe Mayem, et le navigateur refuserait de toute façon de l'exécuter. Avant de toucher la page, Mayem revérifie encore le pack ; un pack refusé laisse la page intacte.</p></div>
+
+    <h3>Ce que le script garantit</h3>
+    <ul>
+      <li>Seules les traductions validées s'affichent ; une phrase inconnue reste dans sa langue d'origine.</li>
+      <li>Les montants, dates, numéros et références restent exactement ceux de votre page.</li>
+      <li>Aucun champ de saisie n'est lu ni modifié.</li>
+      <li>Les textes ajoutés après le chargement sont traduits aussi, y compris dans les Shadow DOM ouverts.</li>
+      <li>La page doit être servie en https : le calcul d'empreinte utilise Web Crypto.</li>
+    </ul>
+
+    <h3>Réglages</h3>
+    <div class="tableau"><table>
+      <thead><tr><th>Attribut</th><th>Effet</th></tr></thead>
+      <tbody>
+        <tr><td><code>data-langue="bum"</code></td><td>Langue de départ (sinon la première embarquée)</td></tr>
+        <tr><td><code>data-bouton="non"</code></td><td>Pas de bouton Mayem : vous utilisez votre propre interrupteur</td></tr>
+        <tr><td><code>data-auto="non"</code></td><td>Mayem ne démarre qu'à l'appel de <code>Mayem.demarrer()</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Piloter Mayem depuis votre code</h3>
+    <div class="tableau"><table>
+      <thead><tr><th><code>window.Mayem</code></th><th>Rôle</th></tr></thead>
+      <tbody>
+        <tr><td><code>demarrer()</code></td><td>Traduit la page (avec <code>data-auto="non"</code>)</td></tr>
+        <tr><td><code>inverser()</code></td><td>Passe de la traduction au texte d'origine, et inversement</td></tr>
+        <tr><td><code>choisirLangue(code)</code></td><td>Change de langue sans recharger la page</td></tr>
+        <tr><td><code>langues()</code></td><td>Langues embarquées : <code>[{ langue, nom }]</code></td></tr>
+        <tr><td><code>etat()</code></td><td><code>{ actif, refus }</code> : <code>refus</code> donne la raison si un pack a été refusé</td></tr>
+      </tbody>
+    </table></div>
+    <p>Un pack refusé émet aussi l'événement <code>mayem-refus</code> sur <code>document</code> (<code>detail : { langue, raisons }</code>) : vous pouvez afficher votre propre message.</p>
+    <p><strong>Politique de sécurité (CSP).</strong> Autorisez le script lui-même dans <code>script-src</code>, par son origine ou son empreinte. Le bouton Mayem a sa propre balise <code>&lt;style&gt;</code> : si <code>style-src</code> interdit le style en ligne, utilisez <code>data-bouton="non"</code> et votre propre bouton.</p>
+
+    <h2 id="verifier">Vérifier ce que vous recevez</h2>
+    <p>L'empreinte prouve qu'un fichier n'a pas changé ; la signature prouve qu'il vient de l'équipe Mayem. N'importe quel serveur peut recalculer une empreinte, aucun ne peut imiter la signature.</p>
+    <h3>Sans écrire de code</h3>
+    <p>L'outil de l'intégrateur fonctionne avec Node 18 ou plus récent, sans aucune dépendance. Enregistrez <a href="v1/outils/mayem-verifier.mjs"><code>mayem-verifier.mjs</code></a> et <a href="v1/outils/mayem-core.js"><code>mayem-core.js</code></a> dans un même dossier, puis :</p>
+<pre><code>node mayem-verifier.mjs https://mayem-api.mayem.workers.dev/v1/script/&lt;version&gt;/mayem.js --sortie public/js/mayem.js
+node mayem-verifier.mjs https://mayem-api.mayem.workers.dev/v1/packs/bum/&lt;version&gt;.json --sortie src/packs/bum.json</code></pre>
+    <p>Rien n'est écrit si l'empreinte, la signature ou l'intégrité ne correspond pas. Les clés de confiance sont inscrites dans l'outil : avant le premier usage, comparez leur identifiant à celui que l'équipe Mayem vous a communiqué.</p>
+    <h3>Dans votre code</h3>
+<pre><code>import { verifierSignature } from './mayem-core.js';
+
+<span class="rem">// Clés à inscrire dans votre appli, plutôt qu'à relire en ligne à chaque fois</span>
+const cles = (await (await fetch('https://mayem-api.mayem.workers.dev/v1/cles-publiques.json')).json()).cles;
+const erreurs = await verifierSignature(pack, cles);
+<span class="rem">// [] : le pack est intact et signé par l'équipe Mayem</span></code></pre>
+    <p>Le script est signé octet par octet : sa fiche <code>signature.json</code> donne la signature et la valeur d'intégrité <code>sha384</code>, à vérifier avec <code>verifierOctets</code>.</p>
+    <h3>Les clés de l'équipe</h3>
+    <div class="tableau"><table>
+      <thead><tr><th>Statut</th><th>Sens</th></tr></thead>
+      <tbody>
+        <tr><td><code>active</code></td><td>Signe les nouvelles versions</td></tr>
+        <tr><td><code>retiree</code></td><td>Ne signe plus ; ses signatures restent valables</td></tr>
+        <tr><td><code>revoquee</code></td><td>Ne vaut plus rien : le même contenu est signé de nouveau par la clé active</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="adresses">Les adresses de l'API</h2>
+    <p>Toutes les adresses se lisent par une simple requête GET, depuis n'importe quel site. Une version figée se garde un an en cache ; <code>latest.json</code>, les index et les clés sont revalidés à chaque fois. Les exemples s'ouvrent directement.</p>
+<!-- ADRESSES -->
+
+    <h2 id="exports">Exports et clés d'accès</h2>
+    <p>Pour les outils de traduction et les applis, les traductions validées de la dernière version existent aux formats standards. Elles sont réservées aux partenaires de l'équipe Mayem, avec une clé d'accès par client.</p>
+    <div class="tableau"><table>
+      <thead><tr><th>Fichier</th><th>Format</th><th>Pour</th></tr></thead>
+      <tbody>
+        <tr><td><code>&lt;langue&gt;.tmx</code></td><td>TMX 1.4</td><td>Mémoires de traduction</td></tr>
+        <tr><td><code>&lt;langue&gt;.xlf</code></td><td>XLIFF 1.2, unités approuvées</td><td>Outils de traduction et chaînes de localisation</td></tr>
+        <tr><td><code>glossaire.tbx</code></td><td>TBX-Basic (ISO 30042)</td><td>Bases terminologiques</td></tr>
+        <tr><td><code>i18next/&lt;langue&gt;.json</code></td><td>i18next v4, avec <code>i18next/fr.json</code></td><td>Sites et applis web</td></tr>
+        <tr><td><code>android/values-b+&lt;langue&gt;/</code></td><td>Ressources Android, avec <code>android/values/</code></td><td>Applis Android</td></tr>
+      </tbody>
+    </table></div>
+<pre><code>curl -H "X-Mayem-Cle: &lt;votre clé&gt;" https://mayem-api.mayem.workers.dev/v1/exports/bum/bum.tmx</code></pre>
+    <p>Sans clé connue, la réponse est <code>401</code>. L'équipe Mayem ne garde pas les clés elles-mêmes, seulement leur empreinte ; une clé retirée est refusée partout en une minute au plus. Seules les phrases validées par deux personnes sortent, sans aucun nom.</p>
+
+    <h2 id="moteur">Le moteur, pour vos applis</h2>
+    <p>Le moteur Mayem (<a href="v1/outils/mayem-core.js"><code>mayem-core.js</code></a>) est un module ES sans dépendance, pour navigateur, Node, React Native ou serveur. Ses fonctions sont pures : ni accès à la page, ni réseau. Il reçoit un texte et un pack, il rend un résultat.</p>
+<pre><code>import { traduire, verifierSignature } from './mayem-core.js';
+
+if ((await verifierSignature(pack, cles)).length) throw new Error('pack refusé');
+const resultat = traduire('Votre solde est de 25 000 FCFA', pack);
+<span class="rem">// resultat.statut === 'ok' : afficher resultat.sortie</span>
+<span class="rem">// resultat.valeurs : ['25 000 FCFA'], recopiées telles quelles dans la traduction</span></code></pre>
+    <div class="tableau"><table>
+      <thead><tr><th><code>statut</code></th><th>À afficher</th></tr></thead>
+      <tbody>
+        <tr><td><code>ok</code></td><td><code>sortie</code> : la traduction validée</td></tr>
+        <tr><td><code>non_verifie</code></td><td>Le texte d'origine ; <code>categorie</code> permet d'afficher une étiquette validée</td></tr>
+        <tr><td><code>rejete</code></td><td>Le texte d'origine : la traduction aurait changé un chiffre</td></tr>
+        <tr><td><code>test</code></td><td>Rien en production : traduction pas encore validée, visible en mode test seulement</td></tr>
+      </tbody>
+    </table></div>
+    <p>Quand <code>sens</code> vaut <code>'reconnu'</code>, la phrase n'était pas mot pour mot dans le corpus, mais elle a exactement le sens d'une phrase validée (même négation, même temps, même personne, même sens de l'argent, mêmes valeurs) : c'est la traduction validée de cette phrase qui s'affiche. Il est conseillé de le signaler à l'écran.</p>
+    <div class="tableau"><table>
+      <thead><tr><th>Fonction</th><th>Rôle</th></tr></thead>
+      <tbody>
+        <tr><td><code>traduire(texte, pack)</code></td><td><code>null</code> s'il n'y a rien à traduire (texte vide, ou seulement des montants, dates…) ; sinon un résultat</td></tr>
+        <tr><td><code>verifierSignature(pack, cles)</code></td><td>Liste des erreurs ; vide : pack intact et signé</td></tr>
+        <tr><td><code>verifierOctets(octets, signature, cles)</code></td><td>Vérifie un fichier signé octet par octet, comme le script ; <code>null</code> : valide</td></tr>
+        <tr><td><code>verifierPack(pack, schema)</code></td><td>Liste des erreurs de forme ; vide : pack utilisable</td></tr>
+        <tr><td><code>empreinte(pack)</code></td><td><code>Promise&lt;'sha256-…'&gt;</code></td></tr>
+        <tr><td><code>etiquette(categorie, pack)</code></td><td>Étiquette validée d'un message inconnu (<code>securite</code>, <code>erreur</code>, <code>frais</code>, <code>info</code>)</td></tr>
+        <tr><td><code>traduireTerme(texte, pack)</code></td><td>Terme validé qui forme tout le texte</td></tr>
+        <tr><td><code>repartir(morceaux, sortie, valeurs)</code></td><td>Répartit une traduction entre plusieurs nœuds de texte sans déplacer les valeurs</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="versions">Versions et garanties</h2>
+    <ul>
+      <li><strong>Une version publiée ne change jamais</strong> : mêmes octets, même signature. Une correction donne un nouveau numéro (0.8.3 devient 0.8.4) ; une phrase ou un terme ajouté ou retiré aussi (0.8.3 devient 0.9.0).</li>
+      <li>Les identifiants de phrases (<code>id</code>) et de termes (<code>ref</code>) ne changent pas de sens ; une phrase retirée n'est jamais réutilisée.</li>
+      <li>Un champ ajouté au pack est facultatif pour les lecteurs ; un champ retiré change le chiffre majeur.</li>
+      <li>Les fonctions du moteur gardent leur signature tant que le chiffre majeur de Mayem ne change pas.</li>
+      <li>Les premières versions (jusqu'à 0.5.3) sont au format 1, avec la traduction dans un champ nommé <code>bulu</code> ; les suivantes sont au format 2, avec le champ <code>cible</code>. Un lecteur refuse un format qu'il ne connaît pas.</li>
+    </ul>
+    <p>Contrats : <a href="v1/openapi.json">OpenAPI 3.1</a> pour les adresses, <a href="v1/schema.json">JSON Schema</a> pour les packs.</p>
+
+    <h2 id="conditions">Conditions d'utilisation</h2>
+    <ul>
+      <li>Le code et les données appartiennent à l'équipe Mayem, tous droits réservés. Tout usage se fait dans le cadre d'un accord avec l'équipe Mayem ; l'accès pourra devenir payant.</li>
+      <li>Les fichiers officiels s'utilisent tels quels, sans modification.</li>
+      <li>Pas de copie, de revente, de redistribution, ni d'entraînement d'un système de traduction sans accord écrit.</li>
+      <li>Mention obligatoire : « Données linguistiques : Équipe Mayem ».</li>
+      <li>Aucune donnée personnelle : chaque phrase est validée par deux relecteurs de l'équipe, désignés par des codes ; leurs noms ne sont jamais publiés.</li>
+    </ul>
+    <p>Pour obtenir un accord ou une clé d'accès, écrivez à l'équipe Mayem à l'adresse de contact indiquée sur la page de l'extension, dans la boutique des extensions de votre navigateur.</p>
+  </main>
+</div>
+
+<footer class="pied">
+  <div class="conteneur pied-interieur">
+    <a class="logo" href="./" aria-label="API Mayem, accueil">
+      <svg viewBox="0 0 128 128" aria-hidden="true"><rect x="4" y="4" width="120" height="120" rx="28" fill="#0F4C5C"/><g transform="translate(64 79) scale(0.88) translate(-64 -65)"><path d="M30 94V36h14l20 30 20-30h14v58H84V60L64 89 44 60v34z" fill="#fff"/></g><path d="M47 39 L64 24 L81 39" fill="none" stroke="#F2B705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Mayem <span class="api">API</span>
+    </a>
+    <ul>
+      <li><a href="documentation">Documentation</a></li>
+      <li><a href="demo">Démonstration</a></li>
+      <li><a href="confidentialite">Confidentialité</a></li>
+    </ul>
+    <p class="discret">Mayem, par l'équipe Mayem. Tous droits réservés. Ce site ne dépose aucun cookie et ne mesure pas son audience.</p>
+  </div>
+</footer>
+
+</body>
+</html>
