@@ -121,6 +121,10 @@ npm run deployer     contrôle, envoie, puis sonde l'adresse publique
   (`hebergement/worker.js`) ne passe que devant les chemins qui ne sont pas explicitement publics
   (`run_worker_first` dans `wrangler.json`) : il décode le chemin (encodage, casse, `..`, `\`) et refuse
   tout export sans clé connue. Journaux de requêtes désactivés : on ne garde pas qui consulte l'API.
+- **Site** (écrit par `npm run api`, `tools/site.js`) : accueil, documentation, confidentialité et démonstration,
+  sources dans `docs/` (`accueil.html`, `documentation.html`, `confidentialite.html`, `demo.html`, `site.css`, `polices/`).
+  Les langues publiées de l'accueil et les adresses de la documentation sont tirées de ce que l'API publie et de
+  `docs/openapi.json` : le site ne peut pas s'en écarter. Chaque page est servie sans passer par le Worker.
 - **En-têtes** (`api/_headers`, écrit par `npm run api`) : `Access-Control-Allow-Origin: *`, sans quoi
   l'intégrité `sha384` du script ne peut pas être contrôlée chez un intégrateur ; une version figée se garde
   un an (`immutable`) ; `latest.json`, les index et les clés sont revalidés à chaque fois.
@@ -156,7 +160,7 @@ empêche de toute façon le navigateur de l'exécuter.
 <script src="/js/mayem.js" integrity="sha384-…" data-langue="bum" defer></script>
 ```
 
-- **Le service sert le fichier lui-même** (environ 200 Ko, 43 Ko compressé) ; les packs sont dedans. Une fois
+- **Le service sert le fichier lui-même** (environ 320 Ko, 65 Ko compressé) ; les packs sont dedans. Une fois
   le script chargé : aucune requête réseau, aucun stockage, aucun texte de la page envoyé où que ce soit.
 - **`integrity`** : le navigateur refuse d'exécuter un fichier modifié. En plus, Mayem revérifie le pack
   (règles et empreinte) avant de toucher la page ; un pack refusé laisse la page intacte (message en console).

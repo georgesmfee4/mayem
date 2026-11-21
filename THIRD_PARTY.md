@@ -10,6 +10,8 @@ L'extension elle-même n'a aucune dépendance : rien n'est chargé depuis Intern
 
 Outils de développement, gratuits, non embarqués : Node.js 22 (compilation, tests), Python 3 (kit des locuteurs).
 
-Visuels de la fiche de la boutique (`icones/boutique/`), dessinés dans Figma (offre gratuite) : polices
-[Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) et [Manrope](https://fonts.google.com/specimen/Manrope),
-licence Open Font, gratuites. Elles ne servent qu'aux images : ni l'extension ni le script intégré n'embarquent de police.
+Visuels de la fiche de la boutique (`icones/boutique/`), dessinés dans Figma (offre gratuite), et pages du site de l'API
+(`docs/site.css`) : polices [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque) et
+[Manrope](https://fonts.google.com/specimen/Manrope), licence Open Font, gratuites. Le site de l'API les sert lui-même
+(`docs/polices/`, alphabet latin, avec leur licence) : aucun visiteur ne contacte un service tiers. Ni l'extension ni le
+script intégré n'embarquent de police.

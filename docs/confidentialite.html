@@ -4,24 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Politique de confidentialité de Mayem</title>
-<style>
-  :root { color-scheme: light dark; --encre: #16252b; --doux: #4b6169; --fond: #ffffff; --bande: #f3f6f7; --accent: #0f4c5c; }
-  @media (prefers-color-scheme: dark) { :root { --encre: #e6eef0; --doux: #a9bcc2; --fond: #11191c; --bande: #182327; --accent: #7cc4d4; } }
-  body { margin: 0; background: var(--fond); color: var(--encre); font: 17px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  main { max-width: 46rem; margin: 0 auto; padding: 2rem 1rem 4rem; }
-  h1 { font-size: 1.9rem; line-height: 1.25; margin: 0 0 .4rem; }
-  h2 { font-size: 1.25rem; margin: 2.2rem 0 .6rem; color: var(--accent); }
-  p, li { max-width: 42rem; }
-  .date { color: var(--doux); margin: 0 0 1.6rem; }
-  .resume { background: var(--bande); border-left: 4px solid var(--accent); padding: 1rem 1.2rem; border-radius: 6px; }
-  .resume p { margin: .3rem 0; }
-  footer { margin-top: 3rem; color: var(--doux); font-size: .9rem; }
-</style>
+<meta name="description" content="Mayem ne collecte, n'envoie et ne garde aucune de vos données : la traduction se fait entièrement dans votre navigateur.">
+<link rel="icon" href="icone.svg" type="image/svg+xml">
+<link rel="preload" href="polices/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="polices/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
-<main>
-<h1>Politique de confidentialité de Mayem</h1>
-<p class="date">Mise à jour le 21 novembre 2026</p>
+
+<div class="bandeau vannerie">
+  <div class="conteneur">
+    <header class="barre">
+      <a class="logo" href="./" aria-label="API Mayem, accueil">
+        <svg viewBox="0 0 128 128" aria-hidden="true"><rect x="4" y="4" width="120" height="120" rx="28" fill="#0F4C5C"/><g transform="translate(64 79) scale(0.88) translate(-64 -65)"><path d="M30 94V36h14l20 30 20-30h14v58H84V60L64 89 44 60v34z" fill="#fff"/></g><path d="M47 39 L64 24 L81 39" fill="none" stroke="#F2B705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Mayem <span class="api">API</span>
+      </a>
+      <nav aria-label="Pages du site">
+        <ul class="menu">
+          <li><a href="documentation">Documentation</a></li>
+          <li><a href="demo">Démonstration</a></li>
+          <li><a href="confidentialite" aria-current="page">Confidentialité</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="bandeau-titre colonne">
+      <h1>Politique de confidentialité de Mayem</h1>
+      <p class="date">Mise à jour le 21 novembre 2026</p>
+    </div>
+  </div>
+</div>
+
+<main class="conteneur page-texte">
+<div class="colonne texte">
 
 <div class="resume">
   <p><strong>En une phrase : Mayem ne collecte, n'envoie et ne garde aucune de vos données.</strong></p>
@@ -78,7 +92,23 @@
 <h2>Nous contacter</h2>
 <p>Pour toute question sur cette politique ou sur Mayem, écrivez à l'équipe Mayem à l'adresse de contact indiquée sur la page de l'extension, dans la boutique des extensions de votre navigateur.</p>
 
-<footer>Mayem, par l'équipe Mayem. Tous droits réservés.</footer>
+</div>
 </main>
+
+<footer class="pied">
+  <div class="conteneur pied-interieur">
+    <a class="logo" href="./" aria-label="API Mayem, accueil">
+      <svg viewBox="0 0 128 128" aria-hidden="true"><rect x="4" y="4" width="120" height="120" rx="28" fill="#0F4C5C"/><g transform="translate(64 79) scale(0.88) translate(-64 -65)"><path d="M30 94V36h14l20 30 20-30h14v58H84V60L64 89 44 60v34z" fill="#fff"/></g><path d="M47 39 L64 24 L81 39" fill="none" stroke="#F2B705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Mayem <span class="api">API</span>
+    </a>
+    <ul>
+      <li><a href="documentation">Documentation</a></li>
+      <li><a href="demo">Démonstration</a></li>
+      <li><a href="confidentialite">Confidentialité</a></li>
+    </ul>
+    <p class="discret">Mayem, par l'équipe Mayem. Tous droits réservés. Ce site ne dépose aucun cookie et ne mesure pas son audience.</p>
+  </div>
+</footer>
+
 </body>
 </html>
