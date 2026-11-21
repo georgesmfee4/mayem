@@ -12,7 +12,7 @@
     "run_worker_first": [
       "/*",
       "!/",
-      "!/index.html",
+      "!/index.html","!/confidentialite","!/confidentialite.html","!/demo","!/demo.html",
       "!/v1/index.json",
       "!/v1/langues.json",
       "!/v1/cles-publiques.json",
