@@ -16,6 +16,7 @@
     "api": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/api.js",
     "cle": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/cle.js",
     "cle-acces": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/cle-acces.js",
+    "boutique": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/boutique.js",
     "deployer": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/deployer.js",
     "inventaire": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js",
     "couverture": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js fixtures/simple.html fixtures/balises.html fixtures/react.html fixtures/iframe.html fixtures/shadow.html",

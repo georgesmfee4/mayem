@@ -91,6 +91,9 @@ for (const pack of packs) {
 const sommaire = packs.map(({ langue, nom, version }) => ({ langue, nom, version }));
 writeFileSync(dist + 'packs/index.json', JSON.stringify(sommaire, null, 2) + '\n');
 cpSync(racine + 'packs/schema.json', dist + 'packs/schema.json');
+// Icônes du manifeste (la source icones/icone.svg ne part pas)
+mkdirSync(dist + 'icones', { recursive: true });
+for (const taille of [16, 32, 48, 128]) cpSync(racine + `icones/${taille}.png`, dist + `icones/${taille}.png`);
 if (enPseudo) {
   console.log(`Extension pseudo prête dans dist-pseudo/ (qps, tirée de ${choisies[0]}) : textes allongés de 40 %, débordements entourés`);
 } else {

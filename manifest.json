@@ -2,10 +2,20 @@
   "manifest_version": 3,
   "name": "Mayem",
   "version": "0.3.1",
-  "description": "Mayem affiche les services financiers numériques en bulu, sans modifier leur code source. Prototype SAFINUM Innovate Challenge.",
+  "description": "Affiche en bulu les pages des services financiers en ligne, d'un clic. Rien ne quitte votre appareil.",
   "permissions": ["activeTab", "scripting"],
+  "icons": {
+    "16": "icones/16.png",
+    "32": "icones/32.png",
+    "48": "icones/48.png",
+    "128": "icones/128.png"
+  },
   "action": {
-    "default_title": "Afficher cette page en bulu"
+    "default_title": "Afficher cette page en bulu",
+    "default_icon": {
+      "16": "icones/16.png",
+      "32": "icones/32.png"
+    }
   },
   "background": {
     "service_worker": "dom/fond.js"
