@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Mayem</title>
+<meta name="description" content="Traductions validées par des locuteurs et script d'intégration, signés par l'équipe Mayem : un service financier dans une langue nationale camerounaise choisie.">
+<link rel="icon" href="icone.svg" type="image/svg+xml">
+<link rel="preload" href="polices/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="polices/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<div class="haut vannerie">
+  <div class="conteneur">
+    <header class="barre">
+      <a class="logo" href="./" aria-label="API Mayem, accueil">
+        <svg viewBox="0 0 128 128" aria-hidden="true"><rect x="4" y="4" width="120" height="120" rx="28" fill="#0F4C5C"/><g transform="translate(64 79) scale(0.88) translate(-64 -65)"><path d="M30 94V36h14l20 30 20-30h14v58H84V60L64 89 44 60v34z" fill="#fff"/></g><path d="M47 39 L64 24 L81 39" fill="none" stroke="#F2B705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Mayem <span class="api">API</span>
+      </a>
+      <nav aria-label="Pages du site">
+        <ul class="menu">
+          <li><a href="documentation">Documentation</a></li>
+          <li><a href="demo">Démonstration</a></li>
+          <li><a href="confidentialite">Confidentialité</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="heros">
+      <div>
+        <h1>Votre service, dans la langue de vos clients.</h1>
+        <p class="chapeau">Des traductions validées chacune par deux locuteurs, signées par l'équipe Mayem. Une ligne à ajouter à vos pages, et votre service financier s'affiche dans une langue nationale camerounaise choisie. Aucun texte de vos pages ne quitte l'appareil de l'usager.</p>
+        <div class="actions">
+          <a class="bouton" href="documentation">Lire la documentation</a>
+          <a class="lien-fleche" href="demo">Essayer la démonstration <span aria-hidden="true">→</span></a>
+        </div>
+        <ul class="garanties">
+          <li>Montants jamais traduits</li>
+          <li>Fichiers signés</li>
+          <li>Aucune donnée collectée</li>
+        </ul>
+      </div>
+
+      <div class="illustration">
+        <svg viewBox="30 28 560 410" role="img" aria-labelledby="illustration-titre">
+          <title id="illustration-titre">Une page de banque et son application mobile affichées dans une langue nationale, après un clic sur l'icône Mayem ; les montants ne changent pas.</title>
+          <defs>
+            <pattern id="tresse" width="20" height="22" patternUnits="userSpaceOnUse" x="56" y="400"><path class="i-tresse" d="M0 16 L10 6 L20 16"/></pattern>
+          </defs>
+          <path class="i-fond" d="M168 150C196 82 300 46 398 66c96 20 160 92 154 182-6 92-80 160-182 172-104 12-206-28-236-110-20-56 6-112 34-160z"/>
+          <circle class="i-or-doux" cx="92" cy="104" r="7"/>
+          <circle class="i-fond" cx="572" cy="150" r="10"/>
+          <circle class="i-or" cx="566" cy="332" r="6"/>
+          <circle class="i-fond" cx="58" cy="300" r="9"/>
+
+          <rect class="i-natte" x="56" y="400" width="488" height="22" rx="11"/>
+          <rect x="56" y="400" width="488" height="22" rx="11" fill="url(#tresse)"/>
+
+          <rect class="i-carte i-bord" x="150" y="92" width="336" height="310" rx="16"/>
+          <path class="i-ligne" d="M151 132H485"/>
+          <circle class="i-or" cx="174" cy="112" r="5"/>
+          <circle class="i-fond" cx="192" cy="112" r="5"/>
+          <circle class="i-gris" cx="210" cy="112" r="5"/>
+          <rect class="i-ecran" x="228" y="102" width="176" height="20" rx="10"/>
+          <rect class="i-gris" x="242" y="109" width="90" height="6" rx="3"/>
+
+          <rect class="i-marque" x="151.25" y="133.25" width="333.5" height="34"/>
+          <rect class="i-blanc" x="200" y="146" width="56" height="8" rx="4" opacity=".92"/>
+          <rect class="i-blanc" x="384" y="147" width="40" height="6" rx="3" opacity=".5"/>
+          <circle class="i-blanc" cx="458" cy="150" r="8" opacity=".85"/>
+          <rect class="i-ecran" x="190" y="186" width="274" height="92" rx="12"/>
+          <rect class="i-or-doux" x="208" y="203" width="104" height="9" rx="4.5"/>
+          <text class="i-montant" x="208" y="253" font-size="28">125 000 FCFA</text>
+          <circle class="i-or" cx="436" cy="214" r="13"/>
+          <path class="i-coche" d="M430 214.5l4.5 4.5 8-9"/>
+          <rect class="i-or-doux" x="190" y="298" width="210" height="9" rx="4.5"/>
+          <rect class="i-gris" x="190" y="316" width="150" height="9" rx="4.5"/>
+          <rect class="i-marque" x="190" y="342" width="116" height="34" rx="17"/>
+          <rect class="i-blanc" x="218" y="356" width="60" height="6" rx="3"/>
+          <rect class="i-bord" fill="none" x="318" y="342" width="96" height="34" rx="17"/>
+          <rect class="i-plein" x="340" y="356" width="52" height="6" rx="3" opacity=".55"/>
+
+          <rect class="i-carte i-bord" x="80" y="232" width="96" height="174" rx="18"/>
+          <rect class="i-plein" x="112" y="241" width="32" height="4" rx="2" opacity=".6"/>
+          <rect class="i-ecran" x="89" y="252" width="78" height="140" rx="8"/>
+          <path class="i-marque" d="M89 260a8 8 0 0 1 8-8h62a8 8 0 0 1 8 8v12H89z"/>
+          <rect class="i-or-doux" x="98" y="284" width="44" height="6" rx="3"/>
+          <text class="i-montant" x="98" y="312" font-size="13">125 000 F</text>
+          <rect class="i-gris" x="98" y="326" width="58" height="6" rx="3"/>
+          <rect class="i-or-doux" x="98" y="340" width="40" height="6" rx="3"/>
+          <rect class="i-or" x="98" y="360" width="60" height="18" rx="9"/>
+
+          <path class="i-carte i-bord" d="M86 128H142a16 16 0 0 1 16 16V166a16 16 0 0 1-16 16H134L126 196L120 182H86a16 16 0 0 1-16-16V144a16 16 0 0 1 16-16Z"/>
+          <circle class="i-plein" cx="98" cy="155" r="4.5"/>
+          <circle class="i-plein" cx="114" cy="155" r="4.5"/>
+          <circle class="i-plein" cx="130" cy="155" r="4.5"/>
+
+          <path class="i-carte i-bord" d="M474 40H552a16 16 0 0 1 16 16V84a16 16 0 0 1-16 16H494L482 114L482 100H474a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16Z"/>
+          <path class="i-trait-or" d="M496 63 L512 51 L528 63"/>
+          <rect class="i-plein" x="476" y="73" width="72" height="7" rx="3.5" opacity=".85"/>
+          <rect class="i-plein" x="476" y="85" width="48" height="6" rx="3" opacity=".45"/>
+
+          <circle class="i-onde" cx="433" cy="112" r="18"/>
+          <g transform="translate(420 99) scale(.2031)">
+            <rect x="4" y="4" width="120" height="120" rx="28" fill="#0F4C5C"/>
+            <g transform="translate(64 79) scale(0.88) translate(-64 -65)"><path d="M30 94V36h14l20 30 20-30h14v58H84V60L64 89 44 60v34z" fill="#fff"/></g>
+            <path d="M47 39 L64 24 L81 39" fill="none" stroke="#F2B705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <path class="i-blanc i-bord" transform="translate(438 118)" d="M0 0V22L6 17L10 26L14 24L10 15H18Z"/>
+
+          <path class="i-carte i-bord" d="M500 290L534 302V328C534 352 519 368 500 378C481 368 466 352 466 328V302Z"/>
+          <path class="i-trait-or" d="M485 331L496 342L516 318"/>
+        </svg>
+      </div>
+    </main>
+  </div>
+</div>
+
+<section class="conteneur cartes" aria-label="Pour commencer">
+  <a class="carte" href="documentation">
+    <svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M32 18c-6-4-14-5-22-4v32c8-1 16 0 22 4 6-4 14-5 22-4V14c-8-1-16 0-22 4z" stroke="var(--accent)" stroke-width="2.4"/>
+      <path d="M32 18v32M16 24h10M16 31h10M16 38h7" stroke="var(--accent)" stroke-width="2.4"/>
+      <path d="M41 16.5V31l4.5-3.5L50 31V15" stroke="var(--or)" stroke-width="2.6"/>
+    </svg>
+    <h2>Documentation</h2>
+    <p>Intégrer Mayem en une ligne, vérifier les signatures, et toutes les adresses de l'API.</p>
+    <span class="ouvrir">Lire la documentation</span>
+  </a>
+  <a class="carte" href="demo">
+    <svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="7" y="11" width="50" height="38" rx="6" stroke="var(--accent)" stroke-width="2.4"/>
+      <path d="M7 20h50M15 29h14M15 36h9" stroke="var(--accent)" stroke-width="2.4"/>
+      <path d="M36 30v20l5-4.5 3.5 7.5 3.5-1.5-3.5-7.5H51z" fill="var(--or)" stroke="var(--accent)" stroke-width="2"/>
+    </svg>
+    <h2>Démonstration</h2>
+    <p>Une banque fictive pour voir Mayem à l'œuvre avec l'extension. Rien n'y est envoyé.</p>
+    <span class="ouvrir">Essayer</span>
+  </a>
+  <a class="carte" href="confidentialite">
+    <svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M32 8l20 7v15c0 13-9 22-20 27-11-5-20-14-20-27V15z" stroke="var(--accent)" stroke-width="2.4"/>
+      <path d="M23 32l7 7 12-13" stroke="var(--or)" stroke-width="3"/>
+    </svg>
+    <h2>Confidentialité</h2>
+    <p>Ce que Mayem fait sur une page, et tout ce qu'il ne fait pas. Aucune donnée ne quitte l'appareil.</p>
+    <span class="ouvrir">Lire la politique</span>
+  </a>
+</section>
+
+<section class="bande">
+  <div class="conteneur deux">
+    <div>
+<!-- LANGUES -->
+      <p class="suite">Chaque traduction est validée par deux locuteurs avant d'être publiée. D'autres langues nationales camerounaises s'ajouteront, selon les mêmes règles.</p>
+    </div>
+    <div>
+      <h2>Pour les développeurs</h2>
+      <ul class="entrees">
+        <li><a href="v1/index.json"><code>/v1/index.json</code> Point d'entrée et liens</a></li>
+        <li><a href="v1/openapi.json"><code>/v1/openapi.json</code> Contrat OpenAPI 3.1</a></li>
+        <li><a href="v1/cles-publiques.json"><code>/v1/cles-publiques.json</code> Clés pour vérifier les signatures</a></li>
+        <li><a href="v1/script/index.json"><code>/v1/script/index.json</code> Versions du script et intégrité</a></li>
+      </ul>
+      <a class="lien-fleche" href="documentation">Toute la documentation <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="pied">
+  <div class="conteneur pied-interieur">
+    <a class="logo" href="./" aria-label="API Mayem, accueil">
+      <svg viewBox="0 0 128 128" aria-hidden="true"><rect x="4" y="4" width="120" height="120" rx="28" fill="#0F4C5C"/><g transform="translate(64 79) scale(0.88) translate(-64 -65)"><path d="M30 94V36h14l20 30 20-30h14v58H84V60L64 89 44 60v34z" fill="#fff"/></g><path d="M47 39 L64 24 L81 39" fill="none" stroke="#F2B705" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Mayem <span class="api">API</span>
+    </a>
+    <ul>
+      <li><a href="documentation">Documentation</a></li>
+      <li><a href="demo">Démonstration</a></li>
+      <li><a href="confidentialite">Confidentialité</a></li>
+    </ul>
+    <p class="discret">Mayem, par l'équipe Mayem. Tous droits réservés. Ce site ne dépose aucun cookie et ne mesure pas son audience.</p>
+  </div>
+</footer>
+
+</body>
+</html>

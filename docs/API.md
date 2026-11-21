@@ -10,7 +10,7 @@ Traduction (toujours sur l'appareil : aucun texte affiché ne quitte l'appareil)
   interface (extension, site, appli)  ──►  moteur (dist-lib/mayem-core.js)  ──►  pack local
 ```
 
-Un service qui veut le bulu (ou toute autre langue de `packs/`) prend le pack et le moteur ; un outil
+Un service qui veut une langue de `packs/` (aujourd'hui le bulu) prend le pack et le moteur ; un outil
 de traduction ou un grand moteur prend les exports. Personne ne réécrit rien.
 
 **Code et données : © Équipe Mayem, tous droits réservés** (`LICENSE`, `packs/LICENCE.md`). Tout usage se fait
@@ -49,7 +49,7 @@ Ces versions restent publiées telles quelles ; le passage au format 2 (0.6.0) n
 | `i18next/fr.json`, `i18next/<langue>.json` | i18next v4, `{{champ}}` | Sites et applis web |
 | `android/values/…`, `android/values-b+<langue>/strings.xml` | Ressources Android, `%1$s` | Applis Android |
 
-Seules les phrases validées sortent. Chaque fichier porte la mention « © Équipe Mayem — Tous droits réservés ».
+Seules les phrases validées sortent. Chaque fichier porte la mention « © Équipe Mayem. Tous droits réservés. »
 
 ## Conditions d'utilisation
 - Les données appartiennent à l'équipe Mayem, tous droits réservés (`packs/LICENCE.md`). Elles s'utilisent
@@ -121,6 +121,10 @@ npm run deployer     contrôle, envoie, puis sonde l'adresse publique
   (`hebergement/worker.js`) ne passe que devant les chemins qui ne sont pas explicitement publics
   (`run_worker_first` dans `wrangler.json`) : il décode le chemin (encodage, casse, `..`, `\`) et refuse
   tout export sans clé connue. Journaux de requêtes désactivés : on ne garde pas qui consulte l'API.
+- **Site** (écrit par `npm run api`, `tools/site.js`) : accueil, documentation, confidentialité et démonstration,
+  sources dans `docs/` (`accueil.html`, `documentation.html`, `confidentialite.html`, `demo.html`, `site.css`, `polices/`).
+  Les langues publiées de l'accueil et les adresses de la documentation sont tirées de ce que l'API publie et de
+  `docs/openapi.json` : le site ne peut pas s'en écarter. Chaque page est servie sans passer par le Worker.
 - **En-têtes** (`api/_headers`, écrit par `npm run api`) : `Access-Control-Allow-Origin: *`, sans quoi
   l'intégrité `sha384` du script ne peut pas être contrôlée chez un intégrateur ; une version figée se garde
   un an (`immutable`) ; `latest.json`, les index et les clés sont revalidés à chaque fois.
@@ -156,7 +160,7 @@ empêche de toute façon le navigateur de l'exécuter.
 <script src="/js/mayem.js" integrity="sha384-…" data-langue="bum" defer></script>
 ```
 
-- **Le service sert le fichier lui-même** (environ 200 Ko, 43 Ko compressé) ; les packs sont dedans. Une fois
+- **Le service sert le fichier lui-même** (environ 320 Ko, 65 Ko compressé) ; les packs sont dedans. Une fois
   le script chargé : aucune requête réseau, aucun stockage, aucun texte de la page envoyé où que ce soit.
 - **`integrity`** : le navigateur refuse d'exécuter un fichier modifié. En plus, Mayem revérifie le pack
   (règles et empreinte) avant de toucher la page ; un pack refusé laisse la page intacte (message en console).
@@ -220,8 +224,8 @@ Résultat de `traduire` :
 
 | `statut` | Afficher |
 |---|---|
-| `ok` | `sortie` (bulu validé) |
-| `test` | `sortie` en mode test seulement (bulu pas encore validé) |
+| `ok` | `sortie` (traduction validée) |
+| `test` | `sortie` en mode test seulement (traduction pas encore validée) |
 | `non_verifie` | l'original ; `categorie` permet d'afficher l'étiquette validée |
 | `rejete` | l'original : la sortie aurait changé un chiffre |
 

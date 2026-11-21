@@ -8,7 +8,7 @@ retraduction-a-envoyer.xlsx
 paraphrases-a-verifier.xlsx
 test-results/
 playwright-report/
-exports/
+/exports/
 api/
 dist-lib/
 packs/*/a-traduire.csv
@@ -20,3 +20,4 @@ revision-*.xlsx
 REVISION-BULU.md
 packs/*/reponses-revision.json
 *.jwk
+/boutique/
