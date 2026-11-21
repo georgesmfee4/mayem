@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site-api",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/pouto/AppData/Local/Temp/claude/d92e2de95ff4c467/4c3c7a25-fd01-47b8-bf03-4667246caa57/scratchpad/serveur-api.mjs", "C:/Users/pouto/OneDrive/Bureau/mayem/mayem/api", "8787"],
+      "port": 8787
+    }
+  ]
+}
