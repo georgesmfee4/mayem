@@ -1,9 +1,9 @@
 {
   "name": "mayem",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "type": "module",
-  "description": "Affiche un service financier web en bulu sans toucher à son code.",
+  "description": "Affiche un service financier web dans une langue nationale camerounaise choisie, sans toucher à son code.",
   "license": "UNLICENSED",
   "author": "Équipe Mayem",
   "scripts": {
@@ -16,6 +16,7 @@
     "api": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/api.js",
     "cle": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/cle.js",
     "cle-acces": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/cle-acces.js",
+    "boutique": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/boutique.js",
     "deployer": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/deployer.js",
     "inventaire": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js",
     "couverture": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/inventaire.js fixtures/simple.html fixtures/balises.html fixtures/react.html fixtures/iframe.html fixtures/shadow.html",

@@ -1,6 +1,7 @@
-# Mayem — règles de code
+# Mayem, règles de code
 
-Mayem affiche un service financier web en bulu sans toucher au code du service.
+Mayem affiche un service financier web dans une langue nationale camerounaise choisie, sans toucher au code du service.
+Langue prise en charge aujourd'hui : le bulu.
 Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de chaque session.
 
 ## Style
@@ -39,12 +40,18 @@ Ce fichier fixe la façon d'écrire le code. Claude Code le lit au début de cha
   traduction déjà validée : une phrase de même sens qu'une phrase validée (sens reconnu, `core/sens.ts`, garde-fous
   de négation, temps, personne, modalité, sens de l'argent et valeurs), ou un libellé qui est un terme validé.
   Toute autre phrase reste dans sa langue d'origine (étiquette et gloses en CSS).
-- Seul le bulu validé par deux personnes s'affiche (`MODE_TEST` à `false` dans `dom/entree.ts` pour la démo).
+- Seule une traduction validée par deux personnes s'affiche (`MODE_TEST` à `false` dans `dom/entree.ts` pour la démo).
 - Aucune dépendance payante. Toute dépendance ajoutée est déclarée dans `THIRD_PARTY.md`.
 - La clé privée de signature ne va jamais dans le dépôt (`~/.mayem/`, `tools/signature.js`) ; seules les clés
   publiques y sont (`packs/cles.json`). Une version publiée sur l'API ne change jamais.
 - Code et données : © Équipe Mayem, tous droits réservés (`LICENSE`), aucune licence libre. Aucun nom de traducteur dans ce qui est distribué ou publié
   (dist/, dist-web/, api/, exports) : passer par `versPublic` (`tools/public.js`). Les noms restent internes.
+
+## Rédaction (documentation, fiches, pages publiées, messages aux locuteurs)
+- Mayem traduit vers une langue nationale camerounaise choisie. Ne jamais écrire qu'il traduit « vers le bulu » ni
+  « du français vers le bulu » : le bulu n'apparaît que dans la liste des langues prises en charge
+  (« langue prise en charge aujourd'hui : le bulu ») ou dans un exemple présenté comme tel.
+- Pas de tiret long (tiret cadratin ou demi-cadratin) : une virgule, deux-points, une parenthèse ou un point à la place.
 
 ## Avant chaque commit
 - `npm test` passe.

@@ -28,6 +28,6 @@ test('exports : aucun nom, mention des droits Mayem', async () => {
   const fichiers = exports(await versPublic(interne));
   for (const [chemin, texte] of Object.entries(fichiers)) {
     assert.deepEqual(contientUnNom(texte), [], chemin);
-    if (!chemin.endsWith('.json')) assert.match(texte, /Équipe Mayem — Tous droits réservés/, chemin);
+    if (!chemin.endsWith('.json')) assert.match(texte, /Équipe Mayem\. Tous droits réservés/, chemin);
   }
 });
