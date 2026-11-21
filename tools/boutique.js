@@ -5,7 +5,7 @@
 // Rien n'est envoyé : le dépôt se fait à la main sur le site de la boutique (docs/boutique.md).
 
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { crc32, deflateRawSync } from 'node:zlib';
@@ -78,7 +78,10 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const chemin = `boutique/mayem-${version}.zip`;
   const zip = zipper(dist);
   writeFileSync(racine + chemin, zip);
-  console.log(`Prêt à déposer : ${chemin} (${Math.round(zip.length / 1024)} Ko, ${detail}).`);
+  // Les images de la fiche sont suivies par git dans icones/boutique ; boutique/ n'est qu'une sortie
+  const images = readdirSync(racine + 'icones/boutique').filter((nom) => nom.endsWith('.png'));
+  for (const nom of images) copyFileSync(racine + 'icones/boutique/' + nom, racine + 'boutique/' + nom);
+  console.log(`Prêt à déposer : ${chemin} (${Math.round(zip.length / 1024)} Ko, ${detail}), et ${images.length} images de la fiche.`);
   console.log('Contrôlé : permissions activeTab et scripting seules, aucun script automatique, MODE_TEST à false, icônes, aucun nom de traducteur.');
   console.log('Une nouvelle version déposée doit avoir un numéro plus grand dans manifest.json et package.json.');
 }

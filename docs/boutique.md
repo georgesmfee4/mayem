@@ -43,9 +43,28 @@ Au moindre problème, elle s'arrête et dit quoi corriger : rien n'est préparé
 | `mayem-<version>.zip` | L'extension elle-même, à téléverser. |
 | `logo-300.png` | Le logo de la fiche (300 × 300 pixels). |
 | `vignette-440x280.png` | La petite image promotionnelle, facultative, qui rend la fiche plus attrayante. |
-| `capture-*.png` | Les captures d'écran de la fiche (1280 × 800 pixels). |
+| `capture-1-un-clic.png` | Capture 1 (1280 × 800) : la même page avant et après le clic sur l'icône Mayem. |
+| `capture-2-montants.png` | Capture 2 (1280 × 800) : les montants restent exactement les mêmes. |
+| `capture-3-confidentialite.png` | Capture 3 (1280 × 800) : rien ne quitte l'appareil, le bouton « i » et le retour au texte d'origine. |
 
 Les captures montrent **FauxBank**, une banque fictive créée pour les essais. Aucune vraie banque n'y apparaît.
+La page qu'on y voit est la vraie extension en action sur la page de démonstration : rien n'y est retouché.
+
+Les images sont rangées dans `icones/boutique/`, suivies par git. La commande les recopie dans `boutique/`, à côté du zip.
+
+### D'où viennent les visuels
+
+Le logo, les couleurs, les polices et les images de la fiche sont dessinés dans le fichier Figma
+« Mayem, identité et boutique » : la page **Identité** porte le logo et les éléments réutilisables, la page
+**Boutique** porte la vignette et les captures.
+
+- **Le logo** : le M de Mayem, surmonté d'un accent doré. Il rappelle les accents qui marquent les tons dans
+  l'écriture de nombreuses langues nationales camerounaises. En dessous de 48 pixels, le M reste seul, pour rester
+  lisible dans la barre du navigateur (`icones/icone.svg` et `icones/icone-petite.svg`).
+- **Les couleurs** : bleu-vert `#0F4C5C`, bleu profond `#0A3640`, or `#F2B705`, crème `#F6F1E7`, encre `#12262C`.
+- **Les polices** : Bricolage Grotesque pour les titres, Manrope pour le texte. Toutes deux sont gratuites
+  (licence Open Font) et ne servent qu'aux images : l'extension n'en embarque aucune.
+- **Le motif** : l'accent du logo répété en rangées décalées, comme une vannerie, en très léger dans le fond.
 
 ### Trois adresses en ligne, déjà publiées
 
@@ -110,7 +129,8 @@ Choisissez la langue **Français**, puis remplissez :
 1. **Description** : le texte « Description longue, en français » de la partie 5.
 2. **Logo** : `boutique/logo-300.png`.
 3. **Petite vignette promotionnelle** (facultative) : `boutique/vignette-440x280.png`.
-4. **Captures d'écran** : les fichiers `capture-*.png`, dans l'ordre de leur numéro.
+4. **Captures d'écran** : `capture-1-un-clic.png`, `capture-2-montants.png`, puis `capture-3-confidentialite.png`,
+   dans cet ordre.
 5. **Termes de recherche** : ceux de la partie 5.
 
 Pour une fiche en anglais en plus, destinée aux relecteurs et aux visiteurs étrangers, ajoutez la langue **English**
