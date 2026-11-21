@@ -21,3 +21,9 @@ REVISION-BULU.md
 packs/*/reponses-revision.json
 *.jwk
 /boutique/
+
+# Fichiers de travail recus des locuteurs et documents internes, jamais dans le depot
+/*.xlsx
+!/kit-validation-bulu.xlsx
+/*.pdf
+.claude/launch.json
