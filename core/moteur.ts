@@ -19,6 +19,10 @@ const CHAMPS: Record<string, string> = {
   code: MOTIFS.code,
   fee: MOTIFS.montant,
   count: String.raw`\d+`,
+  // Un nom de personne ou de marchand : au plus six mots, sans chiffre ni ponctuation de phrase. Sans cette
+  // limite, « {name} » avalait la suite d'un message (« à Paul, au 677 12 34 56. Frais : 100 FCFA ») et la
+  // laissait en français au milieu de la traduction.
+  name: String.raw`[^\s\d:;?!]+(?:\s[^\s\d:;?!]+){0,5}`,
 };
 const LIBRE = String.raw`[^\n]+?`;
 const typeDeChamp = (nom: string) => nom.replace(/_\d+$/, ''); // amount_1 -> amount

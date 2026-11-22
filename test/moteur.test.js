@@ -112,3 +112,13 @@ test('hors mode test, une phrase non validée garde l’original', () => {
   assert.equal(r?.statut, 'non_verifie');
   assert.equal(r.sortie, null);
 });
+
+test('un nom ({name}) ne prend jamais la suite d\'un message : pas de traduction mélangée', () => {
+  const p = { format: 2, langue: 'qaa', nom: 'Essai', version: '0.1.0', etiquettes: {}, glossaire: [], phrases: [
+    { id: 'N1', fr: 'Vous allez envoyer {amount} à {name}', en: [], cible: '[cible] envoi {amount} {name}', critique: true, traduit_par: 'a', relu_par: 'b', retraduit_par: '', retraduction: '', valide: true },
+  ] };
+  assert.equal(traduire('Vous allez envoyer 5 000 FCFA à Paul Mbarga', p).statut, 'ok');
+  const melange = traduire('Vous allez envoyer 5 000 FCFA à Paul, au 677 12 34 56. Frais : 100 FCFA. Confirmez-vous ?', p);
+  assert.notEqual(melange?.statut, 'ok');
+  assert.equal(melange?.sortie ?? null, null);
+});
