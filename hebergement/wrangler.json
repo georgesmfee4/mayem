@@ -13,7 +13,7 @@
       "/*",
       "!/",
       "!/index.html","!/confidentialite","!/confidentialite.html","!/demo","!/demo.html",
-      "!/documentation","!/documentation.html","!/site.css","!/icone.svg","!/polices/*",
+      "!/documentation","!/documentation.html","!/studio","!/studio.html","!/site.css","!/icone.svg","!/polices/*",
       "!/v1/index.json",
       "!/v1/langues.json",
       "!/v1/cles-publiques.json",

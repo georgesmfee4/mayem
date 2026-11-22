@@ -61,13 +61,21 @@ test('chaque lien interne mène à une page du site ou à un fichier de l\'API',
 
 test('hébergement : chaque page et chaque ressource du site est servie sans passer par le Worker', () => {
   const regles = lireJson(join(racine, 'hebergement/wrangler.json')).assets.run_worker_first;
-  for (const chemin of ['/', '/documentation', '/confidentialite', '/demo', '/site.css', '/icone.svg', '/polices/*']) {
+  for (const chemin of ['/', '/documentation', '/confidentialite', '/demo', '/studio', '/site.css', '/icone.svg', '/polices/*']) {
     assert.ok(regles.includes('!' + chemin), chemin);
   }
 });
 
 test('rédaction : aucun tiret long dans les pages du site', () => {
-  for (const nom of ['accueil.html', 'documentation.html', 'confidentialite.html', 'site.css']) {
+  for (const nom of ['accueil.html', 'documentation.html', 'confidentialite.html', 'studio.html', 'site.css']) {
     assert.doesNotMatch(lire(join(racine, 'docs', nom)), new RegExp('[\\u2013\\u2014]'), nom);
   }
+});
+
+test('studio de voix : listes embarquées, aucune requête réseau, aucun repère restant', () => {
+  const page = lire(sortie + 'studio.html');
+  assert.doesNotMatch(page, /<!-- [A-Z]+ -->/);
+  const listes = JSON.parse(page.match(/<script type="application\/json" id="listes">([\s\S]*?)<\/script>/)[1]);
+  assert.ok(listes.length >= 1 && listes.every((l) => l.phrases.length));
+  assert.doesNotMatch(page, /fetch\(|XMLHttpRequest|sendBeacon|WebSocket/);
 });
