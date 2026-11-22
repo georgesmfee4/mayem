@@ -11,7 +11,7 @@ G09,P1,Toutes,Étape du parcours,0,0,Confirmation,Confirmation,Ntiñtan,Georges 
 G10,P1,Toutes,Pied de page,1,0,Safinum Pay — environnement de démonstration. Ne saisissez aucune donnée personnelle réelle.,Safinum Pay — demonstration environment. Do not enter real personal data.,Safinum Pay — nlam ya démonstration. Teké futié mfi folâ woé.,Carrel / relu par John,1,« Safinum Pay » est un nom de marque : à garder tel quel
 A01,P1,1. Solde,Titre,0,0,Votre compte,Your account,Évôvôla moné ya èn jôé,lesly / relu par Alexandre et Ronald,1,
 A02,P1,1. Solde,Salutation,0,0,"Bonjour, {name}","Hello, {name}","Mbolo, {name}",lesly / relu par Alexandre et Ronald,1,"{name} = prénom du client : ne pas traduire, garder {name}"
-A03,P1,1. Solde,Salutation seule,0,0,Bonjour,Hello,Mbamaba tyé,Georges / relu par Lesly,1,
+A03,P1,1. Solde,Salutation seule,0,0,Bonjour,Hello,Mbamba tyé,Georges / relu par Lesly,1,
 A04,P1,1. Solde,Sous-titre,0,0,Consultez votre solde et lancez un transfert en toute sécurité.,Check your balance and start a secure transfer.,"Yené mebal môé, kele ôsu nlomane moné évovoé été.",Georges / relu par Lesly,1,
 A05,P1,1. Solde,Libellé au-dessus du solde,1,1,Solde disponible,Available balance,Mebal mené,lesly / relu par Alexandre et Ronald,1,
 A06,P1,1. Solde,Numéro de compte,1,0,Numéro de compte : {account},Account number: {account},Nombor ya évôvôla moné : {account},Georges / relu par Lesly,1,{account} = numéro de compte : ne pas traduire
