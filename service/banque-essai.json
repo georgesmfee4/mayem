@@ -1,0 +1,37 @@
+{
+  "_lisez_moi": "Banque simulée de Mayem (service/banque.ts) : personnes, numéros et montants fictifs, pour les essais et la démonstration. Aucune donnée réelle.",
+  "aujourdhui": "2026-11-23",
+  "client": { "nom": "Awa Ndzana", "prenom": "Awa", "telephone": "690000001", "compte": "CM-SIM-0001" },
+  "solde": 85000,
+  "plafond": 500000,
+  "bareme": {
+    "interne": { "taux": 0, "min": 0, "max": 0 },
+    "mobile": { "taux": 0.01, "min": 100, "max": 2000 },
+    "banque": { "taux": 0.015, "min": 500, "max": 5000 }
+  },
+  "carnet": [
+    { "id": "c01", "nom": "Paul Mbarga", "alias": ["paul"], "telephone": "677123456", "type": "mobile" },
+    { "id": "c02", "nom": "Paul Essomba", "alias": ["paul"], "telephone": "699112233", "type": "interne" },
+    { "id": "c03", "nom": "Pierre Owona", "alias": ["pierre"], "telephone": "678901234", "type": "mobile" },
+    { "id": "c04", "nom": "Marie Abena", "alias": ["marie"], "telephone": "651234567", "type": "interne" },
+    { "id": "c05", "nom": "Jean Bekono", "alias": ["jean"], "telephone": "691234567", "type": "mobile" },
+    { "id": "c06", "nom": "Clarisse Ndzana", "alias": ["clarisse", "ma soeur", "soeur"], "telephone": "680112233", "type": "mobile" },
+    { "id": "c07", "nom": "Marthe Ndzana", "alias": ["maman", "ma mere", "mere"], "telephone": "655001122", "type": "mobile" },
+    { "id": "c08", "nom": "Eric Ndzana", "alias": ["mon frere", "frere"], "telephone": "690112233", "type": "interne" },
+    { "id": "c09", "nom": "Joseph Ndzana", "alias": ["mon oncle", "oncle", "tonton"], "telephone": "694556677", "type": "banque" },
+    { "id": "c10", "nom": "Junior Ndzana", "alias": ["mon fils", "fils"], "telephone": "699001122", "type": "mobile" }
+  ],
+  "historique": [
+    { "date": "2026-11-23", "type": "recu", "montant": 15000, "nom": "Eric Ndzana", "contact": "c08" },
+    { "date": "2026-11-22", "type": "envoi", "montant": 5000, "nom": "Paul Mbarga", "contact": "c01" },
+    { "date": "2026-11-21", "type": "credit", "montant": 1000, "nom": "690000001" },
+    { "date": "2026-11-20", "type": "facture", "montant": 9850, "nom": "Électricité" },
+    { "date": "2026-11-18", "type": "envoi", "montant": 20000, "nom": "Marthe Ndzana", "contact": "c07" },
+    { "date": "2026-11-15", "type": "recu", "montant": 150000, "nom": "Salaire" },
+    { "date": "2026-11-10", "type": "envoi", "montant": 7500, "nom": "Clarisse Ndzana", "contact": "c06" }
+  ],
+  "factures": [
+    { "numero": "458221", "type": "electricite", "montant": 12450, "payee": false },
+    { "numero": "77310", "type": "eau", "montant": 6800, "payee": false }
+  ]
+}

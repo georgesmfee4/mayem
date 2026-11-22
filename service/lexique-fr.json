@@ -1,0 +1,28 @@
+{
+  "_lisez_moi": "Vocabulaire de compréhension du français (core/comprendre.ts). Chaque mot donne des points à une intention ; la plus forte l'emporte si elle atteint 2. À faire relire par un francophone de l'équipe avant chaque ajout. {langue} est remplacé par le nom de la langue nationale.",
+  "intentions": {
+    "solde": { "solde": 3, "reste": 2, "il me reste": 3, "assez": 3, "combien j ai": 3, "disponible": 2, "mon compte": 1, "ce que j ai": 2 },
+    "historique": { "historique": 3, "operations": 3, "operation": 2, "transactions": 3, "derniere": 2, "dernieres": 2, "dernier": 2, "derniers": 2, "arrive": 3, "arrivee": 3, "est tombe": 3, "tombe": 2, "recu": 2, "releve": 3, "mouvements": 3 },
+    "depenses": { "depense": 4, "depenses": 4, "j ai depense": 4, "combien j ai depense": 4 },
+    "transfert": { "envoie": 2, "envoyer": 2, "envoyez": 2, "envoyer de l argent": 3, "transfert": 3, "transferer": 3, "transfere": 3, "virement": 3, "vire": 2, "fais partir": 2, "donne": 1 },
+    "frais": { "frais": 3, "coute": 3, "coutent": 3, "cout": 3, "combien ca coute": 3, "commission": 3, "tarif": 3, "tarifs": 3, "gratuit": 3, "meme banque": 2, "pris plus": 3, "pris trop": 3, "on m a pris": 3 },
+    "credit": { "credit": 3, "recharge": 3, "recharger": 3, "unites": 3, "forfait": 2 },
+    "facture": { "facture": 3, "factures": 3, "payer": 1, "paie": 1, "paye": 1, "regler": 1, "electricite": 2, "courant": 1, "eau": 1 },
+    "expliquer": { "veut dire": 3, "ca veut dire": 3, "c est quoi": 3, "c est qui": 2, "qu est ce que": 2, "qu est ce qu": 2, "signifie": 3, "explique": 3, "expliquer": 3, "definition": 3 },
+    "corriger": { "plutot": 3, "au lieu": 3, "trompe": 3, "je voulais dire": 3, "non pas": 3, "pas a": 1, "pas au": 1 },
+    "annuler": { "annule": 3, "annuler": 3, "j annule": 3, "laisse": 2, "laisse tomber": 3, "arrete": 3, "arreter": 3, "stop": 3, "ne fais rien": 3, "plus rien": 2 },
+    "langue": { "francais": 3, "en francais": 3, "langue": 3, "notre langue": 3, "ma langue": 3, "{langue}": 3, "parle moi": 1 },
+    "aide": { "aide": 3, "aider": 3, "aidez": 3, "que puis je faire": 3, "je peux faire": 3, "peux faire": 2, "que faire": 2, "menu": 2 },
+    "repeter": { "repete": 3, "repetez": 3, "repeter": 3, "redis": 3, "redites": 3, "pas compris": 3, "pas entendu": 3, "encore une fois": 2 },
+    "saluer": { "bonjour": 3, "bonsoir": 3, "salut": 3 },
+    "terminer": { "merci": 2, "au revoir": 3, "a bientot": 3 },
+    "oui": { "oui": 3, "d accord": 3, "ok": 3, "okay": 3, "vas y": 3, "allez y": 3, "confirme": 3, "je confirme": 3, "c est bon": 3, "c est ca": 3, "valide": 3, "exact": 2 },
+    "non": { "non": 2, "pas d accord": 3, "refuse": 3, "ne confirme pas": 3 }
+  },
+  "secondaires": ["saluer", "terminer", "oui", "non", "repeter"],
+  "periodes": { "aujourd hui": "jour", "ce jour": "jour", "hier": "hier", "cette semaine": "semaine", "la semaine": "semaine", "ce mois": "mois", "ce mois ci": "mois" },
+  "factures": { "electricite": "electricite", "courant": "electricite", "lumiere": "electricite", "eau": "eau" },
+  "langues": { "francais": "fr", "en francais": "fr", "notre langue": "nationale", "ma langue": "nationale", "{langue}": "nationale" },
+  "devises": ["fcfa", "f cfa", "cfa", "xaf", "francs", "franc", "frs", "fr", "f"],
+  "multiplicateurs": { "mille": 1000, "k": 1000, "million": 1000000, "millions": 1000000 }
+}

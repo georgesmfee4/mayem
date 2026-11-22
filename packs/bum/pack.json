@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.8.3",
-  "date": "2026-11-20",
-  "empreinte": "sha256-ee1b208795f8cd1e25c10802d9ae5d71d02f6c52f3813b6b29077104fa5fdcff",
+  "version": "0.8.5",
+  "date": "2026-11-22",
+  "empreinte": "sha256-fcd44fa7b19eb6f56cb5714e5d26f07b076318e18c60f26007d5c2b1c8d8f914",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -7206,7 +7206,7 @@
       "en": [
         "Hello"
       ],
-      "cible": "Mbamaba tyé",
+      "cible": "Mbamba tyé",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -8519,7 +8519,7 @@
       "en": [
         "Welcome"
       ],
-      "cible": "Mbamaba nsôán",
+      "cible": "Mbamba nsôàn",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
