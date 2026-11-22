@@ -92,6 +92,32 @@ Le TypeScript se limite aux types « effaçables » (pas d'enum ni de namespace)
    d'un pack modifié. Playwright ne sait pas cliquer sur l'icône : les tests appellent la même fonction depuis le
    script de fond, avec une copie du manifeste qui autorise `127.0.0.1` (le vrai manifeste n'est pas touché).
 
+## Noyau conversationnel (finale SAFINUM)
+La finale demande plus qu'un affichage traduit : comprendre une demande (« Envoie 5 000 à Paul »), poser une question
+s'il manque quelque chose, faire confirmer, exécuter, et rester cohérent sur chaque canal (application, web, USSD,
+SMS, serveur vocal, guichet). Une seule intelligence pour tous les canaux :
+
+- `core/comprendre.ts` : intention, montants (en chiffres ou en lettres, `core/nombres.ts`), numéros camerounais,
+  contacts du carnet (homonymes compris), facture, période, négation et valeur écartée par une correction
+  (« non, pas 5 000, 10 000 »). Chaque intention retenue dit pourquoi ; dans le doute, aucune n'est retenue.
+- `core/operation.ts` : l'opération normalisée et son empreinte, la même sur tous les canaux.
+- `service/conversation.ts` : le dialogue. Question si une valeur manque ou si deux contacts portent le même nom,
+  récapitulatif (montant, bénéficiaire, frais, total) puis « oui » avant toute exécution, correction d'une seule
+  valeur, refus expliqué (solde insuffisant, plafond), changement de langue sans rien perdre.
+- `service/reponses.ts` : réponses tirées du tableur des locuteurs ; en langue nationale seulement si elles sont validées.
+- `service/journal.ts` : une ligne par tour, aux colonnes du tableau de bord du jury.
+- `service/banque.ts` : le contrat avec la banque, et une banque simulée aux données fictives (`service/banque-essai.json`),
+  en attendant le bac à sable SAFINUM.
+
+Commandes :
+- `npm run scenarios` : les dix scénarios du jury, avec chaque réponse et sa ligne de journal.
+- `npm run conversation` : converser dans le terminal (`journal` montre la dernière ligne ; `-- --canal ussd` pour l'étiquette du canal).
+- `npm test` vérifie les scénarios, la confirmation obligatoire, la négation, l'empreinte identique entre canaux et les pannes.
+
+Vocabulaire : `service/lexique-fr.json` pour le français (à faire relire par un francophone de l'équipe), les termes
+validés du glossaire pour la langue nationale, puis les formulations du tableur des demandes
+(`python3 tools/kit_finale.py`). Une réponse non encore validée dans la langue nationale reste en français.
+
 ## Faire valider les traductions d'une langue
 Les noms de fichiers prennent le nom de la langue ; les exemples ci-dessous utilisent le bulu, seule langue prise en
 charge aujourd'hui.
