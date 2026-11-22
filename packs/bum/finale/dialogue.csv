@@ -1,0 +1,28 @@
+ref,fr,usage
+M01,Oui,Pour accepter ou confirmer.
+M02,Non,Pour refuser.
+M03,D'accord / c'est bon,Pour dire que tout est correct.
+M04,Annuler / arrête,Pour tout arrêter.
+M05,Retour,Pour revenir à l'étape d'avant.
+M06,Répète,Pour faire redire le dernier message.
+M07,Je n'ai pas compris,Quand le message n'est pas clair.
+M08,"Non, plutôt…","Pour corriger : « non, plutôt 10 000 »."
+M09,Je me suis trompé,Pour signaler une erreur.
+M10,Attends,Pour demander un instant.
+M11,Change de langue,Pour passer à une autre langue.
+M12,En français,Pour demander le français.
+M13,Dans notre langue,Pour demander votre langue.
+M14,Aide,Pour demander de l'aide.
+M15,Merci,Pour remercier.
+M16,Au revoir,Pour terminer.
+M17,Combien ?,Question sur un montant.
+M18,À qui ?,Question sur une personne.
+M19,Envoyer,"Le verbe, seul, tel qu'on le dit pour l'argent."
+M20,Payer,"Le verbe, seul."
+M21,Acheter,"Le verbe, seul."
+M22,Aujourd’hui,Mot de temps.
+M23,Hier,Mot de temps.
+M24,Cette semaine,Mot de temps.
+M25,Ce mois-ci,Mot de temps.
+M26,Le dernier / la dernière,« Le dernier envoi ».
+M27,Maman / papa / mon frère / ma sœur / mon oncle,Façons courantes de désigner un proche à qui l'on envoie.
