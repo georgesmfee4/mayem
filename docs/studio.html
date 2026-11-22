@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio de voix Mayem</title>
+<meta name="description" content="Page des locuteurs de l'équipe Mayem : enregistrer les phrases validées pour le serveur vocal.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="icone.svg" type="image/svg+xml">
+<style>
+  /* Outil de l'équipe : une colonne de fiches, pensée pour le téléphone. Les voix restent sur l'appareil
+     jusqu'à ce que le locuteur envoie lui-même son fichier. */
+  @font-face { font-family: 'Bricolage Grotesque'; src: url('polices/bricolage-grotesque.woff2') format('woff2'); font-weight: 200 800; font-display: swap; }
+  @font-face { font-family: 'Manrope'; src: url('polices/manrope.woff2') format('woff2'); font-weight: 200 800; font-display: swap; }
+  :root {
+    color-scheme: light;
+    --fond: #fbf8f2; --carte: #ffffff; --encre: #12262c; --doux: #4b6169; --ligne: #e4dccb;
+    --marque: #0f4c5c; --marque-doux: #e3eef1; --enreg: #b3261e; --ok: #1d7a3e; --ok-doux: #e3f3e8; --alerte: #9a3b12; --alerte-doux: #fbece4;
+    --titres: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+    --texte: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    color-scheme: dark;
+    --fond: #0b1d22; --carte: #12292f; --encre: #e6eef0; --doux: #9fb3b9; --ligne: #24414a;
+    --marque: #7cc4d4; --marque-doux: #173a43; --enreg: #ff8a80; --ok: #6fd18f; --ok-doux: #173323; --alerte: #f0a07a; --alerte-doux: #3a2219; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font-family: var(--texte); font-size: 16px; line-height: 1.5; }
+  .page { max-width: 760px; margin: 0 auto; padding: 20px 16px 120px; display: grid; gap: 16px; }
+  h1 { font-family: var(--titres); font-size: 1.8rem; margin: 0; letter-spacing: -0.01em; }
+  .chapo { color: var(--doux); margin: 4px 0 0; }
+  .bloc { background: var(--carte); border: 1px solid var(--ligne); border-radius: 12px; padding: 14px 16px; display: grid; gap: 12px; }
+  .bloc.alerte { border-color: var(--alerte); background: var(--alerte-doux); }
+  label.champ { display: grid; gap: 4px; font-weight: 700; font-size: 0.92rem; }
+  input[type=text], select { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--ligne); background: var(--fond); color: var(--encre); }
+  :focus-visible { outline: 3px solid var(--marque); outline-offset: 2px; }
+  .aide { font-size: 0.82rem; color: var(--doux); font-weight: 400; }
+  details summary { cursor: pointer; font-weight: 700; }
+  details ol { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 4px; }
+  .progres-ligne { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--doux); font-variant-numeric: tabular-nums; }
+  .jauge { height: 8px; border-radius: 4px; background: var(--ligne); overflow: hidden; margin-top: 6px; }
+  .jauge i { display: block; height: 100%; background: var(--marque); width: 0; }
+  .filtres { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .puce { font: inherit; font-size: 0.86rem; padding: 6px 12px; min-height: 38px; border-radius: 19px; border: 1px solid var(--ligne); background: var(--carte); color: var(--encre); cursor: pointer; }
+  .puce[aria-pressed="true"] { background: var(--marque); border-color: var(--marque); color: var(--carte); }
+  .bascule { display: flex; gap: 6px; align-items: center; font-size: 0.86rem; color: var(--doux); margin-left: auto; }
+  .liste { display: grid; gap: 12px; }
+  .fiche { background: var(--carte); border: 1px solid var(--ligne); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; min-width: 0; }
+  .fiche.faite { border-left: 5px solid var(--ok); }
+  .fiche.active { border-color: var(--enreg); box-shadow: 0 0 0 2px var(--enreg); }
+  .entete { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 0.78rem; color: var(--doux); }
+  .ref { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .groupe { text-transform: uppercase; letter-spacing: 0.06em; }
+  .etat { margin-left: auto; padding: 2px 10px; border-radius: 10px; background: var(--fond); }
+  .etat.ok { background: var(--ok-doux); color: var(--ok); font-weight: 700; }
+  .etat.erreur { background: var(--alerte-doux); color: var(--alerte); font-weight: 700; }
+  .dire { font-size: 1.4rem; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+  .sens, .consigne { font-size: 0.86rem; color: var(--doux); }
+  .erreur-texte { font-size: 0.86rem; color: var(--alerte); font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  button.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 20px; border-radius: 24px; border: 0;
+    background: var(--marque); color: var(--carte); font: inherit; font-weight: 700; cursor: pointer; }
+  button.btn.second { background: transparent; color: var(--marque); border: 1px solid var(--marque); }
+  button.btn.stop { background: var(--enreg); }
+  button.btn:disabled { opacity: .45; cursor: not-allowed; }
+  .rond { width: 12px; height: 12px; border-radius: 50%; background: currentColor; }
+  .carre { width: 12px; height: 12px; border-radius: 2px; background: currentColor; }
+  audio { width: 100%; max-width: 340px; height: 40px; }
+  .envoi { position: fixed; left: 0; right: 0; bottom: 0; background: var(--carte); border-top: 1px solid var(--ligne); padding: 12px 16px; }
+  .envoi-dedans { max-width: 760px; margin: 0 auto; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+  .vide { text-align: center; color: var(--doux); padding: 32px 16px; }
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <h1>Studio de voix Mayem</h1>
+    <p class="chapo">Chaque phrase validée a besoin d'une voix pour le serveur vocal. Appuyez sur « Enregistrer », dites la phrase, appuyez sur « Arrêter », écoutez. À la fin, envoyez votre fichier à l'équipe.</p>
+  </header>
+
+  <section class="bloc alerte" id="probleme" role="alert" hidden></section>
+
+  <section class="bloc">
+    <label class="champ" for="prenom">Votre prénom
+      <input type="text" id="prenom" autocomplete="given-name" placeholder="Votre prénom">
+      <span class="aide">Il sert seulement à savoir qui a enregistré. Il reste dans l'équipe et n'est jamais publié.</span>
+    </label>
+    <label class="champ" for="langue" id="choix-langue" hidden>Langue
+      <select id="langue"></select>
+    </label>
+    <details>
+      <summary>Comment bien enregistrer (une minute de lecture)</summary>
+      <ol>
+        <li>Endroit calme, sans télévision ni ventilateur, téléphone à environ 20 cm de la bouche.</li>
+        <li>La première fois, le téléphone demande l'accès au micro : répondez « Autoriser ».</li>
+        <li>Appuyez sur « Enregistrer », attendez une demi-seconde, dites la phrase, puis appuyez sur « Arrêter ».</li>
+        <li>Voix posée et naturelle, comme pour expliquer quelque chose à un parent. Ni trop vite, ni en récitant.</li>
+        <li>Pour un morceau de phrase, dites seulement le morceau : la somme ou le prénom sera ajouté par la machine.</li>
+        <li>Écoutez. Si cela ne vous plaît pas, appuyez sur « Refaire ».</li>
+        <li>Vos enregistrements restent sur ce téléphone, même si vous fermez la page. Vous pouvez faire une partie aujourd'hui et le reste demain, avec le même navigateur.</li>
+        <li>À la fin, appuyez sur « Envoyer mes enregistrements » et envoyez le fichier à la personne qui coordonne, par WhatsApp ou par courriel.</li>
+      </ol>
+    </details>
+    <div>
+      <div class="progres-ligne"><span id="progres">Chargement…</span><span id="progres-pct"></span></div>
+      <div class="jauge" aria-hidden="true"><i id="jauge"></i></div>
+    </div>
+  </section>
+
+  <nav class="filtres" id="filtres" aria-label="Choisir un groupe">
+    <label class="bascule" for="masquer"><input type="checkbox" id="masquer"> Masquer ce que j'ai fait</label>
+  </nav>
+
+  <section class="liste" id="liste"></section>
+</main>
+
+<div class="envoi">
+  <div class="envoi-dedans">
+    <span class="aide" id="envoi-texte">Aucun enregistrement pour l'instant.</span>
+    <button type="button" class="btn" id="envoyer" disabled>Envoyer mes enregistrements</button>
+  </div>
+</div>
+
+<script type="application/json" id="listes"><!-- LISTES --></script>
+<script>
+const GROUPES = { phrases: 'Phrases', morceaux: 'Morceaux de phrases', chiffres: 'Chiffres', sommes: 'Sommes', prenoms: 'Prénoms' };
+const DUREE_MAX = 30;
+const listes = JSON.parse(document.getElementById('listes').textContent || '[]');
+const etat = { liste: null, voix: {}, groupe: 'tout', masquer: false, active: null, erreurs: {} };
+let micro = null, enregistreur = null, minuteur = null, base = null;
+
+const $ = (id) => document.getElementById(id);
+function lireLocal(cle) { try { return localStorage.getItem(cle) || ''; } catch { return ''; } }
+function ecrireLocal(cle, valeur) { try { localStorage.setItem(cle, valeur); } catch {} }
+function signaler(texte) { $('probleme').textContent = texte; $('probleme').hidden = !texte; }
+const prenom = () => $('prenom').value.trim();
+const cleVoix = (ref) => etat.liste.langue + '/' + ref;
+
+/* Les voix sont gardées dans le navigateur (IndexedDB) : rien ne part tant que le locuteur n'envoie pas. */
+function ouvrirBase() {
+  return new Promise((ok) => {
+    try {
+      const demande = indexedDB.open('mayem-studio', 1);
+      demande.onupgradeneeded = () => demande.result.createObjectStore('voix');
+      demande.onsuccess = () => ok(demande.result);
+      demande.onerror = () => ok(null);
+    } catch { ok(null); }
+  });
+}
+function operation(mode, faire) {
+  return new Promise((ok, echec) => {
+    if (!base) return ok(null);
+    const t = base.transaction('voix', mode);
+    const demande = faire(t.objectStore('voix'));
+    t.oncomplete = () => ok(demande.result);
+    t.onerror = () => echec(t.error);
+  });
+}
+async function chargerVoix() {
+  etat.voix = {};
+  const cles = (await operation('readonly', (s) => s.getAllKeys())) || [];
+  const valeurs = (await operation('readonly', (s) => s.getAll())) || [];
+  cles.forEach((cle, i) => { if (cle.startsWith(etat.liste.langue + '/')) etat.voix[cle] = valeurs[i]; });
+}
+
+function choisirListe(code) {
+  etat.liste = listes.find((l) => l.langue === code) || listes[0];
+  ecrireLocal('mayem-studio-langue', etat.liste.langue);
+}
+
+function construireFiltres() {
+  const nav = $('filtres');
+  nav.querySelectorAll('.puce').forEach((b) => b.remove());
+  const presents = new Set(etat.liste.phrases.map((p) => p.groupe));
+  for (const [g, nom] of [['tout', 'Tout'], ...Object.entries(GROUPES).filter(([g]) => presents.has(g))]) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'puce'; b.textContent = nom; b.id = 'filtre-' + g;
+    b.setAttribute('aria-pressed', String(etat.groupe === g));
+    b.onclick = () => { etat.groupe = g; construireFiltres(); afficher(); };
+    nav.insertBefore(b, nav.lastElementChild);
+  }
+}
+
+function afficherProgres() {
+  const total = etat.liste.phrases.length;
+  const faits = etat.liste.phrases.filter((p) => etat.voix[cleVoix(p.ref)]).length;
+  $('progres').textContent = `${faits} enregistrées sur ${total}`;
+  $('progres-pct').textContent = total ? Math.round(100 * faits / total) + ' %' : '';
+  $('jauge').style.width = total ? (100 * faits / total) + '%' : '0';
+  $('envoi-texte').textContent = faits ? `${faits} enregistrement${faits > 1 ? 's' : ''} prêt${faits > 1 ? 's' : ''} à envoyer.` : 'Aucun enregistrement pour l\'instant.';
+  $('envoyer').disabled = !faits || Boolean(etat.active);
+}
+
+function texte(parent, classe, contenu) {
+  const el = document.createElement('div');
+  el.className = classe; el.textContent = contenu;
+  parent.append(el);
+}
+
+function fiche(p) {
+  const voix = etat.voix[cleVoix(p.ref)];
+  const active = etat.active === p.ref;
+  const art = document.createElement('article');
+  art.className = 'fiche' + (voix ? ' faite' : '') + (active ? ' active' : '');
+  art.id = 'fiche-' + p.ref;
+  const entete = document.createElement('div');
+  entete.className = 'entete';
+  const pastille = document.createElement('span');
+  pastille.className = 'etat';
+  pastille.textContent = active ? 'Enregistrement…' : etat.erreurs[p.ref] ? 'À refaire' : voix ? 'Enregistré' : 'À enregistrer';
+  if (voix && !active) pastille.classList.add('ok');
+  if (etat.erreurs[p.ref]) pastille.classList.add('erreur');
+  entete.append(Object.assign(document.createElement('span'), { className: 'ref', textContent: p.ref }),
+    Object.assign(document.createElement('span'), { className: 'groupe', textContent: GROUPES[p.groupe] || p.groupe }), pastille);
+  art.append(entete);
+  texte(art, 'dire', p.texte);
+  if (p.fr) texte(art, 'sens', 'Sens en français : ' + p.fr);
+  if (p.consigne) texte(art, 'consigne', p.consigne);
+  if (etat.erreurs[p.ref]) texte(art, 'erreur-texte', etat.erreurs[p.ref]);
+  art.append(actions(p, voix, active));
+  return art;
+}
+
+function actions(p, voix, active) {
+  const zone = document.createElement('div');
+  zone.className = 'actions';
+  const bouton = document.createElement('button');
+  bouton.type = 'button'; bouton.id = 'bouton-' + p.ref;
+  if (active) {
+    bouton.className = 'btn stop';
+    bouton.innerHTML = '<span class="carre" aria-hidden="true"></span><span id="duree">Arrêter</span>';
+    bouton.onclick = arreter;
+  } else {
+    bouton.className = 'btn' + (voix ? ' second' : '');
+    bouton.innerHTML = '<span class="rond" aria-hidden="true"></span><span></span>';
+    bouton.lastChild.textContent = voix ? 'Refaire' : 'Enregistrer';
+    bouton.disabled = Boolean(etat.active);
+    bouton.onclick = () => commencer(p);
+  }
+  zone.append(bouton);
+  if (voix && !active) {
+    const lecteur = document.createElement('audio');
+    lecteur.controls = true; lecteur.preload = 'metadata';
+    lecteur.src = URL.createObjectURL(voix.blob);
+    zone.append(lecteur);
+  }
+  return zone;
+}
+
+function afficher() {
+  afficherProgres();
+  const liste = $('liste');
+  liste.replaceChildren();
+  const visibles = etat.liste.phrases.filter((p) => (etat.groupe === 'tout' || p.groupe === etat.groupe)
+    && !(etat.masquer && etat.voix[cleVoix(p.ref)] && etat.active !== p.ref));
+  if (!visibles.length) { liste.innerHTML = '<p class="vide">Tout est enregistré dans ce groupe. Merci !</p>'; return; }
+  for (const p of visibles) liste.append(fiche(p));
+}
+
+async function ouvrirMicro() {
+  if (micro && micro.active) return micro;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+    throw new Error('Ce navigateur ne sait pas enregistrer. Ouvrez la page avec Chrome (Android) ou Safari (iPhone) à jour.');
+  }
+  try {
+    micro = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, channelCount: 1 } });
+    return micro;
+  } catch (e) {
+    if (e && e.name === 'NotAllowedError') throw new Error('Le micro est refusé. Touchez le cadenas à gauche de l\'adresse, autorisez le micro, puis rechargez la page.');
+    if (e && e.name === 'NotFoundError') throw new Error('Aucun micro n\'a été trouvé sur cet appareil.');
+    throw new Error('Le micro ne s\'ouvre pas. Fermez les autres applications qui l\'utilisent, puis réessayez.');
+  }
+}
+
+function formatChoisi() {
+  return ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'].find((t) => MediaRecorder.isTypeSupported(t)) || '';
+}
+
+async function commencer(p) {
+  signaler('');
+  if (!prenom()) { signaler('Écrivez d\'abord votre prénom, en haut de la page.'); $('prenom').focus(); return; }
+  try {
+    const flux = await ouvrirMicro();
+    const format = formatChoisi();
+    const morceaux = [];
+    enregistreur = new MediaRecorder(flux, format ? { mimeType: format, audioBitsPerSecond: 64000 } : undefined);
+    enregistreur.ondataavailable = (e) => { if (e.data.size) morceaux.push(e.data); };
+    const debut = Date.now();
+    enregistreur.onstop = () => terminer(p, morceaux, (Date.now() - debut) / 1000, enregistreur.mimeType || format);
+    enregistreur.start();
+    etat.active = p.ref; delete etat.erreurs[p.ref];
+    afficher();
+    minuteur = setInterval(() => {
+      const s = (Date.now() - debut) / 1000;
+      const el = $('duree');
+      if (el) el.textContent = `Arrêter (${Math.floor(s)} s)`;
+      if (s >= DUREE_MAX) arreter();
+    }, 250);
+  } catch (e) {
+    signaler(e.message);
+  }
+}
+
+function arreter() {
+  clearInterval(minuteur);
+  if (enregistreur && enregistreur.state !== 'inactive') enregistreur.stop();
+}
+
+async function terminer(p, morceaux, duree, type) {
+  etat.active = null;
+  if (duree < 0.6 || !morceaux.length) {
+    etat.erreurs[p.ref] = 'L\'enregistrement est trop court. Appuyez sur « Enregistrer », dites la phrase, puis « Arrêter ».';
+  } else {
+    const voix = { blob: new Blob(morceaux, { type: type || 'audio/webm' }), duree: Math.round(duree * 10) / 10, date: new Date().toISOString(), texte: p.texte };
+    etat.voix[cleVoix(p.ref)] = voix;
+    try { await operation('readwrite', (s) => s.put(voix, cleVoix(p.ref))); }
+    catch { signaler('Le téléphone n\'a pas pu garder cet enregistrement après fermeture. Envoyez vos enregistrements avant de quitter la page.'); }
+  }
+  afficher();
+  const suivante = etat.liste.phrases.find((q) => !etat.voix[cleVoix(q.ref)] && (etat.groupe === 'tout' || q.groupe === etat.groupe));
+  if (suivante && !etat.erreurs[p.ref]) document.getElementById('fiche-' + suivante.ref)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* Fichier ZIP sans compression (les voix sont déjà compressées), écrit ici pour n'ajouter aucune dépendance. */
+const TABLE = Array.from({ length: 256 }, (_, n) => { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; return c >>> 0; });
+function crc32(octets) { let c = 0xFFFFFFFF; for (const o of octets) c = TABLE[(c ^ o) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function entete(taille) { const b = new DataView(new ArrayBuffer(taille)); return b; }
+async function zip(fichiers) {
+  const parties = [], central = [];
+  let decalage = 0;
+  for (const { nom, contenu } of fichiers) {
+    const octets = new Uint8Array(await contenu.arrayBuffer());
+    const nomOctets = new TextEncoder().encode(nom);
+    const crc = crc32(octets);
+    const local = entete(30);
+    [[0, 0x04034b50, 4], [4, 20, 2], [6, 0x0800, 2], [8, 0, 2], [10, 0, 2], [12, 0x21, 2], [14, crc, 4], [18, octets.length, 4], [22, octets.length, 4], [26, nomOctets.length, 2], [28, 0, 2]]
+      .forEach(([pos, val, n]) => n === 4 ? local.setUint32(pos, val, true) : local.setUint16(pos, val, true));
+    parties.push(local, nomOctets, octets);
+    const c = entete(46);
+    [[0, 0x02014b50, 4], [4, 20, 2], [6, 20, 2], [8, 0x0800, 2], [10, 0, 2], [12, 0, 2], [14, 0x21, 2], [16, crc, 4], [20, octets.length, 4], [24, octets.length, 4], [28, nomOctets.length, 2], [30, 0, 2], [32, 0, 2], [34, 0, 2], [36, 0, 2], [38, 0, 4], [42, decalage, 4]]
+      .forEach(([pos, val, n]) => n === 4 ? c.setUint32(pos, val, true) : c.setUint16(pos, val, true));
+    central.push(c, nomOctets);
+    decalage += 30 + nomOctets.length + octets.length;
+  }
+  const tailleCentrale = central.reduce((t, p) => t + p.byteLength, 0);
+  const fin = entete(22);
+  [[0, 0x06054b50, 4], [8, fichiers.length, 2], [10, fichiers.length, 2], [12, tailleCentrale, 4], [16, decalage, 4], [20, 0, 2]]
+    .forEach(([pos, val, n]) => n === 4 ? fin.setUint32(pos, val, true) : fin.setUint16(pos, val, true));
+  return new Blob([...parties, ...central, fin], { type: 'application/zip' });
+}
+
+const extension = (type) => /mp4/.test(type) ? 'm4a' : /ogg/.test(type) ? 'ogg' : 'webm';
+const simple = (texte) => texte.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'locuteur';
+const cellule = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+
+async function envoyer() {
+  const qui = simple(prenom());
+  const fichiers = [], lignes = [['ref', 'texte', 'prenom', 'duree', 'date', 'fichier'].join(',')];
+  for (const p of etat.liste.phrases) {
+    const voix = etat.voix[cleVoix(p.ref)];
+    if (!voix) continue;
+    const nom = `${p.ref}~${qui}.${extension(voix.blob.type)}`;
+    fichiers.push({ nom, contenu: voix.blob });
+    lignes.push([p.ref, voix.texte, prenom(), voix.duree, voix.date, nom].map(cellule).join(','));
+  }
+  fichiers.push({ nom: 'liste.csv', contenu: new Blob(['﻿' + lignes.join('\n')], { type: 'text/csv' }) });
+  const jour = new Date().toISOString().slice(0, 10);
+  const archive = new File([await zip(fichiers)], `voix-${simple(etat.liste.nom)}-${qui}-${jour}.zip`, { type: 'application/zip' });
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [archive] })) { await navigator.share({ files: [archive], title: archive.name }); return; }
+  } catch (e) { if (e && e.name === 'AbortError') return; }
+  const lien = Object.assign(document.createElement('a'), { href: URL.createObjectURL(archive), download: archive.name });
+  document.body.append(lien); lien.click(); lien.remove();
+  signaler(`Le fichier « ${archive.name} » est dans vos téléchargements. Envoyez-le à la personne qui coordonne, par WhatsApp ou par courriel.`);
+}
+
+async function demarrer() {
+  if (!listes.length) { signaler('Aucune liste de phrases n\'est publiée pour l\'instant.'); return; }
+  $('prenom').value = lireLocal('mayem-prenom');
+  $('prenom').oninput = () => { ecrireLocal('mayem-prenom', prenom()); signaler(''); };
+  $('masquer').onchange = (e) => { etat.masquer = e.target.checked; afficher(); };
+  $('envoyer').onclick = () => envoyer().catch(() => signaler('Le fichier n\'a pas pu être préparé. Réessayez.'));
+  choisirListe(lireLocal('mayem-studio-langue'));
+  if (listes.length > 1) {
+    $('choix-langue').hidden = false;
+    for (const l of listes) $('langue').append(new Option(l.nom, l.langue, false, l.langue === etat.liste.langue));
+    $('langue').onchange = async () => { choisirListe($('langue').value); await chargerVoix(); construireFiltres(); afficher(); };
+  }
+  base = await ouvrirBase();
+  if (!base) signaler('Ce navigateur ne garde pas les enregistrements après fermeture : envoyez-les avant de quitter la page.');
+  await chargerVoix();
+  construireFiltres();
+  afficher();
+}
+demarrer();
+</script>
+</body>
+</html>
