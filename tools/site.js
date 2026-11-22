@@ -1,10 +1,11 @@
-// Pages du site de l'API (accueil, documentation, confidentialité, démonstration) : sources dans docs/.
+// Pages du site de l'API (accueil, documentation, confidentialité, démonstration, studio de voix) : sources dans docs/.
 // Les parties qui changent (langues publiées, adresses du contrat OpenAPI) sont remplies ici à chaque
 // publication, pour que le site ne puisse pas s'écarter de ce que l'API publie vraiment.
 
 import { cpSync, readFileSync, writeFileSync } from 'node:fs';
 import { racine } from './langues.js';
 import { cheminEnLigne } from './cloudflare.js';
+import { listesVoix } from './voix.js';
 
 const echapper = (texte) => String(texte).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const ancre = (texte) => texte.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -64,6 +65,10 @@ export function ecrireSite(sortie, resumes) {
   const openapi = JSON.parse(readFileSync(racine + 'docs/openapi.json', 'utf8'));
   writeFileSync(sortie + 'index.html', remplir('accueil.html', { LANGUES: languesPubliees(resumes) }));
   writeFileSync(sortie + 'documentation.html', remplir('documentation.html', { ADRESSES: adresses(openapi) }));
+  // Studio de voix : page des locuteurs, les listes de phrases y sont embarquées ; les voix ne quittent
+  // l'appareil que lorsque le locuteur envoie lui-même son fichier
+  const listes = JSON.stringify(listesVoix()).replace(/</g, '\\u003c');
+  writeFileSync(sortie + 'studio.html', remplir('studio.html', { LISTES: listes }));
   // Politique de confidentialité : l'adresse que demandent les boutiques ; démonstration : banque fictive
   // où essayer l'extension (relecteurs de la boutique, jury), rien n'y est envoyé
   for (const nom of ['confidentialite.html', 'demo.html', 'site.css']) cpSync(racine + 'docs/' + nom, sortie + nom);
