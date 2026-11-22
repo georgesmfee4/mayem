@@ -4,6 +4,10 @@ RF002,accueil,P1,0,Dites ou tapez ce que vous voulez faire.,"complet,voix",0,,
 RF010,solde,P1,1,Votre solde est de {amount},"complet,ussd,sms,voix",80,X08,
 RF011,solde,P1,1,Votre solde disponible au {date} est de {amount}.,"complet,ussd,sms,voix",90,,
 RF012,solde,P1,1,"Après cette opération, il vous restera {amount}.","complet,ussd,sms,voix",80,,
+RF014,historique,P2,1,"Aujourd'hui, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
+RF015,historique,P2,1,"Hier, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
+RF016,historique,P1,1,"Ces sept derniers jours, vous avez dépensé {amount}.","complet,ussd,sms,voix",70,,
+RF017,historique,P2,1,"Ce mois-ci, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
 RF020,historique,P1,0,Voici vos {count} dernières opérations.,"complet,ussd,sms,voix",60,,
 RF021,historique,P1,1,{date} : vous avez envoyé {amount} à {name}.,"complet,ussd,sms,voix",60,,Une ligne d'historique.
 RF022,historique,P1,1,{date} : vous avez reçu {amount} de {name}.,"complet,ussd,sms,voix",60,,Une ligne d'historique.
@@ -23,6 +27,7 @@ RF040,correction,P1,1,"D'accord, je corrige : {amount} au lieu de {amount_2}.","
 RF041,correction,P1,1,"D'accord, je corrige : vous envoyez maintenant à {name}.","complet,ussd,sms,voix",70,,
 RF042,correction,P1,1,"D'accord, je corrige le numéro : {phone}.","complet,ussd,sms,voix",60,,
 RF043,correction,P2,0,Voici l'opération corrigée.,"complet,ussd,sms,voix",40,,
+RF044,correction,P1,1,D'accord. Quel est le bon numéro ?,"complet,ussd,sms,voix",40,,
 RF050,ambigu,P1,1,Vous avez plusieurs contacts nommés {name}. Lequel voulez-vous ?,"complet,ussd,sms,voix",80,,La liste des contacts suit ce message.
 RF051,ambigu,P1,1,Vous n'avez pas dit le montant. Combien voulez-vous envoyer à {name} ?,"complet,ussd,sms,voix",90,,
 RF052,ambigu,P1,1,Vous n'avez pas dit à qui envoyer {amount}. À qui voulez-vous l'envoyer ?,"complet,ussd,sms,voix",90,,
@@ -38,6 +43,8 @@ RF063,erreur,P1,1,Ce numéro de téléphone n'est pas valide. Vérifiez-le.,"com
 RF064,erreur,P1,1,Le service ne répond pas. Aucun argent n'a été retiré. Réessayez dans quelques minutes.,"complet,ussd,sms,voix",100,,
 RF065,erreur,P2,0,Votre session a expiré. Recommencez depuis le début.,"complet,ussd,sms,voix",70,,Fréquent en USSD.
 RF066,erreur,P1,1,Opération annulée. Aucun montant n'a été débité.,"complet,ussd,sms,voix",70,MSG014,
+RF067,annuler,P1,1,"D'accord, je ne fais rien. Aucun argent n'a été envoyé.","complet,ussd,sms,voix",70,,Réponse à une demande négative : « n'envoie pas ».
+RF068,aide,P2,0,Il n'y a aucune opération en cours.,"complet,ussd,sms,voix",50,,
 RF070,frais,P1,1,"Pour envoyer {amount}, les frais sont de {fee}. Au total, {amount_2} seront retirés de votre compte.","complet,ussd,sms,voix",120,,
 RF071,frais,P1,1,Les envois vers un compte de la même banque sont gratuits.,"complet,ussd,sms,voix",80,,
 RF072,frais,P2,1,"Les frais sont de {percent} du montant, au moins {amount} et au plus {amount_2}.","complet,ussd,sms,voix",100,,
@@ -45,11 +52,13 @@ RF073,frais,P1,1,Les frais sont l'argent que la banque prend pour faire l'opéra
 RF080,credit,P1,0,Pour quel numéro voulez-vous acheter du crédit ?,"complet,ussd,sms,voix",60,,
 RF081,credit,P1,1,Vous allez acheter {amount} de crédit pour le {phone}. Confirmez-vous ?,"complet,ussd,sms,voix",90,,
 RF082,credit,P1,1,Le crédit de {amount} a été envoyé au {phone}.,"complet,ussd,sms,voix",70,,
+RF083,credit,P1,1,Pour combien voulez-vous acheter du crédit ?,"complet,ussd,sms,voix",50,,
 RF090,facture,P1,0,Quelle facture voulez-vous payer ?,"complet,ussd,sms,voix",50,,"La liste suit : électricité, eau, autre."
 RF091,facture,P1,0,Entrez le numéro de votre facture.,"complet,ussd,sms,voix",50,,
 RF092,facture,P1,1,Facture {ref} : {amount} à payer. Voulez-vous la payer ?,"complet,ussd,sms,voix",80,,
 RF093,facture,P1,1,Votre facture de {amount} a été payée. Référence : {ref}.,"complet,ussd,sms,voix",80,MSG006,
 RF094,facture,P2,0,Aucune facture ne correspond à ce numéro.,"complet,ussd,sms,voix",60,,
+RF095,facture,P2,1,Cette facture est déjà payée.,"complet,ussd,sms,voix",40,,
 RF100,langue,P1,0,"D'accord, nous continuons en {langue}.","complet,ussd,sms,voix",50,,
 RF101,langue,P1,0,Vous pouvez changer de langue à tout moment : dites « langue » ou tapez 8.,"complet,ussd,voix",90,,
 RF102,langue,P1,0,Choisissez votre langue.,"complet,ussd,sms,voix",30,,"La liste suit : français, {langue}."

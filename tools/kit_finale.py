@@ -44,7 +44,8 @@ MINUTES_PAR_LIGNE = {'demandes': 4, 'dialogue': 2, 'nombres': 1, 'reponses': 4, 
 
 def lire(nom):
     with open(DOSSIER / 'finale' / nom, encoding='utf-8-sig', newline='') as f:
-        return [{k: v.replace('{langue}', NOM) for k, v in r.items()} for r in csv.DictReader(f)]
+        # En français, un nom de langue s'écrit en minuscules : « nous continuons en bulu »
+        return [{k: v.replace('{langue}', LANGUE) for k, v in r.items()} for r in csv.DictReader(f)]
 
 
 def lire_pack(nom):
