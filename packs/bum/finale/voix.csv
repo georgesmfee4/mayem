@@ -1,0 +1,83 @@
+ref,groupe,reprise,texte,consigne
+X01,,X01,,
+X07,,X07,,
+X09,,X09,,
+X06,,X06,,
+X29,,X29,,
+X08,,X08,,
+X13,,X13,,
+X12,,X12,,
+X14,,X14,,
+X15,,X15,,
+X04,,X04,,
+F13,,F13,,
+F14,,F14,,
+R08,,R08,,
+R09,,R09,,
+X17,,X17,,
+X18,,X18,,
+X20,,X20,,
+X21,,X21,,
+X23,,X23,,
+X24,,X24,,
+X25,,X25,,
+X27,,X27,,
+X22,,X22,,
+E06,,E06,,
+E10,,E10,,
+R01,,R01,,
+X16,,X16,,
+MSG001,,MSG001,,
+MSG002,,MSG002,,
+MSG006,,MSG006,,
+MSG008,,MSG008,,
+MSG011,,MSG011,,
+MSG012,,MSG012,,
+MSG014,,MSG014,,
+MSG015,,MSG015,,
+MSG020,,MSG020,,
+MSG021,,MSG021,,
+MSG023,,MSG023,,
+MSG025,,MSG025,,
+MSG026,,MSG026,,
+VN00,chiffres,,0,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN01,chiffres,,1,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN02,chiffres,,2,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN03,chiffres,,3,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN04,chiffres,,4,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN05,chiffres,,5,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN06,chiffres,,6,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN07,chiffres,,7,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN08,chiffres,,8,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VN09,chiffres,,9,"Dites ce chiffre seul, comme pour dicter un numéro de téléphone."
+VS00,sommes,,10,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS01,sommes,,20,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS02,sommes,,50,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS03,sommes,,100,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS04,sommes,,200,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS05,sommes,,250,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS06,sommes,,500,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS07,sommes,,1 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS08,sommes,,1 500,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS09,sommes,,2 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS10,sommes,,2 500,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS11,sommes,,3 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS12,sommes,,5 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS13,sommes,,7 500,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS14,sommes,,10 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS15,sommes,,15 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS16,sommes,,20 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS17,sommes,,25 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS18,sommes,,50 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS19,sommes,,75 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS20,sommes,,100 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS21,sommes,,150 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS22,sommes,,250 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS23,sommes,,500 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS24,sommes,,1 000 000,"Dites cette somme comme on la dit pour l'argent, sans le mot « francs »."
+VS90,sommes,,francs,"Dites le mot de la monnaie seul, comme après une somme."
+VP00,prenoms,,Paul,Dites ce prénom comme on le prononce en parlant bulu. Ce sont les contacts de la démonstration.
+VP01,prenoms,,Marie,Dites ce prénom comme on le prononce en parlant bulu. Ce sont les contacts de la démonstration.
+VP02,prenoms,,Pierre,Dites ce prénom comme on le prononce en parlant bulu. Ce sont les contacts de la démonstration.
+VP03,prenoms,,Jean,Dites ce prénom comme on le prononce en parlant bulu. Ce sont les contacts de la démonstration.
+VP04,prenoms,,Clarisse,Dites ce prénom comme on le prononce en parlant bulu. Ce sont les contacts de la démonstration.
