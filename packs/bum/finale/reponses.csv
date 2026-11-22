@@ -1,0 +1,60 @@
+ref,intention,priorite,critique,fr,canaux,max_ussd,reprise,a_noter
+RF001,accueil,P1,0,Bonjour {name}. Que voulez-vous faire ?,"complet,ussd,sms,voix",80,,
+RF002,accueil,P1,0,Dites ou tapez ce que vous voulez faire.,"complet,voix",0,,
+RF010,solde,P1,1,Votre solde est de {amount},"complet,ussd,sms,voix",80,X08,
+RF011,solde,P1,1,Votre solde disponible au {date} est de {amount}.,"complet,ussd,sms,voix",90,,
+RF012,solde,P1,1,"Après cette opération, il vous restera {amount}.","complet,ussd,sms,voix",80,,
+RF020,historique,P1,0,Voici vos {count} dernières opérations.,"complet,ussd,sms,voix",60,,
+RF021,historique,P1,1,{date} : vous avez envoyé {amount} à {name}.,"complet,ussd,sms,voix",60,,Une ligne d'historique.
+RF022,historique,P1,1,{date} : vous avez reçu {amount} de {name}.,"complet,ussd,sms,voix",60,,Une ligne d'historique.
+RF023,historique,P2,1,{date} : achat de crédit de {amount}.,"complet,ussd,sms,voix",50,,
+RF024,historique,P2,1,{date} : paiement de facture de {amount}.,"complet,ussd,sms,voix",50,,
+RF025,historique,P1,0,Vous n'avez aucune opération sur cette période.,"complet,ussd,sms,voix",70,,
+RF026,historique,P1,1,"Oui, l'argent de {name} est arrivé : {amount}, le {date}.","complet,ussd,sms,voix",80,,
+RF027,historique,P2,0,"Pour voir la suite, tapez 9.","ussd,voix",40,,
+RF030,transfert,P1,1,Combien voulez-vous envoyer ?,"complet,ussd,sms,voix",50,,
+RF031,transfert,P1,1,À qui voulez-vous envoyer l'argent ?,"complet,ussd,sms,voix",50,,
+RF032,transfert,P1,1,"Vous allez envoyer {amount} à {name}, au {phone}. Frais : {fee}. Total retiré de votre compte : {amount_2}. Confirmez-vous ?","complet,ussd,sms,voix",150,,Phrase la plus importante de la démonstration. Le sens de « retiré » doit être sans ambiguïté.
+RF033,transfert,P1,1,"Pour confirmer, dites oui ou tapez 1. Pour annuler, dites non ou tapez 2.","complet,ussd,voix",90,,
+RF034,transfert,P1,1,C'est fait. {name} a reçu {amount}. Référence : {ref}.,"complet,ussd,sms,voix",90,,
+RF035,transfert,P1,1,Votre nouveau solde est de {amount}.,"complet,ussd,sms,voix",60,,
+RF036,securite,P1,1,"Pour valider, entrez votre code PIN.","complet,ussd,sms,voix",50,,
+RF040,correction,P1,1,"D'accord, je corrige : {amount} au lieu de {amount_2}.","complet,ussd,sms,voix",70,,"{amount} est le nouveau montant, {amount_2} l'ancien."
+RF041,correction,P1,1,"D'accord, je corrige : vous envoyez maintenant à {name}.","complet,ussd,sms,voix",70,,
+RF042,correction,P1,1,"D'accord, je corrige le numéro : {phone}.","complet,ussd,sms,voix",60,,
+RF043,correction,P2,0,Voici l'opération corrigée.,"complet,ussd,sms,voix",40,,
+RF050,ambigu,P1,1,Vous avez plusieurs contacts nommés {name}. Lequel voulez-vous ?,"complet,ussd,sms,voix",80,,La liste des contacts suit ce message.
+RF051,ambigu,P1,1,Vous n'avez pas dit le montant. Combien voulez-vous envoyer à {name} ?,"complet,ussd,sms,voix",90,,
+RF052,ambigu,P1,1,Vous n'avez pas dit à qui envoyer {amount}. À qui voulez-vous l'envoyer ?,"complet,ussd,sms,voix",90,,
+RF053,ambigu,P1,0,Voulez-vous envoyer de l'argent ou acheter du crédit ?,"complet,ussd,sms,voix",70,,
+RF054,ambigu,P1,1,Je n'ai pas bien compris le montant. Pouvez-vous le redire ?,"complet,ussd,sms,voix",70,,
+RF055,ambigu,P1,1,Voulez-vous dire {amount} ?,"complet,ussd,sms,voix",40,,
+RF056,ambigu,P1,0,Je n'ai pas compris votre demande. Pouvez-vous la dire autrement ?,"complet,ussd,sms,voix",80,,
+RF057,ambigu,P1,1,Ce contact n'est pas dans votre carnet. Donnez son numéro de téléphone.,"complet,ussd,sms,voix",90,,
+RF060,erreur,P1,1,"Votre solde est insuffisant. Vous avez {amount}, mais il faut {amount_2} avec les frais.","complet,ussd,sms,voix",100,,"Scénario « solde insuffisant » : expliquer, pas seulement refuser."
+RF061,erreur,P1,1,"Il vous manque {amount}. Vous pouvez envoyer moins, ou approvisionner votre compte.","complet,ussd,sms,voix",100,,
+RF062,erreur,P2,1,Le montant maximal par opération est de {amount}.,"complet,ussd,sms,voix",70,,
+RF063,erreur,P1,1,Ce numéro de téléphone n'est pas valide. Vérifiez-le.,"complet,ussd,sms,voix",70,,
+RF064,erreur,P1,1,Le service ne répond pas. Aucun argent n'a été retiré. Réessayez dans quelques minutes.,"complet,ussd,sms,voix",100,,
+RF065,erreur,P2,0,Votre session a expiré. Recommencez depuis le début.,"complet,ussd,sms,voix",70,,Fréquent en USSD.
+RF066,erreur,P1,1,Opération annulée. Aucun montant n'a été débité.,"complet,ussd,sms,voix",70,MSG014,
+RF070,frais,P1,1,"Pour envoyer {amount}, les frais sont de {fee}. Au total, {amount_2} seront retirés de votre compte.","complet,ussd,sms,voix",120,,
+RF071,frais,P1,1,Les envois vers un compte de la même banque sont gratuits.,"complet,ussd,sms,voix",80,,
+RF072,frais,P2,1,"Les frais sont de {percent} du montant, au moins {amount} et au plus {amount_2}.","complet,ussd,sms,voix",100,,
+RF073,frais,P1,1,Les frais sont l'argent que la banque prend pour faire l'opération. Ils s'ajoutent au montant envoyé.,"complet,voix,sms",0,,"Explication, à dire simplement."
+RF080,credit,P1,0,Pour quel numéro voulez-vous acheter du crédit ?,"complet,ussd,sms,voix",60,,
+RF081,credit,P1,1,Vous allez acheter {amount} de crédit pour le {phone}. Confirmez-vous ?,"complet,ussd,sms,voix",90,,
+RF082,credit,P1,1,Le crédit de {amount} a été envoyé au {phone}.,"complet,ussd,sms,voix",70,,
+RF090,facture,P1,0,Quelle facture voulez-vous payer ?,"complet,ussd,sms,voix",50,,"La liste suit : électricité, eau, autre."
+RF091,facture,P1,0,Entrez le numéro de votre facture.,"complet,ussd,sms,voix",50,,
+RF092,facture,P1,1,Facture {ref} : {amount} à payer. Voulez-vous la payer ?,"complet,ussd,sms,voix",80,,
+RF093,facture,P1,1,Votre facture de {amount} a été payée. Référence : {ref}.,"complet,ussd,sms,voix",80,MSG006,
+RF094,facture,P2,0,Aucune facture ne correspond à ce numéro.,"complet,ussd,sms,voix",60,,
+RF100,langue,P1,0,"D'accord, nous continuons en {langue}.","complet,ussd,sms,voix",50,,
+RF101,langue,P1,0,Vous pouvez changer de langue à tout moment : dites « langue » ou tapez 8.,"complet,ussd,voix",90,,
+RF102,langue,P1,0,Choisissez votre langue.,"complet,ussd,sms,voix",30,,"La liste suit : français, {langue}."
+RF110,aide,P1,0,"Vous pouvez consulter votre solde, envoyer de l'argent, voir vos opérations, acheter du crédit ou payer une facture.","complet,ussd,sms,voix",140,,
+RF111,aide,P2,0,Je répète.,"complet,voix",0,,
+RF112,terminer,P1,0,Merci. À bientôt.,"complet,ussd,sms,voix",30,,
+RF113,attente,P2,0,"Un instant, je vérifie.","complet,voix",0,,Pendant que le service répond.
+RF114,securite,P1,1,"Ne donnez jamais votre code PIN à personne, même à un agent de la banque.","complet,ussd,sms,voix",90,,

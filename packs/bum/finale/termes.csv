@@ -1,0 +1,23 @@
+ref,terme,priorite,explication_fr,exemple
+E01,solde,P1,L'argent qui est sur votre compte en ce moment.,Vous aviez 30 000 F et vous avez envoyé 10 000 F : votre solde est de 20 000 F.
+E02,frais,P1,L'argent que la banque prend pour faire une opération pour vous. Il s'ajoute à ce que vous envoyez.,"Pour envoyer 10 000 F avec 200 F de frais, 10 200 F sortent de votre compte."
+E03,montant,P1,"La somme d'argent de l'opération, celle que vous choisissez.",Vous envoyez 5 000 F : le montant est 5 000 F.
+E04,total débité,P1,Tout ce qui sort de votre compte : le montant plus les frais.,5 000 F envoyés et 100 F de frais : 5 100 F débités.
+E05,bénéficiaire,P1,La personne qui reçoit l'argent.,Vous envoyez de l'argent à votre mère : votre mère est la bénéficiaire.
+E06,transfert,P1,Envoyer de l'argent de votre compte vers celui d'une autre personne.,Envoyer 2 000 F à un ami est un transfert.
+E07,historique,P1,"La liste de toutes les opérations faites sur votre compte, avec leur date.",On y voit l'argent reçu hier et l'argent envoyé aujourd'hui.
+E08,code PIN / code secret,P1,Le code à quatre chiffres que vous seul connaissez. Personne ne doit jamais vous le demander.,Un agent qui demande votre code PIN est un voleur.
+E09,confirmer,P1,"Dire « oui, j'accepte ». Après, l'argent part et on ne peut plus revenir en arrière.",Vérifiez le nom avant de confirmer.
+E10,annuler,P1,Tout arrêter avant la fin. Aucun argent ne part.,Vous vous êtes trompé ? Annulez.
+E11,solde insuffisant,P1,"Il n'y a pas assez d'argent sur le compte pour faire l'opération, frais compris.",Vous avez 4 000 F et vous voulez envoyer 5 000 F : le solde est insuffisant.
+E12,référence,P2,Le code unique d'une opération. Il sert de preuve en cas de problème.,Gardez la référence pour la donner au service client.
+E13,crédit de téléphone,P2,De l'argent mis sur un téléphone pour appeler ou aller sur Internet.,Acheter 500 F de crédit pour votre fils.
+E14,facture,P2,"Ce que vous devez payer pour un service, comme l'électricité ou l'eau.",La facture d'électricité du mois.
+E15,plafond,P2,La somme la plus grande que l'on peut envoyer en une fois ou en un jour.,"Si le plafond est de 500 000 F, on ne peut pas envoyer 600 000 F d'un coup."
+E16,retrait,P2,"Sortir de l'argent liquide de son compte, au guichet ou chez un agent.",Retirer 20 000 F au guichet automatique.
+E17,dépôt,P2,Mettre de l'argent sur son compte.,Déposer 10 000 F chez un agent.
+E18,opération / transaction,P2,"Tout ce que l'on fait avec l'argent du compte : envoyer, recevoir, payer, retirer.",Payer une facture est une opération.
+E19,compte,P2,"L'endroit, à la banque ou sur le téléphone, où votre argent est gardé.",Votre compte porte un numéro.
+E20,arnaque,P1,"Une ruse pour vous voler de l'argent, souvent en promettant un gain.","« Vous avez gagné 1 000 000 F, envoyez 5 000 F » : c'est une arnaque."
+E21,gratuit,P2,Sans frais : rien à payer en plus.,Un envoi gratuit de 5 000 F retire exactement 5 000 F.
+E22,reçu,P2,Le papier ou le message qui prouve que l'opération est faite.,Le guichet propose un reçu après le retrait.
