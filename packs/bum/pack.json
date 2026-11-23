@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "date": "2026-11-23",
-  "empreinte": "sha256-3cb1bc19ee4bfb3990d482acbdf6c6deb71758cb59e7c44f5720f66af46d98b9",
+  "empreinte": "sha256-2ba9297e5f531b40c6cbdb52a2d4f0209814663fa78284b332bea47f78778eff",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -5792,11 +5792,11 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "Afep ya kouran",
+      "cible": "Faktur ya kouran",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Facture alignée sur Faktur (T80). Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "MOM016",
@@ -5804,11 +5804,11 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "Afep ya mendip",
+      "cible": "Faktur ya mendip",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Facture alignée sur Faktur (T80). Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "MOM017",
@@ -7478,10 +7478,10 @@
       "en": [
         "Electricity bill"
       ],
-      "cible": "Nten kouran",
+      "cible": "Faktur ya kouran",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,

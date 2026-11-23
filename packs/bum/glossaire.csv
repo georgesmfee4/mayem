@@ -512,8 +512,8 @@ MOM008,transfert vers un autre réseau,,"D'Orange vers MTN, par exemple.",Oui,Nl
 MOM012,code marchand,,Le numéro qui identifie le commerçant.,Oui,Nombo mbô makite,,Georges,Sylvie,
 MOM013,scanner le code QR,,,Non,E scanner code ya QR,,Georges,Sylvie,
 MOM014,payer une facture,,,Oui,Eya'an faktur,,Georges,Lesly,Traduction validée par l'équipe le 23/11/2026.
-MOM015,facture d'électricité,,,Non,Afep ya kouran,,Georges,Sylvie,
-MOM016,facture d'eau,,,Non,Afep ya mendip,,Georges,Sylvie,
+MOM015,facture d'électricité,,,Non,Faktur ya kouran,,Georges,Lesly,Facture alignée sur Faktur (T80). Traduction validée par l'équipe le 23/11/2026.
+MOM016,facture d'eau,,,Non,Faktur ya mendip,,Georges,Lesly,Facture alignée sur Faktur (T80). Traduction validée par l'équipe le 23/11/2026.
 MOM017,abonnement télé,,,Non,Abonnement ya tele,,Georges,Sylvie,
 MOM018,frais de scolarité,,,Non,Moné ya sikolo,,Georges,Sylvie,
 MOM019,acheter du crédit,,Crédit de communication.,Non,E kùs kredi,,Georges,Sylvie,
