@@ -49,12 +49,16 @@
 </div>
 <script>
 const canal = new URLSearchParams(location.search).get('canal') || 'mobile';
-const etat = { langue: 'fr', vue: 'solde', session: null, chat: [] };
+// Le client connecté à l'application (en-tête que la banque envoie déjà) ; aucune langue imposée par défaut :
+// celle que le client a choisie sur un autre canal s'applique
+const CLIENT = '690000001';
+const etat = { langue: '', vue: 'solde', session: null, chat: [] };
 const $ = (id) => document.getElementById(id);
 const el = (balise, attributs = {}, ...enfants) => { const e = Object.assign(document.createElement(balise), attributs); e.append(...enfants); return e; };
 const api = async (chemin, corps) => {
   const reponse = await fetch(`/v1/relais/api/${chemin}`, {
-    method: corps ? 'POST' : 'GET', headers: { 'content-type': 'application/json', 'x-mayem-langue': etat.langue, 'x-mayem-canal': canal },
+    method: corps ? 'POST' : 'GET',
+    headers: { 'content-type': 'application/json', 'x-mayem-canal': canal, 'x-client-telephone': CLIENT, ...(etat.langue ? { 'x-mayem-langue': etat.langue } : {}) },
     body: corps ? JSON.stringify(corps) : undefined,
   });
   return { ok: reponse.ok, corps: await reponse.json() };
@@ -104,7 +108,7 @@ const VUES = {
       const texte = champ.value.trim();
       if (!texte) return;
       etat.chat.push({ moi: true, texte });
-      const reponse = await (await fetch('/v1/converser', { method: 'POST', body: JSON.stringify({ texte, canal, session: etat.session, langue: etat.langue }) })).json();
+      const reponse = await (await fetch('/v1/converser', { method: 'POST', body: JSON.stringify({ texte, canal, session: etat.session, telephone: CLIENT, ...(etat.langue ? { langue: etat.langue } : {}) }) })).json();
       etat.session = reponse.session;
       etat.chat.push({ moi: false, texte: reponse.reponse });
       montrer();

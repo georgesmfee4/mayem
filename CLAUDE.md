@@ -83,6 +83,12 @@ script intégré. Le noyau conversationnel a les siennes, aussi strictes (sectio
   traduit plus long que 182 signes reste tel que le service l'a écrit. Les clés protégées du profil ne sont jamais traduites.
 - Elle ne journalise jamais le corps d'une requête. D'un appel d'API, elle ne lit que le montant et le numéro, et
   seulement pour les appels déclarés au profil. La saisie qui suit un écran de code secret n'est ni comprise ni journalisée.
+- Langue sur l'USSD : au premier appel d'un numéro, un écran de choix ; ensuite la langue est retrouvée. Sous chaque
+  menu, une ligne « Langue » écrite dans la langue en cours, qui ne nomme aucune langue ; seul l'écran de choix montre
+  les langues prises en charge, chacune sous son propre nom. Après le choix, on reprend l'écran quitté ; la touche
+  de cette ligne n'est jamais envoyée au service, et la ligne n'apparaît pas si le menu utilise déjà cette touche.
+- Seule la langue choisie est gardée (`service/preferences.ts`), rattachée à l'empreinte du numéro de téléphone,
+  jamais au numéro en clair. Elle vaut sur tous les canaux : USSD, application (en-tête client du profil), assistant.
 - Les services « existants » d'essai (`fixtures/services/`) n'ont que des données fictives ; ils servent aussi de
   démonstration de secours sans le bac à sable.
 
