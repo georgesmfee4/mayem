@@ -26,11 +26,11 @@ T21,ne… pas,do not / not,Négation simple,Oui,Teké,Ne pas confondre avec la n
 T22,avant de…,before …,"Faire une chose en premier, puis l’autre",Oui,Ôsusua na,Éviter 'Ôsu' seul qui indique simplement la direction devant.,Georges,Alexandre et Ronald,
 T23,récapitulatif,summary,Résumé de l'opération avant de confirmer,Non,Mamesse,Moins précis pour un condensé de données financières.,Georges,Alexandre et Ronald,
 T24,reçu / effectué / succès,receipt / completed / success,L'opération est terminée et a réussi,Oui,,"Pas de traduction isolée : le sens de reçu, effectué ou succès se construit dans chaque message, selon le contexte.",Georges,Lesly,
-T25,opération,operation / transaction,"Une action sur le compte (transfert, paiement…)",Non,Ébômbo,Ansas / Asas (à éviter absolument car cela désigne une opération chirurgicale à l'hôpital).,Georges,Alexandre et Ronald,
+T25,opération,operation / transaction,"Une action sur le compte (transfert, paiement…)",Non,Opération,Ansas / Asas (à éviter absolument car cela désigne une opération chirurgicale à l'hôpital).,Georges,Lesly,Remplace « Ébômbo ». Traduction validée par l'équipe le 23/11/2026.
 T26,motif,reason,Pourquoi on envoie l'argent,Non,Amvôm,Nlem (trop poétique ou imagé pour un champ de formulaire rigoureux).,Georges,Alexandre et Ronald,
 T27,message important,important message,Une information que le client doit lire,Oui,Fôé éne mfi,foé e ne nfi (moins formel pour une alerte d'application bancaire).,Georges,Lesly,
 T28,banque / banque en ligne,bank / online banking,"La banque, et son service sur internet",Non,Nda moné,Báñet / Báñ (emprunts familiers de l'oral à éviter dans un glossaire écrit normé).,Georges,Alexandre et Ronald,
-T29,paiement / facture / salaire,payment / bill / salary,Lignes de l'historique du compte,Non,Éya’an,Meso'o me ésaé (trop long pour un libellé d'historique court).,Georges,Alexandre et Ronald,
+T29,paiement / salaire,payment / salary,Lignes de l'historique du compte,Non,Éya’an,Meso'o me ésaé (trop long pour un libellé d'historique court).,Georges,Alexandre et Ronald,« Facture » se traduit désormais Faktur (T80) ; éya'an garde le sens de paiement et de salaire.
 T30,Mobile Money,Mobile Money,Garder « Mobile Money » si c’est le mot que tout le monde utilise,Non,Mobile Money,Ne pas traduire les marques ni les usages locaux officiels.,Georges,Alexandre et Ronald,
 ,,,,,,,,Alexandre et Ronald,
 ,Priorité 1 — avant mardi,,,,,,,,
@@ -176,12 +176,14 @@ T71,instantané / immédiat,instant,,Non,ana-ana (immédiatement / aussitôt) ou
 T72,automatiquement,automatically,,Non,étam,Éviter de forcer un adverbe unique pour « automatiquement ». Décrire l'action effectuée par le système sans intervention de l'utilisateur.,Georges,Alexandre et Ronald,
 T73,données personnelles,personal data,,Oui,Nten bafili ya môt,Éviter de traduire littéralement par « choses personnelles » : il s'agit de données qui permettent d'identifier ou de décrire une personne.,Georges,Alexandre et Ronald,
 T74,pièce d'identité,ID document,,Non,Nten éyé’élé ya môt,Éviter de réduire le terme à « nom » ou « numéro » : il désigne un document officiel.,Georges,Alexandre et Ronald,
-T75,crédit téléphonique / recharge,airtime / top-up,,Non,kredi,Éviter de confondre le crédit téléphonique avec l'argent disponible sur le compte Mobile Money.,Georges,Lesly,
+T75,crédit téléphonique / recharge,airtime / top-up,,Non,Kredi,Éviter de confondre le crédit téléphonique avec l'argent disponible sur le compte Mobile Money.,Georges,Lesly,Traduction validée par l'équipe le 23/11/2026.
 T76,épargne / épargner,savings / save,,Non,E na'an,Éviter « nyii » pour l'épargne financière : le verbe est attesté au sens de sauver / préserver une personne ou une chose.,Georges,Lesly,
 T77,prêt / emprunter,loan / borrow,,Oui,"ékôla (prêt, somme prêtée) ; kôlé (prêter / emprunter)",Éviter d'utiliser le verbe sans préciser le point de vue : la même forme peut couvrir prêter et emprunter selon les participants.,Georges,Alexandre et Ronald,
 T78,intérêt (d'un prêt),interest,,Oui,Meso’o me moné,"Éviter de traduire l'intérêt d'un prêt par « Minkuk » (frais) sans validation : les intérêts sont le coût du crédit, pas nécessairement des frais de transaction.",Georges,Alexandre et Ronald,
 T79,dette,debt,,Oui,Évôl,"Éviter d'utiliser « ékôla » comme synonyme automatique de dette : un prêt est l'argent prêté, une dette est l'obligation de le rembourser.",Georges,Alexandre et Ronald,
-T80,facture (à payer),bill,Si différent de T29.,Non,nten éya'an (facture / montant à payer ; cohérent avec T29),Éviter de créer un doublon si la facture de cette ligne est le même type d'élément d'historique que T29.,Georges,Alexandre et Ronald,
+T80,facture,bill,"Le document qui indique la somme à payer pour un service (électricité, eau…).",Non,Faktur,Ne plus employer « nten éya'an » ni « éya'an » seul pour une facture : éya'an désigne le paiement (T29).,Georges,Lesly,Traduction validée par l'équipe le 23/11/2026.
+T84,reçu (preuve de paiement),receipt,Le papier ou le message qui prouve qu'une opération a été faite. Ne pas confondre avec « reçu » au sens d'argent reçu (T24).,Non,Resu,,Georges,Lesly,Traduction validée par l'équipe le 23/11/2026.
+T85,solde insuffisant,insufficient balance,"Il n'y a pas assez d'argent sur le compte pour faire l'opération, frais compris.",Oui,Mebal teké yiane,Ne plus employer « Mebal teké njalan » ni « Mebal na yian ki ».,Georges,Lesly,Traduction validée par l'équipe le 23/11/2026.
 ,,,,,,,Georges,Alexandre et Ronald,
 ,G · Jours et moments,,Pour les messages du type « à partir de lundi ». Les dates affichées en chiffres ne sont jamais traduites.,,,,,,
 TP01,lundi,Monday,,Non,Môs ôsu,"Éviter d'inventer un nom bulu pour le lundi. Garder « lundi » comme emprunt français si c'est l'usage local Bene, puis faire confirmer à l'oral.",Georges,Alexandre et Ronald,
@@ -214,7 +216,7 @@ VB05,envoyer : passif,,« L'argent a été envoyé. »,Oui,Moné ô lômbanéya.
 VB06,recevoir : passé,,« Vous avez reçu 10 000 FCFA. »,Oui,Wo ya'aya 10 000 FCFA.,"Excluons le verbe ""nông"" (prendre) qui s'applique à une extraction volontaire et non à l'accueil passif d'un dépôt entrant.",Georges,Alexandre et Ronald,
 VB07,recevoir : futur,,« Le bénéficiaire recevra l'argent. »,Oui,Nyô a bi a ke ya'a moné.,"Nous évitons d'oublier le sujet répété, la syntaxe Bene exige de structurer la proposition de manière complète pour le futur.",Georges,Alexandre et Ronald,
 VB08,recevoir : passé (3e personne),,« Le bénéficiaire a reçu l'argent. »,Oui,Nyô a bi ô ya'aya moné.,"Évitons la confusion de classe nominale, le connecteur de temps doit être accordé avec le profil de l'utilisateur.",Georges,Alexandre et Ronald,
-VB09,payer : ordre,,« Payez votre facture. »,Oui,Ya'a nten éya'an wôé.,"Nous proscrivons le mot seul ""facture"", l'expression technique complète ""nten éya'an"" (papier du paiement) est obligatoire.",Georges,Alexandre et Ronald,
+VB09,payer : ordre,,« Payez votre facture. »,Oui,Ya'a faktur wôé.,Nous employons « faktur » pour la facture ; « nten éya'an » n'est plus utilisé.,Georges,Lesly,Traduction validée par l'équipe le 23/11/2026.
 VB10,payer : passé,,« Vous avez payé 7 500 FCFA. »,Oui,Wo ya'aya 7 500 FCFA.,"Évitons d'employer ""bô éya'an"", le verbe conjugué à l'accompli ""wo ya'aya"" est plus direct pour un reçu de paiement.",Georges,Alexandre et Ronald,
 VB11,confirmer : ordre,,« Confirmez le transfert. »,Oui,Ntiñ nlomane moné.,"Nous proscrivons ""kañesse"" (approuver oralement) qui manque de la force technique et irréversible du scellement marqué par ""ntiñ"".",Georges,Alexandre et Ronald,
 VB12,confirmer : défense,,« Ne confirmez pas si le nom est faux. »,Oui,Te ntiñ nge jôé é ne te mbamba.,"Nous écartons toute négation complexe, le mot d'ordre de sécurité doit s'ouvrir par ""Te..."" suivi immédiatement de l'action.",Georges,Alexandre et Ronald,
@@ -249,8 +251,8 @@ NM03,le montant : singulier,,le montant,Non,Abime moné,"Nous proscrivons l'usag
 NM04,2 montants : pluriel avec un nombre,,2 montants,Non,Abime moné bëbá,"Nous constatons qu'avec un chiffre, le mot ""abime"" conserve sa racine singulière et que c'est le numéral qui prend la marque d'accord de classe ""bë-"".",Georges,Alexandre et Ronald,
 NM05,le bénéficiaire : singulier,,le bénéficiaire,Non,Nyô a bi,"Nous écartons la formulation longue ""môt a nyong"" dans les interfaces étroites, la forme courte ""Nyô a bi"" est beaucoup plus fluide.",Georges,Alexandre et Ronald,
 NM06,les bénéficiaires : pluriel,,les bénéficiaires,Non,Bô ba bi,"Évitons l'erreur d'accord : le pronom relatif singulier ""nyô"" se transforme impérativement au pluriel en ""bô"" pour désigner les personnes qui reçoivent.",Georges,Alexandre et Ronald,
-NM07,l'opération : singulier,,l'opération,Non,Ébômbo,"Nous interdisons absolument le mot ""asas"" issu du domaine médical hospitalier (chirurgie), une transaction financière sur l'écran se dit ""ébômbo"".",Georges,Alexandre et Ronald,
-NM08,les opérations : pluriel,,les opérations,Non,Mebômbo,"Évitons d'oublier la mutation du préfixe de classe nominale, le singulier ""é-"" devient ""me-"" au pluriel pour former correctement ""mebômbo"".",Georges,Alexandre et Ronald,
+NM07,l'opération : singulier,,l'opération,Non,Opération,Nous interdisons absolument le mot « asas » issu du domaine médical hospitalier (chirurgie) ; une transaction financière sur l'écran se dit « opération ».,Georges,Lesly,Remplace « Ébômbo ». Traduction validée par l'équipe le 23/11/2026.
+NM08,les opérations : pluriel,,les opérations,Non,Mebômbo,"Évitons d'oublier la mutation du préfixe de classe nominale, le singulier ""é-"" devient ""me-"" au pluriel pour former correctement ""mebômbo"".",Georges,Alexandre et Ronald,"À revoir : le singulier est désormais « Opération » (T25, NM07) ; la forme du pluriel reste à confirmer."
 NM09,le numéro : singulier,,le numéro,Non,Nombor nsinga,"Nous rejetons l'anglicisme brut ""nombor"" seul, l'association avec ""nsinga"" (le fil/le téléphone) est requise pour la clarté de l'utilisateur.",Georges,Alexandre et Ronald,
 NM10,les numéros : pluriel,,les numéros,Non,Menombor me nsinga,"Nous devons veiller à accorder le connecteur d'appartenance ""me"" avec le nouveau préfixe pluriel ""me-"", sous peine de briser la syntaxe naturelle.",Georges,Alexandre et Ronald,
 NM11,le message : singulier,,le message,Non,Foé,"Nous éliminons l'emprunt direct ""message"", le mot authentique ""foé"" exprime parfaitement l'information textuelle reçue par le client.",Georges,Alexandre et Ronald,
@@ -509,7 +511,7 @@ MOM007,transfert international,,Vers un autre pays.,Oui,Nlomane ya meyôn messì
 MOM008,transfert vers un autre réseau,,"D'Orange vers MTN, par exemple.",Oui,Nlomane moné nsinga ofe,,Georges,Sylvie,
 MOM012,code marchand,,Le numéro qui identifie le commerçant.,Oui,Nombo mbô makite,,Georges,Sylvie,
 MOM013,scanner le code QR,,,Non,E scanner code ya QR,,Georges,Sylvie,
-MOM014,payer une facture,,,Oui,Eya'an facture,,Georges,Sylvie,
+MOM014,payer une facture,,,Oui,Eya'an faktur,,Georges,Lesly,Traduction validée par l'équipe le 23/11/2026.
 MOM015,facture d'électricité,,,Non,Afep ya kouran,,Georges,Sylvie,
 MOM016,facture d'eau,,,Non,Afep ya mendip,,Georges,Sylvie,
 MOM017,abonnement télé,,,Non,Abonnement ya tele,,Georges,Sylvie,

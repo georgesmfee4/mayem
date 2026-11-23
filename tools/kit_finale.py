@@ -7,7 +7,7 @@
 Les textes français viennent de packs/<langue>/finale/*.csv. Une phrase déjà validée du corpus
 (colonne reprise, ou même français exactement) arrive pré-remplie : on ne la refait pas.
 """
-import csv, json, pathlib, sys
+import csv, json, pathlib, re, sys
 try:
     from openpyxl import Workbook
 except ImportError:
@@ -57,18 +57,40 @@ CORPUS = {r['id']: r for r in lire_pack('corpus.csv') if r.get('valide') == '1'}
 PAR_FRANCAIS = {r['fr'].strip(): r for r in CORPUS.values()}
 
 
+SANS_PARENTHESES = re.compile(r'\s*\([^)]*\)')
+
+
+def avec_gloses(traduction, formes, anglais, i):
+    """Chaque explication entre parenthèses devient « (français / anglais) » : on part de deux langues sources.
+    Plusieurs parenthèses suivent l'ordre des formes (« prêt / emprunter ») ; une seule désigne la forme cherchée."""
+    nombre = traduction.count('(')
+    rang = iter(range(nombre))
+
+    def gloser(_):
+        j = next(rang) if nombre > 1 else i
+        francais = SANS_PARENTHESES.sub('', formes[min(j, len(formes) - 1)]).strip()
+        english = anglais[j] if j < len(anglais) else (anglais[0] if anglais else '')
+        return f'({francais} / {english})' if english else f'({francais})'
+    return re.sub(r'\([^)]*\)', gloser, traduction)
+
+
 def glossaire():
     lignes = lire_pack('glossaire.csv')
     if not lignes:
         return {}
-    # Le terme est toujours dans la deuxième colonne, quel que soit le nom que les locuteurs lui ont donné.
-    fr = list(lignes[0])[1]
+    # Terme et anglais sont toujours dans les deuxième et troisième colonnes, quel que soit leur nom.
+    fr, en = list(lignes[0])[1:3]
     cible = next(k for k in lignes[0] if 'TRADUCTION' in k.upper())
     termes = {}
     for r in lignes:
-        for morceau in r[fr].split('/'):
-            if r[cible].strip():
-                termes.setdefault(morceau.strip().lower(), r[cible].strip())
+        traduction = r[cible].strip()
+        # Un affixe (« -fe ») ou « aucun équivalent » n'est pas une traduction à proposer comme libellé
+        if not traduction or traduction.startswith('-') or traduction.lower().startswith('aucun'):
+            continue
+        formes = [f.strip() for f in r[fr].split('/')]
+        anglais = [a.strip() for a in r[en].split('/') if a.strip()]
+        for i, forme in enumerate(formes):
+            termes.setdefault(SANS_PARENTHESES.sub('', forme).strip().lower(), avec_gloses(traduction, formes, anglais, i))
     return termes
 
 

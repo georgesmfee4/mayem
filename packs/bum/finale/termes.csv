@@ -11,7 +11,7 @@ E09,confirmer,P1,"Dire « oui, j'accepte ». Après, l'argent part et on ne peut
 E10,annuler,P1,Tout arrêter avant la fin. Aucun argent ne part.,Vous vous êtes trompé ? Annulez.
 E11,solde insuffisant,P1,"Il n'y a pas assez d'argent sur le compte pour faire l'opération, frais compris.",Vous avez 4 000 F et vous voulez envoyer 5 000 F : le solde est insuffisant.
 E12,référence,P2,Le code unique d'une opération. Il sert de preuve en cas de problème.,Gardez la référence pour la donner au service client.
-E13,crédit de téléphone,P2,De l'argent mis sur un téléphone pour appeler ou aller sur Internet.,Acheter 500 F de crédit pour votre fils.
+E13,crédit téléphonique / crédit de téléphone,P2,De l'argent mis sur un téléphone pour appeler ou aller sur Internet.,Acheter 500 F de crédit pour votre fils.
 E14,facture,P2,"Ce que vous devez payer pour un service, comme l'électricité ou l'eau.",La facture d'électricité du mois.
 E15,plafond,P2,La somme la plus grande que l'on peut envoyer en une fois ou en un jour.,"Si le plafond est de 500 000 F, on ne peut pas envoyer 600 000 F d'un coup."
 E16,retrait,P2,"Sortir de l'argent liquide de son compte, au guichet ou chez un agent.",Retirer 20 000 F au guichet automatique.
