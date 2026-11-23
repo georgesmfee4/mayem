@@ -14,7 +14,9 @@ import type { Pack } from '../core/types.ts';
 import { nouvelleSession, traiter, type Contexte, type Session } from './conversation.ts';
 import type { LigneJournal } from './journal.ts';
 import { traduireJson, traduireTexte, type Bilan } from './traduction.ts';
-import { converserUssd, ecrireUssd, lireUssd, relayer, type ProfilUssd, type Relais } from './ussd.ts';
+import type { Langue } from './choix-langue.ts';
+import { preferencesEnMemoire, type Preferences } from './preferences.ts';
+import { converserUssd, ecrireUssd, lireUssd, relayer, type Autonome, type ProfilUssd, type Relais } from './ussd.ts';
 
 export interface Profil {
   nom: string;
@@ -23,6 +25,8 @@ export interface Profil {
   api?: {
     base: string;
     proteges?: string[];
+    // En-tête de la requête qui porte le numéro du client : sa langue retenue s'applique aussi à l'application
+    client?: string;
     // Appels de l'API qui portent une opération : seuls le montant et le numéro en sont lus, pour son empreinte
     operations?: { chemin: string; intention: Operation['intention']; statut: 'en_attente_confirmation' | 'executee' }[];
   };
@@ -35,6 +39,7 @@ export interface Options {
   profil: Profil;
   appeler?: typeof fetch;
   pages?: Record<string, string>;
+  preferences?: Preferences;
 }
 
 export interface LigneDatee extends LigneJournal { numero: number; heure: string }
@@ -62,11 +67,15 @@ function garder<K, V>(table: Map<K, V>, cle: K, valeur: V) {
   if (table.size > SESSIONS_GARDEES) table.delete(table.keys().next().value as K);
 }
 
-export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {} }: Options) {
+export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}, preferences = preferencesEnMemoire() }: Options) {
   const journal: LigneDatee[] = [];
   let numero = 0;
   const sessions = new Map<string, Session>();
-  const relais: Relais = { pack, ctx, profil: profil.ussd || {}, appeler, etats: new Map(), langueParDefaut: profil.langue || 'fr' };
+  // Chaque langue s'annonce sous son propre nom, qui ne se traduit pas
+  const langues: Langue[] = [{ code: 'fr', nom: 'Français' }, { code: ctx.nationale.code, nom: ctx.nationale.nom }];
+  const langueParDefaut = profil.langue || 'fr';
+  const relais: Relais = { pack, ctx, profil: profil.ussd || {}, appeler, etats: new Map(), langueParDefaut, langues, preferences };
+  const autonome: Autonome = { ctx, profil: profil.ussd || {}, sessions: new Map(), marques: new Map(), langueParDefaut, langues, preferences };
   const langueDe = (demandee: string | null) => (demandee === 'fr' || demandee === pack.langue ? demandee : profil.langue || 'fr');
 
   function noter(ligne: LigneJournal) {
@@ -80,9 +89,14 @@ export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}
     const canal = typeof corps.canal === 'string' ? corps.canal.slice(0, 20) : 'web';
     const id = typeof corps.session === 'string' && corps.session ? corps.session.slice(0, 80) : crypto.randomUUID();
     const cle = `${canal}:${id}`;
-    const session = sessions.get(cle) || nouvelleSession(id, canal, langueDe(corps.langue ?? null));
+    // La langue retenue pour ce client sur un autre canal vaut ici aussi, sauf demande explicite
+    const telephone = typeof corps.telephone === 'string' ? corps.telephone : '';
+    const retenue = telephone ? await preferences.lire(telephone) : null;
+    const session = sessions.get(cle) || nouvelleSession(id, canal, corps.langue ? langueDe(corps.langue) : retenue || langueDe(null));
     garder(sessions, cle, session);
+    const avant = session.langue;
     const tour = await traiter(ctx, session, corps.texte);
+    if (telephone && session.langue !== avant) await preferences.ecrire(telephone, session.langue);
     noter(tour.journal);
     return json({ session: id, langue: session.langue, reponse: tour.texte, rendus: tour.rendus, journal: tour.journal });
   }
@@ -99,9 +113,7 @@ export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}
   async function ussd(requete: Request) {
     const entree = lireUssd(new URLSearchParams(await lireCorps(requete)));
     if (!entree.session) return new Response('END Session absente', { status: 400 });
-    const sortie = profil.ussd?.service
-      ? await relayer(relais, entree)
-      : await converserUssd(ctx, profil.ussd || {}, sessions, entree, profil.langue || 'fr');
+    const sortie = profil.ussd?.service ? await relayer(relais, entree) : await converserUssd(autonome, entree);
     noter(sortie.journal);
     return new Response(ecrireUssd(sortie), { headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' } });
   }
@@ -127,7 +139,9 @@ export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}
     const corps = avecCorps ? await lireCorps(requete) : undefined;
     const reponse = await appeler(`${profil.api.base.replace(/\/$/, '')}/${chemin}${recherche}`, { method: requete.method, headers: entetes, body: corps });
     const suivi = await operationApi(chemin, corps, reponse.ok);
-    const langue = langueDe(requete.headers.get('x-mayem-langue') || new URL(requete.url).searchParams.get('langue'));
+    const client = profil.api.client ? requete.headers.get(profil.api.client) || '' : '';
+    const demandee = requete.headers.get('x-mayem-langue') || new URL(requete.url).searchParams.get('langue');
+    const langue = langueDe(demandee || (client ? await preferences.lire(client) : null));
     const type = reponse.headers.get('content-type') || '';
     if (langue === 'fr' || !type.includes('json')) return new Response(reponse.body, { status: reponse.status, headers: { 'content-type': type } });
     const bilan: Bilan = { traduits: 0, conserves: 0 };
@@ -149,7 +163,7 @@ export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}
     const url = new URL(requete.url);
     const route = `${requete.method} ${url.pathname}`;
     if (route === 'GET /sante') {
-      return json({ service: 'Mayem', profil: profil.nom, langue: pack.langue, nom: pack.nom, pack: pack.version, ussd: profil.ussd?.service ? 'relais' : 'conversation', api: Boolean(profil.api?.base) });
+      return json({ service: 'Mayem', profil: profil.nom, langue: pack.langue, nom: pack.nom, langues, pack: pack.version, ussd: profil.ussd?.service ? 'relais' : 'conversation', api: Boolean(profil.api?.base) });
     }
     if (route === 'POST /v1/converser') return converser(requete);
     if (route === 'POST /v1/traduire') return traduireTextes(requete);
