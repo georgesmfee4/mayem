@@ -2,6 +2,9 @@
 
 Une correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.
 
+## 0.9.2 (2026-11-23)
+- Termes modifiés (1) : STA010
+
 ## 0.9.1 (2026-11-23)
 - Phrases modifiées (1) : A15
 - Termes modifiés (2) : MOM015, MOM016
