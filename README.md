@@ -114,6 +114,24 @@ Commandes :
 - `npm run conversation` : converser dans le terminal (`journal` montre la dernière ligne ; `-- --canal ussd` pour l'étiquette du canal).
 - `npm test` vérifie les scénarios, la confirmation obligatoire, la négation, l'empreinte identique entre canaux et les pannes.
 
+### Passerelle : la couche d'API branchée devant un service existant
+`npm run passerelle` lance la passerelle (`service/passerelle.ts`) et, sans autre profil, la banque d'essai
+(`fixtures/services/banque.js`) : tout tourne sur ce poste, avec un seul compte simulé pour tous les canaux.
+
+- `POST /v1/ussd` : l'adresse à donner à l'opérateur USSD. En relais, chaque écran du service est traduit ligne à ligne
+  et les chiffres passent tels quels ; une phrase (« envoie 5000 au 677 12 34 56 ») devient les touches que le service
+  attend (raccourcis du profil). Sans service à relayer (`profiles/mayem-seul.json`), le noyau répond lui-même.
+- `/v1/relais/api/<chemin>` : l'application mobile ou le site appellent leur API à travers la passerelle ; les réponses
+  JSON reviennent traduites (en-tête `x-mayem-langue`, `fr` pour l'original), valeurs et références intactes.
+- `POST /v1/converser` (assistant), `POST /v1/traduire`, `GET /v1/journal`, `GET /sante`.
+- Pages : `/tableau` (journal en direct aux colonnes du jury, même couleur pour une même empreinte),
+  `/essai/telephone` (téléphone simple qui compose *123#), `/essai/application` (application mobile, `?canal=web`).
+- Un profil (`profiles/*.json`) décrit le service : adresses de son API et de son USSD, clés protégées, raccourcis de
+  touches par intention, écran de réussite, appels d'API qui portent une opération. Code PIN d'essai : 1234.
+
+La même opération garde la même empreinte par l'USSD (phrase ou touches tapées à la main), l'application mobile et
+l'assistant : `npm test` le vérifie.
+
 Vocabulaire : `service/lexique-fr.json` pour le français (à faire relire par un francophone de l'équipe), les termes
 validés du glossaire pour la langue nationale, puis les formulations du tableur des demandes
 (`python3 tools/kit_finale.py`). Une réponse non encore validée dans la langue nationale reste en français.
