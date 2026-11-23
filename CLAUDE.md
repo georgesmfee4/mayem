@@ -76,6 +76,15 @@ script intégré. Le noyau conversationnel a les siennes, aussi strictes (sectio
   ni code PIN ni nom de traducteur.
 - Banque simulée : données fictives (`service/banque-essai.json`), aucune donnée réelle de client.
 - Les dix scénarios du jury (`tools/scenarios.js`) sont des tests : ils passent à chaque commit.
+- La passerelle (`service/passerelle.ts`, standards Request et Response) se branche devant un service existant sans le
+  modifier. Elle ne relaie que vers le service décrit par son profil (`profiles/`) : brancher un service, c'est écrire
+  un profil, pas du code.
+- Ce que le service affiche (écran USSD, réponse JSON) n'est remplacé que par une traduction validée ; un écran USSD
+  traduit plus long que 182 signes reste tel que le service l'a écrit. Les clés protégées du profil ne sont jamais traduites.
+- Elle ne journalise jamais le corps d'une requête. D'un appel d'API, elle ne lit que le montant et le numéro, et
+  seulement pour les appels déclarés au profil. La saisie qui suit un écran de code secret n'est ni comprise ni journalisée.
+- Les services « existants » d'essai (`fixtures/services/`) n'ont que des données fictives ; ils servent aussi de
+  démonstration de secours sans le bac à sable.
 
 ## Rédaction (documentation, fiches, pages publiées, messages aux locuteurs)
 - Mayem traduit vers une langue nationale camerounaise choisie. Ne jamais écrire qu'il traduit « vers le bulu » ni

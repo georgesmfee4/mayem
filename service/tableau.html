@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mayem, tableau de bord</title>
+<style>
+  /* Le journal de la passerelle en direct, aux colonnes du tableau de bord du jury. Une même opération garde la même
+     couleur d'empreinte d'un canal à l'autre : la cohérence se voit d'un coup d'œil. */
+  :root { color-scheme: light; --fond: #f5f7f8; --carte: #fff; --encre: #12262c; --doux: #56676d; --ligne: #dde3e6; --marque: #0f4c5c;
+    --ok: #1d7a3e; --ok-f: #e3f3e8; --attente: #8a5d00; --attente-f: #fbf0d4; --refus: #9a3b12; --refus-f: #fbece4; --info-f: #e8eef0; }
+  @media (prefers-color-scheme: dark) { :root { color-scheme: dark; --fond: #0b1a1f; --carte: #11262c; --encre: #e6eef0; --doux: #9fb3b9; --ligne: #22404a;
+    --marque: #7cc4d4; --ok: #6fd18f; --ok-f: #173323; --attente: #f2c14e; --attente-f: #3a3016; --refus: #f0a07a; --refus-f: #3a2219; --info-f: #1a333b; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--ligne); background: var(--carte); }
+  h1 { margin: 0; font-size: 1.3rem; color: var(--marque); }
+  .compteurs { display: flex; gap: 20px; color: var(--doux); font-variant-numeric: tabular-nums; }
+  .compteurs b { color: var(--encre); font-size: 1.15rem; }
+  .cadre { overflow-x: auto; padding: 0 12px 40px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; min-width: 1100px; }
+  th { position: sticky; top: 0; background: var(--fond); text-align: left; font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--doux); padding: 8px; border-bottom: 1px solid var(--ligne); }
+  td { padding: 8px; border-bottom: 1px solid var(--ligne); vertical-align: top; background: var(--carte); }
+  tr.nouvelle td { animation: arrivee 1.2s ease-out; }
+  @keyframes arrivee { from { background: var(--info-f); } }
+  @media (prefers-reduced-motion: reduce) { tr.nouvelle td { animation: none; } }
+  .canal { font-weight: 700; text-transform: uppercase; font-size: .75rem; letter-spacing: .05em; }
+  .reponse { white-space: pre-line; max-width: 420px; }
+  .raison, .petit { color: var(--doux); font-size: .8rem; }
+  code { font-size: .78rem; word-break: break-word; }
+  .statut { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: .75rem; font-weight: 700; background: var(--info-f); }
+  .executee { background: var(--ok-f); color: var(--ok); }
+  .en_attente_confirmation, .clarification { background: var(--attente-f); color: var(--attente); }
+  .refusee, .annulee, .erreur { background: var(--refus-f); color: var(--refus); }
+  .empreinte { display: inline-block; padding: 2px 8px; border-radius: 10px; font: 600 .75rem ui-monospace, Menlo, Consolas, monospace; color: #fff; }
+  .vide { text-align: center; color: var(--doux); padding: 40px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Mayem, journal en direct</h1>
+  <div class="compteurs">
+    <span><b id="n-tours">0</b> tours</span>
+    <span><b id="n-executees">0</b> opérations exécutées</span>
+    <span><b id="n-canaux">0</b> canaux</span>
+    <span><b id="n-communes">0</b> empreintes vues sur plusieurs canaux</span>
+  </div>
+</header>
+<div class="cadre">
+  <table>
+    <thead><tr><th>N°</th><th>Heure</th><th>Canal</th><th>Langue</th><th>Requête</th><th>Intention</th><th>Paramètres</th><th>Réponse</th><th>Statut</th><th>Validation</th><th>Temps</th><th>Empreinte</th></tr></thead>
+    <tbody id="lignes"><tr><td colspan="12" class="vide">En attente de la première demande…</td></tr></tbody>
+  </table>
+</div>
+<script>
+let dernier = 0;
+const toutes = [];
+const STATUTS = { information: 'information', clarification: 'question', en_attente_confirmation: 'à confirmer', executee: 'exécutée', refusee: 'refusée', annulee: 'annulée', erreur: 'erreur' };
+// Une couleur par empreinte : la même opération a la même couleur sur chaque canal
+const couleur = (texte) => `hsl(${[...texte].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7)} 55% 38%)`;
+
+function cellule(ligne, contenu, classe) {
+  const td = document.createElement('td');
+  if (classe) td.className = classe;
+  if (contenu instanceof Node) td.append(contenu); else td.textContent = contenu ?? '';
+  ligne.append(td);
+  return td;
+}
+
+function pastille(texte, classe, fond) {
+  const s = document.createElement('span');
+  s.className = classe; s.textContent = texte;
+  if (fond) s.style.background = fond;
+  return s;
+}
+
+function afficher(l) {
+  const tr = document.createElement('tr');
+  tr.className = 'nouvelle';
+  cellule(tr, String(l.numero));
+  cellule(tr, new Date(l.heure).toLocaleTimeString('fr-FR'), 'petit');
+  cellule(tr, l.canal, 'canal');
+  cellule(tr, l.langue);
+  cellule(tr, l.requete);
+  const intention = cellule(tr, l.intention);
+  intention.append(Object.assign(document.createElement('div'), { className: 'raison', textContent: l.raison || '' }));
+  cellule(tr, Object.assign(document.createElement('code'), { textContent: Object.keys(l.parametres || {}).length ? JSON.stringify(l.parametres) : '' }));
+  cellule(tr, l.reponse, 'reponse');
+  cellule(tr, pastille(STATUTS[l.statut] || l.statut, `statut ${l.statut}`));
+  cellule(tr, l.validation + (l.erreurs && l.erreurs.length ? ` (${l.erreurs.join(', ')})` : ''), 'petit');
+  cellule(tr, `${l.temps_ms} ms`, 'petit');
+  cellule(tr, l.empreinte ? pastille(l.empreinte, 'empreinte', couleur(l.empreinte)) : '');
+  return tr;
+}
+
+function compter() {
+  const canauxParEmpreinte = new Map();
+  for (const l of toutes) if (l.empreinte) canauxParEmpreinte.set(l.empreinte, (canauxParEmpreinte.get(l.empreinte) || new Set()).add(l.canal));
+  document.getElementById('n-tours').textContent = toutes.length;
+  document.getElementById('n-executees').textContent = toutes.filter((l) => l.statut === 'executee').length;
+  document.getElementById('n-canaux').textContent = new Set(toutes.map((l) => l.canal)).size;
+  document.getElementById('n-communes').textContent = [...canauxParEmpreinte.values()].filter((c) => c.size > 1).length;
+}
+
+async function relever() {
+  try {
+    const { lignes } = await (await fetch(`/v1/journal?depuis=${dernier}`)).json();
+    if (lignes.length) {
+      const corps = document.getElementById('lignes');
+      if (!toutes.length) corps.replaceChildren();
+      for (const l of lignes) { toutes.push(l); corps.prepend(afficher(l)); dernier = l.numero; }
+      compter();
+    }
+  } catch {}
+  setTimeout(relever, 1000);
+}
+relever();
+</script>
+</body>
+</html>
