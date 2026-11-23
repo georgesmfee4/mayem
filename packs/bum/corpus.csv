@@ -23,7 +23,7 @@ A11,P1,1. Solde,Titre,0,0,Transactions récentes,Recent transactions,Nlomane mon
 A12,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Paiement marchand,Merchant payment,Éya'an ya be nyi a kuane,Lesly / relu par Carrel,1,Paiement chez un commerçant
 A13,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Salaire reçu,Salary received,Eya'an éte kui,Lesly / relu par Carrel,1,
 A14,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Transfert reçu,Transfer received,Nlomane moné ô kui,Lesly / relu par Carrel,1,
-A15,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Facture électricité,Electricity bill,Nten kouran,Lesly / relu par Carrel,1,
+A15,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Facture électricité,Electricity bill,Faktur ya kouran,Georges / relu par Lesly,1,
 S01,P1,Toutes,"Encadré latéral, titre",0,0,Sécurité,Security,Ékamàn,Georges / relu par Lesly,1,
 S02,P1,Toutes,"Encadré latéral, conseil",1,0,Vérifiez toujours le nom et le numéro du bénéficiaire avant de confirmer un transfert.,Always verify the beneficiary name and number before confirming a transfer.,"Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Carrel / relu par John,1,Avertissement de sécurité : le sens doit rester aussi fort
 S03,P1,Toutes,Encadré latéral,0,0,Connexion sécurisée,Secure connection,Ntintan ékamàn,Georges / relu par Lesly,1,
@@ -67,7 +67,7 @@ E02,P1,Erreurs,Titre d'alerte,1,0,Alerte de sécurité,Security warning,Fôé é
 E03,P1,Erreurs,Bouton fermer (lu par les lecteurs d'écran),0,0,Fermer,Dismiss,E fet,Lesly / relu par Alexandre et Ronald,1,Fermer le message
 E04,P1,Messages,Étiquette au-dessus d'un message,1,0,Message important,Important message,Foé éne abui mfi,Lesly / relu par Carrel,1,
 E05,P1,Erreurs,Message AMOUNT_001,1,0,Le montant doit être supérieur à zéro.,The amount must be greater than zero.,Abime moné dayiane bô ôsu momo,Lesly / relu par Carrel,1,
-E06,P1,Erreurs,Message AMOUNT_002,1,0,Solde insuffisant pour effectuer ce transfert.,Insufficient balance for this transfer.,Mebal teké njalan asu nlomane moné.,Georges / relu par Lesly,1,
+E06,P1,Erreurs,Message AMOUNT_002,1,0,Solde insuffisant pour effectuer ce transfert.,Insufficient balance for this transfer.,Mebal teké yiane asu nlomane moné.,Georges / relu par Lesly,1,
 E07,P1,Erreurs,Message BENEFICIARY_001,1,0,Veuillez renseigner le nom et le numéro du bénéficiaire.,Please provide the beneficiary name and phone number.,"Nyô a ya'a, futié yôlé jôé ai nombor nsinga ya nyô a bi.",Georges / relu par Lesly,1,
 E08,P1,Erreurs,Message SECURITY_001,1,0,Alerte de sécurité : vérifiez le numéro du bénéficiaire avant de continuer.,Security warning: verify the beneficiary phone number before continuing.,Fôé éne mfi : ô tuá fômbo nombor nsinga ya nyô a bi ôsusua na w'ake ôsu.,Lesly / relu par Carrel,1,Avertissement de sécurité : le sens doit rester aussi fort
 E09,P1,Erreurs,Message SECURITY_002,1,0,Alerte de sécurité : ce bénéficiaire n'a jamais été utilisé sur ce compte.,Security warning: this beneficiary has never been used on this account.,Fôé éne mfi : nyô a bi nyi a be ki tabe mblelan môs dzing a évôvôla moné dji.,Lesly / relu par Carrel,1,Avertissement de sécurité : le sens doit rester aussi fort
@@ -92,7 +92,7 @@ X16,P2,Autres services,Avertissement,1,0,Vérifiez le nom et le numéro du bén�
 X17,P2,Autres services,Statut,0,0,Opération réussie,Transaction successful,Mam mese ma'ate bo'obane mvôé,Alexandre / relu par Carrel,1,
 X18,P2,Autres services,Statut,0,0,Opération en cours de traitement,Transaction in progress,yangué mone nté,Lesly / relu par Carrel,1,
 X19,P2,Autres services,Ligne,0,0,Référence de l'opération : {ref},Transaction reference: {ref},Mendém ya nlomane moné : {ref},Lesly / relu par Alexandre et Ronald,1,Garder {ref}
-X20,P2,Autres services,Erreur,1,0,Solde insuffisant,Insufficient balance,Mebal teké njalan,Georges / relu par Lesly,1,
+X20,P2,Autres services,Erreur,1,0,Solde insuffisant,Insufficient balance,Mebal teké yiane,Georges / relu par Lesly,1,
 X21,P2,Autres services,Erreur,1,0,Numéro invalide,Invalid number,Nombor nsinga teké mbamba,Georges / relu par Lesly,1,
 X22,P2,Autres services,Erreur,1,0,Une erreur est survenue. Veuillez réessayer.,An error occurred. Please try again.,Djom dzing éte bo'oban abé. Beta'a ve'ele,Lesly / relu par Alexandre et Ronald,1,
 X23,P2,Autres services,Erreur,1,0,Montant invalide,Invalid amount,Abime moné é ndji bô mbamba,Carrel / relu par John,1,
@@ -111,7 +111,7 @@ MSG006,P2,Messages types (SMS et notifications),Message,1,1,Votre facture de {am
 MSG007,P2,Messages types (SMS et notifications),Message,1,1,Votre code de confirmation est {code}. Il expire dans 5 minutes.,,Nten bafili ya ntiñ wôé ane {code}. A ye lôte awolo mvùs ya be minut 5.,Georges / relu par Sylvie,1,
 MSG008,P2,Messages types (SMS et notifications),Message,1,1,Code PIN incorrect. Il vous reste {count} essais.,,Nten bafili ô ndji bô mbamba. Biyoñ {count} bi li'i ya wô,Georges / relu par Sylvie,1,
 MSG010,P2,Messages types (SMS et notifications),Message,1,0,Votre compte est bloqué. Contactez le service client.,,Évôvôla jôé éne mfetán. Lo'on service client,Georges / relu par Sylvie,1,
-MSG011,P2,Messages types (SMS et notifications),Message,1,1,Solde insuffisant. Votre solde est de {amount}.,,Mebal na yian ki. Mebal moé mene : {amount},Georges / relu par Sylvie,1,
+MSG011,P2,Messages types (SMS et notifications),Message,1,1,Solde insuffisant. Votre solde est de {amount}.,,Mebal teké yiane. Mebal moé mene : {amount},Georges / relu par Lesly,1,
 MSG012,P2,Messages types (SMS et notifications),Message,1,0,Vous avez atteint votre plafond journalier.,,Ô vino ki fe lôm nge bi moné den,Georges / relu par Sylvie,1,
 MSG013,P2,Messages types (SMS et notifications),Message,1,0,Opération en attente. Composez #150# pour la confirmer.,,Nlomane Wa yangué. Bô'ô #150# asù na ô ntiñti,Georges / relu par Sylvie,1,
 MSG014,P2,Messages types (SMS et notifications),Message,1,0,Opération annulée. Aucun montant n'a été débité.,,Wate kòlo nlomane. Teké abime moné ézing ya te ke,Georges / relu par Sylvie,1,

@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.8.5",
-  "date": "2026-11-22",
-  "empreinte": "sha256-fcd44fa7b19eb6f56cb5714e5d26f07b076318e18c60f26007d5c2b1c8d8f914",
+  "version": "0.9.2",
+  "date": "2026-11-23",
+  "empreinte": "sha256-40d96b8371eeffe08bd9add5e4d815ed873356a762c2239ba4f6bdef10aee439",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -344,11 +344,11 @@
       "en": "operation / transaction",
       "sens": "Une action sur le compte (transfert, paiement…)",
       "critique": false,
-      "cible": "Ébômbo",
+      "cible": "Opération",
       "a_eviter": "Ansas / Asas (à éviter absolument car cela désigne une opération chirurgicale à l'hôpital).",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Remplace « Ébômbo ». Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "T26",
@@ -388,15 +388,15 @@
     },
     {
       "ref": "T29",
-      "terme": "paiement / facture / salaire",
-      "en": "payment / bill / salary",
+      "terme": "paiement / salaire",
+      "en": "payment / salary",
       "sens": "Lignes de l'historique du compte",
       "critique": false,
       "cible": "Éya’an",
       "a_eviter": "Meso'o me ésaé (trop long pour un libellé d'historique court).",
       "traduit_par": "Georges",
       "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "commentaire": "« Facture » se traduit désormais Faktur (T80) ; éya'an garde le sens de paiement et de salaire."
     },
     {
       "ref": "T30",
@@ -2012,11 +2012,11 @@
       "en": "airtime / top-up",
       "sens": "",
       "critique": false,
-      "cible": "kredi",
+      "cible": "Kredi",
       "a_eviter": "Éviter de confondre le crédit téléphonique avec l'argent disponible sur le compte Mobile Money.",
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "commentaire": ""
+      "commentaire": "Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "T76",
@@ -2068,15 +2068,39 @@
     },
     {
       "ref": "T80",
-      "terme": "facture (à payer)",
+      "terme": "facture",
       "en": "bill",
-      "sens": "Si différent de T29.",
+      "sens": "Le document qui indique la somme à payer pour un service (électricité, eau…).",
       "critique": false,
-      "cible": "nten éya'an (facture / montant à payer ; cohérent avec T29)",
-      "a_eviter": "Éviter de créer un doublon si la facture de cette ligne est le même type d'élément d'historique que T29.",
+      "cible": "Faktur",
+      "a_eviter": "Ne plus employer « nten éya'an » ni « éya'an » seul pour une facture : éya'an désigne le paiement (T29).",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Traduction validée par l'équipe le 23/11/2026."
+    },
+    {
+      "ref": "T84",
+      "terme": "reçu (preuve de paiement)",
+      "en": "receipt",
+      "sens": "Le papier ou le message qui prouve qu'une opération a été faite. Ne pas confondre avec « reçu » au sens d'argent reçu (T24).",
+      "critique": false,
+      "cible": "Resu",
+      "a_eviter": "",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "commentaire": "Traduction validée par l'équipe le 23/11/2026."
+    },
+    {
+      "ref": "T85",
+      "terme": "solde insuffisant",
+      "en": "insufficient balance",
+      "sens": "Il n'y a pas assez d'argent sur le compte pour faire l'opération, frais compris.",
+      "critique": true,
+      "cible": "Mebal teké yiane",
+      "a_eviter": "Ne plus employer « Mebal teké njalan » ni « Mebal na yian ki ».",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "commentaire": "Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "TP01",
@@ -2408,11 +2432,11 @@
       "en": "",
       "sens": "« Payez votre facture. »",
       "critique": true,
-      "cible": "Ya'a nten éya'an wôé.",
-      "a_eviter": "Nous proscrivons le mot seul \"facture\", l'expression technique complète \"nten éya'an\" (papier du paiement) est obligatoire.",
+      "cible": "Ya'a faktur wôé.",
+      "a_eviter": "Nous employons « faktur » pour la facture ; « nten éya'an » n'est plus utilisé.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "VB10",
@@ -2804,11 +2828,11 @@
       "en": "",
       "sens": "l'opération",
       "critique": false,
-      "cible": "Ébômbo",
-      "a_eviter": "Nous interdisons absolument le mot \"asas\" issu du domaine médical hospitalier (chirurgie), une transaction financière sur l'écran se dit \"ébômbo\".",
+      "cible": "Opération",
+      "a_eviter": "Nous interdisons absolument le mot « asas » issu du domaine médical hospitalier (chirurgie) ; une transaction financière sur l'écran se dit « opération ».",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Remplace « Ébômbo ». Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "NM08",
@@ -2820,7 +2844,7 @@
       "a_eviter": "Évitons d'oublier la mutation du préfixe de classe nominale, le singulier \"é-\" devient \"me-\" au pluriel pour former correctement \"mebômbo\".",
       "traduit_par": "Georges",
       "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "commentaire": "À revoir : le singulier est désormais « Opération » (T25, NM07) ; la forme du pluriel reste à confirmer."
     },
     {
       "ref": "NM09",
@@ -5756,11 +5780,11 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Eya'an facture",
+      "cible": "Eya'an faktur",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "MOM015",
@@ -5768,11 +5792,11 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "Afep ya kouran",
+      "cible": "Faktur ya kouran",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Facture alignée sur Faktur (T80). Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "MOM016",
@@ -5780,11 +5804,11 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "Afep ya mendip",
+      "cible": "Faktur ya mendip",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Facture alignée sur Faktur (T80). Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "MOM017",
@@ -6476,11 +6500,11 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Afep da lili n'a ô ya'aneya",
+      "cible": "Resu",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Reçu aligné sur Resu (T84). Traduction validée par l'équipe le 23/11/2026."
     },
     {
       "ref": "STA011",
@@ -7454,10 +7478,10 @@
       "en": [
         "Electricity bill"
       ],
-      "cible": "Nten kouran",
+      "cible": "Faktur ya kouran",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -8377,12 +8401,12 @@
       "en": [
         "Insufficient balance for this transfer."
       ],
-      "cible": "Mebal teké njalan asu nlomane moné.",
+      "cible": "Mebal teké yiane asu nlomane moné.",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "Carrel",
-      "retraduction": "solde insuffisant pour le transfert d'argent",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Vous n'avez pas assez d'argent pour effectuer ce transfert.",
@@ -8908,12 +8932,12 @@
       "en": [
         "Insufficient balance"
       ],
-      "cible": "Mebal teké njalan",
+      "cible": "Mebal teké yiane",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "John",
-      "retraduction": "Solde insuffisant",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Fonds insuffisants",
@@ -9242,12 +9266,12 @@
       "id": "MSG011",
       "fr": "Solde insuffisant. Votre solde est de {amount}.",
       "en": [],
-      "cible": "Mebal na yian ki. Mebal moé mene : {amount}",
+      "cible": "Mebal teké yiane. Mebal moé mene : {amount}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "retraduit_par": "Carrel",
-      "retraduction": "Même sens que le français, confirmé à l'oral",
+      "relu_par": "Lesly",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
