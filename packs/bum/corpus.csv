@@ -23,7 +23,7 @@ A11,P1,1. Solde,Titre,0,0,Transactions récentes,Recent transactions,Nlomane mon
 A12,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Paiement marchand,Merchant payment,Éya'an ya be nyi a kuane,Lesly / relu par Carrel,1,Paiement chez un commerçant
 A13,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Salaire reçu,Salary received,Eya'an éte kui,Lesly / relu par Carrel,1,
 A14,P1,1. Solde,Ligne d'historique (argent reçu),0,0,Transfert reçu,Transfer received,Nlomane moné ô kui,Lesly / relu par Carrel,1,
-A15,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Facture électricité,Electricity bill,Nten kouran,Lesly / relu par Carrel,1,
+A15,P1,1. Solde,Ligne d'historique (argent sorti),0,0,Facture électricité,Electricity bill,Faktur ya kouran,Georges / relu par Lesly,1,
 S01,P1,Toutes,"Encadré latéral, titre",0,0,Sécurité,Security,Ékamàn,Georges / relu par Lesly,1,
 S02,P1,Toutes,"Encadré latéral, conseil",1,0,Vérifiez toujours le nom et le numéro du bénéficiaire avant de confirmer un transfert.,Always verify the beneficiary name and number before confirming a transfer.,"Eyôñ ése, ô tuá fômbo jôé ai nombor nsinga ya nyô a bi, ôsusua na w'ake ôsu a nlomane moné.",Carrel / relu par John,1,Avertissement de sécurité : le sens doit rester aussi fort
 S03,P1,Toutes,Encadré latéral,0,0,Connexion sécurisée,Secure connection,Ntintan ékamàn,Georges / relu par Lesly,1,
