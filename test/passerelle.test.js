@@ -169,6 +169,28 @@ test('USSD sans service à relayer : Mayem répond lui-même, menu du profil com
   assert.match(solde, /85 000 FCFA/);
 });
 
+test('USSD sans service à relayer : chaque écran tient en 182 signes ; le récapitulatif garde ses valeurs et les deux choix', async () => {
+  const { telephone } = monter(lire('../profiles/mayem-seul.json'));
+  const parcours = [['envoie 50000 à Clarisse'], ['envoie 2000 à paul', 'Essomba', 'non, 3000', 'répète', 'bulu'], ['ma lôm 655 12 44 55 moné', '100'],
+    ['achète du crédit', '1000'], ['payer facture', '1'], ['3'], ['6'], ['frais pour 50000'], ['envoie 90000 à Pierre'], ['envoie à Pierre', 'beaucoup', 'rien', 'toto']];
+  let n = 0;
+  for (const langue of ['1', '2']) {
+    for (const saisies of parcours) {
+      const appel = telephone(`long${n}`, `+2376950000${String(n++).padStart(2, '0')}`);
+      await ouvrir(appel, langue);
+      for (const saisie of saisies) {
+        const ecran = (await appel(saisie)).replace(/^(CON|END) /, '');
+        assert.ok(ecran.length <= 182, `${saisies.join(' / ')} > ${saisie} : ${ecran.length} signes`);
+      }
+    }
+  }
+  const appel = telephone('long-recap', '+237695000099');
+  await ouvrir(appel, '1');
+  assert.equal(await appel('envoie 50000 à Clarisse'), 'CON Vous allez envoyer 50 000 FCFA à Clarisse Ndzana\nNuméro du bénéficiaire : 680 11 22 33\n'
+    + 'Frais de l\'opération : 500 FCFA\nTotal à débiter : 50 500 FCFA\n1. Confirmer\n2. Annuler');
+  assert.match(await appel('1'), /^END /, 'la touche 1 confirme');
+});
+
 test('navigation à la main, touche par touche : la même opération est reconnue, avec la même empreinte', async () => {
   const { telephone, passerelle } = monter();
   const appel = telephone('s7');

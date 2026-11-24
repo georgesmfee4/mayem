@@ -378,12 +378,13 @@ export async function converserUssd(a: Autonome, entree: EntreeUssd): Promise<So
   // Une opération abandonnée faute de réponse utile laisse la session ouverte : la personne peut redire sa demande
   const abandon = /sans suite/.test(tour.journal.validation);
   const fin = tour.journal.statut === 'executee' || tour.journal.intention === 'terminer' || (tour.journal.statut === 'annulee' && !abandon);
-  return { texte: tour.texte, fin, journal: { ...tour.journal, requete: saisie } };
+  const texte = tenir(tour.texte);
+  return { texte, fin, journal: { ...tour.journal, requete: saisie, reponse: texte } };
 }
 
 // L'écran que la personne avait sous les yeux, redit dans la langue voulue
 const ecranQuitte = async (a: Autonome, session: Session, marque: { accueil: boolean }, langue: string) =>
-  (marque.accueil || !session.derniere.length ? accueil(a, langue) : session.derniere.map((m) => a.ctx.reponses.rendre(m, langue).texte).join('\n'));
+  (marque.accueil || !session.derniere.length ? accueil(a, langue) : tenir(session.derniere.map((m) => a.ctx.reponses.rendre(m, langue, 'ussd').texte).join('\n')));
 
 // Le nom d'une langue écrit, ou « langue » seul (le noyau a montré le choix) : l'écran quitté reste celui à reprendre
 async function langueEcrite(a: Autonome, entree: EntreeUssd, session: Session, marque: { choix: Choix; accueil: boolean },
@@ -393,6 +394,6 @@ async function langueEcrite(a: Autonome, entree: EntreeUssd, session: Session, m
   if (!journal.validation.startsWith('langue changée')) { marque.choix = 'reprise'; return { texte, fin: false, journal }; }
   await a.preferences.ecrire(entree.telephone, session.langue);
   // Une opération en cours est déjà redite par le noyau, avec la même empreinte
-  if (session.attente) return { texte, fin: false, journal };
-  return { texte: `${texte}\n${await ecranQuitte(a, session, marque, session.langue)}`, fin: false, journal };
+  if (session.attente) return { texte: tenir(texte), fin: false, journal };
+  return { texte: tenir(`${texte}\n${await ecranQuitte(a, session, marque, session.langue)}`), fin: false, journal };
 }

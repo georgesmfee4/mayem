@@ -75,6 +75,12 @@ export function nouvelleSession(id: string, canal: string, langue: string): Sess
 }
 
 const r = (ref: string, valeurs?: Record<string, string>): Morceau => (valeurs ? { ref, valeurs } : { ref });
+// Pour confirmer : la phrase entière, ou sur un écran USSD les deux choix du menu, déjà validés (« 1. Confirmer »)
+const confirmer = (): Morceau => ({ ...r('RF033'), court: [{ ref: 'U12', prefixe: '1. ' }, { ref: 'U13', prefixe: '2. ' }] });
+// Un écran USSD tient en 182 signes : pas d'annonce (« je répète », « je corrige ») devant une réponse redite,
+// l'écran qui change suffit ; des listes plus courtes
+const ecranCourt = (s: Session) => s.canal === 'ussd';
+const annonces = (s: Session, morceaux: Morceau[]) => (ecranCourt(s) ? [] : morceaux);
 const info = (morceaux: Morceau[], validation = 'information donnée'): Decision => ({ morceaux, statut: 'information', validation });
 const question = (morceaux: Morceau[], validation: string): Decision => ({ morceaux, statut: 'clarification', validation });
 
@@ -193,7 +199,7 @@ async function avancerTransfert(ctx: Contexte, s: Session, b: Brouillon): Promis
   const valeurs = { amount: montant(b.montant), phone: telephone(b.telephone), fee: montant(frais), amount_2: montant(total) };
   const recap = sansNom(b) ? r('RF037', valeurs) : r('RF032', { ...valeurs, name: b.nom! });
   return {
-    morceaux: [{ ...recap, repli: lignesRecap(b, frais, total) }, r('RF033')],
+    morceaux: [{ ...recap, repli: lignesRecap(b, frais, total), court: lignesRecap(b, frais, total) }, confirmer()],
     statut: 'en_attente_confirmation', validation: 'récapitulatif présenté, confirmation demandée',
     operation: { intention: 'transfert', montant: b.montant, telephone: b.telephone }, parametres,
   };
@@ -208,7 +214,7 @@ async function avancerCredit(ctx: Contexte, s: Session, b: Brouillon): Promise<D
   if (probleme) return refuser(ctx, s, probleme, b.montant, parametres);
   s.attente = 'confirmation';
   return {
-    morceaux: [r('RF081', { amount: montant(b.montant), phone: telephone(b.telephone) }), r('RF033')],
+    morceaux: [r('RF081', { amount: montant(b.montant), phone: telephone(b.telephone) }), confirmer()],
     statut: 'en_attente_confirmation', validation: 'récapitulatif présenté, confirmation demandée',
     operation: { intention: 'credit', montant: b.montant, telephone: b.telephone }, parametres,
   };
@@ -232,7 +238,7 @@ async function avancerFacture(ctx: Contexte, s: Session, b: Brouillon): Promise<
   if (probleme) return refuser(ctx, s, probleme, facture.montant, parametres);
   s.attente = 'confirmation';
   return {
-    morceaux: [r('RF092', { ref: facture.numero, amount: montant(facture.montant) }), r('RF033')],
+    morceaux: [r('RF092', { ref: facture.numero, amount: montant(facture.montant) }), confirmer()],
     statut: 'en_attente_confirmation', validation: 'récapitulatif présenté, confirmation demandée',
     operation: { intention: 'facture', montant: facture.montant, facture: facture.numero }, parametres,
   };
@@ -263,7 +269,7 @@ async function relancer(ctx: Contexte, s: Session, texte: string): Promise<Decis
     const precision = /\d/.test(texte) ? r('RF063') : /\p{L}/u.test(texte) ? r('RF057') : r('RF031');
     return question([precision], 'bénéficiaire non compris : précision demandée');
   }
-  if (s.attente === 'confirmation') return question([r('RF033')], 'confirmation redemandée');
+  if (s.attente === 'confirmation') return question([confirmer()], 'confirmation redemandée');
   return { ...(await AVANCER[s.brouillon!.intention](ctx, s, s.brouillon!)), validation: 'réponse sans suite : choix redemandé' };
 }
 
@@ -320,7 +326,8 @@ async function depenses(ctx: Contexte, c: Comprehension): Promise<Decision> {
 
 const LIGNES: Record<string, string> = { envoi: 'RF021', recu: 'RF022', credit: 'RF023', facture: 'RF024' };
 
-async function historique(ctx: Contexte, c: Comprehension): Promise<Decision> {
+// maximum : nombre d'opérations qu'un écran peut montrer
+async function historique(ctx: Contexte, c: Comprehension, maximum: number): Promise<Decision> {
   let mouvements = await ctx.banque.historique();
   const qui = dernier(c.contacts);
   if (qui) {
@@ -333,25 +340,27 @@ async function historique(ctx: Contexte, c: Comprehension): Promise<Decision> {
     const aujourdhui = await ctx.banque.aujourdhui();
     mouvements = mouvements.filter((m) => dansPeriode(m.date, aujourdhui, c.periode!));
   }
-  const nombre = Math.min(10, Math.max(1, c.nombres[0]?.valeur || 3));
+  const nombre = Math.min(maximum, Math.max(1, c.nombres[0]?.valeur || 3));
   const choisis = mouvements.slice(0, nombre);
   if (!choisis.length) return info([r('RF025')]);
   const lignes = choisis.map((m) => r(LIGNES[m.type], { date: date(m.date), amount: montant(m.montant), name: m.nom }));
   return { ...info([r('RF020', { count: String(choisis.length) }), ...lignes]), parametres: { nombre: choisis.length, periode: c.periode } };
 }
 
-async function frais(ctx: Contexte, c: Comprehension): Promise<Decision> {
+// court : sur un écran USSD, le barème sans la définition (« expliquer les frais » la donne), sans la mention des envois gratuits
+async function frais(ctx: Contexte, c: Comprehension, court: boolean): Promise<Decision> {
   const vise = dernier(c.montants);
   const mention = dernier(c.contacts);
   const contact = mention && mention.contacts.length === 1 ? mention.contacts[0] : undefined;
   if (!vise) {
     const bareme = await ctx.banque.bareme('mobile');
-    return info([r('RF073'), r('RF072', { percent: pourcentage(bareme.taux), amount: montant(bareme.min), amount_2: montant(bareme.max) }), r('RF071')]);
+    const tarif = r('RF072', { percent: pourcentage(bareme.taux), amount: montant(bareme.min), amount_2: montant(bareme.max) });
+    return info(court ? [tarif, r('RF071')] : [r('RF073'), tarif, r('RF071')]);
   }
   const type = (contact?.type as TypeEnvoi) || 'mobile';
   const cout = await ctx.banque.frais(vise.valeur, type);
   const morceaux = [r('RF070', { amount: montant(vise.valeur), fee: montant(cout), amount_2: montant(vise.valeur + cout) })];
-  if (!contact) morceaux.push(r('RF071'));
+  if (!contact && !court) morceaux.push(r('RF071'));
   return { ...info(morceaux), parametres: { montant: vise.valeur, type, frais: cout, total: vise.valeur + cout, ...(contact ? { beneficiaire: contact.nom } : {}) } };
 }
 
@@ -371,7 +380,7 @@ function changerLangue(ctx: Contexte, s: Session, c: Comprehension): Decision {
   // Une opération en cours reprend là où elle en était, dans la nouvelle langue, avec la même empreinte
   const enConfirmation = s.attente === 'confirmation' && s.brouillon;
   return {
-    morceaux: [...morceaux, ...s.derniere],
+    morceaux: [...annonces(s, morceaux), ...s.derniere],
     statut: enConfirmation ? 'en_attente_confirmation' : 'clarification',
     validation: `langue changée : ${vers} ; opération en cours reprise`,
     parametres: { langue: vers },
@@ -399,25 +408,25 @@ async function decider(ctx: Contexte, s: Session, c: Comprehension, texte: strin
     if (c.intention === 'oui' || c.touche === '1') return executer(ctx, s);
     if (c.intention === 'non' || c.touche === '2') { oublier(s); return { morceaux: [r('RF066')], statut: 'annulee', validation: 'refusée par l\'utilisateur' }; }
     if (c.intention === 'corriger') { s.attente = s.brouillon.intention === 'facture' ? 'type_facture' : 'beneficiaire'; return question([r('RF044')], 'correction : nouvelle valeur demandée'); }
-    if (c.intention === 'repeter') return question([r('RF111'), ...s.derniere], 'confirmation redemandée');
+    if (c.intention === 'repeter') return question([...annonces(s, [r('RF111')]), ...s.derniere], 'confirmation redemandée');
     if (!c.intention) return relancer(ctx, s, texte);
   } else if (s.attente && s.brouillon && (!c.intention || SANS_CONTEXTE.has(c.intention) || c.intention === s.brouillon.intention)) {
     // À « À qui ? », des chiffres seuls qui ne font pas un numéro sont un numéro mal tapé, pas un nouveau montant
     if (s.attente === 'beneficiaire' && /^[\d\s+]+$/.test(texte) && !dernier(c.telephones)) return relancer(ctx, s, texte);
     const avant = etatDe(s);
-    const annonces = await completer(ctx, s, s.brouillon, c, texte);
-    if (!annonces.length && etatDe(s) === avant) return relancer(ctx, s, texte);
+    const corrections = await completer(ctx, s, s.brouillon, c, texte);
+    if (!corrections.length && etatDe(s) === avant) return relancer(ctx, s, texte);
     s.essais = 0;
     const suite = await AVANCER[s.brouillon.intention](ctx, s, s.brouillon);
-    return { ...suite, morceaux: [...annonces, ...suite.morceaux] };
+    return { ...suite, morceaux: [...annonces(s, corrections), ...suite.morceaux] };
   }
   return nouvelleDemande(ctx, s, c);
 }
 
 async function corriger(ctx: Contexte, s: Session, c: Comprehension, texte: string): Promise<Decision> {
-  const annonces = await completer(ctx, s, s.brouillon!, c, texte);
+  const corrections = await completer(ctx, s, s.brouillon!, c, texte);
   const suite = await AVANCER[s.brouillon!.intention](ctx, s, s.brouillon!);
-  return { ...suite, morceaux: [...annonces, ...suite.morceaux], validation: `corrigée avant exécution ; ${suite.validation}` };
+  return { ...suite, morceaux: [...annonces(s, corrections), ...suite.morceaux], validation: `corrigée avant exécution ; ${suite.validation}` };
 }
 
 async function nouvelleDemande(ctx: Contexte, s: Session, c: Comprehension): Promise<Decision> {
@@ -426,14 +435,14 @@ async function nouvelleDemande(ctx: Contexte, s: Session, c: Comprehension): Pro
   oublier(s);
   switch (intention) {
     case 'solde': return solde(ctx, c);
-    case 'historique': return historique(ctx, c);
+    case 'historique': return historique(ctx, c, ecranCourt(s) ? 2 : 10);
     case 'depenses': return depenses(ctx, c);
-    case 'frais': return frais(ctx, c);
+    case 'frais': return frais(ctx, c, ecranCourt(s));
     case 'expliquer': return c.terme ? info([r(c.terme.ref)], `terme expliqué : ${c.terme.terme}`) : question([r('RF056')], 'terme non reconnu');
     case 'aide': return info([r('RF110')]);
     // Chaque langue s'annonce sous son propre nom, qui ne se traduit pas : c'est l'usage de tout choix de langue
     case 'langue': return question([r('RF102'), { fait: '1. Français' }, { fait: `2. ${ctx.nationale.nom}` }], 'choix de la langue demandé');
-    case 'repeter': return info([r('RF111'), ...s.derniere], 'dernière réponse répétée');
+    case 'repeter': return info([...annonces(s, [r('RF111')]), ...s.derniere], 'dernière réponse répétée');
     case 'saluer': return info([r('RF001', { name: (await ctx.banque.client()).prenom })]);
     case 'terminer': return info([r('RF112')]);
     case 'oui': case 'non': case 'corriger': return info([r('RF068')]);

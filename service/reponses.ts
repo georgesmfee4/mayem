@@ -15,8 +15,10 @@ export interface Modele { ref: string; fr: string }
 export interface Explication { ref: string; terme: string; explication_fr: string; exemple: string }
 // Une réponse à dire : un modèle et ses valeurs, ou une ligne de faits (liste de contacts) qui ne se traduit pas.
 // repli : une réponse plus simple déjà validée, dite à sa place tant que la première n'a pas de traduction validée ;
-// une liste de lignes validées (récapitulatif ligne à ligne) ne s'affiche que si chacune est traduite
-export type Morceau = { ref: string; valeurs?: Record<string, string>; prefixe?: string; repli?: Morceau | Morceau[] } | { fait: string };
+// une liste de lignes validées (récapitulatif ligne à ligne) ne s'affiche que si chacune est traduite.
+// court : la même réponse en lignes validées plus courtes, pour un écran USSD (182 signes), tant que les locuteurs
+// n'ont pas écrit sa version USSD
+export type Morceau = { ref: string; valeurs?: Record<string, string>; prefixe?: string; repli?: Morceau | Morceau[]; court?: Morceau[] } | { fait: string };
 export interface Rendu { ref: string; texte: string; langue: string; traduit: boolean }
 
 // 85000 -> « 85 000 FCFA » : la forme que le moteur reconnaît comme un montant
@@ -77,14 +79,23 @@ export function creerReponses(modeles: Modele[], explications: Explication[], pa
       : { ref: morceau.ref, texte: prefixe + francais, langue: 'fr', traduit: false };
   }
 
+  // Des lignes dites sous la référence de la réponse qu'elles remplacent : toutes traduites, ou toutes en français
+  // quand le français est demandé ; sinon rien, jamais de mélange
+  function assembler(ref: string, lignes: Rendu[], langue: string): Rendu | null {
+    const traduit = langue !== 'fr';
+    return lignes.every((l) => l.traduit === traduit) ? { ref, texte: lignes.map((l) => l.texte).join('\n'), langue, traduit } : null;
+  }
+
   const reponses: Reponses = {
     rendre(morceau, langue, canal) {
       if ('fait' in morceau) return { ref: 'faits', texte: morceau.fait, langue: 'faits', traduit: false };
+      const tous = (liste: Morceau[]) => assembler(morceau.ref, liste.map((m) => reponses.rendre(m, langue, canal)), langue);
+      const court = canal === 'ussd' && morceau.court && !parCanal.has(`${morceau.ref}|ussd`) ? tous(morceau.court) : null;
+      if (court) return court;
       const rendu = rendreModele(morceau, langue, canal);
       if (rendu.traduit || langue === 'fr' || !morceau.repli) return rendu;
       if (!Array.isArray(morceau.repli)) return reponses.rendre(morceau.repli, langue, canal);
-      const lignes = morceau.repli.map((m) => reponses.rendre(m, langue, canal));
-      return lignes.every((l) => l.traduit) ? { ref: morceau.ref, texte: lignes.map((l) => l.texte).join('\n'), langue, traduit: true } : rendu;
+      return tous(morceau.repli) || rendu;
     },
   };
   return reponses;
