@@ -2,6 +2,12 @@
 
 Une correction de traduction augmente le dernier chiffre ; une phrase ou un terme ajouté ou retiré, celui du milieu.
 
+## 0.12.0 (2026-11-24)
+- Phrases ajoutées (1) : MU20
+
+## 0.11.1 (2026-11-24)
+- Phrases modifiées (1) : X25
+
 ## 0.11.0 (2026-11-24)
 - Phrases ajoutées (18) : RF032, RF026, RF034, RF042, RF052, RF014, RF015, RF016, RF017, RF044, RF067, RF068, RF083, RF095, MG07, MV06, MV07, MU16
 - Phrases modifiées (4) : RF114, RF036, RF102, RF101

@@ -128,6 +128,8 @@ def mettre_en_forme(ws, colonnes_a_remplir, colonne_priorite=None):
 
 def longueur(ws, colonne_texte, colonne_longueur, maximum):
     """Formule de longueur, en rouge au-delà du maximum (maximum = nombre ou colonne de la ligne)."""
+    if ws.max_row < 2:
+        return
     texte, lettre = get_column_letter(colonne_texte), get_column_letter(colonne_longueur)
     for n in range(2, ws.max_row + 1):
         ws.cell(n, colonne_longueur, f'=IF({texte}{n}="","",LEN({texte}{n}))')

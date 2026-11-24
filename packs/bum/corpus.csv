@@ -97,7 +97,7 @@ X21,P2,Autres services,Erreur,1,0,Numéro invalide,Invalid number,Nombor nsinga 
 X22,P2,Autres services,Erreur,1,0,Une erreur est survenue. Veuillez réessayer.,An error occurred. Please try again.,Djom dzing éte bo'oban abé. Beta'a ve'ele,Lesly / relu par Alexandre et Ronald,1,
 X23,P2,Autres services,Erreur,1,0,Montant invalide,Invalid amount,Abime moné é ndji bô mbamba,Carrel / relu par John,1,
 X24,P2,Autres services,Avertissement,1,0,Attention : ne partagez jamais votre code secret. Aucun agent ne vous le demandera.,Warning: never share your secret code. No agent will ever ask you for it.,Fôé éne mfi : Amos dzing te wô ve môt nten bafili wôé. Momo môt ésaé a ye sili wo jôé.,Lesly / relu par Carrel,1,Avertissement anti-arnaque : sens critique
-X25,P2,Autres services,Libellé,0,0,Saisissez votre code PIN,Enter your PIN,Yôlé nten bafili ya èn jôé,Georges / relu par Lesly,1,
+X25,P2,Autres services,Libellé,0,0,Saisissez votre code PIN,Enter your PIN,Futi'i nten bafili (code PIN / PIN) wôé,Sylvie / relu par Georges,1,
 X26,P2,Autres services,SMS,1,0,Votre code de confirmation est {code}. Ne le partagez avec personne.,Your confirmation code is {code}. Do not share it with anyone.,Nten bafili ya ntiñ ane {code}. wô yiane ki dje ve môt.,Lesly / relu par Carrel,1,Garder {code}
 X27,P2,Autres services,Avertissement,1,0,Cette opération est irréversible,This transaction is irreversible,"Éyoñ ô ntiñ ya nkeàn ôsu, ô vo’o ki fe bulan mvùs",Lesly / relu par Alexandre et Ronald,1,
 X28,P2,Autres services,Titre,1,0,Récapitulatif de l'opération,Transaction summary,Mamesse ya nlomane moné,Lesly / relu par Alexandre et Ronald,1,
@@ -218,5 +218,6 @@ RF095,P2,Finale,facture,1,0,Cette facture est déjà payée.,,faktur nyô a tebe
 MG07,P1,Finale,menu guichet,0,0,Prenez vos billets,,Nyôñ mefep me moné wôé,Sylvie / relu par Georges,1,
 MV06,P1,Finale,menu voix,0,0,"Pour réécouter, tapez étoile.",,"asù na ô bet'a vo'olo, bisik *",Sylvie / relu par Georges,1,
 MV07,P1,Finale,menu voix,0,0,"Pour revenir au menu, tapez dièse.",,"asù na ô bulan menu, bisik #",Sylvie / relu par Georges,1,
+MU20,P1,Finale,menu ussd,0,0,Entrez votre code PIN,,Futi'i nten bafili (code PIN / PIN) wôé,Sylvie / relu par Georges,1,
 MU16,P1,Finale,menu ussd,0,0,Autre,,mfé,Sylvie / relu par Georges,1,
 MG02,P1,Finale,menu guichet,0,0,Choisissez votre langue,,Fial nkôbo wôé,Sylvie / relu par Georges,1,
