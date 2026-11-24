@@ -354,7 +354,7 @@ def importer_ecrans(wb):
     for r in list(wb['Écrans'].iter_rows(values_only=True))[1:]:
         ref, releve, traduction = texte(r[0]), texte(r[7]), texte(r[9])
         if releve:
-            releves.append([ref, releve])
+            releves.append([ref, releve, texte(r[16]) if len(r) > 16 else '', texte(r[15]) if len(r) > 15 else ''])
         if not ref or not traduction:
             continue
         if not deux_noms(r[12], r[13]):
@@ -402,7 +402,7 @@ def mettre_a_jour_profil(service, wb, releves):
         R.attente.append(f'profiles/{service}/ introuvable : codes et touches non enregistrés')
         return
     if releves:
-        ecrire_csv(dossier / 'releves.csv', ['ref', 'texte_exact'], releves, bom=False)
+        ecrire_csv(dossier / 'releves.csv', ['ref', 'texte_exact', 'capture', 'chemin'], releves, bom=False)
         print(f'profiles/{service}/releves.csv : {len(releves)} texte(s) exact(s) relevé(s)')
     entetes, codes = lire_csv(dossier / 'codes.csv')
     for colonne in ('premier_ecran', 'verifie_par'):

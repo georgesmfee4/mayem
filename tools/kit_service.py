@@ -39,7 +39,7 @@ ENTETE = PatternFill('solid', fgColor='0F6B5C')
 A_REMPLIR = PatternFill('solid', fgColor='FFF8E1')
 DEJA = PatternFill('solid', fgColor='E8EEF0')
 CRITIQUE = PatternFill('solid', fgColor='FDE2E1')
-FIABILITE = {'concordant': 'D7EFDD', 'officiel': 'D7EFDD', 'vérifié': 'B8E0C2', 'presse': 'E6F0F7', 'à vérifier': 'FFF1C2', 'contradictoire': 'F9D3B8'}
+FIABILITE = {"vu à l'écran": 'D7EFDD', 'concordant': 'D7EFDD', 'officiel': 'D7EFDD', 'vérifié': 'B8E0C2', 'presse': 'E6F0F7', 'à vérifier': 'FFF1C2', 'contradictoire': 'F9D3B8'}
 TYPES_CRITIQUES = {'recapitulatif', 'alerte', 'erreur'}
 
 
@@ -50,6 +50,7 @@ def lire(chemin):
 
 def comparable(texte):
     sans = ''.join(c for c in unicodedata.normalize('NFD', texte.lower()) if unicodedata.category(c) != 'Mn')
+    sans = re.sub(r"['’]", ' ', sans)
     return re.sub(r'[\s.!?:;,]+$', '', re.sub(r'\s+', ' ', sans)).strip()
 
 
@@ -72,6 +73,11 @@ def validees():
 
 
 VALIDEES = validees()
+
+
+def lire_profil(nom):
+    chemin = PROFIL / nom
+    return lire(chemin) if chemin.exists() else []
 
 
 def feuille(wb, titre, entetes, largeurs):
@@ -117,6 +123,8 @@ def mode_emploi(wb, comptes):
         "1. L'équipe relève sur un vrai téléphone : pour chaque écran, recopiez le texte EXACT dans la colonne « Texte exact relevé » "
         "(gardez les majuscules et la ponctuation). Vérifiez chaque code de l'onglet « Codes » et notez ce qui s'affiche vraiment. "
         "Notez les touches de chaque opération dans l'onglet « Touches ».",
+        "Déjà relevé : les écrans photographiés sur un téléphone sont recopiés dans l'onglet « Captures » (texte complet, chemin "
+        "des touches, ce qui reste à relever) et leurs lignes sont déjà dans « Texte exact relevé ». Un chemin « probable » ou « inconnu » est à confirmer.",
         f"2. Les locuteurs traduisent le texte exact relevé (ou, s'il n'a pas pu être relevé, le texte type) dans la colonne « TRADUCTION {MAJ} ».",
         'CE QUI NE SE TRADUIT JAMAIS',
         "• Les noms des services et des marques (onglet « Services ») restent tels quels : ce sont des noms propres.",
@@ -158,7 +166,9 @@ def onglet_codes(wb):
                                'Ce qui s\'affiche vraiment (premier écran)', 'Vérifié par', 'Commentaire'], [14, 26, 44, 18, 15, 34, 12, 44, 14, 30])
     lignes = lire(PROFIL / 'codes.csv')
     for r in lignes:
-        ws.append([r['code'], r['service'], r['utilite'], r['intention'], r['fiabilite'], r['source']])
+        verifie = r['fiabilite'] == 'vérifié'
+        ws.append([r['code'], r['service'], r['utilite'], r['intention'], r['fiabilite'], r['source'],
+                   'oui' if verifie else None, r.get('premier_ecran') or None, r.get('verifie_par') or None])
     habiller(ws, (7, 8, 9))
     for ligne in ws.iter_rows(min_row=2):
         ligne[4].fill = PatternFill('solid', fgColor=FIABILITE.get(ligne[4].value, 'FFFFFF'))
@@ -169,12 +179,16 @@ def onglet_codes(wb):
 def onglet_ecrans(wb):
     ws = feuille(wb, 'Écrans', ['Réf.', 'Canal', 'Parcours', 'Étape', 'Type', 'Intention', 'Texte type (français)',
                                 'TEXTE EXACT RELEVÉ À L\'ÉCRAN', 'À savoir', f'TRADUCTION {MAJ}', 'Version USSD courte', 'Longueur USSD',
-                                'Traduit par', 'Relu par', 'Commentaire'], [14, 11, 30, 6, 13, 18, 44, 40, 30, 44, 34, 9, 12, 12, 26])
+                                'Traduit par', 'Relu par', 'Commentaire', 'Chemin sur le téléphone', 'Capture'],
+                 [14, 11, 30, 6, 13, 18, 44, 40, 30, 44, 34, 9, 12, 12, 26, 30, 16])
     lignes = lire(SOCLE / 'parcours.csv')
+    releves = {r['ref']: r for r in lire_profil('releves.csv')}
     for r in lignes:
-        deja = VALIDEES.get(comparable(r['texte_fr']))
-        note = (f'Déjà validé ({deja[0]}). ' if deja else '') + r['a_noter']
-        ws.append([r['ref'], r['canal'], r['parcours'], int(r['etape']), r['type'], r['intention'], r['texte_fr'], None, note, deja[1] if deja else None])
+        releve = releves.get(r['ref'], {})
+        deja, note = traduction_connue(r['texte_fr'], releve.get('texte_exact'))
+        ws.append([r['ref'], r['canal'], r['parcours'], int(r['etape']), r['type'], r['intention'], r['texte_fr'],
+                   releve.get('texte_exact') or None, note + r['a_noter'], deja, None, None, None, None, None,
+                   releve.get('chemin') or None, releve.get('capture') or None])
     habiller(ws, (8, 10, 11, 13, 14), critique=lambda l: l[4].value in TYPES_CRITIQUES)
     for ligne in ws.iter_rows(min_row=2):
         if ligne[9].value:
@@ -186,6 +200,18 @@ def onglet_ecrans(wb):
         ws.cell(n, 12, f'=IF(K{n}="","",IF(K{n}="pas besoin","",LEN(K{n})))')
     ws.conditional_formatting.add(f'L2:L{ws.max_row}', FormulaRule(formula=['AND(L2<>"",L2>160)'], fill=PatternFill('solid', fgColor='F4B4AE')))
     return len(lignes)
+
+
+# Le texte relevé est celui qui se traduit : une traduction validée du texte type n'y est qu'une piste
+def traduction_connue(texte_type, releve):
+    if releve:
+        deja = VALIDEES.get(comparable(releve))
+        if deja:
+            return deja[1], f'Déjà validé ({deja[0]}). '
+        piste = VALIDEES.get(comparable(texte_type))
+        return None, (f'Piste : le texte type est déjà traduit « {piste[1]} » ({piste[0]}), à adapter au texte relevé. ' if piste else '')
+    deja = VALIDEES.get(comparable(texte_type))
+    return (deja[1], f'Déjà validé ({deja[0]}). ') if deja else (None, '')
 
 
 def onglet_demandes(wb):
@@ -219,14 +245,29 @@ def onglet_mots(wb):
 def onglet_touches(wb):
     intentions = {r['id']: r for r in lire(SOCLE / 'intentions.csv')}
     ws = feuille(wb, 'Touches', ['Intention', 'Ce que veut la personne', 'Valeurs nécessaires', 'Exemple de demande',
-                                 'Touches à taper depuis le premier écran', 'Exemple de notation', 'Relevé par', 'Commentaire'],
-                 [20, 44, 24, 36, 34, 34, 14, 26])
+                                 'Touches à taper depuis le premier écran', 'Exemple de notation', 'Relevé par', 'Commentaire',
+                                 'Début déjà relevé sur le téléphone'],
+                 [20, 44, 24, 36, 34, 34, 14, 26, 44])
     lignes = lire(PROFIL / 'raccourcis.csv')
     for r in lignes:
         i = intentions.get(r['intention'], {})
         ws.append([r['intention'], i.get('description', ''), i.get('valeurs', ''), i.get('exemple_fr', ''), r['touches'] or None,
-                   '*126# puis 1 > {telephone} > {montant}' if r['intention'] == 'transfert' else None, r['releve_par'] or None])
+                   '*123# puis 2 > 1 > 1 > {telephone} > {montant}' if r['intention'] == 'transfert' else None, r['releve_par'] or None,
+                   None, r.get('debut_releve') or None])
     habiller(ws, (5, 7))
+    return len(lignes)
+
+
+def onglet_captures(wb):
+    ws = feuille(wb, 'Captures', ['Capture', 'Relevé le', 'Heure', 'Code composé', 'Chemin (touches)', 'Chemin sûr ?',
+                                  "Texte complet tel qu'affiché", 'Repris dans Écrans', 'Reste à relever'], [9, 11, 7, 11, 30, 11, 52, 30, 44])
+    lignes = lire_profil('captures.csv')
+    for r in lignes:
+        ws.append([r['ref'], r['releve_le'], r['heure'], r['code'], r['chemin'], r['certitude'], r['texte'], r['ecrans'], r['a_verifier'] or None])
+    habiller(ws, ())
+    couleurs = {'sûr': 'D7EFDD', 'probable': 'FFF1C2', 'inconnu': 'F9D3B8'}
+    for ligne in ws.iter_rows(min_row=2):
+        ligne[5].fill = PatternFill('solid', fgColor=couleurs.get(ligne[5].value, 'FFFFFF'))
     return len(lignes)
 
 
@@ -236,7 +277,8 @@ def recapitulatif(wb, comptes):
              'Touches': ("L'équipe", '2. Relever les touches de chaque opération'),
              'Écrans': ("L'équipe puis les locuteurs", '3. Relever le texte exact, puis traduire (rouge d\'abord)'),
              'Mots du métier': ('Les locuteurs', '4. Traduire les mots (critiques d\'abord)'),
-             'Demandes': ('Les locuteurs', '5. Dire chaque demande de cinq façons')}
+             'Demandes': ('Les locuteurs', '5. Dire chaque demande de cinq façons'),
+             'Captures': ("L'équipe", "Écrans déjà relevés sur un téléphone, tels qu'affichés")}
     for onglet, n in comptes.items():
         ws.append([onglet, n, *ordre.get(onglet, ('', ''))])
 
@@ -245,6 +287,8 @@ def main():
     wb = Workbook()
     comptes = {'Services': onglet_services(wb), 'Codes': onglet_codes(wb), 'Touches': onglet_touches(wb), 'Écrans': onglet_ecrans(wb),
                'Mots du métier': onglet_mots(wb), 'Demandes': onglet_demandes(wb)}
+    if (PROFIL / 'captures.csv').exists():
+        comptes['Captures'] = onglet_captures(wb)
     recapitulatif(wb, comptes)
     mode_emploi(wb, comptes)
     wb.move_sheet("Mode d'emploi", offset=-(len(wb.sheetnames) - 1))
@@ -252,8 +296,9 @@ def main():
     wb.properties.subject = SERVICE
     chemin = racine / f'service-{SERVICE}-{LANGUE}.xlsx'
     wb.save(chemin)
-    deja = sum(1 for r in lire(SOCLE / 'parcours.csv') if comparable(r['texte_fr']) in VALIDEES)
-    print(f'{chemin.name} : {", ".join(f"{k} {v}" for k, v in comptes.items())} ; {deja} écrans déjà traduits')
+    releves = {r['ref']: r['texte_exact'] for r in lire_profil('releves.csv')}
+    deja = sum(1 for r in lire(SOCLE / 'parcours.csv') if traduction_connue(r['texte_fr'], releves.get(r['ref']))[0])
+    print(f'{chemin.name} : {", ".join(f"{k} {v}" for k, v in comptes.items())} ; {len(releves)} textes relevés ; {deja} écrans déjà traduits')
 
 
 if __name__ == '__main__':

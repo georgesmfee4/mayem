@@ -129,6 +129,10 @@ vérifie les codes sur un vrai téléphone ; les locuteurs traduisent ensuite. L
 à tous les services ; seul le dossier `profiles/<service>/` change. Retour : `python3 tools/import_finale.py <classeur>`
 (écrans au corpus, mots au glossaire, demandes aux formulations, codes vérifiés et touches au profil, que la passerelle
 lit : `npm run passerelle -- --profil profiles/mtn-cm.json`).
+Les écrans photographiés sur un téléphone vont dans `profiles/<service>/captures.csv` (texte complet, chemin des touches,
+certitude du chemin, ce qui reste à relever) et leurs lignes dans `releves.csv` (texte exact par écran du socle, avec sa
+capture) ; le classeur les reprend (onglet « Captures », colonne « Texte exact relevé »). Les images ne vont pas dans le
+dépôt : elles montrent des contacts.
 
 ### Passerelle : la couche d'API branchée devant un service existant
 `npm run passerelle` lance la passerelle (`service/passerelle.ts`) et, sans autre profil, la banque d'essai

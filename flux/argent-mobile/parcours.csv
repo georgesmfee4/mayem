@@ -11,6 +11,10 @@ USSD-MENU-09,Menu principal de l'argent mobile,ussd,9,choix,aide,Approbations en
 USSD-MENU-10,Menu principal de l'argent mobile,ussd,10,choix,aide,Suivant,
 USSD-MENU-11,Menu principal de l'argent mobile,ussd,11,choix,aide,Retour,
 USSD-MENU-12,Menu principal de l'argent mobile,ussd,12,invite,aide,Tapez votre choix,
+USSD-MENU-13,Menu principal de l'argent mobile,ussd,13,choix,aide,Opérations bancaires,Entre le compte d'argent mobile et un compte bancaire
+USSD-MENU-14,Menu principal de l'argent mobile,ussd,14,choix,pret,Prêts,
+USSD-MENU-15,Menu principal de l'argent mobile,ussd,15,choix,aide,Aide,
+USSD-MENU-16,Menu principal de l'argent mobile,ussd,16,choix,aide,Promotions,
 USSD-TRF-01,Transfert vers un numéro du même service,ussd,1,choix,transfert,Vers un numéro du même réseau,
 USSD-TRF-02,Transfert vers un numéro du même service,ussd,2,choix,transfert,Vers un autre réseau,
 USSD-TRF-03,Transfert vers un numéro du même service,ussd,3,choix,transfert,Vers une banque,
@@ -32,12 +36,16 @@ USSD-TRF-18,Transfert vers un numéro du même service,ussd,18,erreur,transfert,
 USSD-TRF-19,Transfert vers un numéro du même service,ussd,19,erreur,transfert,Vous avez atteint votre plafond journalier.,
 USSD-TRF-20,Transfert vers un numéro du même service,ussd,20,erreur,transfert,Ce numéro n'a pas de compte d'argent mobile.,
 USSD-TRF-21,Transfert vers un numéro du même service,ussd,21,erreur,transfert,Transaction échouée. Veuillez réessayer.,
+USSD-TRF-22,Transfert vers un numéro du même service,ussd,22,choix,transfert,Vers une personne sans compte,"Le bénéficiaire retire avec un code, sans compte d'argent mobile"
+USSD-TRF-23,Transfert vers un numéro du même service,ussd,23,choix,transfert,Transfert international,
 USSD-AUT-01,Transfert vers un autre réseau ou une banque,ussd,1,invite,transfert_autre_reseau,Choisissez le réseau,
 USSD-AUT-02,Transfert vers un autre réseau ou une banque,ussd,2,invite,transfert_autre_reseau,Choisissez la banque,
 USSD-AUT-03,Transfert vers un autre réseau ou une banque,ussd,3,invite,transfert_autre_reseau,Entrez le numéro de compte,
 USSD-AUT-04,Transfert vers un autre réseau ou une banque,ussd,4,recapitulatif,transfert_autre_reseau,Vous allez envoyer {amount} vers {name}. Frais : {fee}. Total : {amount_2}.,
 USSD-AUT-05,Transfert vers un autre réseau ou une banque,ussd,5,succes,transfert_autre_reseau,Votre demande de transfert a été prise en compte.,
 USSD-AUT-06,Transfert vers un autre réseau ou une banque,ussd,6,erreur,transfert_autre_reseau,Ce service est momentanément indisponible.,
+USSD-AUT-07,Transfert vers un autre réseau ou une banque,ussd,7,titre,transfert_autre_reseau,Vers un autre opérateur,Les noms de pays et d'opérateurs qui suivent ne se traduisent pas (onglet Services)
+USSD-AUT-08,Transfert vers un autre réseau ou une banque,ussd,8,choix,transfert_autre_reseau,Vers un numéro de compte bancaire (IBAN),IBAN ne se traduit pas
 USSD-RET-01,Retrait chez un agent,ussd,1,choix,retrait,Retrait chez un agent,
 USSD-RET-02,Retrait chez un agent,ussd,2,invite,retrait,Entrez le code de l'agent,
 USSD-RET-03,Retrait chez un agent,ussd,3,invite,retrait,Entrez le montant à retirer,
@@ -138,6 +146,36 @@ USSD-APL-03,Forfaits appels et SMS,ussd,3,choix,forfait_appel,Forfaits mixtes,
 USSD-APL-04,Forfaits appels et SMS,ussd,4,recapitulatif,forfait_appel,Forfait de {count} minutes pour {amount}.,
 USSD-APL-05,Forfaits appels et SMS,ussd,5,succes,forfait_appel,Votre forfait est activé.,
 USSD-APL-06,Forfaits appels et SMS,ussd,6,information,forfait_appel,Il vous reste {count} minutes.,
+USSD-OFF-01,Menu des offres de l'opérateur,ussd,1,titre,aide,Bienvenue aux offres de l'opérateur,Le nom de l'opérateur reste tel quel
+USSD-OFF-02,Menu des offres de l'opérateur,ussd,2,choix,aide,Mes offres,
+USSD-OFF-03,Menu des offres de l'opérateur,ussd,3,choix,forfait_appel,Forfaits appels et internet,
+USSD-OFF-04,Menu des offres de l'opérateur,ussd,4,choix,aide,Communautés,Offres de groupe (à préciser après relevé)
+USSD-OFF-05,Menu des offres de l'opérateur,ussd,5,choix,aide,SMS et services numériques,
+USSD-OFF-06,Menu des offres de l'opérateur,ussd,6,choix,solde_credit,Mon compte,
+USSD-OFF-07,Menu des offres de l'opérateur,ussd,7,choix,aide,Favoris,Offres mises de côté par la personne
+USSD-OFF-08,Menu des offres de l'opérateur,ussd,8,choix,aide,Bons plans (*222#),Le code reste tel quel
+USSD-OFF-09,Menu des offres de l'opérateur,ussd,9,choix,solde_credit,Solde,Reste du forfait ou du crédit
+USSD-FOR-01,Forfaits appels de l'opérateur,ussd,1,titre,forfait_appel,Forfaits : tous les réseaux au même prix,Le nom de l'offre reste tel quel
+USSD-FOR-02,Forfaits appels de l'opérateur,ussd,2,choix,forfait_appel,Tous réseaux,
+USSD-FOR-03,Forfaits appels de l'opérateur,ussd,3,choix,forfait_appel,Vers le même opérateur uniquement,
+USSD-FOR-04,Forfaits appels de l'opérateur,ussd,4,choix,forfait_appel,Tous réseaux et internet,
+USSD-FOR-05,Forfaits appels de l'opérateur,ussd,5,choix,forfait_internet,Internet,
+USSD-FOR-06,Forfaits appels de l'opérateur,ussd,6,titre,forfait_appel,Vos forfaits pour appeler tous les réseaux au Cameroun,Les offres chiffrées qui suivent (250U=1100U/24H…) ne se traduisent pas : seules les abréviations se lisent (onglet Mots du métier)
+USSD-SMD-01,Services SMS de l'opérateur,ussd,1,choix,forfait_appel,Offres SMS,
+USSD-SMD-02,Services SMS de l'opérateur,ussd,2,choix,forfait_appel,Prolongation,Prolonger un forfait (à préciser après relevé)
+USSD-AID-01,Aide de l'argent mobile,ussd,1,choix,aide,Qu'est-ce que l'argent mobile ?,Le nom du service reste tel quel
+USSD-AID-02,Aide de l'argent mobile,ussd,2,choix,aide,Comment envoyer de l'argent ?,
+USSD-AID-03,Aide de l'argent mobile,ussd,3,choix,annuler_operation,J'ai envoyé de l'argent à un mauvais numéro,Situation urgente : argent parti au mauvais numéro
+USSD-AID-04,Aide de l'argent mobile,ussd,4,choix,pin_oublie,Comment réinitialiser mon code secret ?,
+USSD-AID-05,Aide de l'argent mobile,ussd,5,choix,frais,Quels sont les frais de l'argent mobile ?,
+USSD-AID-06,Aide de l'argent mobile,ussd,6,choix,historique,Voir mes dernières transactions,
+USSD-AID-07,Aide de l'argent mobile,ussd,7,choix,service_client,Contacter le service client,
+USSD-PRO-01,Promotions de l'argent mobile,ussd,1,choix,aide,Promotions de l'argent mobile,
+USSD-PRO-02,Promotions de l'argent mobile,ussd,2,invite,credit,"Voici les types d'offres disponibles pour vous, veuillez sélectionner :",
+USSD-PRO-03,Promotions de l'argent mobile,ussd,3,choix,credit,Forfait,
+USSD-CON-01,Forfait Continent,ussd,1,titre,forfait_appel,Vérifiez les forfaits Continent,Continent : nom de l'offre (onglet Services)
+USSD-CON-02,Forfait Continent,ussd,2,choix,solde_internet,Vérifier le solde du forfait Continent,
+USSD-CON-03,Forfait Continent,ussd,3,choix,aide,Comment ça marche ?,
 APP-ACC-01,Application : connexion et accueil,application,1,titre,aide,Bienvenue,
 APP-ACC-02,Application : connexion et accueil,application,2,invite,aide,Entrez votre numéro de téléphone,
 APP-ACC-03,Application : connexion et accueil,application,3,invite,aide,Entrez le code reçu par SMS,Code de vérification : jamais lu.

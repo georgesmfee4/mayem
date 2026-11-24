@@ -1,0 +1,111 @@
+ref,releve_le,heure,code,chemin,certitude,texte,ecrans,a_verifier
+C01,24/11/2026,17:54,*123#,*123#,sûr,"Bienvenue aux offres MTN
+
+0. TopDeals
+1. Mes Offres
+2. MTN MoMo
+3. Forfaits Appels & Internet
+4. Communautés
+5. SMS & Digital
+6. Mon compte
+7. English","USSD-OFF-01, USSD-OFF-02, USSD-OFF-03, USSD-OFF-04, USSD-OFF-05, USSD-OFF-06",Ce que montrent 4 (Communautés) et 6 (Mon compte)
+C02,24/11/2026,17:50,*123#,*123# > 2,sûr,"MTN MoMo
+1) Transfert d argent
+2) Payer factures/services
+3) Achat Credit/Forfaits
+4) MoMoPay
+5) Operations bancaires
+6) Prets
+7) Mon Compte
+8) Aide
+9) Promo","USSD-MENU-02, USSD-MENU-04, USSD-MENU-05, USSD-MENU-08, USSD-MENU-13, USSD-MENU-14, USSD-MENU-15, USSD-MENU-16",Est-ce que *126# ouvre directement ce même menu ? Ce que montrent 5 (Operations bancaires) et 7 (Mon Compte)
+C03,24/11/2026,17:50,*123#,*123# > 2 > 1,sûr,"Transfert d argent
+1) Vers compte MOMO
+2) Vers autres operateurs (GIMACPAY)
+3) Vers client sans compte
+4) Transfert international
+5) Initier le retrait
+00. Next","USSD-TRF-01, USSD-TRF-02, USSD-TRF-22, USSD-TRF-23, USSD-RET-01, USSD-MENU-10",La page 00 (Next)
+C04,24/11/2026,18:25,*123#,*123# > 2 > 1 > 1,sûr,Entrez le numero ou tapez 1 pour choisir parmi les favoris,USSD-TRF-04,"Les écrans suivants : montant, récapitulatif, code secret, succès (sans envoyer d'argent : annuler avant le code secret)"
+C05,24/11/2026,18:27,*123#,"*123# > 2 > 1 > 2 > 3 > 1, puis un numéro mal tapé",probable,"Numero incorrect, essayer encore svp",USSD-TRF-13,
+C06,24/11/2026,18:26,*123#,*123# > 2 > 1 > 2,sûr,"Vers autres operateurs - GIMACPAY
+1) Cameroun
+2) Gabon
+3) Congo Braz
+4) RCA
+5) Tchad
+6) Guinee Equatoriale
+7) Au Numéro IBAN","USSD-AUT-07, USSD-AUT-08",La suite de l'écran (une ligne Retour ou Next est peut-être cachée sous le champ de saisie). Ce que montre 1 (Cameroun)
+C07,24/11/2026,18:26,*123#,*123# > 2 > 1 > 2 > 2,sûr,"Gabon
+1) Airtel Gabon
+2) MOOV Gabon
+3) CLIKPAY Money
+4) Sodec Mobile
+5) Express Union Mobile
+0) Retour",USSD-MENU-11,
+C08,24/11/2026,18:26,*123#,*123# > 2 > 1 > 2 > 3,sûr,"Congo Braz
+1) MTN Congo
+2) Airtel Congo
+0) Retour",USSD-MENU-11,
+C09,24/11/2026,18:26,*123#,*123# > 2 > 1 > 2 > 3 > 1,sûr,Entrez le numero ou tapez 1 pour choisir parmi les favoris,USSD-TRF-04,Même invite que vers un compte MoMo
+C10,24/11/2026,18:30,*123#,*123# > 2 > 8,sûr,"Aide
+1) Qu'est-ce que MTN MoMo ?
+2) Comment envoyer de l'argent ?
+3) J'ai envoye de l'argent a un mauvais numero
+4) Comment reinitialiser mon code PIN
+00. Next","USSD-AID-01, USSD-AID-02, USSD-AID-03, USSD-AID-04",Le texte qui s'affiche après chaque question
+C11,24/11/2026,18:30,*123#,*123# > 2 > 8 > 00,sûr,"?
+5) quels sont les frais de MTN MoMo ?
+6) Voir mes dernières transactions
+7) Contactez MTN
+0) Retour","USSD-AID-05, USSD-AID-06, USSD-AID-07",Le haut de l'écran est coupé : remonter pour lire la ligne qui finit par « ? »
+C12,24/11/2026,18:30,*123#,"*123# > 2 > 9 (ou 3, à confirmer)",probable,"1) Achat Credit/Forfaits
+2) MoMo Promo
+0) Retour",USSD-PRO-01,Par quelle touche du menu MoMo on arrive ici (9 Promo ou 3 Achat Credit/Forfaits)
+C13,24/11/2026,18:31,*123#,écran C12 > 1,probable,"Voici les types d'offres disponibles pour vous, veuillez selectionner:
+1) Bundle
+0) Retour","USSD-PRO-02, USSD-PRO-03",Ce que montre 1 (Bundle)
+C14,24/11/2026,18:23,*123#,*123# > 1,sûr,"Mes Offres
+00. Favorite
+1.  Bon Plans (*222#)
+2. 500U=1.12Go/30J
+3. 199U=210Mo/30J
+4. Solde
+
+97. Retour","USSD-OFF-07, USSD-OFF-08, USSD-OFF-09","Les offres chiffrées changent souvent : ne pas les traduire une à une. Relevé deux fois (18:23 et 18:28), identique"
+C15,24/11/2026,17:54,*123#,"*123# > 0 (TopDeals), à confirmer",probable,"0. Favorite
+1. 100U=1320U/24H+ 700U MTN/24H
+2. 500U=7500U+500Mo/7J
+3. 500U=1.2GB/30J+ 100Mo BONUS/30J
+4. 150U=550U+75MO/3Jrs+ 1000U MTN/3J
+5. 250U=3100
+00. Next",USSD-OFF-08,La touche qui mène ici. La ligne 5 est coupée à l'écran
+C16,24/11/2026,18:29,*123#,*123# > 3,sûr,"MTN Plus Forfaits. Tous reseaux au MEME PRIX
+
+0.  TopDeals
+1. Tous reseaux
+2. MTN Uniquement
+3. Tous reseaux et Internet
+4.  Internet
+99. Solde
+10
+00. Next","USSD-FOR-01, USSD-FOR-02, USSD-FOR-03, USSD-FOR-04, USSD-FOR-05, USSD-OFF-09, USSD-MENU-10","La ligne « 10 » est coupée : lire son libellé. Attention : la page d'aide MTN dit que *123*3*2# mène aux forfaits internet, mais ici 3 > 2 est « MTN Uniquement » et Internet est en 4"
+C17,24/11/2026,18:29,*123#,*123# > 3 > 1,sûr,"Vos forfaits MTN Plus pour appeler tous reseaux au Cameroun
+
+1. 250U=1100U/24H
+2. 500U=2500U/3Jrs
+3. 1000U=5550U/7Jrs
+4. 3000U=18950U/30Jrs",USSD-FOR-06,"La suite de l'écran (Retour, Next)"
+C18,24/11/2026,18:13,*123#,*123# > 5,sûr,"SMS & Digital
+
+1. Offers SMS
+2. Prolongation
+3. Yabadoo
+4. Solde
+
+
+97. Retour","USSD-OFF-06, USSD-SMD-01, USSD-SMD-02, USSD-OFF-09",Ce que fait 2 (Prolongation)
+C19,24/11/2026,17:59,*123#,inconnu,inconnu,"Verifiez les Forfaits Continent
+1) Verifier le solde du forfait Continent
+2) Comment ca marche?
+0) Retour","USSD-CON-01, USSD-CON-02, USSD-CON-03, USSD-MENU-11",Le chemin qui mène à cet écran

@@ -44,3 +44,10 @@ W42,favoris,favourites,Les bénéficiaires gardés pour aller plus vite,0
 W43,empreinte digitale,fingerprint,Le doigt qui sert à ouvrir l'application,0
 W44,se déconnecter,log out,Fermer son compte sur l'application,0
 W45,transaction échouée,failed transaction,Opération qui n'a pas marché,1
+W46,U (unités),units,Unités de crédit dans les offres : 250U = 250 unités,1
+W47,"J / Jrs (jours), H (heures)","days, hours","Durée de validité d'une offre : 30J = 30 jours, 24H = 24 heures",1
+W48,"Mo / Go (mégaoctet, gigaoctet)",MB / GB,"Quantité d'internet : 500Mo, 1.2GB",0
+W49,tous réseaux,all networks,"Appels vers tous les opérateurs, pas seulement le même",0
+W50,personne sans compte,non-registered user,Bénéficiaire qui n'a pas de compte d'argent mobile,1
+W51,transfert international,international transfer,Envoi d'argent vers un autre pays,1
+W52,promotion,promotion,Offre à prix réduit pour un temps,0

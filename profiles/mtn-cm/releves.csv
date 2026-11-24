@@ -1,0 +1,50 @@
+ref,texte_exact,capture,chemin
+USSD-MENU-02,Transfert d argent,"C02, 24/11/2026",*123# > 2
+USSD-MENU-04,Payer factures/services,"C02, 24/11/2026",*123# > 2
+USSD-MENU-05,Achat Credit/Forfaits,"C02, 24/11/2026",*123# > 2
+USSD-MENU-08,Mon Compte,"C02, 24/11/2026",*123# > 2
+USSD-MENU-10,Next,"C03, 24/11/2026",*123# > 2 > 1
+USSD-MENU-11,Retour,"C07, 24/11/2026",*123# > 2 > 1 > 2 > 2
+USSD-MENU-13,Operations bancaires,"C02, 24/11/2026",*123# > 2
+USSD-MENU-14,Prets,"C02, 24/11/2026",*123# > 2
+USSD-MENU-15,Aide,"C02, 24/11/2026",*123# > 2
+USSD-MENU-16,Promo,"C02, 24/11/2026",*123# > 2
+USSD-TRF-01,Vers compte MOMO,"C03, 24/11/2026",*123# > 2 > 1
+USSD-TRF-02,Vers autres operateurs (GIMACPAY),"C03, 24/11/2026",*123# > 2 > 1
+USSD-TRF-04,Entrez le numero ou tapez 1 pour choisir parmi les favoris,"C04, 24/11/2026",*123# > 2 > 1 > 1
+USSD-TRF-13,"Numero incorrect, essayer encore svp","C05, 24/11/2026","*123# > 2 > 1 > 2 > 3 > 1, puis un numéro mal tapé"
+USSD-TRF-22,Vers client sans compte,"C03, 24/11/2026",*123# > 2 > 1
+USSD-TRF-23,Transfert international,"C03, 24/11/2026",*123# > 2 > 1
+USSD-AUT-07,Vers autres operateurs - GIMACPAY,"C06, 24/11/2026",*123# > 2 > 1 > 2
+USSD-AUT-08,Au Numéro IBAN,"C06, 24/11/2026",*123# > 2 > 1 > 2
+USSD-RET-01,Initier le retrait,"C03, 24/11/2026",*123# > 2 > 1
+USSD-OFF-01,Bienvenue aux offres MTN,"C01, 24/11/2026",*123#
+USSD-OFF-02,Mes Offres,"C01, 24/11/2026",*123#
+USSD-OFF-03,Forfaits Appels & Internet,"C01, 24/11/2026",*123#
+USSD-OFF-04,Communautés,"C01, 24/11/2026",*123#
+USSD-OFF-05,SMS & Digital,"C01, 24/11/2026",*123#
+USSD-OFF-06,Mon compte,"C01, 24/11/2026",*123#
+USSD-OFF-07,Favorite,"C14, 24/11/2026",*123# > 1
+USSD-OFF-08,Bon Plans (*222#),"C14, 24/11/2026",*123# > 1
+USSD-OFF-09,Solde,"C14, 24/11/2026",*123# > 1
+USSD-FOR-01,MTN Plus Forfaits. Tous reseaux au MEME PRIX,"C16, 24/11/2026",*123# > 3
+USSD-FOR-02,Tous reseaux,"C16, 24/11/2026",*123# > 3
+USSD-FOR-03,MTN Uniquement,"C16, 24/11/2026",*123# > 3
+USSD-FOR-04,Tous reseaux et Internet,"C16, 24/11/2026",*123# > 3
+USSD-FOR-05,Internet,"C16, 24/11/2026",*123# > 3
+USSD-FOR-06,Vos forfaits MTN Plus pour appeler tous reseaux au Cameroun,"C17, 24/11/2026",*123# > 3 > 1
+USSD-SMD-01,Offers SMS,"C18, 24/11/2026",*123# > 5
+USSD-SMD-02,Prolongation,"C18, 24/11/2026",*123# > 5
+USSD-AID-01,Qu'est-ce que MTN MoMo ?,"C10, 24/11/2026",*123# > 2 > 8
+USSD-AID-02,Comment envoyer de l'argent ?,"C10, 24/11/2026",*123# > 2 > 8
+USSD-AID-03,J'ai envoye de l'argent a un mauvais numero,"C10, 24/11/2026",*123# > 2 > 8
+USSD-AID-04,Comment reinitialiser mon code PIN,"C10, 24/11/2026",*123# > 2 > 8
+USSD-AID-05,quels sont les frais de MTN MoMo ?,"C11, 24/11/2026",*123# > 2 > 8 > 00
+USSD-AID-06,Voir mes dernières transactions,"C11, 24/11/2026",*123# > 2 > 8 > 00
+USSD-AID-07,Contactez MTN,"C11, 24/11/2026",*123# > 2 > 8 > 00
+USSD-PRO-01,MoMo Promo,"C12, 24/11/2026","*123# > 2 > 9 (ou 3, à confirmer)"
+USSD-PRO-02,"Voici les types d'offres disponibles pour vous, veuillez selectionner:","C13, 24/11/2026",écran C12 > 1
+USSD-PRO-03,Bundle,"C13, 24/11/2026",écran C12 > 1
+USSD-CON-01,Verifiez les Forfaits Continent,"C19, 24/11/2026",inconnu
+USSD-CON-02,Verifier le solde du forfait Continent,"C19, 24/11/2026",inconnu
+USSD-CON-03,Comment ca marche?,"C19, 24/11/2026",inconnu
