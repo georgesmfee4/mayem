@@ -2,6 +2,7 @@
 """Import des tableurs de la finale remplis par les locuteurs (tools/kit_finale.py les a produits).
 
   python3 tools/import_finale.py FICHIER.xlsx [FICHIER.xlsx …] [--langue X]
+  python3 tools/import_finale.py traduction-<service>-relu-<nom>.html [autres .html ou .txt reçus]
 
 Chaque tableur est reconnu à ses onglets :
 - réponses et menus : une traduction entre dans le corpus si elle porte deux noms différents, garde exactement les
@@ -57,7 +58,9 @@ def lire_csv(chemin):
 
 def ecrire_csv(chemin, entetes, lignes, bom=True):
     sortie = io.StringIO()
-    csv.writer(sortie, lineterminator='\n').writerows([entetes, *lignes])
+    # Les fins de ligne du fichier existant sont gardées : un import ne doit changer que les lignes touchées
+    fin = '\r\n' if pathlib.Path(chemin).exists() and b'\r\n' in pathlib.Path(chemin).read_bytes()[:4096] else '\n'
+    csv.writer(sortie, lineterminator=fin).writerows([entetes, *lignes])
     open(chemin, 'w', encoding='utf-8-sig' if bom else 'utf-8', newline='').write(sortie.getvalue())
 
 
@@ -470,13 +473,81 @@ def importer_test(wb):
     print(f'test-recu.csv : {len(lignes)} phrase(s) de test à l\'aveugle')
 
 
+# Page du téléphone (tools/kit_service.py --page) : le travail renvoyé (fichier .html, ou texte « MAYEM-TRAVAIL ») est
+# reporté dans le classeur du service, puis importé comme lui, avec les mêmes contrôles
+def travail_de_page(chemin):
+    contenu = pathlib.Path(chemin).read_text(encoding='utf-8')
+    m = re.search(r'<script id="travail" type="application/json">(.*?)</script>', contenu, re.S)
+    brut = m.group(1) if m else re.sub(r'^.*?MAYEM-TRAVAIL\s*', '', contenu, flags=re.S)
+    return json.loads(brut.replace('<\\/', '</'))
+
+
+def fusionner_travaux(travaux):
+    items = {}
+    for t in travaux:
+        for cle, x in t.get('items', {}).items():
+            if cle not in items or x.get('m', 0) > items[cle].get('m', 0):
+                items[cle] = x
+    return items
+
+
+COLONNES_PAGE = {  # section -> onglet, colonne de la traduction, du traducteur, du relecteur, du commentaire (1 = A)
+    'textes': ('Textes relevés', 12, 16, 17, 19), 'mots': ('Mots du métier', 7, 8, 9, 10),
+    'demandes': ('Demandes', 7, 12, 13, 14), 'ecrans': ('Écrans', 10, 13, 14, 15)}
+
+
+def classeur_de_page(fichiers):
+    import subprocess, tempfile
+    travaux = [travail_de_page(f) for f in fichiers]
+    service = travaux[0].get('service')
+    dossier = pathlib.Path(tempfile.mkdtemp())
+    subprocess.run([sys.executable, str(racine / 'tools' / 'kit_service.py'), service, '--langue', DOSSIER.name, '--dossier', str(dossier)],
+                   check=True, stdout=subprocess.DEVNULL)
+    chemin = next(dossier.glob('service-*.xlsx'))
+    wb = load_workbook(chemin)
+    items = fusionner_travaux(travaux)
+    for section, (onglet, c_trad, c_tp, c_rp, c_note) in COLONNES_PAGE.items():
+        ws = wb[onglet]
+        lignes = {ws.cell(n, 1).value: n for n in range(2, ws.max_row + 1)}
+        traduites = relues = 0
+        for cle, x in items.items():
+            sec, ref = cle.split(':', 1)
+            if sec != section or ref not in lignes:
+                continue
+            n = lignes[ref]
+            if section == 'demandes':
+                for i, facon in enumerate((x.get('f') or [])[:5]):
+                    ws.cell(n, c_trad + i, (facon or '').strip() or None)
+            else:
+                ws.cell(n, c_trad, (x.get('t') or '').strip() or None)
+                if section == 'ecrans' and (x.get('c') or '').strip():
+                    ws.cell(n, 11, x['c'].strip())
+            ws.cell(n, c_tp, x.get('tp') or None)
+            relu = x.get('s') in ('confirme', 'corrige') and x.get('rp')
+            ws.cell(n, c_rp, x['rp'] if relu else None)
+            notes = [x.get('n'), x.get('nr'), 'corrigé à la relecture' if x.get('s') == 'corrige' else None]
+            ancien = texte(ws.cell(n, c_note).value)
+            if not ancien.startswith('Déjà validé') and any(notes):
+                ws.cell(n, c_note, ' ; '.join(t for t in notes if t))
+            traduites += 1
+            relues += bool(relu)
+        print(f'page du téléphone, {onglet} : {traduites} ligne(s) reçue(s), {relues} relue(s) par une autre personne')
+    return wb, chemin
+
+
 def main():
     fichiers = [a for a in ARGS if not a.startswith('--')]
     if not fichiers:
         sys.exit(__doc__)
     corpus, variantes = {}, []
+    pages = [f for f in fichiers if not f.endswith('.xlsx')]
+    if pages:
+        fichiers = [f for f in fichiers if f.endswith('.xlsx')] + [classeur_de_page(pages)]
     for chemin in fichiers:
-        wb = load_workbook(chemin, data_only=True)
+        if isinstance(chemin, tuple):
+            wb, chemin = chemin
+        else:
+            wb = load_workbook(chemin, data_only=True)
         onglets = set(wb.sheetnames)
         if 'Écrans' in onglets:
             service = service_du_classeur(wb, chemin)

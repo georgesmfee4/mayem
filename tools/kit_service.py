@@ -2,6 +2,9 @@
 """Classeur d'un service existant (argent mobile, téléphonie) pour l'équipe et les locuteurs.
 
   python3 tools/kit_service.py <service> [--langue X]      ->  service-<service>-<langue>.xlsx à la racine
+  python3 tools/kit_service.py <service> --page            ->  aussi service-<service>-<langue>.html, la même chose pour
+                                                              le téléphone (sans internet, travail gardé sur l'appareil)
+  python3 tools/kit_service.py <service> --dossier D       ->  fichiers écrits dans D (l'import s'en sert)
 
 <service> est un dossier de profiles/ (profiles/mtn-cm/ : services.csv, codes.csv, raccourcis.csv). Les parcours,
 les intentions, les situations et les mots du métier viennent du socle commun flux/argent-mobile/ : un autre service
@@ -91,8 +94,10 @@ def termes_valides():
         if traduction and not traduction.startswith('-'):
             for forme in r[fr].split('/'):
                 forme = re.sub(r'\s*\([^)]*\)', '', forme).strip()
-                if len(forme) > 3 and comparable(forme) not in OUTILS and '(' not in traduction:
-                    termes.append((comparable(forme), forme, traduction))
+                cle = comparable(forme)
+                if len(forme) > 3 and cle not in OUTILS and '(' not in traduction:
+                    # Une phrase validée par deux personnes l'emporte sur une forme du glossaire (« Bienvenue »)
+                    termes.append((cle, forme, VALIDEES[cle][1] if cle in VALIDEES else traduction))
     # Les termes longs d'abord : « code secret oublié » avant « code »
     return sorted(set(termes), key=lambda t: -len(t[0]))
 
@@ -297,8 +302,10 @@ def contexte(t, captures):
     vus = [captures[c] for c in t['captures'].split() if c in captures]
     if not vus:
         return '', ''
-    formes = {comparable(f) for f in [t['texte'], *t['formes_vues'].split('|')] if f.strip()}
-    autres = [l for l in lignes_ecran(vus[0]['texte']) if comparable(re.sub(r'^\d+[.)]\s*', '', l)) not in formes]
+    # Le texte lui-même (nom de service compris, à la place de {name}) n'est pas son propre contexte
+    motifs = [re.compile('^' + '.+'.join(re.escape(m) for m in re.split(r'\{\w+\}', comparable(f))) + '$')
+              for f in [t['texte'], *t['formes_vues'].split('|')] if f.strip()]
+    autres = [l for l in lignes_ecran(vus[0]['texte']) if not any(m.match(comparable(re.sub(r'^\d+[.)]\s*', '', l))) for m in motifs)]
     ecran = ' · '.join(autres[:9]) + (' · …' if len(autres) > 9 else '')
     ou = ' ; '.join(f"{c['service']}, {'USSD' if c['code'].startswith('*') else c['code']} : {c['chemin']}" for c in vus[:3])
     return ecran, ou
@@ -408,6 +415,56 @@ def recapitulatif(wb, comptes):
     ws.conditional_formatting.add(f'D2:D{ws.max_row}', FormulaRule(formula=['AND(ISNUMBER(D2),D2>=1)'], fill=PatternFill('solid', fgColor='D7EFDD')))
 
 
+# La page du téléphone reprend les mêmes onglets, colonnes et contextes que le classeur
+def donnees_page():
+    captures = captures_du_profil()
+    intentions = {r['id']: r['description'] for r in lire(SOCLE / 'intentions.csv')}
+    textes = []
+    for t in lire(SOCLE / 'textes.csv'):
+        ecran, ou = contexte(t, captures)
+        deja = deja_valide(t)
+        canal = 'ussd' if 'ussd' in t['canaux'] else 'application'
+        textes.append({'ref': t['ref'], 'groupe': t['theme'], 'fr': t['texte'], 'formes': t['formes_vues'], 'genre': t['genre'],
+                       'ou': t['canaux'], 'sens': t['sens'], 'ecran': ecran, 'vu': ou, 'portee': t['portee'],
+                       'termes': termes_presents(t['texte']), 'limite': LONGUEUR.get(t['genre'], 160 if canal == 'ussd' else 90),
+                       'captures': t['captures'].split(), 'critique': t['genre'] in GENRES_CRITIQUES,
+                       'deja': {'id': deja[0], 'cible': deja[1]} if deja else None})
+    mots = []
+    for r in lire(SOCLE / 'mots.csv'):
+        deja = next((VALIDEES[k] for k in (comparable(f.strip()) for f in r['terme'].split('/')) if k in VALIDEES), None)
+        mots.append({'ref': r['ref'], 'groupe': 'Critiques (argent ou sécurité)' if r['critique'] == '1' else 'Autres mots',
+                     'fr': r['terme'], 'anglais': r['anglais'], 'sens': r['sens'], 'critique': r['critique'] == '1',
+                     'deja': {'id': deja[0], 'cible': deja[1]} if deja else None})
+    demandes = [{'ref': r['ref'], 'groupe': 'Priorité ' + r['priorite'][-1], 'fr': r['exemple_fr'], 'situation': r['situation'],
+                 'sens': r['a_noter'], 'intention': intentions.get(r['intention'], r['intention']), 'critique': r['priorite'] == 'P1'}
+                for r in lire(SOCLE / 'demandes.csv')]
+    parcours = lire(SOCLE / 'parcours.csv')
+    ecrans = []
+    for n, r in enumerate(parcours):
+        voisins = [p['texte_fr'] for p in parcours[max(0, n - 2):n + 3] if p['parcours'] == r['parcours'] and p is not r]
+        deja = VALIDEES.get(comparable(r['texte_fr']))
+        ecrans.append({'ref': r['ref'], 'groupe': r['parcours'], 'fr': r['texte_fr'], 'genre': r['type'], 'ou': r['canal'],
+                       'sens': r['a_noter'], 'ecran': ' · '.join(voisins), 'court': r['canal'] == 'ussd',
+                       'limite': 160 if r['canal'] == 'ussd' else 90, 'critique': r['type'] in TYPES_CRITIQUES,
+                       'deja': {'id': deja[0], 'cible': deja[1]} if deja else None})
+    return {
+        'service': SERVICE, 'langue': CODE, 'nom_langue': NOM,
+        'titre': json.load(open(racine / 'profiles' / f'{SERVICE}.json', encoding='utf-8')).get('nom', SERVICE)
+        if (racine / 'profiles' / f'{SERVICE}.json').exists() else SERVICE,
+        'version': f'{SERVICE}-{CODE}-' + str(sum(len(x) for x in (textes, mots, demandes, ecrans))),
+        'sections': [
+            {'id': 'textes', 'titre': 'Textes vus sur les écrans', 'court': 'Textes', 'items': textes},
+            {'id': 'mots', 'titre': 'Mots du métier', 'court': 'Mots', 'items': mots},
+            {'id': 'demandes', 'titre': 'Comment les gens demandent', 'court': 'Demandes', 'items': demandes, 'facons': [
+                'Façon 1 : comme à un proche', 'Façon 2 : poliment, à un agent', 'Façon 3 : très courte, comme un SMS',
+                'Façon 4 : en mêlant le français, comme on parle vraiment', 'Façon 5 : autre façon']},
+            {'id': 'ecrans', 'titre': 'Écrans types (pas encore vus sur un téléphone)', 'court': 'Écrans', 'items': ecrans},
+        ],
+        'captures': {k: {'texte': '\n'.join(lignes_ecran(c['texte'])), 'chemin': c['chemin'], 'code': c['code'],
+                         'certitude': c['certitude']} for k, c in captures.items()},
+    }
+
+
 def main():
     wb = Workbook()
     comptes = {'Textes relevés': onglet_textes(wb), 'Captures': onglet_captures(wb), 'Mots du métier': onglet_mots(wb),
@@ -418,8 +475,15 @@ def main():
     wb.move_sheet("Mode d'emploi", offset=-(len(wb.sheetnames) - 1))
     # L'import retrouve le profil à mettre à jour, même si le fichier est renommé
     wb.properties.subject = SERVICE
-    chemin = racine / f'service-{SERVICE}-{LANGUE}.xlsx'
+    dossier = pathlib.Path(ARGS[ARGS.index('--dossier') + 1]) if '--dossier' in ARGS else racine
+    chemin = dossier / f'service-{SERVICE}-{LANGUE}.xlsx'
     wb.save(chemin)
+    if '--page' in ARGS:
+        page = dossier / f'service-{SERVICE}-{LANGUE}.html'
+        modele = (racine / 'tools' / 'page-service.html').read_text(encoding='utf-8')
+        donnees = json.dumps(donnees_page(), ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+        page.write_text(modele.replace('{{DONNEES}}', donnees).replace('{{LANGUE}}', NOM), encoding='utf-8')
+        print(f'{page.name} : page pour le téléphone')
     deja = sum(1 for t in lire(SOCLE / 'textes.csv') if deja_valide(t))
     print(f'{chemin.name} : {", ".join(f"{k} {v}" for k, v in comptes.items())} ; {deja} textes relevés déjà traduits')
 
