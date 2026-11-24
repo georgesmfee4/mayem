@@ -1,0 +1,21 @@
+ref,canal,cible,traduit_par,relu_par
+RF001,ussd,"{name} mbolo, bia bô jé den ?",Georges,Lesly
+RF002,voix,Wô yii na wô bô jé ?,Georges,Lesly
+RF010,sms,Mebal môé (solde / balance) : {amount},Georges,Lesly
+RF010,ussd,Mebal môé : {amount},Georges,Lesly
+RF010,voix,Mebal môé (solde / balance) : {amount},Georges,Lesly
+RF011,sms,Mebal môé (solde / balance) ya {date} meine {amount},Georges,Lesly
+RF011,ussd,Mebal môé (solde / balance) ya {date} meine {amount},Georges,Lesly
+RF011,voix,Mebal môé (solde / balance) ya {date} meine {amount},Georges,Lesly
+RF042,ussd,"ok, ma kóm nombor : {phone}",Georges,Lesly
+RF052,ussd,Zà wô lôm {amount} ?,Georges,Lesly
+RF053,sms,Lôm moné nge ki kùs kredi ?,Georges,Lesly
+RF053,ussd,Lôm moné nge ki kùs kredi ?,Georges,Lesly
+RF053,voix,Lôm moné nge ki kùs kredi ?,Georges,Lesly
+RF063,ussd,Nombor te a lôt ki. Tuà nye beta fòmbo,Georges,Lesly
+RF064,ussd,Service a ndji bo. Teké abime moné. Ve'ele'e mvùs.,Georges,Lesly
+RF091,sms,Futi'i nombor faktur.,Georges,Lesly
+RF091,ussd,Futi'i nombor faktur.,Georges,Lesly
+RF091,voix,Futi'i nombor faktur.,Georges,Lesly
+RF092,sms,Faktur {ref}: {amount}. Ya'an,Georges,Lesly
+RF092,ussd,Faktur {ref}: {amount}. Wô Ya'an ?,Georges,Lesly

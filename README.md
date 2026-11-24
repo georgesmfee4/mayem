@@ -114,6 +114,13 @@ Commandes :
 - `npm run conversation` : converser dans le terminal (`journal` montre la dernière ligne ; `-- --canal ussd` pour l'étiquette du canal).
 - `npm test` vérifie les scénarios, la confirmation obligatoire, la négation, l'empreinte identique entre canaux et les pannes.
 
+### Tableurs de la finale remplis
+`python3 tools/import_finale.py finale-*.xlsx` importe les tableurs reçus : réponses et menus au corpus (versions
+USSD, SMS et voix dans `finale/variantes.csv`), demandes, mots du dialogue, nombres et explications rangés pour la
+compréhension, test à l'aveugle rangé pour la mesure. Le rapport liste chaque refus à renvoyer aux locuteurs.
+`npm run mesure` donne le taux d'intentions justes sur le test à l'aveugle (`-- --provisoire` compte aussi les lignes
+pas encore signées, pour mesurer seulement).
+
 ### Passerelle : la couche d'API branchée devant un service existant
 `npm run passerelle` lance la passerelle (`service/passerelle.ts`) et, sans autre profil, la banque d'essai
 (`fixtures/services/banque.js`) : tout tourne sur ce poste, avec un seul compte simulé pour tous les canaux.

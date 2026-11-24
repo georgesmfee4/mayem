@@ -71,6 +71,13 @@ script intégré. Le noyau conversationnel a les siennes, aussi strictes (sectio
 - Vocabulaire de compréhension : des données, jamais dans le code. Français : `service/lexique-fr.json`, relu par
   un francophone de l'équipe. Langue nationale : termes validés du glossaire, puis formulations recueillies auprès
   des locuteurs (tableur des demandes), validées par deux personnes.
+- Les tableurs remplis entrent par `tools/import_finale.py` : une traduction n'entre que signée de deux noms, avec
+  exactement les cases {…} et les chiffres du français, sans contredire le glossaire (« Mebal (frais) » est refusé).
+  Une ligne écartée à la relecture est notée avec sa raison (`finale/exclusions.csv`). L'import ajoute, il ne remplace
+  jamais une phrase validée hors finale. Formulations, mots du dialogue et marques de la langue (`finale/comprendre.json`)
+  ne servent à comprendre que signés de deux noms ; une demande qui mêle deux intentions ne sert pas de modèle.
+- La compréhension se mesure sur le test à l'aveugle (`npm run mesure`), jamais sur les phrases qui ont servi à
+  l'apprendre ; une phrase du test n'entre jamais dans les formulations.
 - Code PIN : jamais transmis au moteur de compréhension, jamais journalisé.
 - Journal : une ligne par tour aux colonnes du tableau de bord du jury, dans l'environnement de test seulement ;
   ni code PIN ni nom de traducteur.

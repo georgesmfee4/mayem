@@ -132,3 +132,25 @@ test('le journal ne garde que des faits de l\'opération : ni code PIN ni nom de
   }
   assert.doesNotMatch(brut, /pin|traduit_par|relu_par/i);
 });
+
+test('version d\'une réponse propre au canal : utilisée sur ce canal, la version complète ailleurs', async () => {
+  const { creerReponses } = await import('../service/reponses.ts');
+  const pack = JSON.parse(readFileSync(new URL('../packs/bum/pack.json', import.meta.url), 'utf8'));
+  const reponses = creerReponses([{ ref: 'R1', fr: 'Votre solde est de {amount}' }], [], pack, [{ ref: 'R1', canal: 'ussd', cible: 'Court : {amount}' }]);
+  const valeurs = { amount: '85 000 FCFA' };
+  assert.equal(reponses.rendre({ ref: 'R1', valeurs }, 'bum', 'ussd').texte, 'Court : 85 000 FCFA');
+  assert.equal(reponses.rendre({ ref: 'R1', valeurs }, 'bum', 'web').texte, 'Mebal môé: 85 000 FCFA');
+  assert.equal(reponses.rendre({ ref: 'R1', valeurs }, 'fr', 'ussd').texte, 'Votre solde est de 85 000 FCFA');
+});
+
+test('pendant un transfert, « n\'envoie pas 5 000, envoie 10 000 » corrige le montant au lieu de tout annuler', async () => {
+  const ctx = contexte();
+  const s = nouvelleSession('nc', 'web', 'fr');
+  await traiter(ctx, s, 'Envoie 5 000 à Pierre');
+  const tour = await traiter(ctx, s, 'Non, n\'envoie pas 5 000, envoie 10 000');
+  assert.equal(tour.journal.statut, 'en_attente_confirmation');
+  assert.deepEqual(tour.journal.reponses.map((x) => x.ref), ['RF040', 'RF032', 'RF033']);
+  assert.equal(tour.journal.parametres.montant, 10000);
+  const seul = await traiter(contexte(), nouvelleSession('nn', 'web', 'fr'), 'N\'envoie pas l\'argent à Paul');
+  assert.equal(seul.journal.statut, 'annulee', 'sans opération en cours, la négation n\'exécute rien');
+});

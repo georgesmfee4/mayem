@@ -18,6 +18,13 @@ export interface Lexique {
   devises: string[];
   multiplicateurs: Record<string, number>;
   nombres?: MotsNombres;
+  // Mots qui écartent la valeur qui suit (« pas 5 000 », « sa'ake Paul ») et petits mots qui peuvent s'intercaler
+  ecartent?: string[];
+  liaisons?: string[];
+  // Expressions de négation d'une action propres à la langue (« te lôm ») ; le français a sa grammaire plus bas
+  negations?: string[];
+  // Formulations recueillies auprès des locuteurs : une demande proche de l'une d'elles en prend l'intention
+  formulations?: { ref: string; intention: string; texte: string }[];
 }
 
 export interface Contact { id: string; nom: string; alias: string[]; telephone: string; type: string }
@@ -67,9 +74,15 @@ const echapper = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const motif = (expression: string) => new RegExp(`(?<![a-z0-9])${echapper(normaliser(expression))}(?![a-z0-9])`, 'g');
 const masquer = (texte: string, debut: number, fin: number) => texte.slice(0, debut) + '#'.repeat(fin - debut) + texte.slice(fin);
 
-// Valeur écartée par celui qui parle : « pas 5 000 », « non pas à Paul », « au lieu de 5 000 »
-const ECARTEE = /(?:\bpas|\bnon|\bau lieu de|\bplutot que)(?:\s(?:a|au|de|d|pour))?\s*$/;
-const ecartee = (normal: string, debut: number) => ECARTEE.test(normal.slice(Math.max(0, debut - 30), debut));
+// Valeur écartée par celui qui parle : « pas 5 000 », « non pas à Paul », « au lieu de 5 000 », « sa'ake Paul »
+type Ecarte = (debut: number) => boolean;
+function ecarteur(normal: string, lexiques: Lexique[]): Ecarte {
+  const ecartent = lexiques.flatMap((l) => l.ecartent || []).map((m) => echapper(normaliser(m)));
+  const liaisons = lexiques.flatMap((l) => l.liaisons || []).map((m) => echapper(normaliser(m)));
+  if (!ecartent.length) return () => false;
+  const motif = new RegExp(`(?<![a-z0-9])(?:${ecartent.join('|')})(?:\\s(?:${liaisons.join('|') || '(?!)'}))?\\s*$`);
+  return (debut) => motif.test(normal.slice(Math.max(0, debut - 30), debut));
+}
 
 // Numéro mobile camerounais : 9 chiffres commençant par 6, indicatif 237 facultatif. Suivi d'une devise,
 // c'est une somme (« 650 000 000 F »), pas un numéro.
@@ -82,36 +95,36 @@ function suffixe(normal: string, fin: number, mots: string[]) {
   return m ? { mot: m[1], fin: fin + m[0].length } : null;
 }
 
-function telephones(normal: string, lexique: Lexique) {
+function telephones(normal: string, lexique: Lexique, ecartee: Ecarte) {
   const trouves: Comprehension['telephones'] = [];
   for (const m of normal.matchAll(TELEPHONE)) {
     const fin = m.index! + m[0].length;
     if (suffixe(normal, fin, lexique.devises)) continue;
-    trouves.push({ numero: m[0].replace(/\D/g, '').slice(-9), debut: m.index!, fin, rejete: ecartee(normal, m.index!) });
+    trouves.push({ numero: m[0].replace(/\D/g, '').slice(-9), debut: m.index!, fin, rejete: ecartee(m.index!) });
   }
   return trouves;
 }
 
 // Montants et petits nombres, en chiffres (« 10 000 », « 5 mille ») ou en lettres (« deux mille cinq cents »)
-function completer(normal: string, lexique: Lexique, { valeur, debut, fin }: { valeur: number; debut: number; fin: number }): Valeur {
+function completer(normal: string, lexique: Lexique, ecartee: Ecarte, { valeur, debut, fin }: { valeur: number; debut: number; fin: number }): Valeur {
   const multiple = suffixe(normal, fin, Object.keys(lexique.multiplicateurs));
   if (multiple) { valeur *= lexique.multiplicateurs[multiple.mot]; fin = multiple.fin; }
   const devise = suffixe(normal, fin, lexique.devises);
   if (devise) fin = devise.fin;
-  return { valeur, debut, fin, rejete: ecartee(normal, debut), monnaie: Boolean(devise || multiple) || valeur >= PLUS_PETIT_MONTANT };
+  return { valeur, debut, fin, rejete: ecartee(debut), monnaie: Boolean(devise || multiple) || valeur >= PLUS_PETIT_MONTANT };
 }
 
-function valeurs(normal: string, masque: string, lexique: Lexique): Valeur[] {
+function valeurs(normal: string, masque: string, lexique: Lexique, ecartee: Ecarte): Valeur[] {
   const chiffres = [...masque.matchAll(/(?<![\d#])\d{1,3}(?:\s\d{3})+(?![\d#])|(?<![\d#])\d+(?![\d#])/g)]
-    .map((m) => completer(normal, lexique, { valeur: Number(m[0].replace(/\s/g, '')), debut: m.index!, fin: m.index! + m[0].length }));
+    .map((m) => completer(normal, lexique, ecartee, { valeur: Number(m[0].replace(/\s/g, '')), debut: m.index!, fin: m.index! + m[0].length }));
   // « 5 mille » est déjà compté : son « mille » ne doit pas devenir un second nombre
   for (const v of chiffres) masque = masquer(masque, v.debut, v.fin);
-  const lettres = nombresEnLettres(masque, lexique.nombres || MOTS_FRANCAIS).map((n) => completer(normal, lexique, n));
+  const lettres = nombresEnLettres(masque, lexique.nombres || MOTS_FRANCAIS).map((n) => completer(normal, lexique, ecartee, n));
   return [...chiffres, ...lettres].sort((a, b) => a.debut - b.debut);
 }
 
 // Contacts du carnet nommés dans la demande. Un prénom porté par deux contacts reste ambigu : on garde les deux.
-function contacts(normal: string, carnet: Contact[]): Mention[] {
+function contacts(normal: string, carnet: Contact[], ecartee: Ecarte): Mention[] {
   const vues: Mention[] = [];
   for (const contact of carnet) {
     for (const nom of [contact.nom, ...contact.alias]) {
@@ -119,7 +132,7 @@ function contacts(normal: string, carnet: Contact[]): Mention[] {
         const fin = m.index! + m[0].length;
         const meme = vues.find((v) => v.debut === m.index && v.fin === fin);
         if (meme) { if (!meme.contacts.includes(contact)) meme.contacts.push(contact); }
-        else vues.push({ contacts: [contact], debut: m.index!, fin, rejete: ecartee(normal, m.index!) });
+        else vues.push({ contacts: [contact], debut: m.index!, fin, rejete: ecartee(m.index!) });
       }
     }
   }
@@ -145,15 +158,61 @@ function terme(normal: string, termes: Terme[]): Terme | null {
 
 // Négation d'une action : « n'envoie pas », « ne paie jamais », « surtout pas ». « Je n'ai pas compris »
 // est une demande de répétition, pas un refus.
-function negation(normal: string): boolean {
+function negation(normal: string, lexiques: Lexique[]): boolean {
   if (/\bn\s?ai pas (compris|entendu|bien compris)\b/.test(normal)) return false;
+  if (lexiques.some((l) => (l.negations || []).some((n) => motif(n).test(normal)))) return true;
   return /\b(ne|n)\s(?:[a-z]+\s){0,2}?(pas|jamais|rien|plus)\b/.test(normal) || /\b(ne pas|surtout pas)\b/.test(normal);
 }
 
 interface Note { intention: string; score: number; mots: string[] }
 
-function noter(normal: string, lexiques: Lexique[], bonus: Record<string, number>): Note[] {
+// Formulations des locuteurs : chaque mot pèse d'autant plus qu'il est rare dans l'ensemble (« lôm » dit peu,
+// « mvolan » dit beaucoup). Les chiffres et les noms du carnet ne comptent pas : seule la façon de demander compte.
+const SEUIL_PROCHE = 0.5;
+const motsDe = (texte: string, ignores: Set<string>) =>
+  new Set(normaliser(texte).split(' ').filter((m) => /[a-z]/.test(m) && m.length > 1 && !ignores.has(m)));
+
+const poidsParLexique = new WeakMap<Lexique, Map<string, number>>();
+function poidsDes(lexique: Lexique): Map<string, number> {
+  let poids = poidsParLexique.get(lexique);
+  if (!poids) {
+    const formulations = lexique.formulations || [];
+    const compte = new Map<string, number>();
+    for (const f of formulations) for (const m of motsDe(f.texte, new Set())) compte.set(m, (compte.get(m) || 0) + 1);
+    poids = new Map([...compte].map(([m, n]) => [m, Math.log(1 + formulations.length / n)]));
+    poidsParLexique.set(lexique, poids);
+  }
+  return poids;
+}
+
+// Écart minimal entre la meilleure intention et la suivante : en dessous, deux intentions sont plausibles et
+// c'est à la personne de dire laquelle
+const ECART_PROCHE = 0.1;
+
+// La formulation validée la plus proche de la demande, si elle l'est assez et sans rivale d'une autre intention
+export function plusProche(normal: string, lexiques: Lexique[], ignores: Set<string>) {
+  const parIntention = new Map<string, { ref: string; intention: string; texte: string; proximite: number }>();
+  for (const lexique of lexiques) {
+    const poids = poidsDes(lexique);
+    const demande = motsDe(normal, ignores);
+    const masse = (mots: Set<string>) => [...mots].reduce((t, m) => t + (poids.get(m) ?? Math.log(2)), 0);
+    for (const f of lexique.formulations || []) {
+      const mots = motsDe(f.texte, ignores);
+      const communs = new Set([...mots].filter((m) => demande.has(m)));
+      if (!communs.size) continue;
+      const proximite = (2 * masse(communs)) / (masse(mots) + masse(demande));
+      if (proximite > (parIntention.get(f.intention)?.proximite ?? 0)) parIntention.set(f.intention, { ...f, proximite });
+    }
+  }
+  const [premiere, seconde] = [...parIntention.values()].sort((a, b) => b.proximite - a.proximite);
+  if (!premiere || premiere.proximite < SEUIL_PROCHE) return null;
+  return seconde && premiere.proximite - seconde.proximite < ECART_PROCHE ? null : premiere;
+}
+
+function noter(normal: string, lexiques: Lexique[], bonus: Record<string, number>, ignores: Set<string>): Note[] {
   const notes = new Map<string, Note>();
+  const proche = plusProche(normal, lexiques, ignores);
+  if (proche) notes.set(proche.intention, { intention: proche.intention, score: Math.round(proche.proximite * 6), mots: [`proche de ${proche.ref} « ${proche.texte} »`] });
   for (const lexique of lexiques) {
     for (const [intention, mots] of Object.entries(lexique.intentions)) {
       const note = notes.get(intention) || { intention, score: 0, mots: [] };
@@ -187,18 +246,20 @@ export function comprendre(texte: string, { lexiques, carnet = [], termes = [] }
   const devises = [...new Set(lexiques.flatMap((l) => l.devises))];
   const multiplicateurs = Object.assign({}, ...lexiques.map((l) => l.multiplicateurs));
   const reunis = { ...lexique, devises, multiplicateurs };
-  const tel = telephones(normal, reunis);
+  const ecartee = ecarteur(normal, lexiques);
+  const tel = telephones(normal, reunis, ecartee);
   const facture = normal.match(FACTURE);
   let masque = normal;
   for (const t of tel) masque = masquer(masque, t.debut, t.fin);
   if (facture) masque = masquer(masque, facture.index! + facture[0].length - facture[1].length, facture.index! + facture[0].length);
-  const toutes = valeurs(normal, masque, reunis);
+  const toutes = valeurs(normal, masque, reunis, ecartee);
   const trouve = terme(normal, termes);
   const secondaires = new Set(lexiques.flatMap((l) => l.secondaires));
-  const notes = noter(normal, lexiques, trouve ? { expliquer: 2 } : {});
+  const ignores = new Set(carnet.flatMap((c) => [c.nom, ...c.alias]).flatMap((n) => normaliser(n).split(' ')));
+  const notes = noter(normal, lexiques, trouve ? { expliquer: 2 } : {}, ignores);
   const { note, hesitation } = choisir(notes, secondaires);
   const montants = toutes.filter((v) => v.monnaie);
-  const mentions = contacts(normal, carnet);
+  const mentions = contacts(normal, carnet, ecartee);
   // « 10 000 à Pierre » : une somme et un bénéficiaire, sans verbe, ne peuvent vouloir dire qu'un envoi.
   // Rien ne part pour autant : l'envoi attend toujours la confirmation de l'utilisateur.
   const envoiSansVerbe = !note && !hesitation.length && montants.some((v) => !v.rejete)
@@ -218,7 +279,7 @@ export function comprendre(texte: string, { lexiques, carnet = [], termes = [] }
     terme: trouve,
     periode: lexiques.map((l) => premier(normal, l.periodes)).find(Boolean) || null,
     langue: lexiques.map((l) => premier(normal, l.langues)).find(Boolean) || null,
-    negation: negation(normal),
+    negation: negation(normal, lexiques),
     touche: /^\d{1,2}$/.test(normal) ? normal : null,
   };
 }
