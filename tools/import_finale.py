@@ -375,6 +375,30 @@ def importer_ecrans(wb):
     return corpus, variantes, releves
 
 
+# Textes vus sur de vrais écrans : un texte de référence, valable aussi pour ses autres écritures vues à l'écran
+def importer_textes(wb):
+    corpus = {}
+    for r in list(wb['Textes relevés'].iter_rows(values_only=True))[1:]:
+        ref, francais, traduction = texte(r[0]), texte(r[4]), texte(r[11])
+        if not ref or not traduction or texte(r[18]).startswith('Déjà validé'):
+            continue
+        if not deux_noms(r[15], r[16]):
+            R.attente.append(f'{ref} : deux noms différents attendus')
+            continue
+        complete = preparer(ref, 'texte', francais, traduction)
+        if not complete:
+            continue
+        valide_par = f'{texte(r[15])} / relu par {texte(r[16])}'
+        commun = {'cible': complete, 'critique': '1' if texte(r[2]) in ("message d'erreur", 'invite') else '0',
+                  'element': f'{texte(r[2])} : {texte(r[1])}', 'valide_par': valide_par}
+        corpus[ref] = dict(commun, fr=francais)
+        formes = [f.strip() for f in texte(r[5]).split('|') if f.strip() and f.strip() != francais]
+        for n, forme in enumerate(formes, 1):
+            if preparer(f'{ref}V{n}', 'forme vue', forme, complete):
+                corpus[f'{ref}V{n}'] = dict(commun, fr=forme)
+    return corpus
+
+
 def importer_mots_metier(wb):
     entetes, lignes = lire_csv(DOSSIER / 'glossaire.csv')
     refs = {l[0] for l in lignes if l}
@@ -458,6 +482,8 @@ def main():
             service = service_du_classeur(wb, chemin)
             c, v, releves = importer_ecrans(wb)
             corpus.update(c); variantes += v
+            if 'Textes relevés' in onglets:
+                corpus.update(importer_textes(wb))
             importer_mots_metier(wb)
             importer_demandes(wb)
             if service:

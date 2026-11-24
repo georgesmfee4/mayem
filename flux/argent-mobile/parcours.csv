@@ -11,10 +11,6 @@ USSD-MENU-09,Menu principal de l'argent mobile,ussd,9,choix,aide,Approbations en
 USSD-MENU-10,Menu principal de l'argent mobile,ussd,10,choix,aide,Suivant,
 USSD-MENU-11,Menu principal de l'argent mobile,ussd,11,choix,aide,Retour,
 USSD-MENU-12,Menu principal de l'argent mobile,ussd,12,invite,aide,Tapez votre choix,
-USSD-MENU-13,Menu principal de l'argent mobile,ussd,13,choix,aide,Opérations bancaires,Entre le compte d'argent mobile et un compte bancaire
-USSD-MENU-14,Menu principal de l'argent mobile,ussd,14,choix,pret,Prêts,
-USSD-MENU-15,Menu principal de l'argent mobile,ussd,15,choix,aide,Aide,
-USSD-MENU-16,Menu principal de l'argent mobile,ussd,16,choix,aide,Promotions,
 USSD-TRF-01,Transfert vers un numéro du même service,ussd,1,choix,transfert,Vers un numéro du même réseau,
 USSD-TRF-02,Transfert vers un numéro du même service,ussd,2,choix,transfert,Vers un autre réseau,
 USSD-TRF-03,Transfert vers un numéro du même service,ussd,3,choix,transfert,Vers une banque,
@@ -36,16 +32,12 @@ USSD-TRF-18,Transfert vers un numéro du même service,ussd,18,erreur,transfert,
 USSD-TRF-19,Transfert vers un numéro du même service,ussd,19,erreur,transfert,Vous avez atteint votre plafond journalier.,
 USSD-TRF-20,Transfert vers un numéro du même service,ussd,20,erreur,transfert,Ce numéro n'a pas de compte d'argent mobile.,
 USSD-TRF-21,Transfert vers un numéro du même service,ussd,21,erreur,transfert,Transaction échouée. Veuillez réessayer.,
-USSD-TRF-22,Transfert vers un numéro du même service,ussd,22,choix,transfert,Vers une personne sans compte,"Le bénéficiaire retire avec un code, sans compte d'argent mobile"
-USSD-TRF-23,Transfert vers un numéro du même service,ussd,23,choix,transfert,Transfert international,
 USSD-AUT-01,Transfert vers un autre réseau ou une banque,ussd,1,invite,transfert_autre_reseau,Choisissez le réseau,
 USSD-AUT-02,Transfert vers un autre réseau ou une banque,ussd,2,invite,transfert_autre_reseau,Choisissez la banque,
 USSD-AUT-03,Transfert vers un autre réseau ou une banque,ussd,3,invite,transfert_autre_reseau,Entrez le numéro de compte,
 USSD-AUT-04,Transfert vers un autre réseau ou une banque,ussd,4,recapitulatif,transfert_autre_reseau,Vous allez envoyer {amount} vers {name}. Frais : {fee}. Total : {amount_2}.,
 USSD-AUT-05,Transfert vers un autre réseau ou une banque,ussd,5,succes,transfert_autre_reseau,Votre demande de transfert a été prise en compte.,
 USSD-AUT-06,Transfert vers un autre réseau ou une banque,ussd,6,erreur,transfert_autre_reseau,Ce service est momentanément indisponible.,
-USSD-AUT-07,Transfert vers un autre réseau ou une banque,ussd,7,titre,transfert_autre_reseau,Vers un autre opérateur,Les noms de pays et d'opérateurs qui suivent ne se traduisent pas (onglet Services)
-USSD-AUT-08,Transfert vers un autre réseau ou une banque,ussd,8,choix,transfert_autre_reseau,Vers un numéro de compte bancaire (IBAN),IBAN ne se traduit pas
 USSD-RET-01,Retrait chez un agent,ussd,1,choix,retrait,Retrait chez un agent,
 USSD-RET-02,Retrait chez un agent,ussd,2,invite,retrait,Entrez le code de l'agent,
 USSD-RET-03,Retrait chez un agent,ussd,3,invite,retrait,Entrez le montant à retirer,
@@ -146,36 +138,6 @@ USSD-APL-03,Forfaits appels et SMS,ussd,3,choix,forfait_appel,Forfaits mixtes,
 USSD-APL-04,Forfaits appels et SMS,ussd,4,recapitulatif,forfait_appel,Forfait de {count} minutes pour {amount}.,
 USSD-APL-05,Forfaits appels et SMS,ussd,5,succes,forfait_appel,Votre forfait est activé.,
 USSD-APL-06,Forfaits appels et SMS,ussd,6,information,forfait_appel,Il vous reste {count} minutes.,
-USSD-OFF-01,Menu des offres de l'opérateur,ussd,1,titre,aide,Bienvenue aux offres de l'opérateur,Le nom de l'opérateur reste tel quel
-USSD-OFF-02,Menu des offres de l'opérateur,ussd,2,choix,aide,Mes offres,
-USSD-OFF-03,Menu des offres de l'opérateur,ussd,3,choix,forfait_appel,Forfaits appels et internet,
-USSD-OFF-04,Menu des offres de l'opérateur,ussd,4,choix,aide,Communautés,Offres de groupe (à préciser après relevé)
-USSD-OFF-05,Menu des offres de l'opérateur,ussd,5,choix,aide,SMS et services numériques,
-USSD-OFF-06,Menu des offres de l'opérateur,ussd,6,choix,solde_credit,Mon compte,
-USSD-OFF-07,Menu des offres de l'opérateur,ussd,7,choix,aide,Favoris,Offres mises de côté par la personne
-USSD-OFF-08,Menu des offres de l'opérateur,ussd,8,choix,aide,Bons plans (*222#),Le code reste tel quel
-USSD-OFF-09,Menu des offres de l'opérateur,ussd,9,choix,solde_credit,Solde,Reste du forfait ou du crédit
-USSD-FOR-01,Forfaits appels de l'opérateur,ussd,1,titre,forfait_appel,Forfaits : tous les réseaux au même prix,Le nom de l'offre reste tel quel
-USSD-FOR-02,Forfaits appels de l'opérateur,ussd,2,choix,forfait_appel,Tous réseaux,
-USSD-FOR-03,Forfaits appels de l'opérateur,ussd,3,choix,forfait_appel,Vers le même opérateur uniquement,
-USSD-FOR-04,Forfaits appels de l'opérateur,ussd,4,choix,forfait_appel,Tous réseaux et internet,
-USSD-FOR-05,Forfaits appels de l'opérateur,ussd,5,choix,forfait_internet,Internet,
-USSD-FOR-06,Forfaits appels de l'opérateur,ussd,6,titre,forfait_appel,Vos forfaits pour appeler tous les réseaux au Cameroun,Les offres chiffrées qui suivent (250U=1100U/24H…) ne se traduisent pas : seules les abréviations se lisent (onglet Mots du métier)
-USSD-SMD-01,Services SMS de l'opérateur,ussd,1,choix,forfait_appel,Offres SMS,
-USSD-SMD-02,Services SMS de l'opérateur,ussd,2,choix,forfait_appel,Prolongation,Prolonger un forfait (à préciser après relevé)
-USSD-AID-01,Aide de l'argent mobile,ussd,1,choix,aide,Qu'est-ce que l'argent mobile ?,Le nom du service reste tel quel
-USSD-AID-02,Aide de l'argent mobile,ussd,2,choix,aide,Comment envoyer de l'argent ?,
-USSD-AID-03,Aide de l'argent mobile,ussd,3,choix,annuler_operation,J'ai envoyé de l'argent à un mauvais numéro,Situation urgente : argent parti au mauvais numéro
-USSD-AID-04,Aide de l'argent mobile,ussd,4,choix,pin_oublie,Comment réinitialiser mon code secret ?,
-USSD-AID-05,Aide de l'argent mobile,ussd,5,choix,frais,Quels sont les frais de l'argent mobile ?,
-USSD-AID-06,Aide de l'argent mobile,ussd,6,choix,historique,Voir mes dernières transactions,
-USSD-AID-07,Aide de l'argent mobile,ussd,7,choix,service_client,Contacter le service client,
-USSD-PRO-01,Promotions de l'argent mobile,ussd,1,choix,aide,Promotions de l'argent mobile,
-USSD-PRO-02,Promotions de l'argent mobile,ussd,2,invite,credit,"Voici les types d'offres disponibles pour vous, veuillez sélectionner :",
-USSD-PRO-03,Promotions de l'argent mobile,ussd,3,choix,credit,Forfait,
-USSD-CON-01,Forfait Continent,ussd,1,titre,forfait_appel,Vérifiez les forfaits Continent,Continent : nom de l'offre (onglet Services)
-USSD-CON-02,Forfait Continent,ussd,2,choix,solde_internet,Vérifier le solde du forfait Continent,
-USSD-CON-03,Forfait Continent,ussd,3,choix,aide,Comment ça marche ?,
 APP-ACC-01,Application : connexion et accueil,application,1,titre,aide,Bienvenue,
 APP-ACC-02,Application : connexion et accueil,application,2,invite,aide,Entrez votre numéro de téléphone,
 APP-ACC-03,Application : connexion et accueil,application,3,invite,aide,Entrez le code reçu par SMS,Code de vérification : jamais lu.
@@ -199,21 +161,6 @@ APP-ACC-20,Application : connexion et accueil,application,20,choix,aide,Scanner 
 APP-ACC-21,Application : connexion et accueil,application,21,choix,aide,Mon code QR,
 APP-ACC-22,Application : connexion et accueil,application,22,choix,aide,Paramètres,
 APP-ACC-23,Application : connexion et accueil,application,23,choix,aide,Se déconnecter,
-APP-ACC-24,Application : connexion et accueil,application,24,information,aide,Portefeuille,Le compte d'argent mobile
-APP-ACC-25,Application : connexion et accueil,application,25,choix,aide,Pour vous,
-APP-ACC-26,Application : connexion et accueil,application,26,titre,historique,Dernières transactions,
-APP-ACC-27,Application : connexion et accueil,application,27,information,historique,Aucune transaction trouvée,
-APP-ACC-28,Application : connexion et accueil,application,28,titre,transfert,Destinataires favoris,Le nom du service reste tel quel
-APP-ACC-29,Application : connexion et accueil,application,29,choix,transfert,Nouveau,Ajouter un destinataire favori
-APP-ACC-30,Application : connexion et accueil,application,30,choix,transfert,Envoyer de l'argent,
-APP-ACC-31,Application : connexion et accueil,application,31,choix,forfait_internet,Forfait internet,
-APP-ACC-32,Application : connexion et accueil,application,32,choix,credit,Crédit,Crédit de communication
-APP-ACC-33,Application : connexion et accueil,application,33,choix,paiement_marchand,Commerçants,
-APP-ACC-34,Application : connexion et accueil,application,34,choix,facture,Services publics,"Eau, électricité, télévision"
-APP-ACC-35,Application : connexion et accueil,application,35,choix,aide,Services bancaires,
-APP-ACC-36,Application : connexion et accueil,application,36,choix,aide,Billetterie,Achat de billets
-APP-ACC-38,Application : connexion et accueil,application,37,choix,aide,Accueil,
-APP-ACC-40,Application : connexion et accueil,application,38,choix,aide,Plus,
 APP-ENV-01,Application : envoyer de l'argent,application,1,choix,transfert,Choisir dans mes contacts,
 APP-ENV-02,Application : envoyer de l'argent,application,2,invite,transfert,Numéro du bénéficiaire,
 APP-ENV-03,Application : envoyer de l'argent,application,3,invite,transfert,Montant,
@@ -241,69 +188,11 @@ APP-PAR-07,Application : paramètres et sécurité,application,7,choix,changer_p
 APP-PAR-08,Application : paramètres et sécurité,application,8,erreur,changer_pin,Votre session a expiré. Connectez-vous à nouveau.,
 APP-PAR-09,Application : paramètres et sécurité,application,9,erreur,changer_pin,Pas de connexion internet.,
 APP-PAR-10,Application : paramètres et sécurité,application,10,erreur,changer_pin,Une erreur est survenue. Veuillez réessayer.,
-APP-PAR-11,Application : paramètres et sécurité,application,11,choix,solde,Aperçu du solde,
-APP-PAR-12,Application : paramètres et sécurité,application,12,choix,changer_pin,Désactiver l'empreinte digitale,Contraire de « Activer l'empreinte digitale » : ne pas confondre
-APP-PAR-13,Application : paramètres et sécurité,application,13,alerte,aide,Supprimer mon compte,Action sans retour : à traduire avec soin
 APP-CRT-01,Application : carte virtuelle,application,1,choix,carte_virtuelle,Créer ma carte,
 APP-CRT-02,Application : carte virtuelle,application,2,choix,carte_virtuelle,Recharger la carte,
 APP-CRT-03,Application : carte virtuelle,application,3,choix,carte_virtuelle,Afficher les détails de la carte,
 APP-CRT-04,Application : carte virtuelle,application,4,choix,carte_virtuelle,Bloquer la carte,
 APP-CRT-05,Application : carte virtuelle,application,5,alerte,carte_virtuelle,Ne communiquez jamais les détails de votre carte.,Sécurité.
-APP-CPT-01,Application : profil et compte,application,1,titre,aide,Compte,
-APP-CPT-02,Application : profil et compte,application,2,information,changer_pin,"Biométrie, modifier le code secret et plus",
-APP-CPT-03,Application : profil et compte,application,3,choix,aide,Changer de compte,
-APP-CPT-04,Application : profil et compte,application,4,information,aide,Déconnectez-vous et utilisez un autre compte,Texte coupé à l'écran : à relever en entier
-APP-CPT-05,Application : profil et compte,application,5,information,carte_virtuelle,Afficher ou gérer votre carte,
-APP-CPT-06,Application : profil et compte,application,6,titre,service_client,Assistance,
-APP-CPT-07,Application : profil et compte,application,7,information,service_client,Trouver un agent ou signaler un problème,
-APP-CPT-08,Application : profil et compte,application,8,choix,aide,Évaluer l'application,Le nom du service reste tel quel
-APP-CPT-09,Application : profil et compte,application,9,information,aide,Que pensez-vous de l'application ? Donnez votre avis,Texte coupé à l'écran : à relever en entier
-APP-REL-01,Application : relevés,application,1,information,solde,Solde actuel :,
-APP-REL-02,Application : relevés,application,2,information,historique,Dépôt :,
-APP-REL-03,Application : relevés,application,3,information,historique,Retrait :,
-APP-REL-04,Application : relevés,application,4,information,historique,Pour {date},À l'écran : « Pour novembre 2026 »
-APP-RET-01,Application : retrait,application,1,choix,retrait,Retrait chez un agent,
-APP-RET-02,Application : retrait,application,2,information,retrait,Retirez de l'argent chez l'agent le plus proche,
-APP-QR-01,Application : scanner un code QR,application,1,erreur,paiement_marchand,"Pour scanner les codes QR, activez l'appareil photo dans les paramètres",
-APP-QR-02,Application : scanner un code QR,application,2,choix,paiement_marchand,Autoriser l'accès,
-APP-QR-03,Application : scanner un code QR,application,3,choix,paiement_marchand,Saisir l'identifiant à la main,
-APP-QR-04,Application : scanner un code QR,application,4,invite,paiement_marchand,Saisissez le numéro de mobile ou l'identifiant,L'astérisque (champ obligatoire) reste tel quel
-APP-QR-05,Application : scanner un code QR,application,5,choix,paiement_marchand,Suivant,
-APP-INT-01,Application : transfert international,application,1,titre,transfert,Transfert international,
-APP-INT-02,Application : transfert international,application,2,invite,transfert,Comment souhaitez-vous payer ?,
-APP-INT-03,Application : transfert international,application,3,choix,transfert,Banque,
-APP-INT-04,Application : transfert international,application,4,invite,transfert,Sélectionner le réseau,
-APP-INT-05,Application : transfert international,application,5,invite,transfert,Numéro de compte,
-APP-INT-06,Application : transfert international,application,6,invite,transfert,Sélectionner la banque,
-APP-INT-07,Application : transfert international,application,7,information,solde,Solde disponible : {amount},
-APP-INT-08,Application : transfert international,application,8,invite,transfert,Référence,Motif ou note libre
-APP-FRA-01,Application : calculateur de frais,application,1,titre,frais,Calculateur de frais,
-APP-FRA-02,Application : calculateur de frais,application,2,choix,frais,Factures,
-APP-FRA-03,Application : calculateur de frais,application,3,choix,frais,Virements,
-APP-FRA-04,Application : calculateur de frais,application,4,choix,frais,Paiements aux commerçants,
-APP-FRA-05,Application : calculateur de frais,application,5,invite,frais,Type de facture,
-APP-FRA-06,Application : calculateur de frais,application,6,choix,facture,Électricité,Le nom de la société reste tel quel
-APP-FRA-07,Application : calculateur de frais,application,7,choix,facture,Eau,Le nom de la société reste tel quel
-APP-FRA-08,Application : calculateur de frais,application,8,choix,facture,Télévision,
-APP-FRA-09,Application : calculateur de frais,application,9,choix,facture,Facture de l'opérateur,Le nom de l'opérateur reste tel quel
-APP-FRA-10,Application : calculateur de frais,application,10,invite,facture,Type de compteur,
-APP-FRA-11,Application : calculateur de frais,application,11,choix,facture,Prépayé,
-APP-FRA-12,Application : calculateur de frais,application,12,choix,facture,Postpayé,Écrit en anglais à l'écran
-APP-FRA-13,Application : calculateur de frais,application,13,invite,frais,Type de transfert,
-APP-FRA-14,Application : calculateur de frais,application,14,choix,transfert,Vers un utilisateur du même service,
-APP-FRA-15,Application : calculateur de frais,application,15,choix,transfert,Vers une personne sans compte,
-APP-FRA-16,Application : calculateur de frais,application,16,choix,depot,De la banque vers le compte d'argent mobile,
-APP-FRA-17,Application : calculateur de frais,application,17,choix,paiement_marchand,Effectuer le transfert,
-APP-PLU-01,Application : plus,application,1,choix,frais,Tarifs,
-APP-PLU-02,Application : plus,application,2,choix,aide,Centre de connaissances,Guides et questions fréquentes
-APP-OFR-01,Application : offres,application,1,titre,forfait_internet,Offres spéciales,
-APP-OFR-02,Application : offres,application,2,choix,forfait_internet,Internet,
-APP-OFR-03,Application : offres,application,3,choix,forfait_appel,Appels,
-APP-OFR-04,Application : offres,application,4,choix,forfait_appel,Internet et appels,
-APP-OFR-05,Application : offres,application,5,choix,forfait_internet,Quotidien,
-APP-OFR-06,Application : offres,application,6,choix,forfait_internet,Hebdomadaire,
-APP-OFR-07,Application : offres,application,7,choix,forfait_internet,Mensuel,
-APP-OFR-08,Application : offres,application,8,information,forfait_internet,Valable {count} jours,Les offres chiffrées (550U+75MB/3…) ne se traduisent pas
 SMS-01,Messages reçus par SMS,sms,1,notification,historique,Vous avez reçu {amount} de {name}. Nouveau solde : {amount_2}.,
 SMS-02,Messages reçus par SMS,sms,2,notification,historique,Transfert de {amount} vers {name} effectué. Frais : {fee}.,
 SMS-03,Messages reçus par SMS,sms,3,notification,historique,Retrait de {amount} effectué. Frais : {fee}. Nouveau solde : {amount_2}.,

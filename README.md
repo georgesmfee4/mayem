@@ -129,10 +129,14 @@ vérifie les codes sur un vrai téléphone ; les locuteurs traduisent ensuite. L
 à tous les services ; seul le dossier `profiles/<service>/` change. Retour : `python3 tools/import_finale.py <classeur>`
 (écrans au corpus, mots au glossaire, demandes aux formulations, codes vérifiés et touches au profil, que la passerelle
 lit : `npm run passerelle -- --profil profiles/mtn-cm.json`).
-Les écrans photographiés sur un téléphone vont dans `profiles/<service>/captures.csv` (texte complet, chemin des touches,
-certitude du chemin, ce qui reste à relever) et leurs lignes dans `releves.csv` (texte exact par écran du socle, avec sa
-capture) ; le classeur les reprend (onglet « Captures », colonne « Texte exact relevé »). Les images ne vont pas dans le
-dépôt : elles montrent des contacts.
+Les textes lus sur des écrans photographiés entrent dans le socle commun (`flux/argent-mobile/textes.csv`) : un texte de
+référence par sens, écrit en bon français, avec ses autres écritures vues à l'écran (sans accent, en majuscules, en
+anglais), son genre (bouton, choix de menu, erreur…), son thème, son sens pour le traducteur et sa portée (commun ou
+propre au service). Les noms de service y sont la case `{name}` : « Bienvenue aux offres {name} » traduit aussi bien
+l'écran de MTN que celui d'Orange. Les captures elles-mêmes (texte complet, chemin, certitude) restent dans le profil
+(`profiles/<service>/captures.csv`) comme source et contexte ; les images ne vont pas dans le dépôt. Dans le classeur,
+l'onglet « Textes relevés » montre pour chaque texte les autres lignes du même écran, les termes déjà validés qu'il
+contient, un lien vers sa capture, et calcule longueur, cases {…} et état ; le Récapitulatif suit l'avancement par thème.
 
 ### Passerelle : la couche d'API branchée devant un service existant
 `npm run passerelle` lance la passerelle (`service/passerelle.ts`) et, sans autre profil, la banque d'essai
