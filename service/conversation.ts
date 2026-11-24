@@ -8,7 +8,7 @@
 // - dans le doute (intention faible, valeur manquante, contact ambigu, négation), on demande, on ne devine pas ;
 // - l'état de l'opération ne dépend pas de la langue : on peut changer de langue au milieu sans rien perdre.
 
-import { comprendre, type Comprehension, type Contact, type Lexique, type Terme } from '../core/comprendre.ts';
+import { comprendre, normaliser, type Comprehension, type Contact, type Lexique, type Terme } from '../core/comprendre.ts';
 import { empreinteOperation, type Operation } from '../core/operation.ts';
 import type { Banque, Refus, Resultat, TypeEnvoi } from './banque.ts';
 import { date, montant, pourcentage, telephone, type Morceau, type Rendu, type Reponses } from './reponses.ts';
@@ -38,6 +38,11 @@ export interface Session {
   candidats: Contact[];
   // Dernière réponse, pour « répète »
   derniere: Morceau[];
+  // Réponses de suite qui n'ont rien apporté à la question posée : à la troisième, on abandonne sans rien faire
+  essais: number;
+  // Devant un service relayé : l'opération complète lui est rendue (il récapitule, fait confirmer et exécute) ;
+  // appelant : le numéro de la personne, pour un crédit sans autre numéro
+  relais?: { appelant: string };
 }
 
 export interface Contexte {
@@ -50,7 +55,8 @@ export interface Contexte {
   typesFacture: { type: string; ref: string }[];
 }
 
-export interface Tour { texte: string; rendus: Rendu[]; journal: LigneJournal }
+// pret : devant un service relayé, l'opération complète à lui transmettre
+export interface Tour { texte: string; rendus: Rendu[]; journal: LigneJournal; pret?: Operation }
 
 interface Decision {
   morceaux: Morceau[];
@@ -58,13 +64,14 @@ interface Decision {
   validation: string;
   operation?: Operation;
   parametres?: Record<string, unknown>;
+  pret?: Operation;
 }
 
 const ARGENT = new Set(['transfert', 'credit', 'facture']);
 const SANS_CONTEXTE = new Set(['oui', 'non', 'corriger']);
 
 export function nouvelleSession(id: string, canal: string, langue: string): Session {
-  return { id, canal, langue, attente: null, brouillon: null, candidats: [], derniere: [] };
+  return { id, canal, langue, attente: null, brouillon: null, candidats: [], derniere: [], essais: 0 };
 }
 
 const r = (ref: string, valeurs?: Record<string, string>): Morceau => (valeurs ? { ref, valeurs } : { ref });
@@ -75,6 +82,7 @@ function oublier(s: Session) {
   s.attente = null;
   s.brouillon = null;
   s.candidats = [];
+  s.essais = 0;
 }
 
 // Les valeurs que la personne garde (une valeur écartée, « pas 5 000 », ne compte pas) : la dernière dite gagne
@@ -86,15 +94,22 @@ async function contactDuNumero(ctx: Contexte, numero: string) {
   return (await ctx.banque.carnet()).find((c) => c.telephone === numero);
 }
 
+// « Essomba » pour « Paul Essomba » : un mot du nom qui ne désigne qu'un seul des homonymes proposés
+function parNom(candidats: Contact[], texte: string): Contact | undefined {
+  const mots = new Set(normaliser(texte).split(' '));
+  const trouves = candidats.filter((k) => normaliser(k.nom).split(' ').some((m) => m.length > 2 && mots.has(m)));
+  return trouves.length === 1 ? trouves[0] : undefined;
+}
+
 // Reporte dans le brouillon ce que la demande apporte ; rend les corrections faites, pour les annoncer
-async function completer(ctx: Contexte, s: Session, b: Brouillon, c: Comprehension): Promise<Morceau[]> {
+async function completer(ctx: Contexte, s: Session, b: Brouillon, c: Comprehension, texte = ''): Promise<Morceau[]> {
   const annonces: Morceau[] = [];
   const somme = dernier(c.montants);
   if (somme) {
     if (b.montant !== undefined && b.montant !== somme.valeur) annonces.push(r('RF040', { amount: montant(somme.valeur), amount_2: montant(b.montant) }));
     b.montant = somme.valeur;
   }
-  const choisi = s.attente === 'choix_contact' && c.touche ? s.candidats[Number(c.touche) - 1] : undefined;
+  const choisi = s.attente !== 'choix_contact' ? undefined : c.touche ? s.candidats[Number(c.touche) - 1] : parNom(s.candidats, texte);
   const mention = dernier(c.contacts);
   const numero = dernier(c.telephones);
   const avant = b.telephone;
@@ -156,7 +171,8 @@ async function avancerTransfert(ctx: Contexte, s: Session, b: Brouillon): Promis
     const liste = s.candidats.map((c, i): Morceau => ({ fait: `${i + 1}. ${c.nom}, ${telephone(c.telephone)}` }));
     return question([r('RF050', { name: b.nom! }), ...liste], 'contact ambigu : choix demandé');
   }
-  if (!b.telephone) { s.attente = 'beneficiaire'; return question([r('RF052', { amount: montant(b.montant) })], 'bénéficiaire demandé'); }
+  if (!b.telephone) { s.attente = 'beneficiaire'; return question([{ ...r('RF052', { amount: montant(b.montant) }), repli: r('RF031') }], 'bénéficiaire demandé'); }
+  if (s.relais) return pret(s, { intention: 'transfert', montant: b.montant, telephone: b.telephone }, { montant: b.montant, beneficiaire: b.nom, telephone: b.telephone });
   const frais = await ctx.banque.frais(b.montant, b.type || 'mobile');
   const total = b.montant + frais;
   const parametres = { montant: b.montant, beneficiaire: b.nom, telephone: b.telephone, type: b.type, frais, total };
@@ -173,7 +189,8 @@ async function avancerTransfert(ctx: Contexte, s: Session, b: Brouillon): Promis
 
 async function avancerCredit(ctx: Contexte, s: Session, b: Brouillon): Promise<Decision> {
   if (b.montant === undefined) { s.attente = 'montant'; return question([r('RF083')], 'montant demandé'); }
-  if (!b.telephone) b.telephone = (await ctx.banque.client()).telephone;
+  if (!b.telephone) b.telephone = s.relais?.appelant || (await ctx.banque.client()).telephone;
+  if (s.relais) return pret(s, { intention: 'credit', montant: b.montant, telephone: b.telephone }, { montant: b.montant, telephone: b.telephone });
   const parametres = { montant: b.montant, telephone: b.telephone, total: b.montant };
   const probleme = await controler(ctx, b.montant, b.montant);
   if (probleme) return refuser(ctx, s, probleme, b.montant, parametres);
@@ -210,6 +227,33 @@ async function avancerFacture(ctx: Contexte, s: Session, b: Brouillon): Promise<
 }
 
 const AVANCER = { transfert: avancerTransfert, credit: avancerCredit, facture: avancerFacture };
+
+// Service relayé : l'opération complète part au service, qui récapitule, fait confirmer et exécute avec ses écrans
+function pret(s: Session, operation: Operation, parametres: Record<string, unknown>): Decision {
+  oublier(s);
+  return { morceaux: [], statut: 'en_attente_confirmation', validation: 'opération complète, relayée au service qui récapitule et fait confirmer', operation, parametres, pret: operation };
+}
+
+const ESSAIS_MAX = 3;
+const etatDe = (s: Session) => JSON.stringify([s.attente, s.brouillon, s.candidats.map((k) => k.id)]);
+
+// Une réponse qui n'apporte rien à la question posée : une question plus précise, toujours validée, plutôt que la
+// même. À la troisième réponse sans suite, rien n'est fait : on le dit et on rappelle ce que Mayem sait faire.
+async function relancer(ctx: Contexte, s: Session, texte: string): Promise<Decision> {
+  s.essais += 1;
+  if (s.essais >= ESSAIS_MAX) {
+    oublier(s);
+    return { morceaux: [r('RF056'), r('RF110')], statut: 'annulee', validation: `${ESSAIS_MAX} réponses sans suite : abandonnée, rien exécuté` };
+  }
+  if (s.attente === 'montant') return question([r('RF054')], 'montant non compris : redemandé');
+  if (s.attente === 'beneficiaire') {
+    // Des chiffres qui ne font pas un numéro, ou un nom absent du carnet : on dit lequel des deux
+    const precision = /\d/.test(texte) ? r('RF063') : /\p{L}/u.test(texte) ? r('RF057') : r('RF031');
+    return question([precision], 'bénéficiaire non compris : précision demandée');
+  }
+  if (s.attente === 'confirmation') return question([r('RF033')], 'confirmation redemandée');
+  return { ...(await AVANCER[s.brouillon!.intention](ctx, s, s.brouillon!)), validation: 'réponse sans suite : choix redemandé' };
+}
 
 const operationDe = (b: Brouillon): Operation =>
   ({ intention: b.intention, montant: b.montant!, ...(b.facture ? { facture: b.facture } : { telephone: b.telephone }) });
@@ -317,8 +361,8 @@ function changerLangue(ctx: Contexte, s: Session, c: Comprehension): Decision {
 }
 
 // Réponse à la demande, selon l'état de la conversation
-async function decider(ctx: Contexte, s: Session, c: Comprehension): Promise<Decision> {
-  if (c.intention === 'annuler') {
+async function decider(ctx: Contexte, s: Session, c: Comprehension, texte: string): Promise<Decision> {
+  if (c.intention === 'annuler' || (c.intention === 'non' && s.attente && s.attente !== 'confirmation')) {
     const enCours = Boolean(s.brouillon);
     oublier(s);
     return enCours ? { morceaux: [r('RF066')], statut: 'annulee', validation: 'annulée par l\'utilisateur' } : info([r('RF068')]);
@@ -329,24 +373,30 @@ async function decider(ctx: Contexte, s: Session, c: Comprehension): Promise<Dec
   const corrige = Boolean(s.brouillon) && apporteValeur(c);
   if (c.negation && !corrige && (ARGENT.has(c.intention || '') || (s.brouillon && !c.intention))) {
     oublier(s);
-    return { morceaux: [r('RF067')], statut: 'annulee', validation: 'demande négative : rien exécuté' };
+    return { morceaux: [{ ...r('RF067'), repli: r('RF066') }], statut: 'annulee', validation: 'demande négative : rien exécuté' };
   }
   if (s.attente === 'confirmation' && s.brouillon) {
-    if (apporteValeur(c)) return corriger(ctx, s, c);
+    if (apporteValeur(c)) return corriger(ctx, s, c, texte);
     if (c.intention === 'oui' || c.touche === '1') return executer(ctx, s);
     if (c.intention === 'non' || c.touche === '2') { oublier(s); return { morceaux: [r('RF066')], statut: 'annulee', validation: 'refusée par l\'utilisateur' }; }
     if (c.intention === 'corriger') { s.attente = s.brouillon.intention === 'facture' ? 'type_facture' : 'beneficiaire'; return question([r('RF044')], 'correction : nouvelle valeur demandée'); }
-    if (!c.intention || c.intention === 'repeter') return question(c.intention === 'repeter' ? [r('RF111'), ...s.derniere] : [r('RF033')], 'confirmation redemandée');
+    if (c.intention === 'repeter') return question([r('RF111'), ...s.derniere], 'confirmation redemandée');
+    if (!c.intention) return relancer(ctx, s, texte);
   } else if (s.attente && s.brouillon && (!c.intention || SANS_CONTEXTE.has(c.intention) || c.intention === s.brouillon.intention)) {
-    const annonces = await completer(ctx, s, s.brouillon, c);
+    // À « À qui ? », des chiffres seuls qui ne font pas un numéro sont un numéro mal tapé, pas un nouveau montant
+    if (s.attente === 'beneficiaire' && /^[\d\s+]+$/.test(texte) && !dernier(c.telephones)) return relancer(ctx, s, texte);
+    const avant = etatDe(s);
+    const annonces = await completer(ctx, s, s.brouillon, c, texte);
+    if (!annonces.length && etatDe(s) === avant) return relancer(ctx, s, texte);
+    s.essais = 0;
     const suite = await AVANCER[s.brouillon.intention](ctx, s, s.brouillon);
     return { ...suite, morceaux: [...annonces, ...suite.morceaux] };
   }
   return nouvelleDemande(ctx, s, c);
 }
 
-async function corriger(ctx: Contexte, s: Session, c: Comprehension): Promise<Decision> {
-  const annonces = await completer(ctx, s, s.brouillon!, c);
+async function corriger(ctx: Contexte, s: Session, c: Comprehension, texte: string): Promise<Decision> {
+  const annonces = await completer(ctx, s, s.brouillon!, c, texte);
   const suite = await AVANCER[s.brouillon!.intention](ctx, s, s.brouillon!);
   return { ...suite, morceaux: [...annonces, ...suite.morceaux], validation: `corrigée avant exécution ; ${suite.validation}` };
 }
@@ -381,7 +431,7 @@ export async function traiter(ctx: Contexte, s: Session, texte: string): Promise
   let decision: Decision;
   const erreurs: string[] = [];
   try {
-    decision = await decider(ctx, s, c);
+    decision = await decider(ctx, s, c, texte);
   } catch (e) {
     // Une panne ne laisse jamais une opération à moitié faite : on oublie tout et on le dit
     oublier(s);
@@ -392,5 +442,5 @@ export async function traiter(ctx: Contexte, s: Session, texte: string): Promise
   if (c.intention !== 'repeter' || !s.derniere.length) s.derniere = decision.morceaux.filter((m) => !('ref' in m && (m.ref === 'RF111' || m.ref === 'RF100')));
   const empreinte = decision.operation ? await empreinteOperation(decision.operation) : null;
   const journal = ligneJournal({ session: s, comprehension: c, decision, rendus, empreinte, erreurs, duree: performance.now() - debut });
-  return { texte: rendus.map((x) => x.texte).join('\n'), rendus, journal };
+  return { texte: rendus.map((x) => x.texte).join('\n'), rendus, journal, ...(decision.pret ? { pret: decision.pret } : {}) };
 }

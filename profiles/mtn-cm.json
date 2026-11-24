@@ -3,7 +3,6 @@
   "nom": "MTN Cameroun",
   "langue": "fr",
   "ussd": {
-    "code": "*126#",
-    "touche_langue": "0"
+    "code": "*126#"
   }
 }
