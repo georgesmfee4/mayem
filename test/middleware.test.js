@@ -246,6 +246,36 @@ test('USSD sans langue donnée, numéro jamais vu : l\'écran de choix, puis le 
   assert.equal(solde.interpretation.language, 'bum');
 });
 
+test('comme en ligne : données embarquées sans nom de traducteur, conversation relue d\'un stockage à chaque tour', async () => {
+  const { donneesEnLigne } = await import('../tools/deployer-passerelle.js');
+  const { contexteDepuis } = await import('../service/contexte.ts');
+  const { creerMiddleware } = await import('../service/middleware.ts');
+  const donnees = JSON.parse(JSON.stringify(await donneesEnLigne('profiles/safinum.json')));
+  assert.ok(donnees.contexte.pack.phrases.every((p) => !p.traduit_par || /^Mayem-\d+$/.test(p.traduit_par)), 'pack public : des codes, jamais des noms');
+  const banque = banqueDistante({ cle: CLE });
+  const base = profil.middleware.banque.base;
+  // Comme l'objet durable : l'état n'existe qu'écrit, et relu tel quel au tour suivant
+  const stockage = new Map();
+  const etats = { lire: async (cle) => (stockage.has(cle) ? JSON.parse(stockage.get(cle)) : undefined), ecrire: async (cle, etat) => { stockage.set(cle, JSON.stringify(etat)); } };
+  const tourDeCanal = creerMiddleware({
+    ctx: contexteDepuis(donnees.contexte, null), profil: donnees.profil.middleware, cle: CLE, langueParDefaut: donnees.profil.langue,
+    langues: donnees.langues, menu: donnees.profil.ussd.menu, preferences: { lire: async () => null, ecrire: async () => {} }, noter: () => {}, etats,
+    appeler: async (url, init) => banque.traiter(new Request(String(url).replace(base, 'http://banque.test/api/v1'), init)),
+  });
+  let n = 0;
+  const tour = async (texte) => {
+    const corps = { trace_id: `en-ligne-${++n}`, channel: 'web', phone: '237690000001', language: 'fr', input: { text: texte }, constraints: CONTRAINTES.web };
+    const r = await (await tourDeCanal(new Request('http://mayem.test/v1/middleware', { method: 'POST', body: JSON.stringify(corps) }))).json();
+    conforme(r, CONTRAINTES.web);
+    return r;
+  };
+  await tour('Envoie 5 000 à Pierre');
+  assert.equal((await tour('Non, pas 5 000, 10 000')).interpretation.intent, 'CORRECTION');
+  assert.equal((await tour('oui')).interpretation.intent, 'CONFIRM');
+  assert.equal(banque.solde(), 85000 - 10150);
+  assert.doesNotMatch([...stockage.keys(), ...stockage.values()].join(' '), /690000001/, 'le numéro de la personne n\'est jamais gardé en clair');
+});
+
 test('banque injoignable ou tour mal formé : toujours une réponse valide, rien d\'exécuté', async () => {
   const { tour } = monter({ appeler: async () => { throw new Error('connexion refusée'); } });
   const r = await tour('Quel est mon solde ?');

@@ -4,6 +4,7 @@
   "langue": "bum",
   "middleware": {
     "cle_env": "MAYEM_CLE_BANQUE",
+    "declaration": { "chemin": "sandbox/endpoint", "canaux": ["ussd", "mobile", "web"] },
     "devise": "XAF",
     "langues": { "fr": "fr", "bum": "bum" },
     "intentions": {

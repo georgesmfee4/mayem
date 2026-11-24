@@ -12,8 +12,8 @@ import { motsDe } from '../core/langue-probable.ts';
 import { souple } from '../core/langage.ts';
 import { termeUtilisable } from '../core/termes.ts';
 import { banqueSimulee } from '../service/banque.ts';
+import { contexteDepuis } from '../service/contexte.ts';
 import { nouvelleSession, traiter } from '../service/conversation.ts';
-import { creerReponses } from '../service/reponses.ts';
 import { lireCsv } from './csv.js';
 import { choisirLangue, dossier, racine } from './langues.js';
 
@@ -103,22 +103,30 @@ export function vocabulaires(code, pack, francais, locuteurs, modeles) {
   return new Map([['fr', fr], [code, nationale]]);
 }
 
-export function chargerContexte(code = choisirLangue(), banque = banqueSimulee(lireJson(racine + 'service/banque-essai.json')), { provisoire = false } = {}) {
-  const pack = lireJson(dossier(code) + 'pack.json');
+// Tout ce que le noyau lit dans le dépôt pour une langue, prêt à être embarqué (service/contexte.ts l'assemble).
+// pack : pour un hébergement, sa version publique (tools/public.js), sans aucun nom de traducteur.
+export function donneesDuContexte(code = choisirLangue(), { provisoire = false, pack = lireJson(dossier(code) + 'pack.json') } = {}) {
   const finale = dossier(code) + 'finale/';
   const modeles = [...lire(finale + 'reponses.csv'), ...lire(finale + 'menus.csv')].map(({ ref, fr }) => ({ ref, fr }));
-  const explications = lire(finale + 'termes.csv');
+  const explications = lire(finale + 'termes.csv').map(({ ref, terme, explication_fr, exemple }) => ({ ref, terme, explication_fr, exemple }));
   const francais = lexiqueFrancais(pack.nom);
   const locuteurs = lexiqueDesLocuteurs(code, { provisoire });
   return {
-    banque,
-    reponses: creerReponses(modeles, explications, pack, variantesValidees(code), explicationsValidees(code)),
+    pack,
+    modeles,
+    explications,
+    variantes: variantesValidees(code),
+    fixes: [...explicationsValidees(code)],
     lexiques: [francais, lexiqueDuGlossaire(francais, pack), locuteurs].filter(Boolean),
     termes: explications.map(({ ref, terme }) => ({ ref, terme: avecTermeNational(terme, pack) })),
     nationale: { code, nom: pack.nom },
     typesFacture: [{ type: 'electricite', ref: 'U14' }, { type: 'eau', ref: 'U15' }],
-    vocabulaires: vocabulaires(code, pack, francais, locuteurs, modeles),
+    vocabulaires: [...vocabulaires(code, pack, francais, locuteurs, modeles)].map(([langue, mots]) => [langue, [...mots]]),
   };
+}
+
+export function chargerContexte(code = choisirLangue(), banque = banqueSimulee(lireJson(racine + 'service/banque-essai.json')), { provisoire = false } = {}) {
+  return contexteDepuis(donneesDuContexte(code, { provisoire }), banque);
 }
 
 async function converser() {

@@ -26,5 +26,7 @@ packs/*/reponses-revision.json
 /*.xlsx
 !/kit-validation-bulu.xlsx
 /*.pdf
+# Données embarquées dans le Worker de la couche intermédiaire : refaites à chaque mise en ligne
+hebergement/passerelle/donnees.json
 /service-*.html
 /traduction-*.html

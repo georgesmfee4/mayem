@@ -38,7 +38,23 @@ interface TourRecu {
 
 // decidee : la langue a été donnée, choisie ou reconnue dans cette conversation ; choix : l'écran de choix est affiché ;
 // accueil : le menu est affiché, une touche y choisit une ligne
-interface Etat { session: Session; carnet?: Contact[]; langueRecue?: string | null; decidee: boolean; choix: boolean; accueil: boolean; vu: number }
+export interface Etat { session: Session; carnet?: Contact[]; langueRecue?: string | null; decidee: boolean; choix: boolean; accueil: boolean; vu: number }
+
+// Où la conversation est gardée d'un tour à l'autre : en mémoire ici, dans un stockage durable chez un hébergeur
+// dont deux requêtes peuvent arriver sur deux machines (Cloudflare). L'état est écrit à la fin de chaque tour.
+export interface Memoire { lire(cle: string): Promise<Etat | undefined>; ecrire(cle: string, etat: Etat): Promise<void> }
+
+const SESSIONS_GARDEES = 2000;
+export function memoireLocale(): Memoire {
+  const etats = new Map<string, Etat>();
+  return {
+    lire: async (cle) => etats.get(cle),
+    async ecrire(cle, etat) {
+      etats.set(cle, etat);
+      if (etats.size > SESSIONS_GARDEES) etats.delete(etats.keys().next().value as string);
+    },
+  };
+}
 
 export interface OptionsMiddleware {
   ctx: Contexte;
@@ -49,6 +65,7 @@ export interface OptionsMiddleware {
   langues: Langue[];
   menu: { ref: string; demande: string }[];
   preferences: Preferences;
+  etats?: Memoire;
   noter: (ligne: LigneJournal) => void;
   appeler?: typeof fetch;
 }
@@ -87,7 +104,7 @@ function parametresDe(p: Record<string, unknown>, devise: string): Record<string
 }
 
 export function creerMiddleware(o: OptionsMiddleware) {
-  const etats = new Map<string, Etat>();
+  const memoire = o.etats || memoireLocale();
   const p = o.profil;
   const versService = Object.fromEntries(Object.entries(p.langues).map(([leur, notre]) => [notre, leur]));
 
@@ -99,12 +116,10 @@ export function creerMiddleware(o: OptionsMiddleware) {
   });
 
   async function etatDe(tour: TourRecu, cle: string): Promise<Etat> {
-    const ancien = etats.get(cle);
+    const ancien = await memoire.lire(cle);
     if (ancien && Date.now() - ancien.vu < DUREE_SESSION) return ancien;
     const langue = (await o.preferences.lire(tour.phone)) || o.langueParDefaut;
-    const etat: Etat = { session: nouvelleSession(cle, tour.channel, langue), decidee: false, choix: false, accueil: false, vu: Date.now() };
-    etats.set(cle, etat);
-    return etat;
+    return { session: nouvelleSession(cle, tour.channel, langue), decidee: false, choix: false, accueil: false, vu: Date.now() };
   }
 
   // La langue envoyée par la passerelle vaut quand elle change ; entre-temps, celle que la personne a choisie en parlant
@@ -183,10 +198,7 @@ export function creerMiddleware(o: OptionsMiddleware) {
     });
   }
 
-  return async function tourDeCanal(requete: Request): Promise<Response> {
-    const tour = lireTour(await requete.text());
-    if (!tour) return json(corps(nouvelleSession('', 'web', 'fr'), o.ctx.reponses.rendre({ ref: 'RF056' }, 'fr').texte, 'inconnue', { fin: true }));
-    const etat = await etatDe(tour, await empreinteNumero(tour.phone));
+  async function repondre(etat: Etat, tour: TourRecu) {
     const s = etat.session;
     s.canal = tour.channel;
     etat.vu = Date.now();
@@ -196,15 +208,25 @@ export function creerMiddleware(o: OptionsMiddleware) {
     const ctx: Contexte = { ...o.ctx, banque: { ...brute, carnet: async () => (etat.carnet ??= await brute.carnet()) } };
     const ussd = tour.channel === 'ussd';
     let texte = (tour.input?.text || '').trim();
-    if (ussd && !texte) return json(await debutUssd(etat, ctx, tour));
+    if (ussd && !texte) return debutUssd(etat, ctx, tour);
     if (etat.choix) {
       const choisie = await choixDeLangue(etat, ctx, tour, texte);
-      if (choisie) return json(choisie);
+      if (choisie) return choisie;
     }
     // La langue se lit dans ce que la personne a tapé, jamais dans la demande interne d'une ligne du menu
     await reconnaitre(etat, ctx, texte);
     if (ussd && etat.accueil && !s.attente && /^\d$/.test(texte)) texte = o.menu[Number(texte) - 1]?.demande || texte;
     etat.accueil = false;
-    return json(await comprendreEtRepondre(etat, ctx, tour, texte, langueDebut));
+    return comprendreEtRepondre(etat, ctx, tour, texte, langueDebut);
+  }
+
+  return async function tourDeCanal(requete: Request): Promise<Response> {
+    const tour = lireTour(await requete.text());
+    if (!tour) return json(corps(nouvelleSession('', 'web', 'fr'), o.ctx.reponses.rendre({ ref: 'RF056' }, 'fr').texte, 'inconnue', { fin: true }));
+    const cle = await empreinteNumero(tour.phone);
+    const etat = await etatDe(tour, cle);
+    const reponse = await repondre(etat, tour);
+    await memoire.ecrire(cle, etat);
+    return json(reponse);
   };
 }
