@@ -313,6 +313,13 @@ def ranger(nom, entetes, lignes):
         R.attente.append(f'{nom} : {len(lignes) - signees} ligne(s) sans deux noms différents, gardées mais pas utilisées')
 
 
+def fusionner(nom, entetes, nouvelles):
+    """Les lignes d'une référence reçue remplacent celles de la même référence ; les autres restent"""
+    _, anciennes = lire_csv(FINALE / nom)
+    refs = {l[0] for l in nouvelles}
+    ranger(nom, entetes, [l for l in anciennes if l and l[0] not in refs] + nouvelles)
+
+
 def importer_demandes(wb):
     intentions = {k: v['intention'] for k, v in sources('demandes.csv').items()}
     formulations = []
@@ -321,13 +328,101 @@ def importer_demandes(wb):
         for n, colonne in enumerate(range(6, 11), 1):
             if texte(r[colonne]):
                 formulations.append([ref, intentions.get(ref, texte(r[2])), str(n), texte(r[colonne]), texte(r[11]), texte(r[12])])
-    ranger('formulations.csv', ['ref', 'intention', 'facon', 'texte', 'ecrit_par', 'verifie_par'], formulations)
-    mots = [[texte(r[0]), texte(r[1]), str(n), texte(r[c]), texte(r[6]), texte(r[7])]
-            for r in list(wb['Mots du dialogue'].iter_rows(values_only=True))[1:] for n, c in enumerate((3, 4, 5), 1) if texte(r[c])]
-    ranger('mots.csv', ['ref', 'fr', 'facon', 'texte', 'ecrit_par', 'verifie_par'], mots)
-    nombres = [[texte(r[0]), texte(r[1]), texte(r[3]), texte(r[4]), texte(r[5]), texte(r[6])]
-               for r in list(wb['Nombres'].iter_rows(values_only=True))[1:] if texte(r[0])]
-    ranger('nombres-recus.csv', ['ref', 'valeur', 'en_entier', 'a_l_oral', 'ecrit_par', 'verifie_par'], nombres)
+    fusionner('formulations.csv', ['ref', 'intention', 'facon', 'texte', 'ecrit_par', 'verifie_par'], formulations)
+    if 'Mots du dialogue' in wb.sheetnames:
+        mots = [[texte(r[0]), texte(r[1]), str(n), texte(r[c]), texte(r[6]), texte(r[7])]
+                for r in list(wb['Mots du dialogue'].iter_rows(values_only=True))[1:] for n, c in enumerate((3, 4, 5), 1) if texte(r[c])]
+        fusionner('mots.csv', ['ref', 'fr', 'facon', 'texte', 'ecrit_par', 'verifie_par'], mots)
+    if 'Nombres' in wb.sheetnames:
+        nombres = [[texte(r[0]), texte(r[1]), texte(r[3]), texte(r[4]), texte(r[5]), texte(r[6])]
+                   for r in list(wb['Nombres'].iter_rows(values_only=True))[1:] if texte(r[0])]
+        fusionner('nombres-recus.csv', ['ref', 'valeur', 'en_entier', 'a_l_oral', 'ecrit_par', 'verifie_par'], nombres)
+
+
+# Classeur d'un service (tools/kit_service.py) : écrans, mots du métier, codes et touches vérifiés, demandes
+TYPES_CRITIQUES = {'recapitulatif', 'alerte', 'erreur'}
+
+
+def service_du_classeur(wb, chemin):
+    sujet = (wb.properties.subject or '').strip()
+    m = re.match(r'service-(.+)-[^-]+\.xlsx$', pathlib.Path(chemin).name)
+    return sujet or (m.group(1) if m else None)
+
+
+def importer_ecrans(wb):
+    corpus, variantes, releves = {}, [], []
+    for r in list(wb['Écrans'].iter_rows(values_only=True))[1:]:
+        ref, releve, traduction = texte(r[0]), texte(r[7]), texte(r[9])
+        if releve:
+            releves.append([ref, releve])
+        if not ref or not traduction:
+            continue
+        if not deux_noms(r[12], r[13]):
+            if not texte(r[8]).startswith('Déjà validé'):
+                R.attente.append(f'{ref} : deux noms différents attendus')
+            continue
+        francais = releve or texte(r[6])
+        valide_par = f'{texte(r[12])} / relu par {texte(r[13])}'
+        complete = preparer(ref, 'écran', francais, traduction)
+        if complete:
+            corpus[ref] = {'fr': francais, 'cible': complete, 'critique': '1' if texte(r[4]) in TYPES_CRITIQUES else '0',
+                           'element': f'{texte(r[1])} : {texte(r[2])}', 'valide_par': valide_par}
+        courte = texte(r[10])
+        if courte and courte.lower() not in SANS_OBJET:
+            version = preparer(ref, 'ussd', francais, courte)
+            if version and version != complete:
+                variantes.append([ref, 'ussd', version, texte(r[12]), texte(r[13])])
+    return corpus, variantes, releves
+
+
+def importer_mots_metier(wb):
+    entetes, lignes = lire_csv(DOSSIER / 'glossaire.csv')
+    refs = {l[0] for l in lignes if l}
+    ajoutes = 0
+    for r in list(wb['Mots du métier'].iter_rows(values_only=True))[1:]:
+        ref, terme, traduction = texte(r[0]), texte(r[1]), texte(r[6])
+        if not traduction or not deux_noms(r[7], r[8]):
+            continue
+        if ref in refs:
+            R.attente.append(f'{ref} : déjà au glossaire, gardé tel quel')
+            continue
+        if sans_accents(terme) in GLOSSAIRE:
+            R.attente.append(f'{ref} « {terme} » : terme déjà traduit au glossaire (« {GLOSSAIRE[sans_accents(terme)][0]} ») ; gardé tel quel')
+            continue
+        lignes.append([ref, terme, texte(r[2]), texte(r[3]), 'Oui' if texte(r[4]) == 'oui' else 'Non', traduction, '', texte(r[7]), texte(r[8]), texte(r[9])])
+        R.entrees.append(ref)
+        ajoutes += 1
+    if ajoutes:
+        ecrire_csv(DOSSIER / 'glossaire.csv', entetes, lignes)
+
+
+def mettre_a_jour_profil(service, wb, releves):
+    dossier = racine / 'profiles' / service
+    if not dossier.is_dir():
+        R.attente.append(f'profiles/{service}/ introuvable : codes et touches non enregistrés')
+        return
+    if releves:
+        ecrire_csv(dossier / 'releves.csv', ['ref', 'texte_exact'], releves, bom=False)
+        print(f'profiles/{service}/releves.csv : {len(releves)} texte(s) exact(s) relevé(s)')
+    entetes, codes = lire_csv(dossier / 'codes.csv')
+    for colonne in ('premier_ecran', 'verifie_par'):
+        if colonne not in entetes:
+            entetes.append(colonne)
+            codes = [l + [''] for l in codes]
+    i = {e: n for n, e in enumerate(entetes)}
+    verifies = {texte(r[0]): r for r in list(wb['Codes'].iter_rows(values_only=True))[1:] if texte(r[6]).lower() == 'oui' and texte(r[8])}
+    for l in codes:
+        r = verifies.get(l[i['code']])
+        if r:
+            l[i['fiabilite']], l[i['premier_ecran']], l[i['verifie_par']] = 'vérifié', texte(r[7]), texte(r[8])
+    ecrire_csv(dossier / 'codes.csv', entetes, codes, bom=False)
+    touches = {texte(r[0]): (texte(r[4]), texte(r[6])) for r in list(wb['Touches'].iter_rows(values_only=True))[1:] if texte(r[4]) and texte(r[6])}
+    entetes, raccourcis = lire_csv(dossier / 'raccourcis.csv')
+    for l in raccourcis:
+        if l[0] in touches:
+            l[1], l[2] = touches[l[0]]
+    ecrire_csv(dossier / 'raccourcis.csv', entetes, raccourcis, bom=False)
+    print(f'profiles/{service} : {len(verifies)} code(s) vérifié(s), {len(touches)} parcours de touches relevé(s)')
 
 
 def importer_explications(wb):
@@ -359,7 +454,15 @@ def main():
     for chemin in fichiers:
         wb = load_workbook(chemin, data_only=True)
         onglets = set(wb.sheetnames)
-        if 'Réponses' in onglets:
+        if 'Écrans' in onglets:
+            service = service_du_classeur(wb, chemin)
+            c, v, releves = importer_ecrans(wb)
+            corpus.update(c); variantes += v
+            importer_mots_metier(wb)
+            importer_demandes(wb)
+            if service:
+                mettre_a_jour_profil(service, wb, releves)
+        elif 'Réponses' in onglets:
             c, v = importer_reponses(wb)
             corpus.update(c); variantes += v
             corpus.update(importer_menus(wb))

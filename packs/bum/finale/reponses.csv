@@ -67,3 +67,4 @@ RF111,aide,P2,0,Je répète.,"complet,voix",0,,
 RF112,terminer,P1,0,Merci. À bientôt.,"complet,ussd,sms,voix",30,,
 RF113,attente,P2,0,"Un instant, je vérifie.","complet,voix",0,,Pendant que le service répond.
 RF114,securite,P1,1,"Ne donnez jamais votre code PIN à personne, même à un agent de la banque.","complet,ussd,sms,voix",90,,
+RF120,aide,P1,0,"J'ai compris votre demande, mais je ne peux pas encore la faire ici.","complet,ussd,sms,voix",70,,Demande comprise mais que ce service ne propose pas encore.

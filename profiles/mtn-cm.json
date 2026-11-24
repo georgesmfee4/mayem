@@ -1,0 +1,9 @@
+{
+  "_lisez_moi": "Profil MTN Cameroun pour la passerelle. Les touches de chaque opération viennent de profiles/mtn-cm/raccourcis.csv, relevées sur un vrai téléphone (classeur service-mtn-cm). L'adresse du service USSD sera celle du bac à sable ou de l'opérateur.",
+  "nom": "MTN Cameroun",
+  "langue": "fr",
+  "ussd": {
+    "code": "*126#",
+    "touche_langue": "0"
+  }
+}

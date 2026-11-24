@@ -369,6 +369,8 @@ async function nouvelleDemande(ctx: Contexte, s: Session, c: Comprehension): Pro
     case 'terminer': return info([r('RF112')]);
     case 'oui': case 'non': case 'corriger': return info([r('RF068')]);
   }
+  // Une intention comprise que la banque branchée ne propose pas : le dire, plutôt que « je n'ai pas compris »
+  if (intention) return info([r('RF120')], `intention comprise sans opération correspondante ici : ${intention}`);
   if (c.hesitation.includes('transfert') && c.hesitation.includes('credit')) return question([r('RF053')], `hésitation : ${c.hesitation.join(' ou ')}`);
   return question([r('RF056')], c.hesitation.length ? `hésitation : ${c.hesitation.join(' ou ')}` : 'demande non comprise');
 }

@@ -5,7 +5,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { comprendre, normaliser } from '../core/comprendre.ts';
 import { nombresEnLettres } from '../core/nombres.ts';
+import { readFileSync } from 'node:fs';
 import { lexiqueFrancais } from '../tools/conversation.js';
+import { lireCsv as lireCsvTexte } from '../tools/csv.js';
 
 const lexique = lexiqueFrancais('Essai');
 const carnet = [
@@ -141,4 +143,14 @@ test('marques de la langue : négation (« te lôm ») et valeur écartée (« s
 
 test('sans formulation assez proche, ou avec deux intentions trop proches, aucune intention n\'est retenue', () => {
   assert.equal(lireLangue('akut akut akut').intention, null);
+});
+
+test('intentions de l\'argent mobile et de la téléphonie, comprises en français (socle flux/argent-mobile)', () => {
+  const lignes = readFileSync(new URL('../flux/argent-mobile/demandes.csv', import.meta.url), 'utf8');
+  const situations = lireCsvTexte(lignes);
+  for (const s of situations) {
+    const c = lire(s.exemple_fr);
+    if (s.a_noter.includes('ambiguë')) assert.equal(c.intention, null, s.ref);
+    else assert.equal(c.intention, s.intention, `${s.ref} « ${s.exemple_fr} »`);
+  }
 });

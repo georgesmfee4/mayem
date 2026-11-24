@@ -286,3 +286,9 @@ test('ligne « Langue » : absente si la touche est déjà prise par le menu ou 
   assert.equal(ligneLangue(reponses, '0', 'fr', 'Montant', 'Montant', 182), null);
   assert.equal(ligneLangue(reponses, '0', 'fr', '1. ' + 'x'.repeat(175), '1. ' + 'x'.repeat(175), 182), null);
 });
+
+test('profil d\'un service : les touches relevées deviennent les raccourcis de la passerelle', async () => {
+  const { lireTouches } = await import('../tools/passerelle.js');
+  assert.deepEqual(lireTouches('*126# puis 1 > {telephone} > {montant}', '*126#'), ['1', '{telephone}', '{montant}']);
+  assert.deepEqual(lireTouches('2 > 1', '*126#'), ['2', '1']);
+});

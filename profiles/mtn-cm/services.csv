@@ -1,0 +1,9 @@
+nom,type,canaux,description,fiabilite,source
+MTN Mobile Money (MoMo),argent mobile,"ussd, application, sms","Envoyer, retirer, payer factures et marchands, crédit, épargne et prêt",concordant,"guides de codes USSD, articles de presse 2026"
+Application MoMo,application mobile,application,"Application de l'argent mobile, carte virtuelle incluse",presse,"AllAfrica, février 2026"
+Carte virtuelle MoMo,carte de paiement,"application, ussd",Carte de paiement virtuelle pour les achats en ligne,presse,"AllAfrica, février 2026"
+Application MyMTN,application mobile,application,"Compte téléphonique, forfaits, solde",à vérifier,cité par des guides
+MTN Wanda,offre de téléphonie,ussd,Offre de téléphonie (contenu à relever sur l'écran),contradictoire,guides tiers
+MTN Extra,offre de téléphonie,ussd,Offre de téléphonie (contenu à relever sur l'écran),à vérifier,guides tiers
+Giga Surf,forfait internet,ussd,Forfaits internet,officiel,page d'aide MTN citée par la recherche
+Service client,assistance,voix,Joindre un conseiller,concordant,guides tiers
