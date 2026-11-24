@@ -131,9 +131,10 @@ pas encore signées, pour mesurer seulement).
 - `/v1/relais/api/<chemin>` : l'application mobile ou le site appellent leur API à travers la passerelle ; les réponses
   JSON reviennent traduites (en-tête `x-mayem-langue`, `fr` pour l'original), valeurs et références intactes.
 - Langue : au premier appel USSD d'un numéro, l'écran « Choisissez votre langue » ; la langue est ensuite retrouvée
-  pour ce numéro sur tous les canaux. Sous chaque menu, la ligne « 0. Langue » (dans la langue en cours) rouvre le
-  choix et reprend l'écran quitté, sans que le service reçoive rien. Seule la langue est gardée, rattachée à
-  l'empreinte du numéro (`service/preferences.ts`).
+  pour ce numéro sur tous les canaux. Mayem n'ajoute rien aux menus du service : pour changer de langue, on écrit
+  son nom à tout moment (« bulu », « français »), ou « langue » pour revoir le choix ; l'écran quitté est repris et le
+  service ne reçoit rien. Il reçoit la requête de l'opérateur à l'identique (seul « text » change, quand une phrase
+  devient des touches). Seule la langue est gardée, rattachée à l'empreinte du numéro (`service/preferences.ts`).
 - `POST /v1/converser` (assistant), `POST /v1/traduire`, `GET /v1/journal`, `GET /sante`.
 - Pages : `/tableau` (journal en direct aux colonnes du jury, même couleur pour une même empreinte),
   `/essai/telephone` (téléphone simple qui compose *123#), `/essai/application` (application mobile, `?canal=web`).

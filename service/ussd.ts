@@ -11,7 +11,7 @@
 import { comprendre } from '../core/comprendre.ts';
 import { empreinteOperation, type Operation } from '../core/operation.ts';
 import type { Pack } from '../core/types.ts';
-import { ecranDeChoix, langueChoisie, ligneLangue, type Langue } from './choix-langue.ts';
+import { ecranDeChoix, langueChoisie, type Langue } from './choix-langue.ts';
 import { nouvelleSession, traiter, type Contexte, type Session } from './conversation.ts';
 import type { LigneJournal } from './journal.ts';
 import type { Preferences } from './preferences.ts';
@@ -29,11 +29,10 @@ export interface ProfilUssd {
   succes?: string;
   // Mode conversation : choix du premier écran (libellé du tableur des menus et demande comprise par le noyau)
   menu?: { ref: string; demande: string }[];
-  // Touche de la ligne « Langue » ajoutée sous les menus ; « 0 » si le profil ne dit rien
-  touche_langue?: string;
 }
 
-export interface EntreeUssd { session: string; telephone: string; code: string; saisies: string[] }
+// champs : la requête de l'opérateur telle quelle, relayée au service sans rien y changer d'autre que « text »
+export interface EntreeUssd { session: string; telephone: string; code: string; saisies: string[]; champs: URLSearchParams }
 export interface SortieUssd { texte: string; fin: boolean; journal: LigneJournal }
 
 export const LIMITE_ECRAN = 182;
@@ -46,6 +45,7 @@ export function lireUssd(champs: URLSearchParams): EntreeUssd {
     telephone: (champs.get('phoneNumber') || '').replace(/\D/g, '').slice(-9),
     code: champs.get('serviceCode') || '',
     saisies: texte === '' ? [] : texte.split('*'),
+    champs,
   };
 }
 
@@ -64,8 +64,6 @@ interface EtatRelais {
   ecran: string;
   fin: boolean;
   choix: Choix;
-  // Le dernier écran montré portait la ligne « Langue » : sa touche ouvre le choix
-  ligneLangue: boolean;
 }
 
 export interface Relais {
@@ -78,8 +76,6 @@ export interface Relais {
   langues: Langue[];
   preferences: Preferences;
 }
-
-export const toucheLangue = (profil: ProfilUssd) => (/^\d{1,2}$/.test(profil.touche_langue || '') ? profil.touche_langue! : '0');
 
 // Les raccourcis lus à l'envers : le chemin tapé (même à la main, touche par touche) dit quelle opération est en cours.
 // La même opération donne la même empreinte que sur les autres canaux.
@@ -114,22 +110,23 @@ function ligne(base: Partial<LigneJournal> & { session: string; langue: string; 
   };
 }
 
+// Le service reçoit la requête de l'opérateur à l'identique (numéro, session, code, champs en plus) ; seul « text »
+// est le chemin de touches, qui est exactement ce que la personne a tapé tant qu'elle n'écrit pas de phrase
 async function appelerService(r: Relais, entree: EntreeUssd, chemin: string[]) {
-  const corps = new URLSearchParams({ sessionId: entree.session, serviceCode: entree.code || r.profil.code || '', phoneNumber: entree.telephone, text: chemin.join('*') });
+  const corps = new URLSearchParams(entree.champs);
+  corps.set('text', chemin.join('*'));
+  if (!corps.get('serviceCode') && r.profil.code) corps.set('serviceCode', r.profil.code);
   const reponse = await r.appeler(r.profil.service!, { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: corps });
   const brut = (await reponse.text()).trim();
   const [, mot, ecran] = brut.match(/^(CON|END)\s?([\s\S]*)$/) || ['', 'END', brut];
   return { fin: mot === 'END', ecran };
 }
 
-// Écran du service, traduit ligne à ligne ; s'il dépasse la place d'un écran USSD, il reste tel que le service l'a
-// écrit. Sous un menu, la ligne « Langue ».
+// Écran du service, traduit ligne à ligne et rien de plus ; s'il dépasse la place d'un écran USSD, il reste tel que
+// le service l'a écrit
 function afficher(r: Relais, etat: EtatRelais, bilan: Bilan): string {
   const traduit = etat.langue === 'fr' ? etat.ecran : traduireEcran(etat.ecran, r.pack, bilan);
-  const texte = traduit.length <= LIMITE_ECRAN ? traduit : etat.ecran;
-  const langue = etat.fin ? null : ligneLangue(r.ctx.reponses, toucheLangue(r.profil), etat.langue, etat.ecran, texte, LIMITE_ECRAN);
-  etat.ligneLangue = Boolean(langue);
-  return langue ? `${texte}\n${langue}` : texte;
+  return traduit.length <= LIMITE_ECRAN ? traduit : etat.ecran;
 }
 
 async function servir(r: Relais, entree: EntreeUssd, etat: EtatRelais) {
@@ -145,9 +142,11 @@ const rendre = (r: Relais, etat: EtatRelais, ref: string, valeurs?: Record<strin
 
 const nomDe = (r: Relais, code: string) => (code === 'fr' ? 'français' : r.langues.find((l) => l.code === code)?.nom.toLowerCase() || code);
 
-// Une phrase : l'intention et ses valeurs, ou une question si une valeur manque
+// Une phrase : l'intention et ses valeurs, ou une question si une valeur manque. Le nom d'une langue change de
+// langue ; « langue » seul rouvre le choix. Dans les deux cas, le service ne reçoit rien.
 async function phrase(r: Relais, etat: EtatRelais, saisie: string, telephone: string) {
   const c = comprendre(saisie, { lexiques: r.ctx.lexiques, termes: r.ctx.termes });
+  if (c.intention === 'langue' && !c.langue && !etat.attente) return { choix: true, comprise: c };
   if (c.intention === 'langue' && c.langue) {
     etat.langue = c.langue === 'fr' ? 'fr' : r.ctx.nationale.code;
     await r.preferences.ecrire(telephone, etat.langue);
@@ -173,7 +172,7 @@ async function etatDe(r: Relais, entree: EntreeUssd): Promise<EtatRelais> {
   const preferee = await r.preferences.lire(entree.telephone);
   const etat: EtatRelais = {
     langue: preferee || r.langueParDefaut, chemin: [], traitees: 0, attente: null, secret: false, ecran: '', fin: false,
-    choix: preferee || entree.saisies.length > 0 ? null : 'debut', ligneLangue: false,
+    choix: preferee || entree.saisies.length > 0 ? null : 'debut',
   };
   r.etats.set(entree.session, etat);
   return etat;
@@ -216,23 +215,23 @@ export async function relayer(r: Relais, entree: EntreeUssd): Promise<SortieUssd
     return { texte, fin: false, journal: ligne({ ...base, intention: 'choix de la langue', reponse: texte, statut: 'clarification', validation: 'premier appel : langue demandée', temps_ms: performance.now() - debut }) };
   }
   if (etat.choix) return choisir(r, entree, etat, saisie, base, debut);
-  // La touche de la ligne « Langue » : elle n'est jamais envoyée au service
-  if (saisie === toucheLangue(r.profil) && etat.ligneLangue && !etaitSecret && !etat.attente) {
-    etat.choix = 'reprise';
-    const texte = ecranDeChoix(r.ctx.reponses, r.langues, etat.langue);
-    return { texte, fin: false, journal: ligne({ ...base, intention: 'langue', reponse: texte, statut: 'clarification', validation: 'choix de la langue demandé ; le service n\'a rien reçu', temps_ms: performance.now() - debut }) };
-  }
 
   // Une phrase en lettres est comprise, comme la réponse à une question de Mayem ; sinon les chiffres (choix,
   // numéro, montant, code) passent tels quels au service
   if (saisie && !etaitSecret && (etat.attente || /\p{L}/u.test(saisie))) {
     const p = await phrase(r, etat, saisie, entree.telephone);
+    if ('choix' in p) {
+      etat.choix = 'reprise';
+      const texte = ecranDeChoix(r.ctx.reponses, r.langues, etat.langue);
+      return { texte, fin: false, journal: ligne({ ...base, intention: 'langue', reponse: texte, statut: 'clarification', validation: 'choix de la langue demandé ; le service n\'a rien reçu', temps_ms: performance.now() - debut }) };
+    }
     if ('question' in p) {
       return { texte: p.question!, fin: false, journal: ligne({ ...base, intention: p.comprise.intention || 'précision', raison: p.comprise.raison, reponse: p.question!, statut: 'clarification', validation: 'valeur manquante demandée', temps_ms: performance.now() - debut }) };
     }
     if ('rien' in p) {
       const texte = [p.avant, etat.ecran ? afficher(r, etat, bilan) : ''].filter(Boolean).join('\n');
-      return { texte, fin: false, journal: ligne({ ...base, langue: etat.langue, intention: p.comprise.intention || 'non comprise', raison: p.comprise.raison, reponse: texte, statut: 'information', temps_ms: performance.now() - debut }) };
+      const validation = p.comprise.intention === 'langue' ? 'langue changée et gardée pour ce numéro ; le service n\'a rien reçu' : '';
+      return { texte, fin: false, journal: ligne({ ...base, langue: etat.langue, intention: p.comprise.intention || 'non comprise', raison: p.comprise.raison, reponse: texte, statut: 'information', validation, temps_ms: performance.now() - debut }) };
     }
     etat.chemin = p.chemin!;
     const service = await servir(r, entree, etat);
@@ -260,7 +259,7 @@ export interface Autonome {
   ctx: Contexte;
   profil: ProfilUssd;
   sessions: Map<string, Session>;
-  marques: Map<string, { choix: Choix; ligne: boolean; accueil: boolean }>;
+  marques: Map<string, { choix: Choix; accueil: boolean }>;
   langueParDefaut: string;
   langues: Langue[];
   preferences: Preferences;
@@ -272,12 +271,6 @@ async function accueil(a: Autonome, langue: string): Promise<string> {
     ...(a.profil.menu || []).map((m, i) => a.ctx.reponses.rendre({ ref: m.ref, prefixe: `${i + 1}. ` }, langue).texte)].join('\n');
 }
 
-function sousLigne(a: Autonome, marque: { ligne: boolean }, langue: string, texte: string, fin: boolean): string {
-  const ajout = fin ? null : ligneLangue(a.ctx.reponses, toucheLangue(a.profil), langue, texte, texte, LIMITE_ECRAN);
-  marque.ligne = Boolean(ajout);
-  return ajout ? `${texte}\n${ajout}` : texte;
-}
-
 export async function converserUssd(a: Autonome, entree: EntreeUssd): Promise<SortieUssd> {
   const debut = performance.now();
   let session = a.sessions.get(entree.session);
@@ -285,10 +278,10 @@ export async function converserUssd(a: Autonome, entree: EntreeUssd): Promise<So
   if (!session || !marque || entree.saisies.length === 0) {
     const preferee = await a.preferences.lire(entree.telephone);
     session = nouvelleSession(entree.session, 'ussd', preferee || a.langueParDefaut);
-    marque = { choix: preferee ? null : 'debut', ligne: false, accueil: true };
+    marque = { choix: preferee ? null : 'debut', accueil: true };
     a.sessions.set(entree.session, session);
     a.marques.set(entree.session, marque);
-    const texte = marque.choix ? ecranDeChoix(a.ctx.reponses, a.langues, null) : sousLigne(a, marque, session.langue, await accueil(a, session.langue), false);
+    const texte = marque.choix ? ecranDeChoix(a.ctx.reponses, a.langues, null) : await accueil(a, session.langue);
     return { texte, fin: false, journal: ligne({ session: entree.session, langue: session.langue, requete: '', reponse: texte, intention: marque.choix ? 'choix de la langue' : 'accueil', temps_ms: performance.now() - debut }) };
   }
   const saisie = entree.saisies[entree.saisies.length - 1];
@@ -303,20 +296,30 @@ export async function converserUssd(a: Autonome, entree: EntreeUssd): Promise<So
     session.langue = code;
     marque.choix = null;
     await a.preferences.ecrire(entree.telephone, code);
-    const ecran = marque.accueil || !session.derniere.length ? await accueil(a, code) : session.derniere.map((m) => a.ctx.reponses.rendre(m, code).texte).join('\n');
-    const texte = sousLigne(a, marque, code, ecran, false);
+    const texte = await ecranQuitte(a, session, marque, code);
     return { texte, fin: false, journal: ligne({ ...base, langue: code, intention: 'langue', parametres: { langue: code }, reponse: texte, validation: mode === 'debut' ? 'langue choisie et gardée pour ce numéro' : 'langue changée et gardée pour ce numéro ; écran repris', temps_ms: performance.now() - debut }) };
   }
-  if (saisie === toucheLangue(a.profil) && marque.ligne && !session.attente) {
-    marque.choix = 'reprise';
-    const texte = ecranDeChoix(a.ctx.reponses, a.langues, session.langue);
-    return { texte, fin: false, journal: ligne({ ...base, intention: 'langue', reponse: texte, statut: 'clarification', validation: 'choix de la langue demandé', temps_ms: performance.now() - debut }) };
-  }
   const choix = marque.accueil && !session.attente && /^\d$/.test(saisie) ? a.profil.menu?.[Number(saisie) - 1] : undefined;
-  const avant = session.langue;
+  const avant = { derniere: session.derniere, accueil: marque.accueil };
   const tour = await traiter(a.ctx, session, choix ? choix.demande : saisie);
-  if (session.langue !== avant) await a.preferences.ecrire(entree.telephone, session.langue);
+  if (tour.journal.intention === 'langue') return langueEcrite(a, entree, session, marque, avant, { ...tour.journal, requete: saisie }, tour.texte);
   marque.accueil = false;
   const fin = ['executee', 'annulee'].includes(tour.journal.statut) || tour.journal.intention === 'terminer';
-  return { texte: sousLigne(a, marque, session.langue, tour.texte, fin), fin, journal: { ...tour.journal, requete: saisie } };
+  return { texte: tour.texte, fin, journal: { ...tour.journal, requete: saisie } };
+}
+
+// L'écran que la personne avait sous les yeux, redit dans la langue voulue
+const ecranQuitte = async (a: Autonome, session: Session, marque: { accueil: boolean }, langue: string) =>
+  (marque.accueil || !session.derniere.length ? accueil(a, langue) : session.derniere.map((m) => a.ctx.reponses.rendre(m, langue).texte).join('\n'));
+
+// Le nom d'une langue écrit, ou « langue » seul (le noyau a montré le choix) : l'écran quitté reste celui à reprendre
+async function langueEcrite(a: Autonome, entree: EntreeUssd, session: Session, marque: { choix: Choix; accueil: boolean },
+  avant: { derniere: Session['derniere']; accueil: boolean }, journal: LigneJournal, texte: string): Promise<SortieUssd> {
+  session.derniere = avant.derniere;
+  marque.accueil = avant.accueil;
+  if (!journal.validation.startsWith('langue changée')) { marque.choix = 'reprise'; return { texte, fin: false, journal }; }
+  await a.preferences.ecrire(entree.telephone, session.langue);
+  // Une opération en cours est déjà redite par le noyau, avec la même empreinte
+  if (session.attente) return { texte, fin: false, journal };
+  return { texte: `${texte}\n${await ecranQuitte(a, session, marque, session.langue)}`, fin: false, journal };
 }

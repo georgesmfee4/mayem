@@ -1,14 +1,11 @@
 // Le choix de la langue sur l'USSD. Le premier appel d'un numéro inconnu commence par l'écran de choix ; ensuite la
-// langue est retrouvée (service/preferences.ts). Sur chaque menu, Mayem ajoute une ligne « Langue », écrite dans la
-// langue en cours et sans nommer aucune langue : c'est l'écran de choix qui montre les langues prises en charge.
-// Après le choix, la personne reprend exactement là où elle en était.
+// langue est retrouvée (service/preferences.ts). Mayem n'ajoute rien aux menus du service : pour changer de langue,
+// la personne écrit son nom (« bulu », « français ») ou « langue » pour revoir le choix, à tout moment.
+// Après le choix, elle reprend exactement là où elle en était.
 
 import type { Reponses } from './reponses.ts';
 
 export interface Langue { code: string; nom: string }
-
-// Une ligne de menu numérotée : « 1. Solde », « 2) Envoyer »
-const MENU = /^\s*\d{1,2}\s*[.):-]/m;
 
 // Titre dans chaque langue au premier appel (on ne sait pas encore laquelle la personne lit), sinon dans la sienne.
 // Chaque langue s'annonce sous son propre nom, qui ne se traduit pas.
@@ -17,14 +14,12 @@ export function ecranDeChoix(reponses: Reponses, langues: Langue[], langueActuel
   return [...new Set(titres), ...langues.map((l, i) => `${i + 1}. ${l.nom}`)].join('\n');
 }
 
-export function langueChoisie(saisie: string, langues: Langue[]): string | null {
-  return /^\d{1,2}$/.test(saisie.trim()) ? langues[Number(saisie) - 1]?.code ?? null : null;
-}
+// Casse, accents et ponctuation ne comptent pas ; « en bulu » vaut « bulu »
+const simple = (texte: string) => texte.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+  .replace(/[^\p{L}\p{N}]+/gu, ' ').trim().replace(/^en /, '');
 
-// La ligne « Langue » à ajouter sous un menu : seulement sur un écran de menu, si la touche n'y est pas déjà prise
-// (« 0. Retour ») et si l'écran tient toujours dans la place d'un écran USSD
-export function ligneLangue(reponses: Reponses, touche: string, langue: string, ecranOriginal: string, affiche: string, limite: number): string | null {
-  if (!MENU.test(ecranOriginal) || new RegExp(`^\\s*${touche}\\s*[.):-]`, 'm').test(ecranOriginal)) return null;
-  const ligne = reponses.rendre({ ref: 'U08', prefixe: `${touche}. ` }, langue).texte;
-  return affiche.length + 1 + ligne.length <= limite ? ligne : null;
+// Sur l'écran de choix : son numéro, ou le nom de la langue écrit en entier
+export function langueChoisie(saisie: string, langues: Langue[]): string | null {
+  if (/^\d{1,2}$/.test(saisie.trim())) return langues[Number(saisie) - 1]?.code ?? null;
+  return langues.find((l) => simple(l.nom) === simple(saisie))?.code ?? null;
 }

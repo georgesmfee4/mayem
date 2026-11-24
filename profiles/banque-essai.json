@@ -14,7 +14,6 @@
   "ussd": {
     "service": "http://127.0.0.1:8788/ussd",
     "code": "*123#",
-    "touche_langue": "0",
     "succes": "^Opération réussie",
     "raccourcis": {
       "solde": ["1"],

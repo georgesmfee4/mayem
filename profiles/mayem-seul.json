@@ -4,7 +4,6 @@
   "langue": "bum",
   "ussd": {
     "code": "*123#",
-    "touche_langue": "0",
     "menu": [
       { "ref": "U01", "demande": "Quel est mon solde ?" },
       { "ref": "U02", "demande": "Je veux envoyer de l'argent" },
