@@ -324,7 +324,10 @@ async function decider(ctx: Contexte, s: Session, c: Comprehension): Promise<Dec
     return enCours ? { morceaux: [r('RF066')], statut: 'annulee', validation: 'annulée par l\'utilisateur' } : info([r('RF068')]);
   }
   if (c.intention === 'langue' && c.langue) return changerLangue(ctx, s, c);
-  if (c.negation && (ARGENT.has(c.intention || '') || (s.brouillon && !c.intention))) {
+  // « N'envoie pas 5 000, envoie 10 000 » pendant une opération est une correction : la négation n'annule que si
+  // aucune nouvelle valeur n'est gardée
+  const corrige = Boolean(s.brouillon) && apporteValeur(c);
+  if (c.negation && !corrige && (ARGENT.has(c.intention || '') || (s.brouillon && !c.intention))) {
     oublier(s);
     return { morceaux: [r('RF067')], statut: 'annulee', validation: 'demande négative : rien exécuté' };
   }
@@ -383,7 +386,7 @@ export async function traiter(ctx: Contexte, s: Session, texte: string): Promise
     erreurs.push(e instanceof Error ? e.message : String(e));
     decision = { morceaux: [r('RF064')], statut: 'erreur', validation: 'erreur technique : rien exécuté' };
   }
-  const rendus = decision.morceaux.map((m) => ctx.reponses.rendre(m, s.langue));
+  const rendus = decision.morceaux.map((m) => ctx.reponses.rendre(m, s.langue, s.canal));
   if (c.intention !== 'repeter' || !s.derniere.length) s.derniere = decision.morceaux.filter((m) => !('ref' in m && (m.ref === 'RF111' || m.ref === 'RF100')));
   const empreinte = decision.operation ? await empreinteOperation(decision.operation) : null;
   const journal = ligneJournal({ session: s, comprehension: c, decision, rendus, empreinte, erreurs, duree: performance.now() - debut });

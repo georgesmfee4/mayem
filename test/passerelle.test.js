@@ -203,11 +203,11 @@ test('interaction multicanale : le même transfert a la même empreinte par l\'U
 test('premier appel : l\'écran de choix de la langue, sans rien demander au service', async () => {
   const { telephone, appels } = monter();
   const ecran = await telephone('c1')();
-  assert.match(ecran, /^CON Choisissez votre langue\.\n1\. Français\n2\. Bulu$/);
+  assert.match(ecran, /^CON Choisissez votre langue\.\nfiale nkôbo\n1\. Français\n2\. Bulu$/);
   assert.equal(appels.length, 0);
   const appel = telephone('c1b');
   await appel();
-  assert.match(await appel('7'), /^CON Choisissez votre langue\.\n1\. Français\n2\. Bulu$/, 'un choix inconnu redemande la langue');
+  assert.match(await appel('7'), /^CON Choisissez votre langue\.\nfiale nkôbo\n1\. Français\n2\. Bulu$/, 'un choix inconnu redemande la langue');
   assert.equal(appels.length, 0);
 });
 

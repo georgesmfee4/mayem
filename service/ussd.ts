@@ -141,7 +141,7 @@ async function servir(r: Relais, entree: EntreeUssd, etat: EtatRelais) {
 }
 
 const rendre = (r: Relais, etat: EtatRelais, ref: string, valeurs?: Record<string, string>) =>
-  r.ctx.reponses.rendre(valeurs ? { ref, valeurs } : { ref }, etat.langue).texte;
+  r.ctx.reponses.rendre(valeurs ? { ref, valeurs } : { ref }, etat.langue, 'ussd').texte;
 
 const nomDe = (r: Relais, code: string) => (code === 'fr' ? 'français' : r.langues.find((l) => l.code === code)?.nom.toLowerCase() || code);
 
