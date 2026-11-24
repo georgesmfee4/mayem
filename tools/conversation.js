@@ -64,6 +64,24 @@ export function lexiqueDesLocuteurs(code, { provisoire = false } = {}) {
   return { intentions, secondaires: ['oui', 'non', 'terminer', 'repeter'], devises: [], multiplicateurs: {}, ...marques, formulations };
 }
 
+// « solde » se reconnaît aussi sous sa traduction validée (« c'est quoi, mebal ? ») : formes ajoutées au terme
+function avecTermeNational(terme, pack) {
+  const traductions = pack.glossaire.filter(termeUtilisable)
+    .filter((t) => t.terme.split('/').some((f) => terme.split('/').some((g) => souple(f.trim()) === souple(g.trim()))))
+    .flatMap((t) => t.cible.split('/').map((c) => c.trim()));
+  return [terme, ...new Set(traductions)].join(' / ');
+}
+
+// Explications des termes dans la langue nationale, signées de deux noms et non écartées à la relecture
+export function explicationsValidees(code) {
+  const finale = dossier(code) + 'finale/';
+  if (!existsSync(finale + 'explications-recues.csv')) return new Map();
+  const ecartees = new Set(existsSync(finale + 'exclusions.csv') ? lire(finale + 'exclusions.csv').map((l) => l.ref) : []);
+  return new Map(lire(finale + 'explications-recues.csv')
+    .filter((l) => deuxNoms(l.traduit_par, l.relu_par) && !ecartees.has(l.ref) && l.explication)
+    .map((l) => [l.ref, l.explication]));
+}
+
 // Versions par canal (USSD, SMS, voix) signées de deux noms
 export function variantesValidees(code) {
   const chemin = dossier(code) + 'finale/variantes.csv';
@@ -78,9 +96,9 @@ export function chargerContexte(code = choisirLangue(), banque = banqueSimulee(l
   const francais = lexiqueFrancais(pack.nom);
   return {
     banque,
-    reponses: creerReponses(modeles, explications, pack, variantesValidees(code)),
+    reponses: creerReponses(modeles, explications, pack, variantesValidees(code), explicationsValidees(code)),
     lexiques: [francais, lexiqueDuGlossaire(francais, pack), lexiqueDesLocuteurs(code, { provisoire })].filter(Boolean),
-    termes: explications.map(({ ref, terme }) => ({ ref, terme })),
+    termes: explications.map(({ ref, terme }) => ({ ref, terme: avecTermeNational(terme, pack) })),
     nationale: { code, nom: pack.nom },
     typesFacture: [{ type: 'electricite', ref: 'U14' }, { type: 'eau', ref: 'U15' }],
   };

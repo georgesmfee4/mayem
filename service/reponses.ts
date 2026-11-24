@@ -27,7 +27,8 @@ export interface Reponses { rendre(morceau: Morceau, langue: string, canal?: str
 // Version validée d'une réponse pour un canal (USSD court, SMS, voix), tirée du tableur des réponses
 export interface Variante { ref: string; canal: string; cible: string }
 
-export function creerReponses(modeles: Modele[], explications: Explication[], pack: Pack, variantes: Variante[] = []): Reponses {
+// fixes : traductions validées d'un texte entier sans case (explications des termes), par référence
+export function creerReponses(modeles: Modele[], explications: Explication[], pack: Pack, variantes: Variante[] = [], fixes = new Map<string, string>()): Reponses {
   const parCanal = new Map(variantes.map((v) => [`${v.ref}|${v.canal}`, v.cible]));
   const textes = new Map<string, string>(modeles.map((m) => [m.ref, m.fr]));
   for (const e of explications) textes.set(e.ref, `${e.explication_fr} ${e.exemple}`.trim());
@@ -47,6 +48,8 @@ export function creerReponses(modeles: Modele[], explications: Explication[], pa
       const francais = remplir(morceau.ref, morceau.valeurs);
       const prefixe = morceau.prefixe || '';
       if (langue === 'fr') return { ref: morceau.ref, texte: prefixe + francais, langue: 'fr', traduit: false };
+      const fixe = fixes.get(morceau.ref);
+      if (fixe && langue === pack.langue && memesChiffres(francais, fixe)) return { ref: morceau.ref, texte: prefixe + fixe, langue, traduit: true };
       const variante = canal ? parCanal.get(`${morceau.ref}|${canal}`) : undefined;
       if (variante && langue === pack.langue) {
         // Mêmes cases que le modèle (vérifié à l'import), mêmes chiffres une fois remplie : sinon la version complète
