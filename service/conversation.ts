@@ -9,6 +9,7 @@
 // - l'état de l'opération ne dépend pas de la langue : on peut changer de langue au milieu sans rien perdre.
 
 import { comprendre, normaliser, type Comprehension, type Contact, type Lexique, type Terme } from '../core/comprendre.ts';
+import type { Vocabulaires } from '../core/langue-probable.ts';
 import { empreinteOperation, type Operation } from '../core/operation.ts';
 import type { Banque, Demande, Preparation, Refus, TypeEnvoi } from './banque.ts';
 import { date, montant, pourcentage, telephone, type Morceau, type Rendu, type Reponses } from './reponses.ts';
@@ -55,6 +56,8 @@ export interface Contexte {
   nationale: { code: string; nom: string };
   // Choix de facture proposés au menu, dans l'ordre : le libellé vient du tableur des menus (« Électricité »)
   typesFacture: { type: string; ref: string }[];
+  // Mots validés de chaque langue, pour reconnaître celle d'une demande quand le canal ne la dit pas
+  vocabulaires?: Vocabulaires;
 }
 
 // pret : devant un service relayé, l'opération complète à lui transmettre. transaction : l'opération de la banque

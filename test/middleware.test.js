@@ -206,6 +206,46 @@ test('une opération abandonnée est annulée à la banque : rien ne reste en at
   assert.equal(banque.operations.get(autre.transaction.id).status, 'cancelled');
 });
 
+test('langue d\'une demande : les mots propres à une seule langue ; dans le doute, aucun avis', async () => {
+  const { langueProbable } = await import('../core/langue-probable.ts');
+  const v = new Map([['fr', new Set(['envoie', 'argent', 'operation', 'oui'])], ['qaa', new Set(['zorba', 'kelim', 'operation'])]]);
+  assert.equal(langueProbable('Envoie de l\'argent', v), 'fr');
+  assert.equal(langueProbable('zorba kelim 5 000', v), 'qaa');
+  assert.equal(langueProbable('opération', v), null, 'un mot commun aux deux langues ne dit rien');
+  assert.equal(langueProbable('zorba oui', v), null, 'autant d\'un côté que de l\'autre');
+  assert.equal(langueProbable('oui', v, { minimum: 2, sansAutre: true }), null, 'en cours de conversation, un mot isolé ne suffit pas');
+  assert.equal(langueProbable('Envoie à Zorba', v, { ignorer: new Set(['zorba']) }), 'fr', 'un nom de contact n\'a pas de langue');
+});
+
+test('sans langue donnée par la passerelle : reconnue aux mots de la demande, gardée malgré un « oui » glissé', async () => {
+  const { tour } = monter();
+  const bulu = await tour('mebal môé', { langue: null });
+  assert.equal(bulu.interpretation.language, 'bum');
+  assert.doesNotMatch(bulu.response.text, /Votre solde/);
+  const recap = await tour('lôm pierre 5 000', { langue: null });
+  assert.equal(recap.interpretation.language, 'bum');
+  const fait = await tour('oui', { langue: null });
+  assert.equal(fait.interpretation.intent, 'CONFIRM');
+  assert.equal(fait.interpretation.language, 'bum', 'un « oui » en français ne change pas la langue de la conversation');
+  const autre = monter();
+  const fr = await autre.tour('Quel est mon solde ?', { langue: null });
+  assert.equal(fr.interpretation.language, 'fr');
+  assert.match(fr.response.text, /Votre solde est de 85 000 FCFA/);
+});
+
+test('USSD sans langue donnée, numéro jamais vu : l\'écran de choix, puis le menu dans la langue choisie', async () => {
+  const { tour } = monter();
+  const choix = await tour('', { canal: 'ussd', langue: null, telephone: '237690000001' });
+  assert.equal(choix.interpretation.intent, 'CLARIFICATION_NEEDED');
+  assert.match(choix.response.text, /\n1\. Français\n2\. Bulu$/);
+  const menu = await tour('2', { canal: 'ussd', langue: null });
+  assert.equal(menu.interpretation.intent, 'LANGUAGE_SWITCH');
+  assert.equal(menu.interpretation.language, 'bum');
+  const solde = await tour('1', { canal: 'ussd', langue: null });
+  assert.equal(solde.interpretation.intent, 'BALANCE_INQUIRY');
+  assert.equal(solde.interpretation.language, 'bum');
+});
+
 test('banque injoignable ou tour mal formé : toujours une réponse valide, rien d\'exécuté', async () => {
   const { tour } = monter({ appeler: async () => { throw new Error('connexion refusée'); } });
   const r = await tour('Quel est mon solde ?');

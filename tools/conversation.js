@@ -8,6 +8,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { pathToFileURL } from 'node:url';
 import { normaliser } from '../core/comprendre.ts';
+import { motsDe } from '../core/langue-probable.ts';
 import { souple } from '../core/langage.ts';
 import { termeUtilisable } from '../core/termes.ts';
 import { banqueSimulee } from '../service/banque.ts';
@@ -88,19 +89,35 @@ export function variantesValidees(code) {
   return existsSync(chemin) ? lire(chemin).filter((v) => deuxNoms(v.traduit_par, v.relu_par)).map(({ ref, canal, cible }) => ({ ref, canal, cible })) : [];
 }
 
+// Mots de chaque langue, pour reconnaître celle d'une demande quand le canal ne la dit pas. Français : phrases du
+// pack, modèles de réponse, lexique, termes. Langue nationale : traductions validées (sans les gloses entre
+// parenthèses ni les cases), glossaire, et ce que les locuteurs ont signé de deux noms.
+export function vocabulaires(code, pack, francais, locuteurs, modeles) {
+  const mots = (textes) => new Set(textes.flatMap((t) => motsDe(String(t).replace(/\([^)]*\)/g, ' ').replace(/\{\w+\}/g, ' '))));
+  const cles = (objet) => Object.keys(objet || {});
+  const fr = mots([...pack.phrases.flatMap((p) => [p.fr, ...(p.variantes || [])]), ...modeles.map((m) => m.fr), ...pack.glossaire.map((t) => t.terme),
+    ...Object.values(francais.intentions).flatMap(cles), ...cles(francais.periodes), ...cles(francais.factures), ...cles(francais.langues)]);
+  const nationale = mots([...pack.phrases.filter((p) => p.valide && p.cible).map((p) => p.cible), ...pack.glossaire.filter(termeUtilisable).map((t) => t.cible),
+    ...(locuteurs ? [...locuteurs.formulations.map((f) => f.texte), ...Object.values(locuteurs.intentions).flatMap(cles),
+      ...(locuteurs.negations || []), ...(locuteurs.ecartent || []), ...cles(locuteurs.periodes), ...cles(locuteurs.factures), ...cles(locuteurs.langues)] : [])]);
+  return new Map([['fr', fr], [code, nationale]]);
+}
+
 export function chargerContexte(code = choisirLangue(), banque = banqueSimulee(lireJson(racine + 'service/banque-essai.json')), { provisoire = false } = {}) {
   const pack = lireJson(dossier(code) + 'pack.json');
   const finale = dossier(code) + 'finale/';
   const modeles = [...lire(finale + 'reponses.csv'), ...lire(finale + 'menus.csv')].map(({ ref, fr }) => ({ ref, fr }));
   const explications = lire(finale + 'termes.csv');
   const francais = lexiqueFrancais(pack.nom);
+  const locuteurs = lexiqueDesLocuteurs(code, { provisoire });
   return {
     banque,
     reponses: creerReponses(modeles, explications, pack, variantesValidees(code), explicationsValidees(code)),
-    lexiques: [francais, lexiqueDuGlossaire(francais, pack), lexiqueDesLocuteurs(code, { provisoire })].filter(Boolean),
+    lexiques: [francais, lexiqueDuGlossaire(francais, pack), locuteurs].filter(Boolean),
     termes: explications.map(({ ref, terme }) => ({ ref, terme: avecTermeNational(terme, pack) })),
     nationale: { code, nom: pack.nom },
     typesFacture: [{ type: 'electricite', ref: 'U14' }, { type: 'eau', ref: 'U15' }],
+    vocabulaires: vocabulaires(code, pack, francais, locuteurs, modeles),
   };
 }
 

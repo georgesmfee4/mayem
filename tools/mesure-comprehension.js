@@ -8,6 +8,7 @@
 
 import { readFileSync } from 'node:fs';
 import { comprendre } from '../core/comprendre.ts';
+import { langueProbable, motsDe } from '../core/langue-probable.ts';
 import { chargerContexte } from './conversation.js';
 import { lireCsv } from './csv.js';
 import { choisirLangue, dossier } from './langues.js';
@@ -32,4 +33,10 @@ for (const { ref, texte } of phrases) {
 }
 const taux = Math.round((100 * justes) / phrases.length);
 console.log(`Test à l'aveugle${provisoire ? ' (avec formulations provisoires)' : ''} : ${justes}/${phrases.length} intentions justes (${taux} %)`);
+// La langue, quand le canal ne la donne pas : reconnue aux mots propres du vocabulaire validé (core/langue-probable.ts)
+const ignorer = new Set(carnet.flatMap((c) => motsDe(c.nom)));
+const langues = phrases.map(({ texte }) => langueProbable(texte, ctx.vocabulaires, { ignorer }));
+const reconnues = langues.filter((l) => l === code).length;
+const autres = langues.filter((l) => l && l !== code).length;
+console.log(`Langue reconnue sans être donnée : ${reconnues}/${phrases.length}, ${autres} prise(s) pour une autre langue, ${phrases.length - reconnues - autres} sans avis`);
 for (const e of erreurs) console.log('  ' + e);

@@ -88,7 +88,7 @@ export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}
     if (journal.length > LIGNES_GARDEES) journal.shift();
   }
   const middleware = profil.middleware
-    ? creerMiddleware({ ctx, profil: profil.middleware, cle: cleBanque, langueParDefaut, menu: profil.ussd?.menu || [], preferences, noter, appeler })
+    ? creerMiddleware({ ctx, profil: profil.middleware, cle: cleBanque, langueParDefaut, langues, menu: profil.ussd?.menu || [], preferences, noter, appeler })
     : null;
 
   async function converser(requete: Request) {
