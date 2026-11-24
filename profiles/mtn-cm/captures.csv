@@ -109,3 +109,166 @@ C19,24/11/2026,17:59,*123#,inconnu,inconnu,"Verifiez les Forfaits Continent
 1) Verifier le solde du forfait Continent
 2) Comment ca marche?
 0) Retour","USSD-CON-01, USSD-CON-02, USSD-CON-03, USSD-MENU-11",Le chemin qui mène à cet écran
+A01,24/11/2026,19:17,Application MoMo,Accueil (haut),sûr,"Portefeuille
+[numéro du compte, non recopié]
+0 FCFA
+Retrait
+Relevés
+POUR VOUS
+PAYER
+ACHETER
+Destinataires MoMo favoris
+Nouveau
+Envoyer de l'argent
+Forfait de Données
+Crédit
+Commerçants
+Accueil
+Envoyer
+Scanner QR
+Top Deals+
+Plus","APP-ACC-24, APP-ACC-13, APP-ACC-16, APP-ACC-25, APP-ACC-12, APP-ACC-14, APP-ACC-28, APP-ACC-29, APP-ACC-30, APP-ACC-31, APP-ACC-32, APP-ACC-33, APP-ACC-38, APP-ACC-10, APP-ACC-20, APP-ACC-40",Les onglets PAYER et ACHETER (leur contenu)
+A02,24/11/2026,19:17,Application MoMo,Accueil (défilé),sûr,"Envoyer de l'argent
+Forfait de Données
+Crédit
+Commerçants
+Services Publics
+Services Bancaires
+Prêts et Avances
+Billetterie
+Recommandez M[…]
+et recevez 200 F[…]
+Accueil
+Envoyer
+Scanner QR
+Top Deals+
+Plus","APP-ACC-34, APP-ACC-35, APP-ACC-18, APP-ACC-36",La bannière « Recommandez… » est cachée par le bouton : la relever en entier
+A03,24/11/2026,19:18,Application MoMo,Accueil (bas),sûr,"Dernières Transactions
+Aucunes transactions trouvées
+Accueil
+Envoyer
+Scanner QR
+Top Deals+
+Plus","APP-ACC-26, APP-ACC-27",Une ligne de transaction (après une opération)
+A04,24/11/2026,19:18,Application MoMo,Accueil > Top Deals+,sûr,"Offres Spéciales
+TOP DEALS +
+INTERNET
+APPELS
+INTE[…]
+Quotidien
+Hebdomadaire
+Mensuel
+550U+75MB/3+2000U/3 | 150 FCFA | Valable 3 jours
+3100U+75MB/3+2500U/3 | 250 FCFA | Valable 3 jours
+7500U+500MB/7+2500U/7 | 500 FCFA | Valable 7 jours
+2.5GB/30+350MB/30 | 1 000 FCFA | Valable 30 jours","APP-OFR-01, APP-OFR-02, APP-OFR-03, APP-OFR-05, APP-OFR-06, APP-OFR-07, APP-OFR-08",Les offres chiffrées changent souvent : ne pas les traduire une à une. L'écran qui suit le choix d'une offre
+A05,24/11/2026,19:18,Application MoMo,Accueil > Top Deals+ > INTERNET + APPELS,sûr,"Offres Spéciales
+INTERNET
+APPELS
+INTERNET + APPELS
+Quotidien
+Hebdomadaire
+Mensuel
+400MB/30D+500U | 250 FCFA | Valable 30 jours",APP-OFR-04,
+A06,24/11/2026,19:18,Application MoMo,Accueil > Plus,sûr,"Plus
+Tarifs
+Calculateur de Frais
+Centre de Connaissances","APP-PLU-01, APP-PLU-02",Le contenu de Tarifs et de Centre de Connaissances
+A07,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Factures,sûr,"Calculateur de frais
+Factures
+Virements
+Retrait
+Paiements Commerçants
+Type de facture
+Électricité (ENEO)
+Eau (Camwater)
+TV
+Facture MTN","APP-FRA-01, APP-FRA-02, APP-FRA-03, APP-FRA-04, APP-FRA-05, APP-FRA-06, APP-FRA-07, APP-FRA-08, APP-FRA-09",
+A08,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Factures > Électricité (ENEO),sûr,"Calculateur de frais
+Type de facture
+Électricité (ENEO)
+Type de compteur
+Prépayé
+Postpaid","APP-FRA-10, APP-FRA-11, APP-FRA-12",Le résultat du calcul (frais affichés)
+A09,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Virements,sûr,"Calculateur de frais
+Type de transfert
+Utilisateur MoMo
+Utilisateur non-MoMo
+Banque vers MoMo
+Transfert International","APP-FRA-13, APP-FRA-14, APP-FRA-15, APP-FRA-16",
+A10,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Retrait,sûr,"Calculateur de frais
+Montant | FCFA
+Solde disponible:  0 FCFA
+CONTINUE","APP-ENV-03, APP-INT-07, APP-ENV-05",Le résultat après avoir tapé un montant
+A11,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Paiements Commerçants,sûr,"Calculateur de frais
+Montant | FCFA
+Solde disponible:  0 FCFA
+EFFECTUER LE TRANSFERT",APP-FRA-17,
+A12,24/11/2026,19:20,Application MoMo,"Transfert international, Portefeuille (chemin à confirmer : Envoyer ?)",probable,"Transfert international
+Comment souhaitez-vous payer ?
+Portefeuille
+Banque
+[drapeau du Ghana]
+Numéro de téléphone *
+Sélectionner le réseau
+MTN
+Montant * | FCFA
+Solde disponible:  0 FCFA
+Référence
+Enregistrer comme favori","APP-INT-01, APP-INT-02, APP-INT-03, APP-INT-04, APP-ENV-02, APP-ENV-03, APP-INT-07, APP-INT-08, APP-ENV-16",Le chemin qui mène ici ; le bouton du bas (coupé) ; la liste des pays
+A13,24/11/2026,19:20,Application MoMo,"Transfert international, Banque",probable,"Transfert international
+Portefeuille
+Banque
+[drapeau du Ghana]
+Numéro de compte *
+Sélectionner la banque
+Ecobank
+Montant * | FCFA
+Solde disponible:  0 FCFA
+Référence
+Enregistrer comme favori
+CONTINUER (coupé)","APP-INT-05, APP-INT-06",La liste des banques
+A14,24/11/2026,19:20,Application MoMo,Accueil > Retrait,sûr,"Retrait
+Retrait Agent
+Retirez de l'argent chez l'agent le plus proche","APP-RET-01, APP-RET-02",Les écrans après « Retrait Agent »
+A15,24/11/2026,19:21,Application MoMo,Accueil > Scanner QR,sûr,"Scanner QR
+Scanner QR
+Mon Code QR
+Pour scanner les codes QR, activez l'appareil photo dans les paramètres Autoriser l'accès
+Saisir l'ID manuellement","APP-ACC-21, APP-QR-01, APP-QR-02, APP-QR-03","Relevé deux fois, identique. L'onglet Mon Code QR"
+A16,24/11/2026,19:21,Application MoMo,Accueil > Scanner QR > Saisir l'ID manuellement,sûr,"Saisissez numéro de mobile/ID *
+SUIVANT","APP-QR-04, APP-QR-05",L'écran après SUIVANT
+A17,24/11/2026,19:21,Application MoMo,Accueil > profil (icône en haut à gauche),sûr,"[prénom et numéro du titulaire, non recopiés]
+COMPTE
+Paramètres de sécurité
+Biométrie, Modifier le code PIN et plus
+Changer de Compte
+Déconnectez-vous et utilisez un autre com[…]
+Carte Virtuelle
+Afficher ou gérer votre carte
+ASSISTANCE
+Obtenir de l'aide
+Trouver un agent ou signaler un problème
+Évaluer MoMo
+Que pensez-vous de MoMo ? Donnez votre […]
+PLUS","APP-CPT-01, APP-PAR-02, APP-CPT-02, APP-CPT-03, APP-ACC-19, APP-CPT-05, APP-CPT-06, APP-PAR-06, APP-CPT-07, APP-CPT-08","Les textes coupés (« Déconnectez-vous… », « Donnez votre… ») et la partie PLUS en bas"
+A18,24/11/2026,19:21,Application MoMo,Accueil > profil > Paramètres de sécurité (à confirmer),probable,"Paramètres
+Aperçu du Solde
+Changer la langue
+Désactiver l'authentification Biométrique
+Gestion du PIN
+Supprimer Mon Compte
+Notifications","APP-ACC-22, APP-PAR-11, APP-PAR-01, APP-PAR-12, APP-PAR-03, APP-PAR-13, APP-PAR-05",Les langues proposées dans « Changer la langue »
+A19,24/11/2026,19:22,Application MoMo,Accueil > Relevés,sûr,"Relevés
+Solde actuel: | 0 FCFA
+Dépôt: | +0.00 FCFA
+Retrait: | -0.00 FCFA
+Pour novembre 2026
+Relevés
+Dernières transactions
+Aucunes transactions trouvées
+Accueil
+Envoyer
+Scanner QR
+Top Deals+
+Plus","APP-REL-01, APP-REL-02, APP-REL-03, APP-REL-04",L'écran du bouton « Relevés » (choix de la période)

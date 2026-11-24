@@ -1,7 +1,7 @@
 nom,type,canaux,description,fiabilite,source
 MTN Mobile Money (MoMo),argent mobile,"ussd, application, sms","Envoyer, retirer, payer factures et marchands, crédit, épargne et prêt",vérifié,"vu sur un téléphone, 24/11/2026 (C02) ; guides de codes USSD, presse 2026"
-Application MoMo,application mobile,application,"Application de l'argent mobile, carte virtuelle incluse",presse,"AllAfrica, février 2026"
-Carte virtuelle MoMo,carte de paiement,"application, ussd",Carte de paiement virtuelle pour les achats en ligne,presse,"AllAfrica, février 2026"
+Application MoMo,application mobile,application,"Envoyer, retirer, payer factures et commerçants, crédit, forfaits, prêts, billetterie, carte virtuelle, calculateur de frais",vérifié,"vu dans Application MoMo, 24/11/2026 (A01 à A19) ; AllAfrica, février 2026"
+Carte virtuelle MoMo,carte de paiement,"application, ussd",Carte de paiement virtuelle pour les achats en ligne,vérifié,"AllAfrica, février 2026 ; entrée « Carte Virtuelle » vu dans Application MoMo, 24/11/2026 (A17)"
 Application MyMTN,application mobile,application,"Compte téléphonique, forfaits, solde",à vérifier,cité par des guides
 MTN Wanda,offre de téléphonie,ussd,Offre de téléphonie (contenu à relever sur l'écran),contradictoire,guides tiers
 MTN Extra,offre de téléphonie,ussd,Offre de téléphonie (contenu à relever sur l'écran),à vérifier,guides tiers
@@ -19,3 +19,8 @@ MoMo Promo,promotion,ussd,Promotions de l'argent mobile,vérifié,"vu sur un té
 "MTN Congo, Airtel Congo",opérateurs partenaires (GIMACPAY),ussd,Destinations au Congo,vérifié,"vu sur un téléphone, 24/11/2026 (C08)"
 "Cameroun, Gabon, Congo Braz, RCA, Tchad, Guinee Equatoriale",pays desservis (GIMACPAY),ussd,Pays proposés pour un envoi vers un autre opérateur,vérifié,"vu sur un téléphone, 24/11/2026 (C06)"
 English,langue du menu,ussd,"Passe le menu de l'opérateur en anglais (*123#, touche 7). Nom d'une langue : ne se traduit pas",vérifié,"vu sur un téléphone, 24/11/2026 (C01)"
+Top Deals+,offre de téléphonie,application,Offres spéciales de l'application (barre du bas),vérifié,"vu dans Application MoMo, 24/11/2026 (A04)"
+ENEO,société de facturation,application,Électricité : facture payable par l'argent mobile,vérifié,"vu dans Application MoMo, 24/11/2026 (A07)"
+Camwater,société de facturation,application,Eau : facture payable par l'argent mobile,vérifié,"vu dans Application MoMo, 24/11/2026 (A07)"
+Ecobank,banque partenaire,application,Banque proposée pour un transfert international,vérifié,"vu dans Application MoMo, 24/11/2026 (A13)"
+Ghana,pays desservi (transfert international),application,Pays proposé par défaut pour un transfert international,vérifié,"vu dans Application MoMo, 24/11/2026 (A12)"

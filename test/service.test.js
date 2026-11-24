@@ -23,7 +23,13 @@ test('chaque texte relevé renvoie à un écran du socle et à une capture exist
 test('les écrans cités par une capture existent, et chaque texte relevé se lit dans sa capture', () => {
   const texte = Object.fromEntries(captures.map((c) => [c.ref, c.texte]));
   for (const c of captures) for (const ref of c.ecrans.split(',').map((x) => x.trim()).filter(Boolean)) assert.ok(ecrans.has(ref), `${c.ref} : ${ref}`);
-  for (const r of releves) assert.ok(texte[r.capture.split(',')[0]].includes(r.texte_exact), `${r.ref} « ${r.texte_exact} »`);
+  // Une valeur affichée (date, montant, durée) devient sa case {…} dans le texte relevé
+  const motif = (t) => new RegExp(t.split(/\{[a-z_0-9]+\}/).map((x) => x.replace(/[.*+?^$()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+')).join('.+'));
+  for (const r of releves) assert.match(texte[r.capture.split(',')[0]], motif(r.texte_exact), `${r.ref} « ${r.texte_exact} »`);
+});
+
+test('aucun nom ni numéro de titulaire dans les captures', () => {
+  for (const c of captures) assert.doesNotMatch(c.texte, /\b6\s?\d{2}(\s?\d{2}){3}\b/, c.ref);
 });
 
 test('un code n\'est dit vérifié qu\'avec une source', () => {

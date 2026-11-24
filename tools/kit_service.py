@@ -259,7 +259,7 @@ def onglet_touches(wb):
 
 
 def onglet_captures(wb):
-    ws = feuille(wb, 'Captures', ['Capture', 'Relevé le', 'Heure', 'Code composé', 'Chemin (touches)', 'Chemin sûr ?',
+    ws = feuille(wb, 'Captures', ['Capture', 'Relevé le', 'Heure', 'Code ou application', 'Chemin (touches ou écrans)', 'Chemin sûr ?',
                                   "Texte complet tel qu'affiché", 'Repris dans Écrans', 'Reste à relever'], [9, 11, 7, 11, 30, 11, 52, 30, 44])
     lignes = lire_profil('captures.csv')
     for r in lignes:

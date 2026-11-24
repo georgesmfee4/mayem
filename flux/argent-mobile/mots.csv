@@ -51,3 +51,8 @@ W49,tous réseaux,all networks,"Appels vers tous les opérateurs, pas seulement 
 W50,personne sans compte,non-registered user,Bénéficiaire qui n'a pas de compte d'argent mobile,1
 W51,transfert international,international transfer,Envoi d'argent vers un autre pays,1
 W52,promotion,promotion,Offre à prix réduit pour un temps,0
+W53,"MB / GB, D (anglais)","MB / GB, days",Abréviations anglaises des offres de l'application : 400MB/30D = 400 mégaoctets pour 30 jours,0
+W54,portefeuille,wallet,Le compte d'argent mobile dans l'application,1
+W55,prépayé / postpayé,prepaid / postpaid,"Compteur qu'on recharge avant, ou facture qu'on paie après",1
+W56,virement,transfer,Envoi d'argent d'un compte à un autre,1
+W57,calculateur de frais,fee calculator,Outil qui dit les frais avant l'opération,0
