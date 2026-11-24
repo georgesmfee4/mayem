@@ -175,6 +175,9 @@ R = Rapport()
 # renvoyée aux locuteurs, avec la raison, pour être refaite.
 EXCLUSIONS = {l[0]: l[1] for l in lire_csv(FINALE / 'exclusions.csv')[1]}
 EXCLUSIONS_ACTIVES = True
+# Lignes écartées refaites par les locuteurs dans un tableur de retours, signées de deux noms : la mise de côté
+# visait l'ancienne traduction, elle est levée
+LEVEES = set()
 
 
 def preparer(ref, colonne, francais, brute):
@@ -191,6 +194,8 @@ def preparer(ref, colonne, francais, brute):
     if raison:
         R.refus.append(f'{ref} ({colonne}) : {raison} | {brute.strip()}')
         return None
+    if ref in EXCLUSIONS:
+        LEVEES.add(ref)
     if notes:
         R.alignes.append(f'{ref} ({colonne}) : {", ".join(notes)}')
     return traduction
@@ -308,7 +313,21 @@ def importer_courtes(wb):
     return variantes
 
 
-def ranger(nom, entetes, lignes):
+def ranger(nom, entetes, lignes, retours=False):
+    """retours : le tableur ne donne que les lignes à refaire ; elles remplacent celles de même référence, à leur
+    place, et rien d'autre ne bouge"""
+    if retours:
+        nouvelles = {}
+        for l in lignes:
+            nouvelles.setdefault(l[0], []).append(l)
+        gardees = []
+        for l in lire_csv(FINALE / nom)[1]:
+            if l[0] not in nouvelles:
+                gardees.append(l)
+            elif nouvelles[l[0]]:
+                gardees += nouvelles[l[0]]
+                nouvelles[l[0]] = []
+        lignes = gardees + [l for reste in nouvelles.values() for l in reste]
     ecrire_csv(FINALE / nom, entetes, lignes, bom=False)
     signees = sum(1 for l in lignes if deux_noms(l[-2], l[-1])) if 'verifie_par' in entetes or 'relu_par' in entetes else len(lignes)
     print(f'{nom} : {len(lignes)} ligne(s) rangée(s), {signees} signée(s) de deux noms')
@@ -328,12 +347,16 @@ def importer_demandes(wb):
     mots = [[texte(r[0]), texte(r[1]), str(n), texte(r[c]), texte(r[6]), texte(r[7])]
             for r in list(wb['Mots du dialogue'].iter_rows(values_only=True))[1:] for n, c in enumerate((3, 4, 5), 1) if texte(r[c])]
     ranger('mots.csv', ['ref', 'fr', 'facon', 'texte', 'ecrit_par', 'verifie_par'], mots)
+    importer_nombres(wb)
+
+
+def importer_nombres(wb, retours=False):
     nombres = [[texte(r[0]), texte(r[1]), texte(r[3]), texte(r[4]), texte(r[5]), texte(r[6])]
                for r in list(wb['Nombres'].iter_rows(values_only=True))[1:] if texte(r[0])]
-    ranger('nombres-recus.csv', ['ref', 'valeur', 'en_entier', 'a_l_oral', 'ecrit_par', 'verifie_par'], nombres)
+    ranger('nombres-recus.csv', ['ref', 'valeur', 'en_entier', 'a_l_oral', 'ecrit_par', 'verifie_par'], nombres, retours)
 
 
-def importer_explications(wb):
+def importer_explications(wb, retours=False):
     lignes = []
     for r in list(wb['Termes à expliquer'].iter_rows(values_only=True))[1:]:
         ref = texte(r[0])
@@ -344,8 +367,10 @@ def importer_explications(wb):
         courte = gloser(aligner(re.sub(r'\s+', ' ', texte(r[7])), notes), notes)
         if notes:
             R.alignes.append(f'{ref} (explication) : {", ".join(notes)}')
+        if retours and ref in EXCLUSIONS and deux_noms(r[8], r[9]):
+            LEVEES.add(ref)
         lignes.append([ref, texte(r[2]), explication, courte, texte(r[8]), texte(r[9])])
-    ranger('explications-recues.csv', ['ref', 'terme', 'explication', 'courte', 'traduit_par', 'relu_par'], lignes)
+    ranger('explications-recues.csv', ['ref', 'terme', 'explication', 'courte', 'traduit_par', 'relu_par'], lignes, retours)
 
 
 def importer_test(wb):
@@ -363,25 +388,33 @@ def main():
     for chemin in fichiers:
         wb = load_workbook(chemin, data_only=True)
         onglets = set(wb.sheetnames)
-        EXCLUSIONS_ACTIVES = 'Retours' not in onglets
+        # Un tableur de retours peut réunir réponses, nombres et explications : chacun n'y remplace que ses lignes
+        retours = 'Retours' in onglets
+        EXCLUSIONS_ACTIVES = not retours
         if 'Réponses' in onglets:
             c, v = importer_reponses(wb)
             corpus.update(c); variantes += v
             corpus.update(importer_menus(wb))
             variantes += importer_courtes(wb)
-        elif 'Demandes' in onglets:
+        if 'Demandes' in onglets:
             importer_demandes(wb)
-        elif 'Termes à expliquer' in onglets:
-            importer_explications(wb)
-        elif 'Test' in onglets:
+        elif retours and 'Nombres' in onglets:
+            importer_nombres(wb, retours)
+        if 'Termes à expliquer' in onglets:
+            importer_explications(wb, retours)
+        if 'Test' in onglets:
             importer_test(wb)
-        else:
+        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test'}:
             print(f'{chemin} : tableur non reconnu, ignoré')
     if corpus:
         ajouter_corpus(corpus)
     if variantes:
         ajouter_variantes(variantes)
         print(f'variantes.csv : {len(variantes)} version(s) USSD, SMS ou voix')
+    if LEVEES:
+        entetes, lignes = lire_csv(FINALE / 'exclusions.csv')
+        ecrire_csv(FINALE / 'exclusions.csv', entetes, [l for l in lignes if l[0] not in LEVEES], bom=False)
+        print(f'exclusions.csv : mise de côté levée pour {", ".join(sorted(LEVEES))} (nouvelle traduction signée)')
     R.afficher()
 
 

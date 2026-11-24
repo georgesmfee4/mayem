@@ -348,9 +348,29 @@ def classeur_retours():
         ws.append([r['ref'], r['canal'], r['fr'], int(r['max']) or '', ' '.join(x for x in (notes.get(r['ref']), r['a_noter']) if x)])
     mettre_en_forme(ws, [6, 8, 9])
     longueur(ws, 6, 7, 'D')
+    termes = termes_a_refaire(wb, notes)
     recapitulatif(wb, {'Réponses': (len(restantes), sum(r['priorite'] == 'P1' for r, _ in restantes), 'reponses'),
-                       'Menus': (len(menus), 0, 'menus')})
+                       'Menus': (len(menus), 0, 'menus'), 'Termes à expliquer': (termes, 0, 'termes')})
     return wb
+
+
+def termes_a_refaire(wb, notes):
+    """Explications mises de côté ou à revoir : mêmes colonnes que le tableur 3 (l'import les lit au même endroit),
+    la remarque et l'explication actuelle en dernière colonne"""
+    actuelles = {r['ref']: r for r in lire('explications-recues.csv')} if (DOSSIER / 'finale' / 'explications-recues.csv').exists() else {}
+    ws = feuille(wb, 'Termes à expliquer', ['Réf.', 'Priorité', 'Terme', f'Terme {LANGUE} validé', 'Explication simple en français',
+                                            'Exemple', f'EXPLICATION {MAJ} (deux phrases au plus)', 'Version très courte (une phrase)',
+                                            'Traduit par', 'Relu par', 'Commentaire', 'À savoir'],
+                 [7, 8, 18, 22, 44, 40, 46, 32, 12, 12, 24, 44])
+    lignes = [r for r in lire('termes.csv') if r['ref'] in notes]
+    for r in lignes:
+        actuelle = actuelles.get(r['ref'])
+        avant = f"Explication actuelle : « {actuelle['explication']} » Version courte : « {actuelle['courte']} »." if actuelle else ''
+        ws.append([r['ref'], r['priorite'], r['terme'], GLOSSAIRE.get(r['terme'].split('/')[0].strip().lower(), ''),
+                   r['explication_fr'], r['exemple'], '', '', '', '', '', ' '.join(x for x in (notes[r['ref']], avant) if x)])
+    mettre_en_forme(ws, [7, 8, 9, 10], 2)
+    griser(ws, [4])
+    return len(lignes)
 
 
 def griser(ws, colonnes):

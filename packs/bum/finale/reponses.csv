@@ -6,7 +6,7 @@ RF011,solde,P1,1,Votre solde disponible au {date} est de {amount}.,"complet,ussd
 RF012,solde,P1,1,"Après cette opération, il vous restera {amount}.","complet,ussd,sms,voix",80,,
 RF014,historique,P2,1,"Aujourd'hui, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
 RF015,historique,P2,1,"Hier, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
-RF016,historique,P1,1,"Ces sept derniers jours, vous avez dépensé {amount}.","complet,ussd,sms,voix",70,,
+RF016,historique,P1,1,"Ces 7 derniers jours, vous avez dépensé {amount}.","complet,ussd,sms,voix",70,,
 RF017,historique,P2,1,"Ce mois-ci, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
 RF020,historique,P1,0,Voici vos {count} dernières opérations.,"complet,ussd,sms,voix",60,,
 RF021,historique,P1,1,{date} : vous avez envoyé {amount} à {name}.,"complet,ussd,sms,voix",60,,Une ligne d'historique.

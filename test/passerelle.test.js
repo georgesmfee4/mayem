@@ -224,12 +224,14 @@ test('interaction multicanale : le même transfert a la même empreinte par l\'U
 
 test('premier appel : l\'écran de choix de la langue, sans rien demander au service', async () => {
   const { telephone, appels } = monter();
-  const ecran = await telephone('c1')();
-  assert.match(ecran, /^CON Choisissez votre langue\.\nfiale nkôbo\n1\. Français\n2\. Bulu$/);
+  const titre = chargerContexte('bum', banqueSimulee(lire('../service/banque-essai.json'))).reponses.rendre({ ref: 'RF102' }, 'bum');
+  assert.ok(titre.traduit);
+  const choix = `CON Choisissez votre langue.\n${titre.texte}\n1. Français\n2. Bulu`;
+  assert.equal(await telephone('c1')(), choix);
   assert.equal(appels.length, 0);
   const appel = telephone('c1b');
   await appel();
-  assert.match(await appel('7'), /^CON Choisissez votre langue\.\nfiale nkôbo\n1\. Français\n2\. Bulu$/, 'un choix inconnu redemande la langue');
+  assert.equal(await appel('7'), choix, 'un choix inconnu redemande la langue');
   assert.equal(appels.length, 0);
 });
 

@@ -228,8 +228,10 @@ test('homonymes : on peut répondre par le nom de famille ; « non » pendant un
 });
 
 test('une réponse sans traduction validée cède la place à une plus simple qui en a une', async () => {
-  const s = nouvelleSession('r', 'web', 'bum');
-  const j = (await traiter(contexte(), s, 'lôm 5000')).journal;
-  assert.equal(j.validation, 'bénéficiaire demandé');
-  assert.deepEqual(j.reponses.map((x) => [x.ref, x.traduit]), [['RF031', true]], 'RF052 n\'est pas encore traduite hors USSD : RF031 la remplace');
+  const { creerReponses } = await import('../service/reponses.ts');
+  const pack = JSON.parse(readFileSync(new URL('../packs/bum/pack.json', import.meta.url), 'utf8'));
+  const reponses = creerReponses([{ ref: 'R1', fr: 'Phrase sans traduction.' }, { ref: 'R2', fr: 'Combien voulez-vous envoyer ?' }], [], pack);
+  const rendu = reponses.rendre({ ref: 'R1', repli: { ref: 'R2' } }, 'bum', 'web');
+  assert.deepEqual([rendu.ref, rendu.traduit], ['R2', true]);
+  assert.equal(reponses.rendre({ ref: 'R1', repli: { ref: 'R2' } }, 'fr', 'web').texte, 'Phrase sans traduction.', 'en français, la réponse elle-même');
 });
