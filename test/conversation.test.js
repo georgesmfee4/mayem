@@ -154,3 +154,43 @@ test('pendant un transfert, « n\'envoie pas 5 000, envoie 10 000 » corrige le 
   const seul = await traiter(contexte(), nouvelleSession('nn', 'web', 'fr'), 'N\'envoie pas l\'argent à Paul');
   assert.equal(seul.journal.statut, 'annulee', 'sans opération en cours, la négation n\'exécute rien');
 });
+
+test('jamais bloqué : contact inconnu, numéro mal tapé, montant incompris ; chaque fois une question validée, puis abandon sans rien faire', async () => {
+  const ctx = contexte();
+  const s = nouvelleSession('b', 'ussd', 'bum');
+  const dit = async (texte) => (await traiter(ctx, s, texte)).journal;
+  await dit('lôm Zorro 5000');
+  assert.deepEqual((await dit('Zorro')).reponses.map((x) => [x.ref, x.traduit]), [['RF057', true]], 'un nom absent du carnet : on demande le numéro');
+  assert.deepEqual((await dit('12345')).reponses.map((x) => [x.ref, x.traduit]), [['RF063', true]], 'des chiffres qui ne font pas un numéro ne deviennent pas un montant');
+  const pret = await dit('677123456');
+  assert.equal(pret.statut, 'en_attente_confirmation');
+  assert.equal(pret.parametres.montant, 5000);
+  const t = nouvelleSession('m', 'ussd', 'bum');
+  await traiter(ctx, t, 'envoie à Pierre');
+  for (const mot of ['beaucoup', 'rien']) assert.deepEqual((await traiter(ctx, t, mot)).journal.reponses.map((x) => x.ref), ['RF054'], mot);
+  const fin = (await traiter(ctx, t, 'toto')).journal;
+  assert.equal(fin.statut, 'annulee');
+  assert.deepEqual(fin.reponses.map((x) => [x.ref, x.traduit]), [['RF056', true], ['RF110', true]]);
+  assert.equal(t.attente, null, 'plus aucune opération en suspens');
+});
+
+test('homonymes : on peut répondre par le nom de famille ; « non » pendant une question annule', async () => {
+  const ctx = contexte();
+  const s = nouvelleSession('h', 'web', 'fr');
+  await traiter(ctx, s, 'envoie 2000 à paul');
+  const choisi = (await traiter(ctx, s, 'Essomba')).journal;
+  assert.equal(choisi.parametres.beneficiaire, 'Paul Essomba');
+  assert.equal(choisi.statut, 'en_attente_confirmation');
+  const t = nouvelleSession('n2', 'web', 'fr');
+  await traiter(ctx, t, 'envoie à Pierre');
+  const non = (await traiter(ctx, t, 'non')).journal;
+  assert.equal(non.statut, 'annulee');
+  assert.deepEqual(non.reponses.map((x) => x.ref), ['RF066']);
+});
+
+test('une réponse sans traduction validée cède la place à une plus simple qui en a une', async () => {
+  const s = nouvelleSession('r', 'web', 'bum');
+  const j = (await traiter(contexte(), s, 'lôm 5000')).journal;
+  assert.equal(j.validation, 'bénéficiaire demandé');
+  assert.deepEqual(j.reponses.map((x) => [x.ref, x.traduit]), [['RF031', true]], 'RF052 n\'est pas encore traduite hors USSD : RF031 la remplace');
+});

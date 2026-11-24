@@ -10,8 +10,9 @@ import type { Pack } from '../core/types.ts';
 // Modèles de réponse et libellés de menus (« Électricité ») : tous viennent des tableurs des locuteurs
 export interface Modele { ref: string; fr: string }
 export interface Explication { ref: string; terme: string; explication_fr: string; exemple: string }
-// Une réponse à dire : un modèle et ses valeurs, ou une ligne de faits (liste de contacts) qui ne se traduit pas
-export type Morceau = { ref: string; valeurs?: Record<string, string>; prefixe?: string } | { fait: string };
+// Une réponse à dire : un modèle et ses valeurs, ou une ligne de faits (liste de contacts) qui ne se traduit pas.
+// repli : une réponse plus simple déjà validée, dite à sa place tant que la première n'a pas de traduction validée
+export type Morceau = { ref: string; valeurs?: Record<string, string>; prefixe?: string; repli?: Morceau } | { fait: string };
 export interface Rendu { ref: string; texte: string; langue: string; traduit: boolean }
 
 // 85000 -> « 85 000 FCFA » : la forme que le moteur reconnaît comme un montant
@@ -42,28 +43,34 @@ export function creerReponses(modeles: Modele[], explications: Explication[], pa
     });
   }
 
-  return {
+  function rendreModele(morceau: Exclude<Morceau, { fait: string }>, langue: string, canal?: string): Rendu {
+    const francais = remplir(morceau.ref, morceau.valeurs);
+    const prefixe = morceau.prefixe || '';
+    if (langue === 'fr') return { ref: morceau.ref, texte: prefixe + francais, langue: 'fr', traduit: false };
+    const fixe = fixes.get(morceau.ref);
+    if (fixe && langue === pack.langue && memesChiffres(francais, fixe)) return { ref: morceau.ref, texte: prefixe + fixe, langue, traduit: true };
+    const variante = canal ? parCanal.get(`${morceau.ref}|${canal}`) : undefined;
+    if (variante && langue === pack.langue) {
+      // Mêmes cases que le modèle (vérifié à l'import), mêmes chiffres une fois remplie : sinon la version complète
+      const remplie = variante.replace(/\{(\w+)\}/g, (champ, nom: string) => morceau.valeurs?.[nom] ?? champ);
+      if (!/\{\w+\}/.test(remplie) && memesChiffres(francais, remplie)) return { ref: morceau.ref, texte: prefixe + remplie, langue, traduit: true };
+    }
+    const resultat = traduire(francais, pack);
+    // Chaque valeur reprise par le moteur doit être exactement une valeur insérée ici : sinon une case du
+    // modèle a pris un morceau de phrase, et la réponse reste en français plutôt que d'être mélangée
+    const inserees = new Set(Object.values(morceau.valeurs || {}));
+    const fidele = resultat?.valeurs.every((v) => inserees.has(v.trim()));
+    return resultat && resultat.statut === 'ok' && resultat.sortie && fidele
+      ? { ref: morceau.ref, texte: prefixe + resultat.sortie, langue, traduit: true }
+      : { ref: morceau.ref, texte: prefixe + francais, langue: 'fr', traduit: false };
+  }
+
+  const reponses: Reponses = {
     rendre(morceau, langue, canal) {
       if ('fait' in morceau) return { ref: 'faits', texte: morceau.fait, langue: 'faits', traduit: false };
-      const francais = remplir(morceau.ref, morceau.valeurs);
-      const prefixe = morceau.prefixe || '';
-      if (langue === 'fr') return { ref: morceau.ref, texte: prefixe + francais, langue: 'fr', traduit: false };
-      const fixe = fixes.get(morceau.ref);
-      if (fixe && langue === pack.langue && memesChiffres(francais, fixe)) return { ref: morceau.ref, texte: prefixe + fixe, langue, traduit: true };
-      const variante = canal ? parCanal.get(`${morceau.ref}|${canal}`) : undefined;
-      if (variante && langue === pack.langue) {
-        // Mêmes cases que le modèle (vérifié à l'import), mêmes chiffres une fois remplie : sinon la version complète
-        const remplie = variante.replace(/\{(\w+)\}/g, (champ, nom: string) => morceau.valeurs?.[nom] ?? champ);
-        if (!/\{\w+\}/.test(remplie) && memesChiffres(francais, remplie)) return { ref: morceau.ref, texte: prefixe + remplie, langue, traduit: true };
-      }
-      const resultat = traduire(francais, pack);
-      // Chaque valeur reprise par le moteur doit être exactement une valeur insérée ici : sinon une case du
-      // modèle a pris un morceau de phrase, et la réponse reste en français plutôt que d'être mélangée
-      const inserees = new Set(Object.values(morceau.valeurs || {}));
-      const fidele = resultat?.valeurs.every((v) => inserees.has(v.trim()));
-      return resultat && resultat.statut === 'ok' && resultat.sortie && fidele
-        ? { ref: morceau.ref, texte: prefixe + resultat.sortie, langue, traduit: true }
-        : { ref: morceau.ref, texte: prefixe + francais, langue: 'fr', traduit: false };
+      const rendu = rendreModele(morceau, langue, canal);
+      return !rendu.traduit && langue !== 'fr' && morceau.repli ? reponses.rendre(morceau.repli, langue, canal) : rendu;
     },
   };
+  return reponses;
 }

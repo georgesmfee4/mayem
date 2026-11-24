@@ -323,3 +323,101 @@ test('écran de choix : le numéro ou le nom de la langue, sans souci de casse n
   for (const saisie of ['francais', 'Français', 'en français']) assert.equal(langueChoisie(saisie, langues), 'fr', saisie);
   for (const saisie of ['3', 'bul', 'anglais', '']) assert.equal(langueChoisie(saisie, langues), null, saisie);
 });
+
+test('relais : la phrase passe par le noyau ; un contact du carnet, même donné après coup, complète l\'opération', async () => {
+  const { telephone, appels } = monter();
+  const appel = telephone('q1');
+  await ouvrir(appel, '2');
+  assert.match(await appel('lôm jean 10 000'), /Jean Bekono/);
+  assert.match(appels.at(-1).corps, /text=2\*691234567\*10000(&|$)/);
+  const autre = telephone('q2', '+237690000002');
+  await ouvrir(autre, '2');
+  const avant = appels.length;
+  assert.equal(await autre('lôm 10 000'), 'CON Zà wô lôm 10 000 FCFA ?');
+  assert.equal(appels.length, avant, 'une question de Mayem ne dérange pas le service');
+  await autre('jean');
+  assert.match(appels.at(-1).corps, /text=2\*691234567\*10000(&|$)/);
+});
+
+test('relais : homonymes, contact inconnu, numéro faux ; chaque fois une question précise et validée', async () => {
+  const { telephone, appels, passerelle } = monter();
+  const appel = telephone('q3');
+  await ouvrir(appel, '2');
+  assert.match(await appel('lôm Paul 2000'), /\n1\. Paul Mbarga, 677 12 34 56\n2\. Paul Essomba, 699 11 22 33$/);
+  assert.ok(passerelle.journal.at(-1).reponses.filter((x) => x.ref !== 'faits').every((x) => x.traduit));
+  await appel('Essomba');
+  assert.match(appels.at(-1).corps, /text=2\*699112233\*2000(&|$)/);
+  const autre = telephone('q4', '+237690000003');
+  await ouvrir(autre, '2');
+  await autre('lôm Zorro 5000');
+  for (const [saisie, ref] of [['Zorro', 'RF057'], ['12345', 'RF063']]) {
+    await autre(saisie);
+    assert.deepEqual(passerelle.journal.at(-1).reponses.map((x) => [x.ref, x.traduit]), [[ref, true]], saisie);
+  }
+  await autre('677123456');
+  assert.match(appels.at(-1).corps, /text=2\*677123456\*5000(&|$)/);
+});
+
+test('relais : personne ne reste bloqué', async () => {
+  const { telephone, appels, passerelle } = monter();
+  // Une touche de menu pendant une question de Mayem revient au service
+  const a = telephone('q5');
+  await ouvrir(a, '1');
+  await a('envoie à Pierre');
+  assert.match(await a('3'), /^END Historique des transactions/);
+  assert.match(appels.at(-1).corps, /text=3(&|$)/);
+  // Trois réponses sans suite : rien n'est fait, Mayem le dit, et les touches vont de nouveau au service
+  const b = telephone('q6', '+237690000004');
+  await ouvrir(b, '1');
+  await b('envoie à Pierre');
+  await b('beaucoup');
+  await b('rien');
+  const avant = appels.length;
+  await b('toto');
+  assert.equal(passerelle.journal.at(-1).statut, 'annulee');
+  assert.equal(appels.length, avant);
+  assert.equal(await b('1'), 'END Votre solde est de 85 000 FCFA');
+  // « annuler » pendant une question, et l'écran de choix ouvert en cours de route qu'une phrase referme
+  const c = telephone('q7', '+237690000005');
+  await ouvrir(c, '1');
+  await c('envoie à Pierre');
+  assert.match(await c('annuler'), /^CON Opération annulée\. Aucun montant n'a été débité\.\nBienvenue/);
+  await c('langue');
+  assert.equal(await c('solde'), 'END Votre solde est de 85 000 FCFA');
+});
+
+test('relais : la négation n\'envoie rien ; « oui » et « non » répondent à l\'écran du service ; le crédit va à l\'appelant', async () => {
+  const { telephone, appels } = monter();
+  const a = telephone('q9');
+  await ouvrir(a, '1');
+  const avant = appels.length;
+  assert.match(await a('n\'envoie pas 5000 à Pierre'), /^CON D'accord, je ne fais rien\./);
+  assert.equal(appels.length, avant, 'une demande négative n\'envoie rien au service');
+  await a('envoie 5000 à Pierre');
+  assert.match(await a('oui'), /^CON Saisissez votre code PIN/);
+  assert.match(appels.at(-1).corps, /text=2\*678901234\*5000\*1(&|$)/);
+  const b = telephone('q10', '+237690000007');
+  await ouvrir(b, '1');
+  await b('envoie 5000 à Pierre');
+  await b('non');
+  assert.match(appels.at(-1).corps, /text=2\*678901234\*5000\*2(&|$)/);
+  const c = telephone('q11', '+237670000008');
+  await ouvrir(c, '1');
+  await c('achète 1000 de crédit');
+  assert.match(appels.at(-1).corps, /text=4\*670000008\*1000(&|$)/);
+});
+
+test('relais : un service muet ou en erreur ne laisse rien en suspens ; message validé, session terminée', async () => {
+  const ctx = chargerContexte('bum', banqueSimulee(lire('../service/banque-essai.json')));
+  const attendu = ctx.reponses.rendre({ ref: 'RF064' }, 'bum', 'ussd');
+  assert.ok(attendu.traduit);
+  for (const appeler of [async () => { throw new Error('connexion refusée'); }, async () => new Response('erreur', { status: 500 })]) {
+    const passerelle = creerPasserelle({ ctx, pack, profil: lire('../profiles/banque-essai.json'), appeler, pages: {} });
+    const corps = (text) => new URLSearchParams({ sessionId: 'panne', serviceCode: '*123#', phoneNumber: '+237690000001', text });
+    await passerelle.traiter(new Request('http://mayem.test/v1/ussd', { method: 'POST', body: corps('') }));
+    const ecran = await (await passerelle.traiter(new Request('http://mayem.test/v1/ussd', { method: 'POST', body: corps('2') }))).text();
+    assert.equal(ecran, `END ${attendu.texte}`);
+    assert.equal(passerelle.journal.at(-1).statut, 'erreur');
+    assert.match(passerelle.journal.at(-1).validation, /rien exécuté/);
+  }
+});
