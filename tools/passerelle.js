@@ -70,7 +70,10 @@ export async function lancer({ profil: cheminProfil, port = 8787, portEssai = 87
   const banque = banqueSimulee(lireJson(racine + 'service/banque-essai.json'));
   const ctx = chargerContexte(code, banque);
   const pack = lireJson(dossier(code) + 'pack.json');
-  const passerelle = creerPasserelle({ ctx, pack, profil, pages: { tableau: readFileSync(racine + 'service/tableau.html', 'utf8') } });
+  // La clé de l'équipe pour la banque du service : seulement dans l'environnement, jamais affichée ni écrite
+  const cleBanque = profil.middleware ? process.env[profil.middleware.cle_env] || '' : '';
+  if (profil.middleware && !cleBanque) console.log(`Clé de la banque absente : définir la variable ${profil.middleware.cle_env}`);
+  const passerelle = creerPasserelle({ ctx, pack, profil, cleBanque, pages: { tableau: readFileSync(racine + 'service/tableau.html', 'utf8') } });
   const serveurs = [];
   if (essai) serveurs.push(await servir(portEssai, serviceBanque(banque).traiter));
   serveurs.push(await servir(port, (requete) => {

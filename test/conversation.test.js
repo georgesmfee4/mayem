@@ -100,7 +100,7 @@ test('dépenses de la période, et argent reçu d\'un proche', async () => {
 
 test('une panne de la banque n\'exécute rien, le dit, et ne laisse aucune opération en suspens', async () => {
   const banque = banqueSimulee(donnees);
-  const ctx = contexte({ ...banque, transferer: async () => { throw new Error('banque injoignable'); } });
+  const ctx = contexte({ ...banque, confirmer: async () => { throw new Error('banque injoignable'); } });
   const s = nouvelleSession('p', 'web', 'fr');
   await traiter(ctx, s, 'Envoie 5 000 à Pierre');
   const tour = await traiter(ctx, s, 'oui');

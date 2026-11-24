@@ -10,7 +10,7 @@
 
 import { comprendre, normaliser, type Comprehension, type Contact, type Lexique, type Terme } from '../core/comprendre.ts';
 import { empreinteOperation, type Operation } from '../core/operation.ts';
-import type { Banque, Refus, Resultat, TypeEnvoi } from './banque.ts';
+import type { Banque, Demande, Preparation, Refus, TypeEnvoi } from './banque.ts';
 import { date, montant, pourcentage, telephone, type Morceau, type Rendu, type Reponses } from './reponses.ts';
 import { ligneJournal, type LigneJournal, type Statut } from './journal.ts';
 
@@ -26,6 +26,8 @@ interface Brouillon {
   facture?: string;
   typeFacture?: string;
   frais?: number;
+  // L'opération que la banque garde en attente depuis le récapitulatif
+  transaction?: string;
 }
 
 export interface Session {
@@ -55,8 +57,10 @@ export interface Contexte {
   typesFacture: { type: string; ref: string }[];
 }
 
-// pret : devant un service relayé, l'opération complète à lui transmettre
-export interface Tour { texte: string; rendus: Rendu[]; journal: LigneJournal; pret?: Operation }
+// pret : devant un service relayé, l'opération complète à lui transmettre. transaction : l'opération de la banque
+// touchée à ce tour (préparée, exécutée ou annulée)
+export interface Transaction { id: string; etat: 'attente' | 'executee' | 'annulee' }
+export interface Tour { texte: string; rendus: Rendu[]; journal: LigneJournal; pret?: Operation; transaction?: Transaction }
 
 interface Decision {
   morceaux: Morceau[];
@@ -65,6 +69,7 @@ interface Decision {
   operation?: Operation;
   parametres?: Record<string, unknown>;
   pret?: Operation;
+  transaction?: Transaction;
 }
 
 const ARGENT = new Set(['transfert', 'credit', 'facture']);
@@ -164,20 +169,36 @@ function refus(raison: Refus, valeurs: { solde: number; total: number; plafond: 
   return [r('RF054')];
 }
 
-// Vérifie ce que la banque refuserait, avant de demander une confirmation inutile
-async function controler(ctx: Contexte, total: number, somme: number): Promise<Refus | null> {
-  if (!Number.isFinite(somme) || somme <= 0) return 'montant_invalide';
-  if (somme > await ctx.banque.plafond()) return 'plafond_depasse';
-  if (total > await ctx.banque.solde()) return 'solde_insuffisant';
-  return null;
+// La banque prépare l'opération (en attente, rien n'est débité) ; une correction garde la même opération, sauf si
+// elle a expiré entre-temps
+async function preparer(ctx: Contexte, b: Brouillon, demande: Demande): Promise<Preparation> {
+  let preparation = b.transaction ? await ctx.banque.modifier(b.transaction, demande) : await ctx.banque.preparer(demande);
+  if (!preparation.ok && preparation.refus === 'operation_expiree') {
+    b.transaction = undefined;
+    preparation = await ctx.banque.preparer(demande);
+  }
+  if (preparation.ok) { b.transaction = preparation.id; b.frais = preparation.frais; }
+  return preparation;
 }
 
-async function refuser(ctx: Contexte, s: Session, raison: Refus, total: number, parametres: Record<string, unknown>): Promise<Decision> {
-  const valeurs = { solde: await ctx.banque.solde(), total, plafond: await ctx.banque.plafond() };
+const enAttente = (b: Brouillon, id: string): Transaction => ({ id, etat: 'attente' });
+
+async function refuser(ctx: Contexte, s: Session, raison: Refus, b: Brouillon, parametres: Record<string, unknown>): Promise<Decision> {
+  const validation = `refusée avant exécution : ${raison.replaceAll('_', ' ')}`;
+  // Un numéro que la banque ne connaît pas : on redemande le bénéficiaire, sans perdre le montant
+  if (raison === 'beneficiaire_inconnu') {
+    const precision = sansNom(b) ? r('RF063') : r('RF057');
+    Object.assign(b, { telephone: undefined, nom: undefined });
+    s.attente = 'beneficiaire';
+    return { morceaux: [precision], statut: 'refusee', validation, parametres };
+  }
+  if (raison === 'operation_expiree') { oublier(s); return { morceaux: [r('RF065')], statut: 'refusee', validation, parametres }; }
+  const frais = b.intention === 'transfert' && b.montant !== undefined ? await ctx.banque.frais(b.montant, b.type || 'mobile') : 0;
+  const valeurs = { solde: await ctx.banque.solde(), total: (b.montant || 0) + frais, plafond: await ctx.banque.plafond() };
   // L'opération reste ouverte sur le montant : la personne peut proposer une somme plus petite
   if (raison === 'solde_insuffisant' || raison === 'plafond_depasse' || raison === 'montant_invalide') s.attente = 'montant';
   else oublier(s);
-  return { morceaux: refus(raison, valeurs), statut: 'refusee', validation: `refusée avant exécution : ${raison.replaceAll('_', ' ')}`, parametres };
+  return { morceaux: refus(raison, valeurs), statut: 'refusee', validation, parametres: { ...parametres, frais, total: valeurs.total } };
 }
 
 async function avancerTransfert(ctx: Contexte, s: Session, b: Brouillon): Promise<Decision> {
@@ -189,19 +210,17 @@ async function avancerTransfert(ctx: Contexte, s: Session, b: Brouillon): Promis
   }
   if (!b.telephone) { s.attente = 'beneficiaire'; return question([{ ...r('RF052', { amount: montant(b.montant) }), repli: r('RF031') }], 'bénéficiaire demandé'); }
   if (s.relais) return pret(s, { intention: 'transfert', montant: b.montant, telephone: b.telephone }, { montant: b.montant, beneficiaire: b.nom, telephone: b.telephone });
-  const frais = await ctx.banque.frais(b.montant, b.type || 'mobile');
-  const total = b.montant + frais;
-  const parametres = { montant: b.montant, beneficiaire: b.nom, telephone: b.telephone, type: b.type, frais, total };
-  const probleme = await controler(ctx, total, b.montant);
-  if (probleme) return refuser(ctx, s, probleme, total, parametres);
-  b.frais = frais;
+  const parametres = { montant: b.montant, beneficiaire: b.nom, telephone: b.telephone, type: b.type };
+  const p = await preparer(ctx, b, { intention: 'transfert', montant: b.montant, telephone: b.telephone, nom: b.nom!, type: b.type || 'mobile' });
+  if (!p.ok) return refuser(ctx, s, p.refus, b, parametres);
   s.attente = 'confirmation';
-  const valeurs = { amount: montant(b.montant), phone: telephone(b.telephone), fee: montant(frais), amount_2: montant(total) };
+  const valeurs = { amount: montant(b.montant), phone: telephone(b.telephone), fee: montant(p.frais), amount_2: montant(p.total) };
   const recap = sansNom(b) ? r('RF037', valeurs) : r('RF032', { ...valeurs, name: b.nom! });
   return {
-    morceaux: [{ ...recap, repli: lignesRecap(b, frais, total), court: lignesRecap(b, frais, total) }, confirmer()],
+    morceaux: [{ ...recap, repli: lignesRecap(b, p.frais, p.total), court: lignesRecap(b, p.frais, p.total) }, confirmer()],
     statut: 'en_attente_confirmation', validation: 'récapitulatif présenté, confirmation demandée',
-    operation: { intention: 'transfert', montant: b.montant, telephone: b.telephone }, parametres,
+    operation: { intention: 'transfert', montant: b.montant, telephone: b.telephone }, parametres: { ...parametres, frais: p.frais, total: p.total },
+    transaction: enAttente(b, p.id),
   };
 }
 
@@ -210,13 +229,14 @@ async function avancerCredit(ctx: Contexte, s: Session, b: Brouillon): Promise<D
   if (!b.telephone) b.telephone = s.relais?.appelant || (await ctx.banque.client()).telephone;
   if (s.relais) return pret(s, { intention: 'credit', montant: b.montant, telephone: b.telephone }, { montant: b.montant, telephone: b.telephone });
   const parametres = { montant: b.montant, telephone: b.telephone, total: b.montant };
-  const probleme = await controler(ctx, b.montant, b.montant);
-  if (probleme) return refuser(ctx, s, probleme, b.montant, parametres);
+  const p = await preparer(ctx, b, { intention: 'credit', montant: b.montant, telephone: b.telephone });
+  if (!p.ok) return refuser(ctx, s, p.refus, b, parametres);
   s.attente = 'confirmation';
   return {
     morceaux: [r('RF081', { amount: montant(b.montant), phone: telephone(b.telephone) }), confirmer()],
     statut: 'en_attente_confirmation', validation: 'récapitulatif présenté, confirmation demandée',
-    operation: { intention: 'credit', montant: b.montant, telephone: b.telephone }, parametres,
+    operation: { intention: 'credit', montant: b.montant, telephone: b.telephone }, parametres: { ...parametres, total: p.total },
+    transaction: enAttente(b, p.id),
   };
 }
 
@@ -234,13 +254,14 @@ async function avancerFacture(ctx: Contexte, s: Session, b: Brouillon): Promise<
   b.facture = facture.numero;
   b.montant = facture.montant;
   const parametres = { facture: facture.numero, type: facture.type, montant: facture.montant, total: facture.montant };
-  const probleme = await controler(ctx, facture.montant, facture.montant);
-  if (probleme) return refuser(ctx, s, probleme, facture.montant, parametres);
+  const p = await preparer(ctx, b, { intention: 'facture', montant: facture.montant, facture: facture.numero });
+  if (!p.ok) return refuser(ctx, s, p.refus, b, parametres);
   s.attente = 'confirmation';
   return {
     morceaux: [r('RF092', { ref: facture.numero, amount: montant(facture.montant) }), confirmer()],
     statut: 'en_attente_confirmation', validation: 'récapitulatif présenté, confirmation demandée',
-    operation: { intention: 'facture', montant: facture.montant, facture: facture.numero }, parametres,
+    operation: { intention: 'facture', montant: facture.montant, facture: facture.numero }, parametres: { ...parametres, total: p.total },
+    transaction: enAttente(b, p.id),
   };
 }
 
@@ -286,18 +307,17 @@ function transfertFait(b: Brouillon, reference: string): Morceau {
 async function executer(ctx: Contexte, s: Session): Promise<Decision> {
   const b = s.brouillon!;
   const operation = operationDe(b);
-  let resultat: Resultat;
-  if (b.intention === 'transfert') resultat = await ctx.banque.transferer({ montant: b.montant!, telephone: b.telephone!, nom: b.nom!, type: b.type || 'mobile' });
-  else if (b.intention === 'credit') resultat = await ctx.banque.acheterCredit({ montant: b.montant!, telephone: b.telephone! });
-  else resultat = await ctx.banque.payerFacture(b.facture!);
+  const id = b.transaction!;
+  const resultat = await ctx.banque.confirmer(id);
   const parametres = { montant: b.montant, beneficiaire: b.nom, telephone: b.telephone, facture: b.facture, frais: b.frais };
-  if (!resultat.ok) return { ...(await refuser(ctx, s, resultat.refus, b.montant! + (b.frais || 0), parametres)), operation };
+  if (!resultat.ok) return { ...(await refuser(ctx, s, resultat.refus, b, parametres)), operation };
   const fin = r('RF035', { amount: montant(resultat.solde) });
   const morceaux = b.intention === 'transfert' ? [transfertFait(b, resultat.reference), fin]
     : b.intention === 'credit' ? [r('RF082', { amount: montant(b.montant!), phone: telephone(b.telephone!) }), fin]
       : [r('RF093', { amount: montant(b.montant!), ref: resultat.reference }), fin];
   oublier(s);
-  return { morceaux, statut: 'executee', validation: `confirmée par l'utilisateur, exécutée (${resultat.reference})`, operation, parametres: { ...parametres, reference: resultat.reference } };
+  return { morceaux, statut: 'executee', validation: `confirmée par l'utilisateur, exécutée (${resultat.reference})`, operation,
+    parametres: { ...parametres, reference: resultat.reference }, transaction: { id, etat: 'executee' } };
 }
 
 async function solde(ctx: Contexte, c: Comprehension): Promise<Decision> {
@@ -354,13 +374,14 @@ async function frais(ctx: Contexte, c: Comprehension, court: boolean): Promise<D
   const contact = mention && mention.contacts.length === 1 ? mention.contacts[0] : undefined;
   if (!vise) {
     const bareme = await ctx.banque.bareme('mobile');
-    const tarif = r('RF072', { percent: pourcentage(bareme.taux), amount: montant(bareme.min), amount_2: montant(bareme.max) });
-    return info(court ? [tarif, r('RF071')] : [r('RF073'), tarif, r('RF071')]);
+    const tarif = bareme ? [r('RF072', { percent: pourcentage(bareme.taux), amount: montant(bareme.min), amount_2: montant(bareme.max) })] : [];
+    const gratuit = (await ctx.banque.bareme('interne'))?.taux === 0 ? [r('RF071')] : [];
+    return info([...(court && tarif.length ? [] : [r('RF073')]), ...tarif, ...gratuit]);
   }
   const type = (contact?.type as TypeEnvoi) || 'mobile';
   const cout = await ctx.banque.frais(vise.valeur, type);
   const morceaux = [r('RF070', { amount: montant(vise.valeur), fee: montant(cout), amount_2: montant(vise.valeur + cout) })];
-  if (!contact && !court) morceaux.push(r('RF071'));
+  if (!contact && !court && (await ctx.banque.bareme('interne'))?.taux === 0) morceaux.push(r('RF071'));
   return { ...info(morceaux), parametres: { montant: vise.valeur, type, frais: cout, total: vise.valeur + cout, ...(contact ? { beneficiaire: contact.nom } : {}) } };
 }
 
@@ -458,6 +479,7 @@ export async function traiter(ctx: Contexte, s: Session, texte: string): Promise
   const c = comprendre(texte, { lexiques: ctx.lexiques, carnet: await ctx.banque.carnet(), termes: ctx.termes });
   let decision: Decision;
   const erreurs: string[] = [];
+  const enCours = s.brouillon?.transaction;
   try {
     decision = await decider(ctx, s, c, texte);
   } catch (e) {
@@ -466,9 +488,14 @@ export async function traiter(ctx: Contexte, s: Session, texte: string): Promise
     erreurs.push(e instanceof Error ? e.message : String(e));
     decision = { morceaux: [r('RF064')], statut: 'erreur', validation: 'erreur technique : rien exécuté' };
   }
+  if (enCours && s.brouillon?.transaction !== enCours && decision.statut !== 'executee') {
+    await ctx.banque.annuler(enCours).catch((e) => erreurs.push(e instanceof Error ? e.message : String(e)));
+    decision = { ...decision, transaction: { id: enCours, etat: 'annulee' } };
+  }
   const rendus = decision.morceaux.map((m) => ctx.reponses.rendre(m, s.langue, s.canal));
   if (c.intention !== 'repeter' || !s.derniere.length) s.derniere = decision.morceaux.filter((m) => !('ref' in m && (m.ref === 'RF111' || m.ref === 'RF100')));
   const empreinte = decision.operation ? await empreinteOperation(decision.operation) : null;
   const journal = ligneJournal({ session: s, comprehension: c, decision, rendus, empreinte, erreurs, duree: performance.now() - debut });
-  return { texte: rendus.map((x) => x.texte).join('\n'), rendus, journal, ...(decision.pret ? { pret: decision.pret } : {}) };
+  return { texte: rendus.map((x) => x.texte).join('\n'), rendus, journal, ...(decision.pret ? { pret: decision.pret } : {}),
+    ...(decision.transaction ? { transaction: decision.transaction } : {}) };
 }

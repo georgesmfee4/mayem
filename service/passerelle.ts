@@ -5,6 +5,7 @@
 //   POST /v1/converser               une demande en langage courant -> réponse du noyau conversationnel
 //   POST /v1/traduire                des textes du service -> traduits s'ils sont validés, sinon inchangés
 //   POST /v1/ussd                    adresse à donner à l'opérateur USSD (relais du service, ou conversation)
+//   POST /v1/middleware              un tour envoyé par une passerelle de canaux (contrat du profil, service/middleware.ts)
 //   *    /v1/relais/api/<chemin>     relais de l'API du service (application mobile, web) : réponses JSON traduites
 //   GET  /v1/journal?depuis=<n>      lignes du journal, aux colonnes du tableau de bord du jury
 //   GET  /tableau                    tableau de bord en direct
@@ -15,6 +16,7 @@ import { nouvelleSession, traiter, type Contexte, type Session } from './convers
 import type { LigneJournal } from './journal.ts';
 import { traduireJson, traduireTexte, type Bilan } from './traduction.ts';
 import type { Langue } from './choix-langue.ts';
+import { creerMiddleware, type ProfilMiddleware } from './middleware.ts';
 import { preferencesEnMemoire, type Preferences } from './preferences.ts';
 import { converserUssd, ecrireUssd, lireUssd, relayer, type Autonome, type ProfilUssd, type Relais } from './ussd.ts';
 
@@ -31,6 +33,7 @@ export interface Profil {
     operations?: { chemin: string; intention: Operation['intention']; statut: 'en_attente_confirmation' | 'executee' }[];
   };
   ussd?: ProfilUssd;
+  middleware?: ProfilMiddleware;
 }
 
 export interface Options {
@@ -40,6 +43,8 @@ export interface Options {
   appeler?: typeof fetch;
   pages?: Record<string, string>;
   preferences?: Preferences;
+  // Clé de l'équipe pour la banque du service, lue dans l'environnement par celui qui lance la passerelle
+  cleBanque?: string;
 }
 
 export interface LigneDatee extends LigneJournal { numero: number; heure: string }
@@ -67,7 +72,7 @@ function garder<K, V>(table: Map<K, V>, cle: K, valeur: V) {
   if (table.size > SESSIONS_GARDEES) table.delete(table.keys().next().value as K);
 }
 
-export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}, preferences = preferencesEnMemoire() }: Options) {
+export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}, preferences = preferencesEnMemoire(), cleBanque = '' }: Options) {
   const journal: LigneDatee[] = [];
   let numero = 0;
   const sessions = new Map<string, Session>();
@@ -82,6 +87,9 @@ export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}
     journal.push({ ...ligne, numero: ++numero, heure: new Date().toISOString(), temps_ms: Math.round(ligne.temps_ms * 10) / 10 });
     if (journal.length > LIGNES_GARDEES) journal.shift();
   }
+  const middleware = profil.middleware
+    ? creerMiddleware({ ctx, profil: profil.middleware, cle: cleBanque, langueParDefaut, menu: profil.ussd?.menu || [], preferences, noter, appeler })
+    : null;
 
   async function converser(requete: Request) {
     const corps = JSON.parse(await lireCorps(requete));
@@ -168,6 +176,7 @@ export function creerPasserelle({ ctx, pack, profil, appeler = fetch, pages = {}
     if (route === 'POST /v1/converser') return converser(requete);
     if (route === 'POST /v1/traduire') return traduireTextes(requete);
     if (route === 'POST /v1/ussd') return ussd(requete);
+    if (route === 'POST /v1/middleware' && middleware) return middleware(requete);
     if (route === 'GET /v1/journal') return json({ lignes: journal.filter((l) => l.numero > Number(url.searchParams.get('depuis') || 0)) });
     if (route === 'GET /tableau' && pages.tableau) return new Response(pages.tableau, { headers: { 'content-type': 'text/html; charset=utf-8' } });
     const relaye = url.pathname.match(/^\/v1\/relais\/api\/(.*)$/);

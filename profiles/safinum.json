@@ -1,0 +1,81 @@
+{
+  "_lisez_moi": "Bac à sable de la finale : sa passerelle des canaux appelle Mayem à chaque tour (POST /v1/middleware), Mayem appelle son API bancaire avec la clé de l'équipe et l'identifiant du tour. La clé n'est jamais ici : elle vient de la variable d'environnement nommée par cle_env. Noms des champs et états des opérations : à vérifier sur le bac à sable dès qu'il répond (la documentation ne donne que l'état « none »).",
+  "nom": "Bac à sable de la finale",
+  "langue": "bum",
+  "middleware": {
+    "cle_env": "MAYEM_CLE_BANQUE",
+    "devise": "XAF",
+    "langues": { "fr": "fr", "bum": "bum" },
+    "intentions": {
+      "solde": "BALANCE_INQUIRY",
+      "transfert": "TRANSFER",
+      "frais": "FEE_INQUIRY",
+      "historique": "TRANSACTION_HISTORY",
+      "depenses": "TRANSACTION_HISTORY",
+      "credit": "AIRTIME_PURCHASE",
+      "facture": "BILL_PAYMENT",
+      "expliquer": "TERM_EXPLANATION",
+      "langue": "LANGUAGE_SWITCH",
+      "confirmer": "CONFIRM",
+      "annuler": "CANCEL",
+      "corriger": "CORRECTION",
+      "question": "CLARIFICATION_NEEDED",
+      "inconnue": "UNKNOWN"
+    },
+    "statuts": { "aucune": "none", "attente": "pending", "executee": "completed", "annulee": "cancelled" },
+    "banque": {
+      "base": "https://safinum.cm/api/v1",
+      "entetes": { "cle": "X-Team-Key", "trace": "X-Trace-Id" },
+      "delai_ms": 2000,
+      "plafond": 500000,
+      "chemins": {
+        "compte": "accounts/{phone}",
+        "historique": "accounts/{phone}/transactions?limit=10",
+        "beneficiaires": "beneficiaries?q={q}&phone={phone}",
+        "frais": "fees?type=transfer&amount={amount}",
+        "preparer": "transactions",
+        "modifier": "transactions/{id}/update",
+        "confirmer": "transactions/{id}/confirm",
+        "annuler": "transactions/{id}/cancel"
+      },
+      "types": { "transfert": "transfer", "credit": "airtime", "facture": "bill" },
+      "refus": {
+        "INSUFFICIENT_FUNDS": "solde_insuffisant",
+        "LIMIT_EXCEEDED": "plafond_depasse",
+        "INVALID_AMOUNT": "montant_invalide",
+        "UNKNOWN_BENEFICIARY": "beneficiaire_inconnu",
+        "UNKNOWN_BILLER": "facture_inconnue",
+        "TX_NOT_FOUND": "operation_expiree",
+        "TX_NOT_PENDING": "operation_expiree"
+      },
+      "champs": {
+        "titulaire": ["holder", "name", "owner"],
+        "solde": ["balance", "new_balance"],
+        "liste": ["transactions", "beneficiaries", "items", "data"],
+        "nom": ["name", "counterparty", "beneficiary_name"],
+        "telephone": ["phone", "msisdn", "to"],
+        "montant": ["amount"],
+        "date": ["date", "created_at"],
+        "sens": ["direction"],
+        "type": ["type"],
+        "frais": ["fee", "fees"],
+        "total": ["total"],
+        "id": ["id", "transaction_id"],
+        "reference": ["reference", "id"],
+        "code": ["error.code", "code"]
+      },
+      "entrant": ["in", "incoming", "credit"]
+    }
+  },
+  "ussd": {
+    "code": "*123#",
+    "menu": [
+      { "ref": "U01", "demande": "Quel est mon solde ?" },
+      { "ref": "U02", "demande": "Je veux envoyer de l'argent" },
+      { "ref": "U03", "demande": "Mes dernières opérations" },
+      { "ref": "U04", "demande": "Je veux acheter du crédit" },
+      { "ref": "U05", "demande": "Je veux payer une facture" },
+      { "ref": "U06", "demande": "Quels sont les frais ?" }
+    ]
+  }
+}
