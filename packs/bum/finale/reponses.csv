@@ -69,10 +69,11 @@ RF111,aide,P2,0,Je répète.,"complet,voix",0,,
 RF112,terminer,P1,0,Merci. À bientôt.,"complet,ussd,sms,voix",30,,
 RF113,attente,P2,0,"Un instant, je vérifie.","complet,voix",0,,Pendant que le service répond.
 RF114,securite,P1,1,"Ne donnez jamais votre code PIN à personne, même à un agent de la banque.","complet,ussd,sms,voix",90,,
-RF120,transfert,P1,1,Vous allez envoyer {amount} à {name},"complet,ussd,sms,voix",60,X13,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
-RF121,transfert,P1,1,Montant : {amount},"complet,ussd,sms,voix",40,R02,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
-RF122,transfert,P1,1,Numéro du bénéficiaire : {phone},"complet,ussd,sms,voix",60,X11,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
-RF123,transfert,P1,1,Frais de l'opération : {amount},"complet,ussd,sms,voix",50,X12,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
-RF124,transfert,P1,1,Total à débiter : {amount},"complet,ussd,sms,voix",50,F11,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
-RF125,transfert,P1,1,Transfert effectué,"complet,ussd,sms,voix",30,C01,Affiché avec RF126 tant que RF034 ou RF038 n'a pas de traduction validée.
-RF126,transfert,P1,1,Référence de l'opération : {ref},"complet,ussd,sms,voix",50,X19,Affiché avec RF125 tant que RF034 ou RF038 n'a pas de traduction validée.
+RF120,aide,P1,0,"J'ai compris votre demande, mais je ne peux pas encore la faire ici.","complet,ussd,sms,voix",70,,Demande comprise mais que ce service ne propose pas encore.
+RF130,transfert,P1,1,Vous allez envoyer {amount} à {name},"complet,ussd,sms,voix",60,X13,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF131,transfert,P1,1,Montant : {amount},"complet,ussd,sms,voix",40,R02,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF132,transfert,P1,1,Numéro du bénéficiaire : {phone},"complet,ussd,sms,voix",60,X11,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF133,transfert,P1,1,Frais de l'opération : {amount},"complet,ussd,sms,voix",50,X12,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF134,transfert,P1,1,Total à débiter : {amount},"complet,ussd,sms,voix",50,F11,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF135,transfert,P1,1,Transfert effectué,"complet,ussd,sms,voix",30,C01,Affiché avec RF136 tant que RF034 ou RF038 n'a pas de traduction validée.
+RF136,transfert,P1,1,Référence de l'opération : {ref},"complet,ussd,sms,voix",50,X19,Affiché avec RF135 tant que RF034 ou RF038 n'a pas de traduction validée.

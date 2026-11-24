@@ -445,10 +445,10 @@ test('relais : un numéro hors du carnet ; la question et l\'écran de la banque
   assert.deepEqual(francais.slice(0, 4), ['Montant : 100 FCFA', 'Numéro du bénéficiaire : 655124455', 'Frais de l\'opération : 100 FCFA', 'Total à débiter : 200 FCFA']);
   assert.equal(ecran.length, francais.length);
   francais.forEach((ligne, i) => assert.notEqual(ecran[i], ligne, `ligne traduite : ${ligne}`));
-  assert.equal(ecran[3], valide('RF124', { amount: '200 FCFA' }), 'avant la confirmation, le total est celui qui sera débité');
+  assert.equal(ecran[3], valide('RF134', { amount: '200 FCFA' }), 'avant la confirmation, le total est celui qui sera débité');
   const recap = await (await demander('/v1/relais/api/transfert', { method: 'POST', body: JSON.stringify({ telephone: '655124455', montant: 100 }) })).json();
-  assert.equal(recap.beneficiaire, valide('RF122', { phone: '655124455' }));
-  assert.equal(recap.total, valide('RF124', { amount: '200 FCFA' }));
+  assert.equal(recap.beneficiaire, valide('RF132', { phone: '655124455' }));
+  assert.equal(recap.total, valide('RF134', { amount: '200 FCFA' }));
 });
 
 test('relais : un service muet ou en erreur ne laisse rien en suspens ; message validé, session terminée', async () => {
@@ -464,4 +464,10 @@ test('relais : un service muet ou en erreur ne laisse rien en suspens ; message 
     assert.equal(passerelle.journal.at(-1).statut, 'erreur');
     assert.match(passerelle.journal.at(-1).validation, /rien exécuté/);
   }
+});
+
+test('profil d\'un service : les touches relevées deviennent les raccourcis de la passerelle', async () => {
+  const { lireTouches } = await import('../tools/passerelle.js');
+  assert.deepEqual(lireTouches('*126# puis 1 > {telephone} > {montant}', '*126#'), ['1', '{telephone}', '{montant}']);
+  assert.deepEqual(lireTouches('2 > 1', '*126#'), ['2', '1']);
 });

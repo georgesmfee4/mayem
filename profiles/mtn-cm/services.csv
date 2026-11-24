@@ -1,0 +1,26 @@
+nom,type,canaux,description,fiabilite,source
+MTN Mobile Money (MoMo),argent mobile,"ussd, application, sms","Envoyer, retirer, payer factures et marchands, crédit, épargne et prêt",vérifié,"vu sur un téléphone, 24/11/2026 (C02) ; guides de codes USSD, presse 2026"
+Application MoMo,application mobile,application,"Envoyer, retirer, payer factures et commerçants, crédit, forfaits, prêts, billetterie, carte virtuelle, calculateur de frais",vérifié,"vu dans Application MoMo, 24/11/2026 (A01 à A19) ; AllAfrica, février 2026"
+Carte virtuelle MoMo,carte de paiement,"application, ussd",Carte de paiement virtuelle pour les achats en ligne,vérifié,"AllAfrica, février 2026 ; entrée « Carte Virtuelle » vu dans Application MoMo, 24/11/2026 (A17)"
+Application MyMTN,application mobile,application,"Compte téléphonique, forfaits, solde",à vérifier,cité par des guides
+MTN Wanda,offre de téléphonie,ussd,Offre de téléphonie (contenu à relever sur l'écran),contradictoire,guides tiers
+MTN Extra,offre de téléphonie,ussd,Offre de téléphonie (contenu à relever sur l'écran),à vérifier,guides tiers
+Giga Surf,forfait internet,ussd,Forfaits internet,officiel,page d'aide MTN citée par la recherche
+Service client,assistance,voix,Joindre un conseiller,concordant,guides tiers
+MoMoPay,paiement marchand,ussd,"Payer un marchand (menu MoMo, touche 4)",vérifié,"vu sur un téléphone, 24/11/2026 (C02)"
+GIMACPAY,transfert entre opérateurs,ussd,Envoyer vers d'autres opérateurs et pays de la CEMAC,vérifié,"vu sur un téléphone, 24/11/2026 (C03)"
+TopDeals,offre de téléphonie,ussd,"Offres du moment (*123#, touche 0)",vérifié,"vu sur un téléphone, 24/11/2026 (C01)"
+MTN Plus,forfait appels,ussd,"Forfaits appels tous réseaux au même prix (*123#, touche 3)",vérifié,"vu sur un téléphone, 24/11/2026 (C16)"
+Bon Plans,offre de téléphonie,ussd,"Offres par *222# (Mes Offres, touche 1)",vérifié,"vu sur un téléphone, 24/11/2026 (C14)"
+Yabadoo,service numérique,ussd,Service du menu SMS & Digital (contenu à relever),vérifié,"vu sur un téléphone, 24/11/2026 (C18)"
+Forfait Continent,forfait,ussd,Forfait dont on peut vérifier le solde (contenu à relever),vérifié,"vu sur un téléphone, 24/11/2026 (C19)"
+MoMo Promo,promotion,ussd,Promotions de l'argent mobile,vérifié,"vu sur un téléphone, 24/11/2026 (C12)"
+"Airtel Gabon, MOOV Gabon, CLIKPAY Money, Sodec Mobile, Express Union Mobile",opérateurs partenaires (GIMACPAY),ussd,Destinations au Gabon,vérifié,"vu sur un téléphone, 24/11/2026 (C07)"
+"MTN Congo, Airtel Congo",opérateurs partenaires (GIMACPAY),ussd,Destinations au Congo,vérifié,"vu sur un téléphone, 24/11/2026 (C08)"
+"Cameroun, Gabon, Congo Braz, RCA, Tchad, Guinee Equatoriale",pays desservis (GIMACPAY),ussd,Pays proposés pour un envoi vers un autre opérateur,vérifié,"vu sur un téléphone, 24/11/2026 (C06)"
+English,langue du menu,ussd,"Passe le menu de l'opérateur en anglais (*123#, touche 7). Nom d'une langue : ne se traduit pas",vérifié,"vu sur un téléphone, 24/11/2026 (C01)"
+Top Deals+,offre de téléphonie,application,Offres spéciales de l'application (barre du bas),vérifié,"vu dans Application MoMo, 24/11/2026 (A04)"
+ENEO,société de facturation,application,Électricité : facture payable par l'argent mobile,vérifié,"vu dans Application MoMo, 24/11/2026 (A07)"
+Camwater,société de facturation,application,Eau : facture payable par l'argent mobile,vérifié,"vu dans Application MoMo, 24/11/2026 (A07)"
+Ecobank,banque partenaire,application,Banque proposée pour un transfert international,vérifié,"vu dans Application MoMo, 24/11/2026 (A13)"
+Ghana,pays desservi (transfert international),application,Pays proposé par défaut pour un transfert international,vérifié,"vu dans Application MoMo, 24/11/2026 (A12)"

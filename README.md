@@ -121,6 +121,28 @@ compréhension, test à l'aveugle rangé pour la mesure. Le rapport liste chaque
 `npm run mesure` donne le taux d'intentions justes sur le test à l'aveugle (`-- --provisoire` compte aussi les lignes
 pas encore signées, pour mesurer seulement).
 
+### Brancher un service réel (MTN, Orange…)
+`python3 tools/kit_service.py mtn-cm` produit `service-mtn-cm-<langue>.xlsx` : services (noms qui ne se traduisent
+pas), codes USSD avec fiabilité et source, touches de chaque opération, écrans de l'USSD, de l'application, des SMS et
+du serveur vocal, mots du métier, demandes à dire de cinq façons. L'équipe relève d'abord le texte exact des écrans et
+vérifie les codes sur un vrai téléphone ; les locuteurs traduisent ensuite. Le socle (`flux/argent-mobile/`) est commun
+à tous les services ; seul le dossier `profiles/<service>/` change. Retour : `python3 tools/import_finale.py <classeur>`
+(écrans au corpus, mots au glossaire, demandes aux formulations, codes vérifiés et touches au profil, que la passerelle
+lit : `npm run passerelle -- --profil profiles/mtn-cm.json`).
+Les textes lus sur des écrans photographiés entrent dans le socle commun (`flux/argent-mobile/textes.csv`) : un texte de
+référence par sens, écrit en bon français, avec ses autres écritures vues à l'écran (sans accent, en majuscules, en
+anglais), son genre (bouton, choix de menu, erreur…), son thème, son sens pour le traducteur et sa portée (commun ou
+propre au service). Les noms de service y sont la case `{name}` : « Bienvenue aux offres {name} » traduit aussi bien
+l'écran de MTN que celui d'Orange. Les captures elles-mêmes (texte complet, chemin, certitude) restent dans le profil
+(`profiles/<service>/captures.csv`) comme source et contexte ; les images ne vont pas dans le dépôt. Dans le classeur,
+l'onglet « Textes relevés » montre pour chaque texte les autres lignes du même écran, les termes déjà validés qu'il
+contient, un lien vers sa capture, et calcule longueur, cases {…} et état ; le Récapitulatif suit l'avancement par thème.
+`python3 tools/kit_service.py mtn-cm --page` fait aussi `service-mtn-cm-<langue>.html`, la même chose pour le
+téléphone, sans internet : mêmes parties, mêmes contextes (sens, même écran, capture, termes validés), mêmes contrôles
+(cases, chiffres, longueur). Le travail reste sur l'appareil ; le traducteur envoie le fichier (WhatsApp), qui emporte
+son travail ; le relecteur, une autre personne, confirme ou corrige chaque ligne et signe, puis renvoie le résultat.
+`python3 tools/import_finale.py traduction-*.html` le reporte dans le classeur du service et l'importe comme lui.
+
 ### Passerelle : la couche d'API branchée devant un service existant
 `npm run passerelle` lance la passerelle (`service/passerelle.ts`) et, sans autre profil, la banque d'essai
 (`fixtures/services/banque.js`) : tout tourne sur ce poste, avec un seul compte simulé pour tous les canaux.

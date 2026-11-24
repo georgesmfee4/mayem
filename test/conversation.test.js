@@ -194,6 +194,12 @@ test('pendant un transfert, « n\'envoie pas 5 000, envoie 10 000 » corrige le 
   assert.equal(seul.journal.statut, 'annulee', 'sans opération en cours, la négation n\'exécute rien');
 });
 
+test('une intention comprise que la banque branchée ne propose pas reçoit une réponse honnête, pas « je n\'ai pas compris »', async () => {
+  const tour = await traiter(contexte(), nouvelleSession('i', 'web', 'fr'), 'Je veux un forfait internet pour la semaine');
+  assert.equal(tour.journal.intention, 'forfait_internet');
+  assert.deepEqual(tour.journal.reponses.map((x) => x.ref), ['RF120']);
+});
+
 test('jamais bloqué : contact inconnu, numéro mal tapé, montant incompris ; chaque fois une question validée, puis abandon sans rien faire', async () => {
   const ctx = contexte();
   const s = nouvelleSession('b', 'ussd', 'bum');

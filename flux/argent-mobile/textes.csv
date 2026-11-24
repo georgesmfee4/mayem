@@ -1,0 +1,136 @@
+ref,texte,formes_vues,genre,canaux,theme,portee,sens,captures
+IU001,Retour,,choix de menu,ussd,Navigation,commun,Revenir à l'écran précédent,C07 C08 C12 C13 C14 C18 C19
+IU002,Next,,choix de menu,ussd,Navigation,commun,Mot anglais dans un menu français : voir la page suivante du menu (touche 00),C03 C10 C15 C16
+IU003,Suivant,SUIVANT,bouton,application,Navigation,commun,Passer à l'étape suivante,A16
+IU004,Continuer,CONTINUE | CONTINUER,bouton,application,Navigation,commun,Passer à l'étape suivante (écrit en anglais « CONTINUE » sur un écran),A10 A13
+IU005,Accueil,,onglet,application,Navigation,commun,Écran principal de l'application,A01 A03 A19
+IU006,Plus,,onglet,application,Navigation,commun,"Autres fonctions (tarifs, calculateur de frais…), pas le signe +",A01 A06
+IU007,Pour vous,POUR VOUS,onglet,application,Navigation,commun,Raccourcis choisis pour la personne,A01
+IU008,Nouveau,,bouton,application,Navigation,commun,Ajouter un nouveau destinataire favori,A01
+IU009,Bienvenue aux offres {name},,titre d'écran,ussd,Accueil et menus,commun,Premier écran du menu des offres d'un opérateur ; {name} = nom de l'opérateur,C01
+IU010,Mes offres,,choix de menu,ussd,Accueil et menus,commun,Les offres et forfaits de la personne,C01 C14
+IU011,Communautés,,choix de menu,ussd,Accueil et menus,propre au service,Offres de groupe de l'opérateur (contenu à relever),C01
+IU012,SMS & Digital,,choix de menu,ussd,Accueil et menus,commun,"SMS et services numériques (jeux, musique…)",C01 C18
+IU013,Mon compte,,choix de menu,"ussd, application",Compte et solde,commun,Le compte de la personne chez le service,C01 C02
+IU014,Aide,,choix de menu,ussd,Aide et assistance,commun,Questions fréquentes et assistance,C02 C10
+IU015,Promo,,choix de menu,ussd,Accueil et menus,commun,Promotions du moment,C02
+IU016,Opérations bancaires,Operations bancaires,choix de menu,ussd,Accueil et menus,commun,Passer de l'argent entre le compte d'argent mobile et un compte en banque,C02
+IU017,Services publics,,bouton,application,Factures et paiements,commun,"Payer l'eau, l'électricité, la télévision",A02
+IU018,Services bancaires,,bouton,application,Accueil et menus,commun,Opérations avec une banque,A02
+IU019,Billetterie,,bouton,application,Factures et paiements,commun,"Acheter des billets (transport, événements)",A02
+IU020,Portefeuille,,information,application,Compte et solde,commun,Le compte d'argent mobile (porte-monnaie électronique),A01 A12 A13
+IU021,Transfert d'argent,Transfert d argent,choix de menu,ussd,Envoyer de l'argent,commun,Envoyer de l'argent à quelqu'un ; aussi titre de l'écran suivant,C02 C03
+IU022,Envoyer de l'argent,,bouton,application,Envoyer de l'argent,commun,,A01 A02
+IU023,Envoyer,,onglet,application,Envoyer de l'argent,commun,Envoyer de l'argent (barre du bas),A01
+IU024,Vers compte {name},,choix de menu,ussd,Envoyer de l'argent,commun,Envoyer à quelqu'un qui a un compte chez le même service ; {name} = nom du service,C03
+IU025,Vers autres opérateurs ({name}),Vers autres operateurs ({name}) | Vers autres operateurs - {name},choix de menu,ussd,Envoyer de l'argent,commun,Envoyer vers un autre opérateur ; {name} = réseau qui relie les opérateurs (GIMACPAY),C03 C06
+IU026,Vers client sans compte,,choix de menu,ussd,Envoyer de l'argent,commun,Envoyer à une personne qui n'a pas de compte d'argent mobile : elle retire avec un code,C03
+IU027,Transfert international,Transfert International,choix de menu,"ussd, application",Envoyer de l'argent,commun,Envoyer de l'argent vers un autre pays ; aussi titre d'écran dans l'application,C03 A09 A12 A13
+IU028,Au numéro IBAN,Au Numéro IBAN,choix de menu,ussd,Envoyer de l'argent,commun,Envoyer vers un compte bancaire désigné par son IBAN ; IBAN ne se traduit pas,C06
+IU029,Entrez le numéro ou tapez 1 pour choisir parmi les favoris,Entrez le numero ou tapez 1 pour choisir parmi les favoris,invite,ussd,Envoyer de l'argent,commun,Demande le numéro du bénéficiaire ; la touche 1 ouvre la liste des numéros enregistrés,C04 C09
+IU030,"Numéro incorrect, essayez encore svp","Numero incorrect, essayer encore svp",message d'erreur,ussd,Envoyer de l'argent,commun,Le numéro tapé n'est pas valable,C05
+IU031,Destinataires {name} favoris,,titre d'écran,application,Envoyer de l'argent,commun,Personnes à qui on envoie souvent ; {name} = nom du service,A01
+IU032,Enregistrer comme favori,,case à cocher,application,Envoyer de l'argent,commun,Garder ce bénéficiaire pour la prochaine fois,A12 A13
+IU033,Comment souhaitez-vous payer ?,,invite,application,Envoyer de l'argent,commun,Choisir d'où part l'argent : portefeuille ou banque,A12
+IU034,Banque,,choix,application,Envoyer de l'argent,commun,,A12 A13
+IU035,Numéro de téléphone,Numéro de téléphone *,champ à remplir,application,Envoyer de l'argent,commun,L'astérisque veut dire « obligatoire » : il reste tel quel,A12
+IU036,Numéro de compte,Numéro de compte *,champ à remplir,application,Envoyer de l'argent,commun,Numéro du compte en banque ; l'astérisque reste tel quel,A13
+IU037,Sélectionner le réseau,,champ à remplir,application,Envoyer de l'argent,commun,Choisir l'opérateur du bénéficiaire,A12
+IU038,Sélectionner la banque,,champ à remplir,application,Envoyer de l'argent,commun,,A13
+IU039,Montant,Montant *,champ à remplir,application,Envoyer de l'argent,commun,Somme à envoyer ou à payer,A10 A11 A12 A13
+IU040,Référence,,champ à remplir,application,Envoyer de l'argent,commun,"Motif ou note libre pour le bénéficiaire, pas un numéro de transaction",A12 A13
+IU041,Effectuer le transfert,EFFECTUER LE TRANSFERT,bouton,application,Envoyer de l'argent,commun,Lancer l'opération,A11
+IU042,Virements,,choix,application,Envoyer de l'argent,commun,Envois d'argent d'un compte à un autre,A07 A09
+IU043,Type de transfert,,champ à remplir,application,Envoyer de l'argent,commun,,A09
+IU044,Utilisateur {name},,choix,application,Envoyer de l'argent,commun,Bénéficiaire qui a un compte chez le service ; {name} = nom du service,A09
+IU045,Utilisateur non-{name},,choix,application,Envoyer de l'argent,commun,Bénéficiaire sans compte chez le service,A09
+IU046,Banque vers {name},,choix,application,Envoyer de l'argent,commun,De son compte en banque vers son compte d'argent mobile,A09
+IU047,Initier le retrait,,choix de menu,ussd,Retrait,commun,Commencer un retrait d'argent liquide chez un agent,C03
+IU048,Retrait,,bouton,application,Retrait,commun,Sortir de l'argent liquide ; aussi titre d'écran,A01 A07 A14
+IU049,Retrait agent,Retrait Agent,choix,application,Retrait,commun,Retirer chez un agent (point de service),A14
+IU050,Retirez de l'argent chez l'agent le plus proche,,information,application,Retrait,commun,,A14
+IU051,Payer factures/services,,choix de menu,ussd,Factures et paiements,commun,"Payer l'eau, l'électricité, la télévision et d'autres services",C02
+IU052,Payer,PAYER,onglet,application,Factures et paiements,commun,,A01
+IU053,Commerçants,,bouton,application,Factures et paiements,commun,Payer dans une boutique,A01
+IU054,Paiements commerçants,Paiements Commerçants,choix,application,Factures et paiements,commun,Payer dans une boutique,A07
+IU055,Factures,,choix,application,Factures et paiements,commun,,A07
+IU056,Type de facture,,champ à remplir,application,Factures et paiements,commun,,A07 A08
+IU057,Électricité ({name}),,choix,application,Factures et paiements,commun,{name} = société d'électricité (ENEO),A07 A08
+IU058,Eau ({name}),,choix,application,Factures et paiements,commun,{name} = société des eaux (Camwater),A07
+IU059,TV,,choix,application,Factures et paiements,commun,Abonnement de télévision,A07
+IU060,Facture {name},,choix,application,Factures et paiements,commun,Facture de l'opérateur ; {name} = nom de l'opérateur,A07
+IU061,Type de compteur,,champ à remplir,application,Factures et paiements,commun,Compteur d'électricité,A08
+IU062,Prépayé,,choix,application,Factures et paiements,commun,Compteur qu'on recharge avant de consommer,A08
+IU063,Postpayé,Postpaid,choix,application,Factures et paiements,commun,Facture payée après consommation (écrit en anglais « Postpaid » à l'écran),A08
+IU064,Scanner QR,,onglet,application,Factures et paiements,commun,Lire un code QR avec l'appareil photo pour payer ; aussi titre d'écran,A01 A15
+IU065,Mon code QR,Mon Code QR,onglet,application,Factures et paiements,commun,"Le code QR de la personne, pour recevoir de l'argent",A15
+IU066,"Pour scanner les codes QR, activez l'appareil photo dans les paramètres",,message d'erreur,application,Factures et paiements,commun,L'application n'a pas le droit d'utiliser l'appareil photo,A15
+IU067,Autoriser l'accès,,lien,application,Factures et paiements,commun,Donner à l'application le droit d'utiliser l'appareil photo,A15
+IU068,Saisir l'ID manuellement,,bouton,application,Factures et paiements,commun,Taper le numéro ou l'identifiant au lieu de scanner,A15
+IU069,Saisissez numéro de mobile/ID,Saisissez numéro de mobile/ID *,champ à remplir,application,Factures et paiements,commun,Numéro de téléphone ou identifiant du marchand,A16
+IU070,Achat crédit/forfaits,Achat Credit/Forfaits,choix de menu,ussd,Crédit et forfaits,commun,Acheter du crédit de communication ou un forfait avec l'argent mobile,C02 C12
+IU071,Acheter,ACHETER,onglet,application,Crédit et forfaits,commun,,A01
+IU072,Crédit,,bouton,application,Crédit et forfaits,commun,Crédit de communication (pas un prêt),A01
+IU073,Forfait de données,Forfait de Données,bouton,application,Crédit et forfaits,commun,Forfait internet,A01
+IU074,Forfaits appels et internet,Forfaits Appels & Internet,choix de menu,ussd,Crédit et forfaits,commun,,C01
+IU075,"Voici les types d'offres disponibles pour vous, veuillez sélectionner :","Voici les types d'offres disponibles pour vous, veuillez selectionner:",invite,ussd,Crédit et forfaits,commun,,C13
+IU076,Bundle,,choix de menu,ussd,Crédit et forfaits,commun,"Mot anglais : forfait (appels, SMS ou internet)",C13
+IU077,{name} Forfaits. Tous réseaux au même prix,{name} Forfaits. Tous reseaux au MEME PRIX,titre d'écran,ussd,Crédit et forfaits,propre au service,Slogan d'une offre d'appels ; {name} = nom de l'offre (MTN Plus),C16
+IU078,Vos forfaits {name} pour appeler tous réseaux au Cameroun,Vos forfaits {name} pour appeler tous reseaux au Cameroun,titre d'écran,ussd,Crédit et forfaits,propre au service,{name} = nom de l'offre ; Cameroun reste tel quel. Les offres chiffrées qui suivent ne se traduisent pas,C17
+IU079,Tous réseaux,Tous reseaux,choix de menu,ussd,Crédit et forfaits,commun,Appels vers tous les opérateurs,C16
+IU080,{name} uniquement,{name} Uniquement,choix de menu,ussd,Crédit et forfaits,commun,Appels seulement vers le même opérateur ; {name} = nom de l'opérateur,C16
+IU081,Tous réseaux et internet,Tous reseaux et Internet,choix de menu,ussd,Crédit et forfaits,commun,,C16
+IU082,Internet,INTERNET,choix de menu,"ussd, application",Crédit et forfaits,commun,,C16 A04 A05
+IU083,Appels,APPELS,onglet,application,Crédit et forfaits,commun,,A04 A05
+IU084,Internet + appels,INTERNET + APPELS,onglet,application,Crédit et forfaits,commun,,A05
+IU085,Offres spéciales,Offres Spéciales,titre d'écran,application,Crédit et forfaits,commun,,A04 A05
+IU086,Quotidien,,filtre,application,Crédit et forfaits,commun,Offres valables un jour,A04 A05
+IU087,Hebdomadaire,,filtre,application,Crédit et forfaits,commun,Offres valables une semaine,A04 A05
+IU088,Mensuel,,filtre,application,Crédit et forfaits,commun,Offres valables un mois,A04 A05
+IU089,Valable {count} jours,,information,application,Crédit et forfaits,commun,Durée d'une offre ; {count} = nombre de jours,A04 A05
+IU090,Offres SMS,Offers SMS,choix de menu,ussd,Crédit et forfaits,commun,Forfaits de SMS (écrit « Offers SMS » à l'écran),C18
+IU091,Prolongation,,choix de menu,ussd,Crédit et forfaits,propre au service,Prolonger un forfait (contenu à relever),C18
+IU092,Favoris,Favorite,choix de menu,ussd,Crédit et forfaits,commun,Offres mises de côté par la personne (écrit « Favorite » à l'écran),C14 C15
+IU093,Vérifiez les forfaits {name},Verifiez les Forfaits {name},titre d'écran,ussd,Crédit et forfaits,propre au service,{name} = nom du forfait (Continent),C19
+IU094,Vérifier le solde du forfait {name},Verifier le solde du forfait {name},choix de menu,ussd,Crédit et forfaits,propre au service,,C19
+IU095,Solde,,choix de menu,ussd,Compte et solde,commun,Ce qui reste (crédit ou forfait),C14 C16 C18
+IU096,Relevés,,bouton,application,Compte et solde,commun,Liste des opérations passées ; aussi titre d'écran,A01 A19
+IU097,Dernières transactions,Dernières Transactions,titre d'écran,application,Compte et solde,commun,,A03 A19
+IU098,Aucune transaction trouvée,Aucunes transactions trouvées,information,application,Compte et solde,commun,Écrit « Aucunes transactions trouvées » à l'écran,A03 A19
+IU099,Voir mes dernières transactions,,question d'aide,ussd,Compte et solde,commun,,C11
+IU100,Solde actuel :,Solde actuel:,information,application,Compte et solde,commun,Suivi du montant,A19
+IU101,Dépôt :,Dépôt:,information,application,Compte et solde,commun,Argent entré sur le compte,A19
+IU102,Retrait :,Retrait:,information,application,Compte et solde,commun,Argent sorti du compte,A19
+IU103,Pour {date},,information,application,Compte et solde,commun,Période du relevé ; à l'écran : « Pour novembre 2026 »,A19
+IU104,Solde disponible : {amount},Solde disponible: {amount},information,application,Compte et solde,commun,,A10 A11 A12 A13
+IU105,Aperçu du solde,Aperçu du Solde,choix,application,Compte et solde,commun,Voir le solde sans ouvrir l'application,A18
+IU106,Compte,COMPTE,rubrique,application,Compte et solde,commun,,A17
+IU107,Changer de compte,Changer de Compte,choix,application,Compte et solde,commun,,A17
+IU108,Déconnectez-vous et utilisez un autre compte,,information,application,Compte et solde,commun,Texte coupé à l'écran (« un autre com… ») : à confirmer,A17
+IU109,Supprimer mon compte,Supprimer Mon Compte,choix,application,Compte et solde,commun,Action sans retour : fermer définitivement le compte,A18
+IU110,Carte virtuelle,Carte Virtuelle,choix,application,Compte et solde,commun,"Carte de paiement sur internet, sans carte en plastique",A17
+IU111,Afficher ou gérer votre carte,,information,application,Compte et solde,commun,,A17
+IU112,Prêts,Prets,choix de menu,ussd,Compte et solde,commun,Emprunter de l'argent,C02
+IU113,Prêts et avances,Prêts et Avances,bouton,application,Compte et solde,commun,Emprunter de l'argent,A02
+IU114,Paramètres,,titre d'écran,application,Sécurité et paramètres,commun,,A18
+IU115,Paramètres de sécurité,,choix,application,Sécurité et paramètres,commun,,A17
+IU116,"Biométrie, modifier le code PIN et plus","Biométrie, Modifier le code PIN et plus",information,application,Sécurité et paramètres,commun,Biométrie = empreinte du doigt ou visage,A17
+IU117,Changer la langue,,choix,application,Sécurité et paramètres,commun,,A18
+IU118,Désactiver l'authentification biométrique,Désactiver l'authentification Biométrique,choix,application,Sécurité et paramètres,commun,ARRÊTER d'ouvrir avec l'empreinte : ne pas traduire par « activer »,A18
+IU119,Gestion du PIN,,choix,application,Sécurité et paramètres,commun,Changer son code secret,A18
+IU120,Comment réinitialiser mon code PIN,Comment reinitialiser mon code PIN,question d'aide,ussd,Sécurité et paramètres,commun,Code secret oublié,C10
+IU121,Notifications,,choix,application,Sécurité et paramètres,commun,Messages envoyés par l'application,A18
+IU122,Qu'est-ce que {name} ?,,question d'aide,ussd,Aide et assistance,commun,{name} = nom du service,C10
+IU123,Comment envoyer de l'argent ?,,question d'aide,ussd,Aide et assistance,commun,,C10
+IU124,J'ai envoyé de l'argent à un mauvais numéro,J'ai envoye de l'argent a un mauvais numero,question d'aide,ussd,Aide et assistance,commun,Situation urgente : argent parti chez la mauvaise personne,C10
+IU125,Quels sont les frais de {name} ?,quels sont les frais de {name} ?,question d'aide,ussd,Frais,commun,,C11
+IU126,Contactez {name},,question d'aide,ussd,Aide et assistance,commun,Joindre le service client ; {name} = nom de l'opérateur,C11
+IU127,Comment ça marche ?,Comment ca marche?,question d'aide,ussd,Aide et assistance,commun,,C19
+IU128,Assistance,ASSISTANCE,rubrique,application,Aide et assistance,commun,,A17
+IU129,Obtenir de l'aide,,choix,application,Aide et assistance,commun,,A17
+IU130,Trouver un agent ou signaler un problème,,information,application,Aide et assistance,commun,,A17
+IU131,Évaluer {name},,choix,application,Aide et assistance,commun,Donner son avis sur l'application ; {name} = nom du service,A17
+IU132,Que pensez-vous de {name} ? Donnez votre avis,,information,application,Aide et assistance,commun,Texte coupé à l'écran (« Donnez votre … ») : à confirmer,A17
+IU133,Centre de connaissances,Centre de Connaissances,choix,application,Aide et assistance,commun,Guides et questions fréquentes,A06
+IU134,Tarifs,,choix,application,Frais,commun,Liste des frais,A06
+IU135,Calculateur de frais,Calculateur de Frais,titre d'écran,application,Frais,commun,Outil qui donne les frais avant l'opération,A06 A07 A08 A09 A10 A11

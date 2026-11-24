@@ -1,0 +1,29 @@
+intention,touches,releve_par,debut_releve
+solde,,,*123# puis 2 > 7 > suite à relever (C02)
+historique,,,*123# puis 2 > 8 > 00 > 6 (C11)
+depenses,,,
+transfert,,,*123# puis 2 > 1 > 1 > {telephone} > suite à relever (C04)
+transfert_autre_reseau,,,*123# puis 2 > 1 > 2 > {pays} > {operateur} > {telephone} > suite à relever (C06 à C09)
+retrait,,,*123# puis 2 > 1 > 5 > suite à relever (C03)
+approbation,,,
+depot,,,
+paiement_marchand,,,*123# puis 2 > 4 > suite à relever (C02)
+facture,,,*123# puis 2 > 2 > suite à relever (C02)
+credit,,,*123# puis 2 > 3 > suite à relever (C02)
+transfert_credit,,,
+forfait_internet,,,*123# puis 3 > 4 > suite à relever (C16)
+forfait_appel,,,"*123# puis 3 > 1 > {offre} (C16, C17)"
+solde_credit,,,*123# puis 3 > 99 > suite à relever (C16)
+solde_internet,,,
+frais,,,*123# puis 2 > 8 > 00 > 5 (C11)
+changer_pin,,,
+pret,,,*123# puis 2 > 6 > suite à relever (C02)
+remboursement,,,
+epargne,,,
+annuler_operation,,,
+expliquer,,,
+aide,,,
+langue,,,
+corriger,,,
+pin_oublie,,,*123# puis 2 > 8 > 4 (C10)
+service_client,,,*123# puis 2 > 8 > 00 > 7 (C11)

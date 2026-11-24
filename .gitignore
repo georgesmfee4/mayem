@@ -26,3 +26,5 @@ packs/*/reponses-revision.json
 /*.xlsx
 !/kit-validation-bulu.xlsx
 /*.pdf
+/service-*.html
+/traduction-*.html

@@ -142,8 +142,8 @@ const sansNom = (b: Brouillon) => !b.nom || b.nom === telephone(b.telephone || '
 // Tant que le récapitulatif n'a pas de traduction validée : les mêmes valeurs ligne à ligne, chaque ligne déjà
 // validée (« Total à débiter », avant l'opération). Montant, bénéficiaire, frais et total y sont tous.
 function lignesRecap(b: Brouillon, frais: number, total: number): Morceau[] {
-  const envoi = sansNom(b) ? r('RF121', { amount: montant(b.montant!) }) : r('RF120', { amount: montant(b.montant!), name: b.nom! });
-  return [envoi, r('RF122', { phone: telephone(b.telephone!) }), r('RF123', { amount: montant(frais) }), r('RF124', { amount: montant(total) })];
+  const envoi = sansNom(b) ? r('RF131', { amount: montant(b.montant!) }) : r('RF130', { amount: montant(b.montant!), name: b.nom! });
+  return [envoi, r('RF132', { phone: telephone(b.telephone!) }), r('RF133', { amount: montant(frais) }), r('RF134', { amount: montant(total) })];
 }
 
 // Un bénéficiaire désigné sans ambiguïté met fin à tout choix en cours entre homonymes
@@ -280,7 +280,7 @@ const operationDe = (b: Brouillon): Operation =>
 function transfertFait(b: Brouillon, reference: string): Morceau {
   const fait = sansNom(b) ? r('RF038', { amount: montant(b.montant!), phone: telephone(b.telephone!), ref: reference })
     : r('RF034', { name: b.nom!, amount: montant(b.montant!), ref: reference });
-  return { ...fait, repli: [r('RF125'), r('RF126', { ref: reference })] };
+  return { ...fait, repli: [r('RF135'), r('RF136', { ref: reference })] };
 }
 
 async function executer(ctx: Contexte, s: Session): Promise<Decision> {
@@ -447,6 +447,8 @@ async function nouvelleDemande(ctx: Contexte, s: Session, c: Comprehension): Pro
     case 'terminer': return info([r('RF112')]);
     case 'oui': case 'non': case 'corriger': return info([r('RF068')]);
   }
+  // Une intention comprise que la banque branchée ne propose pas : le dire, plutôt que « je n'ai pas compris »
+  if (intention) return info([r('RF120')], `intention comprise sans opération correspondante ici : ${intention}`);
   if (c.hesitation.includes('transfert') && c.hesitation.includes('credit')) return question([r('RF053')], `hésitation : ${c.hesitation.join(' ou ')}`);
   return question([r('RF056')], c.hesitation.length ? `hésitation : ${c.hesitation.join(' ou ')}` : 'demande non comprise');
 }
