@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Téléphone d'essai (USSD)</title>
+<style>
+  /* Un téléphone simple qui compose *123# : chaque saisie part vers la passerelle comme le ferait un opérateur. */
+  :root { color-scheme: light; --fond: #e9eef0; --coque: #1f2a30; --ecran: #c9d8b6; --texte: #142010; --touche: #33424a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--fond); font: 15px system-ui, sans-serif; padding: 16px; }
+  .telephone { width: 300px; max-width: 100%; background: var(--coque); border-radius: 28px; padding: 22px 18px 26px; box-shadow: 0 20px 40px -18px #0008; }
+  .ecran { background: var(--ecran); color: var(--texte); border-radius: 8px; min-height: 220px; padding: 12px; font: 15px/1.35 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .etat { font-size: 11px; opacity: .7; margin-bottom: 6px; display: flex; justify-content: space-between; }
+  form { display: flex; gap: 8px; margin-top: 14px; }
+  input { flex: 1; min-width: 0; font: inherit; padding: 10px; border-radius: 8px; border: 0; }
+  button { font: inherit; font-weight: 600; padding: 10px 14px; border-radius: 8px; border: 0; background: var(--touche); color: #fff; cursor: pointer; }
+  button:focus-visible, input:focus-visible { outline: 3px solid #7cc4d4; outline-offset: 2px; }
+  .appel { display: flex; gap: 8px; margin-top: 10px; }
+  .appel button { flex: 1; }
+  .vert { background: #1d7a3e; } .rouge { background: #9a3b12; }
+  .aide { color: #9fb3b9; font-size: 12px; margin-top: 12px; line-height: 1.4; }
+</style>
+</head>
+<body>
+<div class="telephone">
+  <div class="ecran" aria-live="polite"><div class="etat"><span>*123#</span><span id="etat">raccroché</span></div><div id="texte">Appuyez sur « Appeler » pour composer *123#.</div></div>
+  <form id="saisie"><input id="champ" autocomplete="off" aria-label="Votre réponse" disabled><button id="envoyer" disabled>Envoyer</button></form>
+  <div class="appel"><button type="button" class="vert" id="appeler">Appeler *123#</button><button type="button" class="rouge" id="raccrocher">Raccrocher</button></div>
+  <p class="aide">Tapez un chiffre du menu, ou une phrase : « envoie 5000 au 677 12 34 56 ». Code PIN d'essai : 1234.</p>
+</div>
+<script>
+let session = null, saisies = [];
+const $ = (id) => document.getElementById(id);
+function etat(enLigne, texte) {
+  $('etat').textContent = enLigne ? 'en ligne' : 'raccroché';
+  $('champ').disabled = $('envoyer').disabled = !enLigne;
+  if (texte !== undefined) $('texte').textContent = texte;
+  if (enLigne) $('champ').focus();
+}
+async function envoyer() {
+  const corps = new URLSearchParams({ sessionId: session, serviceCode: '*123#', phoneNumber: '+237690000001', text: saisies.join('*') });
+  try {
+    const reponse = (await (await fetch('/v1/ussd', { method: 'POST', body: corps })).text()).trim();
+    const fin = reponse.startsWith('END');
+    etat(!fin, reponse.replace(/^(CON|END)\s?/, ''));
+    if (fin) session = null;
+  } catch { etat(false, 'Réseau indisponible.'); }
+}
+$('appeler').onclick = () => { session = crypto.randomUUID(); saisies = []; etat(true, 'Connexion…'); envoyer(); };
+$('raccrocher').onclick = () => { session = null; etat(false, 'Appel terminé.'); };
+$('saisie').onsubmit = (e) => {
+  e.preventDefault();
+  const valeur = $('champ').value.trim();
+  if (!valeur || !session) return;
+  saisies.push(valeur); $('champ').value = '';
+  envoyer();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "_lisez_moi": "Sans service à relayer : Mayem répond lui-même sur l'USSD, avec la banque simulée. Chaque choix du premier écran a son libellé (tableur des menus) et la demande que le noyau comprend.",
+  "nom": "Mayem seul",
+  "langue": "bum",
+  "ussd": {
+    "code": "*123#",
+    "touche_langue": "0",
+    "menu": [
+      { "ref": "U01", "demande": "Quel est mon solde ?" },
+      { "ref": "U02", "demande": "Je veux envoyer de l'argent" },
+      { "ref": "U03", "demande": "Mes dernières opérations" },
+      { "ref": "U04", "demande": "Je veux acheter du crédit" },
+      { "ref": "U05", "demande": "Je veux payer une facture" },
+      { "ref": "U06", "demande": "Quels sont les frais ?" }
+    ]
+  }
+}

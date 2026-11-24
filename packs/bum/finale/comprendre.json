@@ -1,0 +1,68 @@
+{
+  "_lisez_moi": "Marques de la langue pour comprendre les demandes, relevées dans le tableur « Comment les gens demandent » (demandes D26, D27, D36, T16 ; mots M01 à M16). Elles suivent la validation de ce tableur : utilisées seulement quand ses lignes portent deux noms. Les mots sont écrits sans accents ni tons, comme la comparaison les lit.",
+  "sources": [
+    "formulations.csv",
+    "mots.csv"
+  ],
+  "ignorer": {
+    "D02": "demande mixte : vérifier le solde avant d'envoyer, ses formulations disent aussi « envoyer »",
+    "D14": "demande mixte : le coût puis l'envoi, ses formulations disent aussi « envoyer »"
+  },
+  "negations": [
+    "te lom",
+    "te wo lom",
+    "teke lom",
+    "teke wo lom",
+    "te ya an",
+    "teke wo ya an",
+    "te wo yiane",
+    "teke wo yiane"
+  ],
+  "ecartent": [
+    "sa ake",
+    "noo te lom"
+  ],
+  "liaisons": [
+    "be",
+    "asu"
+  ],
+  "periodes": {
+    "sondo nyii": "semaine",
+    "sondo nyo": "semaine",
+    "ngon nyii": "mois",
+    "non nyo": "mois",
+    "mois nyii": "mois",
+    "e den": "jour",
+    "mos ya nden": "jour",
+    "a ngoe": "hier",
+    "mos ya ngoe": "hier"
+  },
+  "factures": {
+    "kouran": "electricite",
+    "electricite": "electricite",
+    "mendip": "eau"
+  },
+  "langues": {
+    "fulasi": "fr",
+    "en francais": "fr",
+    "nkobo wongan": "nationale",
+    "nkobo wom": "nationale",
+    "langue wom": "nationale"
+  },
+  "mots": {
+    "M01": "oui",
+    "M02": "non",
+    "M03": "oui",
+    "M04": "annuler",
+    "M06": "repeter",
+    "M07": "repeter",
+    "M08": "corriger",
+    "M09": "corriger",
+    "M11": "langue",
+    "M12": "langue",
+    "M13": "langue",
+    "M14": "aide",
+    "M15": "terminer",
+    "M16": "terminer"
+  }
+}

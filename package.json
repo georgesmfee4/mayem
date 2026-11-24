@@ -23,6 +23,8 @@
     "sens": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/mesure-sens.js",
     "scenarios": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/scenarios.js",
     "conversation": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/conversation.js",
+    "passerelle": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/passerelle.js",
+    "mesure": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/mesure-comprehension.js",
     "build": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js",
     "build:pseudo": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/compile.js --pseudo",
     "demo:refus": "node --experimental-strip-types --disable-warning=ExperimentalWarning tools/demo-refus.js",

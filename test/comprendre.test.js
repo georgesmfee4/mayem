@@ -111,3 +111,34 @@ test('facture, type de facture, période, langue demandée et touche de menu', (
 test('chaque intention retenue dit pourquoi', () => {
   assert.match(lire('Envoie 5 000 à Pierre').raison, /^mots reconnus : envoie/);
 });
+
+// Lexique d'une langue d'essai, sur le modèle des données des locuteurs : formulations, négation, mots qui écartent
+const locuteurs = {
+  intentions: { oui: { 'e yebe': 3 } }, secondaires: ['oui'], periodes: { 'sondo nyii': 'semaine' }, factures: {}, langues: { fulasi: 'fr' },
+  devises: [], multiplicateurs: {}, negations: ['te lom'], ecartent: ['sa ake'], liaisons: ['be'],
+  formulations: [
+    { ref: 'A1', intention: 'transfert', texte: 'Lôm Paul 5 000 F' }, { ref: 'A2', intention: 'transfert', texte: 'Ma kômbô lôm moné' },
+    { ref: 'B1', intention: 'solde', texte: 'Moné wôm a lyii ya tañ yà ?' }, { ref: 'C1', intention: 'aide', texte: 'Ma yii mvolan' },
+  ],
+};
+const lireLangue = (texte) => comprendre(texte, { lexiques: [lexique, locuteurs], carnet, termes });
+
+test('formulations des locuteurs : une demande proche en prend l\'intention, et dit de laquelle elle est proche', () => {
+  const c = lireLangue('lôm Pierre 3 000 F');
+  assert.equal(c.intention, 'transfert');
+  assert.match(c.raison, /proche de A1/);
+  assert.deepEqual(c.montants.map((v) => v.valeur), [3000]);
+  assert.equal(lireLangue('moné wôm a lyii tañ ?').intention, 'solde');
+  assert.equal(lireLangue('e yebe').intention, 'oui');
+  assert.equal(lireLangue('kôbo fulasi').langue, 'fr');
+});
+
+test('marques de la langue : négation (« te lôm ») et valeur écartée (« sa\'ake Paul ») viennent des données', () => {
+  assert.equal(lireLangue('te lôm Paul moné').negation, true);
+  const correction = lireLangue('lôm Pierre, sa\'ake be Paul');
+  assert.deepEqual(correction.contacts.map((m) => [m.contacts[0].id, m.rejete]), [['c', false], ['a', true]]);
+});
+
+test('sans formulation assez proche, ou avec deux intentions trop proches, aucune intention n\'est retenue', () => {
+  assert.equal(lireLangue('akut akut akut').intention, null);
+});

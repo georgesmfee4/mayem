@@ -24,5 +24,7 @@
   "factures": { "electricite": "electricite", "courant": "electricite", "lumiere": "electricite", "eau": "eau" },
   "langues": { "francais": "fr", "en francais": "fr", "notre langue": "nationale", "ma langue": "nationale", "{langue}": "nationale" },
   "devises": ["fcfa", "f cfa", "cfa", "xaf", "francs", "franc", "frs", "fr", "f"],
-  "multiplicateurs": { "mille": 1000, "k": 1000, "million": 1000000, "millions": 1000000 }
+  "multiplicateurs": { "mille": 1000, "k": 1000, "million": 1000000, "millions": 1000000 },
+  "ecartent": ["pas", "non", "au lieu de", "plutot que"],
+  "liaisons": ["a", "au", "de", "d", "pour"]
 }

@@ -54,7 +54,9 @@ const SYNONYMES: Record<string, string> = {
 const ENVOI = new Set(['envoyer', 'envoye', 'payer', 'paye', 'paiement', 'debiter', 'debite', 'debit', 'retirer', 'retire', 'retrait', 'sortant']);
 const RECEPTION = new Set(['recevoir', 'recu', 'crediter', 'credite', 'credit', 'encaisser', 'encaisse', 'entrant', 'deposer', 'depose', 'depot']);
 const NEGATEURS: Record<string, string> = { ne: 'ne', n: 'ne', pas: 'pas', jamais: 'jamais', aucun: 'aucun', aucune: 'aucun', rien: 'rien', ni: 'ni', non: 'non', sans: 'sans', nul: 'nul', nulle: 'nul' };
-const PREMIERE = new Set(['je', 'j', 'me', 'm', 'moi', 'mon', 'ma', 'mes']);
+const PREMIERE = new Set(['je', 'j', 'me', 'm', 'moi']);
+// Le possessif est un trait à part : « Je n'ai pas compris votre demande » n'est pas « … mon demande »
+const POSSESSIF_PREMIERE = new Set(['mon', 'ma', 'mes']);
 const POUVOIR = /^(peux|peut|pouvez|pouvons|peuvent|pourr\w*|possible|impossible)$/;
 const DEVOIR = /^(dois|doit|devez|devons|doivent|devr\w*|faut|obligatoire|necessaire)$/;
 // Participes sans « é » final (« reçu », « réussi ») : le temps ne se voit qu'à eux
@@ -113,7 +115,7 @@ function traits(mots: string[], nus: string[], lemmes: string[], bas: string, ty
   const argent = [...new Set(lemmes.flatMap((m) => (ENVOI.has(m) ? ['envoi'] : RECEPTION.has(m) ? ['reception'] : [])))].sort();
   // Seule la première personne est notée : « J'ai vérifié » n'est pas « Vérifiez ». « Vérifiez »
   // et « Vérifier », consigne écrite à l'impératif ou à l'infinitif, disent la même chose.
-  const premiere = nus.some((m) => PREMIERE.has(m)) ? 'je' : '';
+  const premiere = (nus.some((m) => PREMIERE.has(m)) ? 'je' : '') + (nus.some((m) => POSSESSIF_PREMIERE.has(m)) ? 'mon' : '');
   // « Vous confirmez le transfert » constate ou demande ; « Confirmez le transfert » ordonne. Les verbes
   // d'appoint (devez, pouvez, allez, avez) sont déjà relevés par la modalité ou le temps.
   const constat = VOUS_SUJET.test(bas) ? 'vous' : '';
