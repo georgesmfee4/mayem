@@ -2,6 +2,7 @@
 """Tableurs des locuteurs pour la finale : comprendre les demandes et répondre sur chaque canal.
 
   python3 tools/kit_finale.py            -> quatre tableurs finale-*-<langue>.xlsx à la racine
+  python3 tools/kit_finale.py --restants -> retours-finale-<langue>.xlsx : seulement ce qui manque encore
   python3 tools/kit_finale.py --langue X -> s'il y a plusieurs langues
 
 Les textes français viennent de packs/<langue>/finale/*.csv. Une phrase déjà validée du corpus
@@ -282,6 +283,76 @@ def classeur_reponses():
     return wb
 
 
+def remarques():
+    """Ce qu'il faut dire aux locuteurs sur une ligne : raison d'une mise de côté (exclusions.csv), ou remarque
+    de relecture (a-revoir.csv)"""
+    notes = {}
+    for nom, colonne in (('exclusions.csv', 'raison'), ('a-revoir.csv', 'remarque')):
+        if (DOSSIER / 'finale' / nom).exists():
+            for r in lire(nom):
+                notes[r['ref']] = ' '.join(x for x in (notes.get(r['ref']), r[colonne]) if x)
+    return notes
+
+
+def classeur_retours():
+    """Seulement ce qui manque : réponses sans traduction validée ou à revoir, menus sans traduction. Mêmes onglets
+    et colonnes que le tableur des réponses, il s'importe de la même façon ; son premier onglet s'appelle « Retours » :
+    l'import sait alors qu'une ligne mise de côté a été renvoyée pour être refaite."""
+    notes = remarques()
+    deja_par_canal = {(v['ref'], v['canal']) for v in lire('variantes.csv')}
+    wb = Workbook()
+    mode_emploi(wb, f"Phrases encore en français quand on a choisi le {LANGUE}", [
+        "POURQUOI CE TABLEUR",
+        f"Ces phrases s'affichent encore en français quand la personne a choisi le {LANGUE} : elles n'ont pas encore de "
+        "traduction validée, ou la traduction reçue a été mise de côté. La raison est écrite dans « À savoir ».",
+        "En attendant, la machine montre à leur place des phrases déjà validées, plus simples (par exemple le récapitulatif "
+        "ligne à ligne). La phrase complète reste meilleure : elle est plus claire pour la personne.",
+        "CE QU'ON VOUS DEMANDE",
+        f"• Écrivez la phrase complète dans la colonne TRADUCTION {MAJ}. Les versions USSD, SMS et voix aident, sans être obligatoires.",
+        "• Commencez par les lignes P1 (Réf. en rouge).",
+        "• Avant une opération, rien n'est encore retiré du compte : on parle du total « à débiter », pas du total « débité ». "
+        "Le glossaire a un terme pour chacun.",
+        "• Une ligne « à revoir » montre la traduction actuelle dans « À savoir » : si elle est juste, recopiez-la avec deux noms.",
+        *REGLES_COMMUNES,
+    ])
+    wb.active.title = 'Retours'
+    ws = feuille(wb, 'Réponses', ['Réf.', 'Priorité', 'Critique', 'Intention', 'Texte français', 'À savoir',
+                                  f'TRADUCTION {MAJ} (complète)', 'Version USSD', 'Max USSD', 'Longueur USSD', 'Version SMS',
+                                  'Longueur SMS', 'Version voix (si différente)', 'Traduit par', 'Relu par', 'Commentaire'],
+                 [8, 8, 8, 11, 40, 34, 38, 30, 8, 9, 30, 9, 30, 12, 12, 24])
+    restantes = []
+    for r in lire('reponses.csv'):
+        ref, cible = deja_valide(r['reprise'], r['fr'])
+        if ref and r['ref'] not in notes:
+            continue
+        actuelle = f"À revoir. Traduction actuelle ({ref}) : « {cible} »." if ref else ''
+        restantes.append((r, ' '.join(x for x in (actuelle, notes.get(r['ref']), r['a_noter']) if x)))
+    # D'abord le transfert, l'opération que le jury fait toujours, puis les autres phrases critiques
+    restantes.sort(key=lambda x: (x[0]['priorite'], x[0]['critique'] != '1', x[0]['intention'] != 'transfert', x[0]['ref']))
+    for r, note in restantes:
+        canaux = r['canaux'].split(',')
+        sans = lambda canal: '' if canal in canaux and (r['ref'], canal) not in deja_par_canal else 'pas besoin'
+        ws.append([r['ref'], r['priorite'], 'oui' if r['critique'] == '1' else '', r['intention'], r['fr'], note, '',
+                   sans('ussd'), int(r['max_ussd']) or '', None, sans('sms'), None, sans('voix')])
+    mettre_en_forme(ws, [7, 8, 11, 13, 14, 15], 2)
+    griser(ws, [8, 11, 13])
+    longueur(ws, 8, 10, 'I')
+    longueur(ws, 11, 12, 160)
+    feuille(wb, 'Versions courtes', ['Réf.', 'Texte français', 'Traduction validée (ne pas changer)', 'Version USSD',
+                                     'Longueur USSD', 'Version SMS', 'Longueur SMS', 'Traduit par', 'Relu par', 'Commentaire'],
+            [8, 40, 40, 32, 9, 32, 9, 12, 12, 24])
+    ws = feuille(wb, 'Menus', ['Réf.', 'Canal', 'Texte français', 'Max signes', 'À savoir', f'TRADUCTION {MAJ}', 'Longueur',
+                               'Traduit par', 'Relu par', 'Commentaire'], [7, 9, 34, 9, 34, 34, 9, 12, 12, 24])
+    menus = [r for r in lire('menus.csv') if r['ref'] in notes or not (deja_valide('', r['fr'])[0] or GLOSSAIRE.get(r['fr'].lower()))]
+    for r in menus:
+        ws.append([r['ref'], r['canal'], r['fr'], int(r['max']) or '', ' '.join(x for x in (notes.get(r['ref']), r['a_noter']) if x)])
+    mettre_en_forme(ws, [6, 8, 9])
+    longueur(ws, 6, 7, 'D')
+    recapitulatif(wb, {'Réponses': (len(restantes), sum(r['priorite'] == 'P1' for r, _ in restantes), 'reponses'),
+                       'Menus': (len(menus), 0, 'menus')})
+    return wb
+
+
 def griser(ws, colonnes):
     """Cases déjà validées ou sans objet : grises."""
     for ligne in ws.iter_rows(min_row=2):
@@ -340,6 +411,11 @@ def classeur_test():
 
 
 def main():
+    if '--restants' in sys.argv:
+        chemin = racine / f'retours-finale-{LANGUE}.xlsx'
+        classeur_retours().save(chemin)
+        print(chemin.name)
+        return
     classeurs = {'1-demandes': classeur_demandes, '2-reponses': classeur_reponses,
                  '3-expliquer': classeur_termes, '4-test-aveugle': classeur_test}
     for nom, fabriquer in classeurs.items():

@@ -407,6 +407,26 @@ test('relais : la négation n\'envoie rien ; « oui » et « non » répondent �
   assert.match(appels.at(-1).corps, /text=4\*670000008\*1000(&|$)/);
 });
 
+test('relais : un numéro hors du carnet ; la question et l\'écran de la banque sont traduits en entier, total « à débiter »', async () => {
+  const { telephone, appels, demander } = monter();
+  const ctx = chargerContexte('bum', banqueSimulee(lire('../service/banque-essai.json')));
+  const valide = (ref, valeurs) => ctx.reponses.rendre({ ref, valeurs }, 'bum', 'ussd').texte;
+  const appel = telephone('q12', '+237690000009');
+  await ouvrir(appel, '2');
+  assert.equal(await appel('ma lôm 655 12 44 55 moné'), `CON ${valide('RF030')}`);
+  const ecran = (await appel('100')).replace(/^CON /, '').split('\n');
+  assert.match(appels.at(-1).corps, /text=2\*655124455\*100(&|$)/);
+  const banque = serviceBanque();
+  const francais = (await (await banque.traiter(new Request('http://banque.test/ussd', { method: 'POST', body: new URLSearchParams({ text: '2*655124455*100' }) }))).text()).replace(/^CON /, '').split('\n');
+  assert.deepEqual(francais.slice(0, 4), ['Montant : 100 FCFA', 'Numéro du bénéficiaire : 655124455', 'Frais de l\'opération : 100 FCFA', 'Total à débiter : 200 FCFA']);
+  assert.equal(ecran.length, francais.length);
+  francais.forEach((ligne, i) => assert.notEqual(ecran[i], ligne, `ligne traduite : ${ligne}`));
+  assert.equal(ecran[3], valide('RF124', { amount: '200 FCFA' }), 'avant la confirmation, le total est celui qui sera débité');
+  const recap = await (await demander('/v1/relais/api/transfert', { method: 'POST', body: JSON.stringify({ telephone: '655124455', montant: 100 }) })).json();
+  assert.equal(recap.beneficiaire, valide('RF122', { phone: '655124455' }));
+  assert.equal(recap.total, valide('RF124', { amount: '200 FCFA' }));
+});
+
 test('relais : un service muet ou en erreur ne laisse rien en suspens ; message validé, session terminée', async () => {
   const ctx = chargerContexte('bum', banqueSimulee(lire('../service/banque-essai.json')));
   const attendu = ctx.reponses.rendre({ ref: 'RF064' }, 'bum', 'ussd');

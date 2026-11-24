@@ -2,17 +2,21 @@
 // rempli avec des valeurs mises en forme ici. Dans la langue nationale, la réponse passe par le moteur
 // (core/moteur.ts) : elle ne s'affiche traduite que si une traduction validée existe, chiffres vérifiés ;
 // sinon elle reste en français. Jamais de phrase composée.
+// Un modèle dont le corpus a la traduction validée (même français, mêmes cases) est rempli directement, comme
+// les versions par canal : le moteur ne reconnaît pas toujours une valeur à sa forme (un numéro de facture
+// « 458221 » n'a pas la forme d'une référence).
 
 import { memesChiffres } from '../core/faits.ts';
-import { traduire } from '../core/moteur.ts';
+import { normaliser, traduire } from '../core/moteur.ts';
 import type { Pack } from '../core/types.ts';
 
 // Modèles de réponse et libellés de menus (« Électricité ») : tous viennent des tableurs des locuteurs
 export interface Modele { ref: string; fr: string }
 export interface Explication { ref: string; terme: string; explication_fr: string; exemple: string }
 // Une réponse à dire : un modèle et ses valeurs, ou une ligne de faits (liste de contacts) qui ne se traduit pas.
-// repli : une réponse plus simple déjà validée, dite à sa place tant que la première n'a pas de traduction validée
-export type Morceau = { ref: string; valeurs?: Record<string, string>; prefixe?: string; repli?: Morceau } | { fait: string };
+// repli : une réponse plus simple déjà validée, dite à sa place tant que la première n'a pas de traduction validée ;
+// une liste de lignes validées (récapitulatif ligne à ligne) ne s'affiche que si chacune est traduite
+export type Morceau = { ref: string; valeurs?: Record<string, string>; prefixe?: string; repli?: Morceau | Morceau[] } | { fait: string };
 export interface Rendu { ref: string; texte: string; langue: string; traduit: boolean }
 
 // 85000 -> « 85 000 FCFA » : la forme que le moteur reconnaît comme un montant
@@ -33,6 +37,7 @@ export function creerReponses(modeles: Modele[], explications: Explication[], pa
   const parCanal = new Map(variantes.map((v) => [`${v.ref}|${v.canal}`, v.cible]));
   const textes = new Map<string, string>(modeles.map((m) => [m.ref, m.fr]));
   for (const e of explications) textes.set(e.ref, `${e.explication_fr} ${e.exemple}`.trim());
+  const valideesParModele = new Map(pack.phrases.filter((p) => p.valide && p.cible && /\{\w+\}/.test(p.fr)).map((p) => [normaliser(p.fr), p.cible]));
 
   function remplir(ref: string, valeurs: Record<string, string> = {}): string {
     const modele = textes.get(ref);
@@ -43,18 +48,25 @@ export function creerReponses(modeles: Modele[], explications: Explication[], pa
     });
   }
 
+  // Une traduction validée à cases (version par canal ou modèle du corpus), remplie avec les valeurs insérées ici :
+  // mêmes cases que le modèle (vérifié à l'import), mêmes chiffres une fois remplie, sinon rien
+  function remplirValidee(cible: string | undefined, francais: string, valeurs: Record<string, string> = {}): string | null {
+    // Un nom ne prend jamais de chiffres, comme dans le moteur : un numéro n'entre pas dans une case {name}
+    if (!cible || Object.entries(valeurs).some(([cle, v]) => cle.startsWith('name') && /\d/.test(v))) return null;
+    const remplie = cible.replace(/\{(\w+)\}/g, (champ, nom: string) => valeurs[nom] ?? champ);
+    return !/\{\w+\}/.test(remplie) && memesChiffres(francais, remplie) ? remplie : null;
+  }
+
   function rendreModele(morceau: Exclude<Morceau, { fait: string }>, langue: string, canal?: string): Rendu {
     const francais = remplir(morceau.ref, morceau.valeurs);
     const prefixe = morceau.prefixe || '';
     if (langue === 'fr') return { ref: morceau.ref, texte: prefixe + francais, langue: 'fr', traduit: false };
     const fixe = fixes.get(morceau.ref);
     if (fixe && langue === pack.langue && memesChiffres(francais, fixe)) return { ref: morceau.ref, texte: prefixe + fixe, langue, traduit: true };
-    const variante = canal ? parCanal.get(`${morceau.ref}|${canal}`) : undefined;
-    if (variante && langue === pack.langue) {
-      // Mêmes cases que le modèle (vérifié à l'import), mêmes chiffres une fois remplie : sinon la version complète
-      const remplie = variante.replace(/\{(\w+)\}/g, (champ, nom: string) => morceau.valeurs?.[nom] ?? champ);
-      if (!/\{\w+\}/.test(remplie) && memesChiffres(francais, remplie)) return { ref: morceau.ref, texte: prefixe + remplie, langue, traduit: true };
-    }
+    const validee = langue !== pack.langue ? null
+      : remplirValidee(canal ? parCanal.get(`${morceau.ref}|${canal}`) : undefined, francais, morceau.valeurs)
+        ?? remplirValidee(valideesParModele.get(normaliser(textes.get(morceau.ref)!)), francais, morceau.valeurs);
+    if (validee) return { ref: morceau.ref, texte: prefixe + validee, langue, traduit: true };
     const resultat = traduire(francais, pack);
     // Chaque valeur reprise par le moteur doit être exactement une valeur insérée ici : sinon une case du
     // modèle a pris un morceau de phrase, et la réponse reste en français plutôt que d'être mélangée
@@ -69,7 +81,10 @@ export function creerReponses(modeles: Modele[], explications: Explication[], pa
     rendre(morceau, langue, canal) {
       if ('fait' in morceau) return { ref: 'faits', texte: morceau.fait, langue: 'faits', traduit: false };
       const rendu = rendreModele(morceau, langue, canal);
-      return !rendu.traduit && langue !== 'fr' && morceau.repli ? reponses.rendre(morceau.repli, langue, canal) : rendu;
+      if (rendu.traduit || langue === 'fr' || !morceau.repli) return rendu;
+      if (!Array.isArray(morceau.repli)) return reponses.rendre(morceau.repli, langue, canal);
+      const lignes = morceau.repli.map((m) => reponses.rendre(m, langue, canal));
+      return lignes.every((l) => l.traduit) ? { ref: morceau.ref, texte: lignes.map((l) => l.texte).join('\n'), langue, traduit: true } : rendu;
     },
   };
   return reponses;

@@ -117,8 +117,47 @@ test('en langue nationale, une réponse n\'est jamais un mélange : traduite et 
   assert.equal(solde.journal.reponses[0].traduit, true, 'phrase validée du corpus : traduite');
   assert.doesNotMatch(solde.texte, /Votre solde/);
   const recap = await traiter(ctx, s, 'Envoie 2 000 à maman');
-  assert.equal(recap.journal.reponses[0].traduit, false, 'récapitulatif pas encore validé : reste en français');
-  assert.match(recap.texte, /^Vous allez envoyer 2 000 FCFA à Marthe Ndzana/);
+  assert.equal(recap.journal.reponses[0].traduit, true, 'récapitulatif pas encore validé : ses valeurs ligne à ligne, chaque ligne validée');
+  assert.doesNotMatch(recap.texte, /Vous allez|Frais|Total|Numéro/);
+  for (const valeur of ['2 000 FCFA', 'Marthe Ndzana', '655 00 11 22', '100 FCFA', '2 100 FCFA']) assert.ok(recap.texte.includes(valeur), valeur);
+  const { creerReponses } = await import('../service/reponses.ts');
+  const pack = JSON.parse(readFileSync(new URL('../packs/bum/pack.json', import.meta.url), 'utf8'));
+  const valeurs = { amount: '85 000 FCFA' };
+  const reponses = creerReponses([{ ref: 'R1', fr: 'Phrase sans traduction : {amount}' }, { ref: 'L1', fr: 'Total à débiter : {amount}' },
+    { ref: 'L2', fr: 'Ligne sans traduction : {amount}' }], [], pack);
+  const lignes = (...refs) => refs.map((ref) => ({ ref, valeurs }));
+  assert.equal(reponses.rendre({ ref: 'R1', valeurs, repli: lignes('L1') }, 'bum', 'web').traduit, true);
+  assert.deepEqual(reponses.rendre({ ref: 'R1', valeurs, repli: lignes('L1', 'L2') }, 'bum', 'web'),
+    { ref: 'R1', texte: 'Phrase sans traduction : 85 000 FCFA', langue: 'fr', traduit: false }, 'une ligne sans traduction : tout reste en français');
+});
+
+test('un numéro hors du carnet ne prend jamais la place d\'un nom : questions et récapitulatif validés, sans redite en français', async () => {
+  const ctx = contexte();
+  const s = nouvelleSession('hc', 'web', 'bum');
+  const question = (await traiter(ctx, s, 'ma lôm 655 12 44 55 moné')).journal;
+  assert.deepEqual(question.reponses.map((x) => [x.ref, x.traduit]), [['RF030', true]]);
+  const recap = await traiter(ctx, s, '100');
+  assert.deepEqual(recap.journal.reponses.map((x) => [x.ref, x.traduit]), [['RF037', true], ['RF033', true]]);
+  for (const valeur of ['100 FCFA', '655 12 44 55', '200 FCFA']) assert.ok(recap.texte.includes(valeur), valeur);
+  const fait = (await traiter(ctx, s, 'oui')).journal;
+  assert.equal(fait.statut, 'executee');
+  assert.deepEqual(fait.reponses.map((x) => [x.ref, x.traduit]), [['RF038', true], ['RF035', true]]);
+  const fr = await traiter(contexte(), nouvelleSession('hf', 'web', 'fr'), 'envoie 100 au 655124455');
+  assert.match(fr.texte, /^Vous allez envoyer 100 FCFA au 655 12 44 55\. Frais : 100 FCFA\. Total qui sera retiré de votre compte : 200 FCFA\./);
+  const { creerReponses } = await import('../service/reponses.ts');
+  const pack = JSON.parse(readFileSync(new URL('../packs/bum/pack.json', import.meta.url), 'utf8'));
+  const reponses = creerReponses([{ ref: 'N1', fr: 'Vous allez envoyer {amount} à {name}' }], [], pack);
+  assert.equal(reponses.rendre({ ref: 'N1', valeurs: { amount: '100 FCFA', name: 'Jean Bekono' } }, 'bum', 'web').traduit, true);
+  assert.equal(reponses.rendre({ ref: 'N1', valeurs: { amount: '100 FCFA', name: '655 12 44 55' } }, 'bum', 'web').traduit, false, 'un numéro n\'entre pas dans une case de nom');
+});
+
+test('le modèle validé d\'une réponse est rempli directement : un numéro de facture sans forme de référence ne la laisse pas en français', async () => {
+  const ctx = contexte();
+  const s = nouvelleSession('fa', 'web', 'bum');
+  await traiter(ctx, s, 'payer facture');
+  const recap = await traiter(ctx, s, '1');
+  assert.deepEqual(recap.journal.reponses.map((x) => [x.ref, x.traduit]), [['RF092', true], ['RF033', true]]);
+  assert.ok(recap.texte.includes('458221') && recap.texte.includes('12 450 FCFA'));
 });
 
 test('le journal ne garde que des faits de l\'opération : ni code PIN ni nom de traducteur', async () => {

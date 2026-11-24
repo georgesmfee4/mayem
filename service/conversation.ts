@@ -130,6 +130,16 @@ async function completer(ctx: Contexte, s: Session, b: Brouillon, c: Comprehensi
   return annonces;
 }
 
+// Un numéro hors du carnet n'a pas de nom : une phrase à nom ({name}) ne le prend jamais à la place d'un nom
+const sansNom = (b: Brouillon) => !b.nom || b.nom === telephone(b.telephone || '');
+
+// Tant que le récapitulatif n'a pas de traduction validée : les mêmes valeurs ligne à ligne, chaque ligne déjà
+// validée (« Total à débiter », avant l'opération). Montant, bénéficiaire, frais et total y sont tous.
+function lignesRecap(b: Brouillon, frais: number, total: number): Morceau[] {
+  const envoi = sansNom(b) ? r('RF121', { amount: montant(b.montant!) }) : r('RF120', { amount: montant(b.montant!), name: b.nom! });
+  return [envoi, r('RF122', { phone: telephone(b.telephone!) }), r('RF123', { amount: montant(frais) }), r('RF124', { amount: montant(total) })];
+}
+
 // Un bénéficiaire désigné sans ambiguïté met fin à tout choix en cours entre homonymes
 function definir(s: Session, b: Brouillon, contact: Contact) {
   s.candidats = [];
@@ -165,7 +175,7 @@ async function refuser(ctx: Contexte, s: Session, raison: Refus, total: number, 
 }
 
 async function avancerTransfert(ctx: Contexte, s: Session, b: Brouillon): Promise<Decision> {
-  if (b.montant === undefined) { s.attente = 'montant'; return question([b.nom && !s.candidats.length ? r('RF051', { name: b.nom }) : r('RF030')], 'montant demandé'); }
+  if (b.montant === undefined) { s.attente = 'montant'; return question([b.nom && !s.candidats.length && !sansNom(b) ? r('RF051', { name: b.nom }) : r('RF030')], 'montant demandé'); }
   if (s.candidats.length) {
     s.attente = 'choix_contact';
     const liste = s.candidats.map((c, i): Morceau => ({ fait: `${i + 1}. ${c.nom}, ${telephone(c.telephone)}` }));
@@ -180,8 +190,10 @@ async function avancerTransfert(ctx: Contexte, s: Session, b: Brouillon): Promis
   if (probleme) return refuser(ctx, s, probleme, total, parametres);
   b.frais = frais;
   s.attente = 'confirmation';
+  const valeurs = { amount: montant(b.montant), phone: telephone(b.telephone), fee: montant(frais), amount_2: montant(total) };
+  const recap = sansNom(b) ? r('RF037', valeurs) : r('RF032', { ...valeurs, name: b.nom! });
   return {
-    morceaux: [r('RF032', { amount: montant(b.montant), name: b.nom!, phone: telephone(b.telephone), fee: montant(frais), amount_2: montant(total) }), r('RF033')],
+    morceaux: [{ ...recap, repli: lignesRecap(b, frais, total) }, r('RF033')],
     statut: 'en_attente_confirmation', validation: 'récapitulatif présenté, confirmation demandée',
     operation: { intention: 'transfert', montant: b.montant, telephone: b.telephone }, parametres,
   };
@@ -258,6 +270,13 @@ async function relancer(ctx: Contexte, s: Session, texte: string): Promise<Decis
 const operationDe = (b: Brouillon): Operation =>
   ({ intention: b.intention, montant: b.montant!, ...(b.facture ? { facture: b.facture } : { telephone: b.telephone }) });
 
+// Tant que la phrase n'a pas de traduction validée : « Transfert effectué » et la référence, deux lignes validées
+function transfertFait(b: Brouillon, reference: string): Morceau {
+  const fait = sansNom(b) ? r('RF038', { amount: montant(b.montant!), phone: telephone(b.telephone!), ref: reference })
+    : r('RF034', { name: b.nom!, amount: montant(b.montant!), ref: reference });
+  return { ...fait, repli: [r('RF125'), r('RF126', { ref: reference })] };
+}
+
 async function executer(ctx: Contexte, s: Session): Promise<Decision> {
   const b = s.brouillon!;
   const operation = operationDe(b);
@@ -268,7 +287,7 @@ async function executer(ctx: Contexte, s: Session): Promise<Decision> {
   const parametres = { montant: b.montant, beneficiaire: b.nom, telephone: b.telephone, facture: b.facture, frais: b.frais };
   if (!resultat.ok) return { ...(await refuser(ctx, s, resultat.refus, b.montant! + (b.frais || 0), parametres)), operation };
   const fin = r('RF035', { amount: montant(resultat.solde) });
-  const morceaux = b.intention === 'transfert' ? [r('RF034', { name: b.nom!, amount: montant(b.montant!), ref: resultat.reference }), fin]
+  const morceaux = b.intention === 'transfert' ? [transfertFait(b, resultat.reference), fin]
     : b.intention === 'credit' ? [r('RF082', { amount: montant(b.montant!), phone: telephone(b.telephone!) }), fin]
       : [r('RF093', { amount: montant(b.montant!), ref: resultat.reference }), fin];
   oublier(s);

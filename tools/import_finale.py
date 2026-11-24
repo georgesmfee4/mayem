@@ -170,13 +170,16 @@ class Rapport:
 R = Rapport()
 
 
-# Lignes écartées après relecture (exclusions.csv) : un contresens qu'aucun contrôle automatique ne voit
+# Lignes écartées après relecture (exclusions.csv) : un contresens qu'aucun contrôle automatique ne voit. Elles ne
+# reviennent que par un tableur de retours (kit_finale.py --restants, premier onglet « Retours ») : la ligne y a été
+# renvoyée aux locuteurs, avec la raison, pour être refaite.
 EXCLUSIONS = {l[0]: l[1] for l in lire_csv(FINALE / 'exclusions.csv')[1]}
+EXCLUSIONS_ACTIVES = True
 
 
 def preparer(ref, colonne, francais, brute):
     """Traduction alignée et glosée, ou None si elle est refusée (le rapport dit pourquoi)"""
-    if ref in EXCLUSIONS:
+    if ref in EXCLUSIONS and EXCLUSIONS_ACTIVES:
         R.refus.append(f'{ref} ({colonne}) : écarté à la relecture, {EXCLUSIONS[ref]}')
         return None
     traduction = re.sub(r'\s+', ' ', brute.replace('´', "'")).strip()
@@ -352,6 +355,7 @@ def importer_test(wb):
 
 
 def main():
+    global EXCLUSIONS_ACTIVES
     fichiers = [a for a in ARGS if not a.startswith('--')]
     if not fichiers:
         sys.exit(__doc__)
@@ -359,6 +363,7 @@ def main():
     for chemin in fichiers:
         wb = load_workbook(chemin, data_only=True)
         onglets = set(wb.sheetnames)
+        EXCLUSIONS_ACTIVES = 'Retours' not in onglets
         if 'Réponses' in onglets:
             c, v = importer_reponses(wb)
             corpus.update(c); variantes += v

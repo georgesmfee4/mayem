@@ -1,0 +1,7 @@
+ref,remarque
+RF026,"La traduction reçue n'a pas pu entrer : une accolade manquait autour d'une case (par exemple {amount}). Les cases restent toutes, telles quelles."
+RF032,"La traduction reçue a été mise de côté : le mot écrit devant « (frais) » est celui du solde ; le glossaire a un autre terme pour « frais »."
+RF034,"La traduction reçue n'a pas pu entrer : une accolade manquait autour d'une case (par exemple {amount}). Les cases restent toutes, telles quelles."
+RF042,"La traduction reçue reprenait le nom de la personne au lieu du numéro : la phrase annonce le nouveau numéro, {phone}."
+RF052,"Dans la traduction reçue, le montant apparaissait deux fois : chaque case apparaît une seule fois, comme en français."
+RF114,"Message de sécurité : une relecture n'a pas retrouvé le mot « jamais » dans la traduction actuelle. Il doit être parfaitement clair."
