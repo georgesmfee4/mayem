@@ -32,21 +32,35 @@ def textes_affichables(dossier):
     return textes
 
 
-def ecrire(texte, table):
-    return ''.join(table.get(c, SIGNES.get(c, c)) for c in texte)
+def ecrire(texte, table, gardes=frozenset()):
+    """Un texte gardé (il se confondrait avec un autre) garde ses lettres ; les signes typographiques changent toujours"""
+    lettres = {} if texte in gardes else table
+    return ''.join(lettres.get(c, SIGNES.get(c, c)) for c in texte)
 
 
 def sans_accent(lettre):
     return unicodedata.normalize('NFD', lettre)[0]
 
 
-def confusions(textes, table):
+def confusions(textes, table, gardes=frozenset()):
     """Paires de textes validés différents qui s'écriraient pareil sur l'USSD avec cette table"""
     vus, paires = {}, []
     for texte in dict.fromkeys(textes):
-        ecrit = ecrire(texte, table)
+        ecrit = ecrire(texte, table, gardes)
         if ecrit in vus:
             paires.append((vus[ecrit], texte))
         else:
             vus[ecrit] = texte
     return paires
+
+
+def gardes_necessaires(textes, table):
+    """Les textes qui gardent leurs accents pour qu'aucun texte validé ne se confonde avec un autre : dans chaque paire,
+    celui que la table changerait. Recommencé tant qu'une confusion reste."""
+    gardes = set()
+    while True:
+        paires = confusions(textes, table, gardes)
+        nouveaux = {t for paire in paires for t in paire if ecrire(t, table) != t and t not in gardes}
+        if not paires or not nouveaux:
+            return gardes, paires
+        gardes |= nouveaux

@@ -74,13 +74,20 @@ test('écriture sur l\'USSD : signes typographiques remplacés, lettres de la la
   const { versGsm7 } = await import('../service/gsm7.ts');
   assert.equal(versGsm7('L’opération… « ok »'), 'L\'opération... " ok "', 'apostrophe, points, guillemets et espaces insécables');
   assert.equal(versGsm7('abc', new Map([['b', 'x']])), 'axc');
+  assert.equal(versGsm7('ab\nb', new Map([['b', 'x']]), new Set(['b'])), 'ax\nb', 'un texte gardé garde ses lettres');
   const { tour, ctx } = monter();
+  const decision = ctx.gsm7;
+  assert.ok(decision.size > 0, 'la décision des locuteurs est chargée (finale/gsm7.csv)');
+  ctx.gsm7 = new Map();
   const sansDecision = await tour('mebal môé', { canal: 'ussd', langue: 'bum' });
-  const lettres = horsGsm7(sansDecision.response.text);
-  assert.ok(lettres.length > 0, 'sans décision des locuteurs, les lettres restent telles que validées');
-  ctx.gsm7 = new Map(lettres.map((c) => [c, 'x']));
+  assert.ok(horsGsm7(sansDecision.response.text).length > 0, 'sans décision des locuteurs, les lettres restent telles que validées');
+  ctx.gsm7 = decision;
   assert.deepEqual(horsGsm7((await tour('mebal môé', { canal: 'ussd', langue: 'bum' })).response.text), []);
   assert.ok(horsGsm7((await tour('mebal môé', { canal: 'web', langue: 'bum' })).response.text).length > 0, 'sur le web, rien ne change');
+  profil.middleware.garder_accents = true;
+  try {
+    assert.ok(horsGsm7((await tour('mebal môé', { canal: 'ussd', langue: 'bum' })).response.text).length > 0, 'garder_accents : les accents reviennent');
+  } finally { delete profil.middleware.garder_accents; }
 });
 
 test('consultation du solde : intention standard, réponse dans la langue, appel bancaire avec la clé et l\'identifiant du tour', async () => {
@@ -250,7 +257,7 @@ test('USSD sans langue donnée, numéro jamais vu : l\'écran de choix, puis le 
   const { tour } = monter();
   const choix = await tour('', { canal: 'ussd', langue: null, telephone: '237690000001' });
   assert.equal(choix.interpretation.intent, 'CLARIFICATION_NEEDED');
-  assert.match(choix.response.text, /\n1\. Français\n2\. Bulu$/);
+  assert.match(choix.response.text, /\n1\. Francais\n2\. Bulu$/, 'sur un canal à l\'alphabet limité, « ç » s\'écrit comme les locuteurs l\'ont décidé');
   const menu = await tour('2', { canal: 'ussd', langue: null });
   assert.equal(menu.interpretation.intent, 'LANGUAGE_SWITCH');
   assert.equal(menu.interpretation.language, 'bum');

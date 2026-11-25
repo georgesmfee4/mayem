@@ -22,6 +22,8 @@ export interface DonneesContexte {
   vocabulaires: [string, string[]][];
   // Écriture des lettres absentes de l'alphabet des téléphones simples, décidée par les locuteurs
   gsm7?: [string, string][];
+  // Textes validés qui gardent leurs accents sur ce canal : sans eux, ils se confondraient avec un autre
+  gsm7Gardes?: string[];
 }
 
 export function contexteDepuis(d: DonneesContexte, banque: Banque): Contexte {
@@ -34,5 +36,6 @@ export function contexteDepuis(d: DonneesContexte, banque: Banque): Contexte {
     typesFacture: d.typesFacture,
     vocabulaires: new Map(d.vocabulaires.map(([langue, mots]) => [langue, new Set(mots)])),
     gsm7: new Map(d.gsm7 || []),
+    gsm7Gardes: new Set(d.gsm7Gardes || []),
   };
 }

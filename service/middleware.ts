@@ -25,6 +25,8 @@ export interface ProfilMiddleware {
   statuts: Record<'aucune' | Transaction['etat'], string>;
   // Code de langue du service -> langue de Mayem
   langues: Record<string, string>;
+  // true : sur un canal à l'alphabet limité, les lettres gardent leurs accents (seuls les signes typographiques changent)
+  garder_accents?: boolean;
 }
 
 interface TourRecu {
@@ -110,7 +112,7 @@ export function creerMiddleware(o: OptionsMiddleware) {
 
   // Le texte tel que le canal peut l'afficher : son alphabet, puis sa longueur
   const ecran = (texte: string, tour: TourRecu, defaut: number) =>
-    ajuster(tour.constraints?.charset === 'gsm7' ? versGsm7(texte, o.ctx.gsm7) : texte, tour.constraints?.max_chars || defaut);
+    ajuster(tour.constraints?.charset === 'gsm7' ? versGsm7(texte, p.garder_accents ? new Map() : o.ctx.gsm7, o.ctx.gsm7Gardes) : texte, tour.constraints?.max_chars || defaut);
 
   // Corps de réponse au contrat du profil
   const corps = (s: Session, texte: string, cle: string, extra: { fin?: boolean; parametres?: Record<string, unknown>; tx?: Transaction | null } = {}) => ({

@@ -493,7 +493,8 @@ def importer_explications(wb, retours=False):
 
 def importer_gsm7(wb):
     """Écriture sur l'USSD des lettres que le téléphone n'affiche pas : deux noms, seulement des lettres de son
-    alphabet, et rien n'est gardé si deux phrases validées devenaient identiques"""
+    alphabet. Un texte validé qui se confondrait avec un autre garde ses accents (finale/gsm7-gardes.csv) ; s'il
+    restait une confusion malgré cela, rien n'est enregistré."""
     import gsm7
     proposees = {}
     for r in list(wb['Écriture USSD'].iter_rows(values_only=True))[1:]:
@@ -511,13 +512,16 @@ def importer_gsm7(wb):
     if not proposees:
         return
     table = {l[0]: l for l in lire_csv(FINALE / 'gsm7.csv')[1]} | proposees
-    paires = gsm7.confusions(gsm7.textes_affichables(DOSSIER), {l: v[1] for l, v in table.items()})
+    gardes, paires = gsm7.gardes_necessaires(gsm7.textes_affichables(DOSSIER), {l: v[1] for l, v in table.items()})
     if paires:
         R.refus.append(f'écriture USSD : {len(paires)} paire(s) de phrases validées deviendraient identiques ; rien n\'est enregistré')
         R.refus.extend(f'   « {a} » et « {b} »' for a, b in paires[:10])
         return
     ecrire_csv(FINALE / 'gsm7.csv', ['lettre', 'ecriture', 'decide_par', 'verifie_par'], sorted(table.values()), bom=False)
+    ecrire_csv(FINALE / 'gsm7-gardes.csv', ['texte'], [[t] for t in sorted(gardes)], bom=False)
     print(f'gsm7.csv : {len(proposees)} écriture(s) sur l\'USSD enregistrée(s)')
+    for t in sorted(gardes):
+        R.alignes.append(f'« {t} » garde ses accents sur l\'USSD : sans eux, il se confondrait avec un autre texte validé')
 
 
 def importer_test(wb, onglet='Test', fichier='test-recu.csv'):

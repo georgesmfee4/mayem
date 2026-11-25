@@ -21,9 +21,12 @@ export function ajuster(texte: string, limite: number): string {
 }
 
 // Sur un canal à l'alphabet limité : les signes typographiques remplacés (service/gsm7-signes.json), et les lettres de
-// la langue écrites comme les locuteurs l'ont décidé (finale/gsm7.csv : deux noms, et l'import a vérifié qu'aucune
-// phrase validée n'en devient identique à une autre)
-export function versGsm7(texte: string, lettres: Map<string, string> = new Map()): string {
+// la langue écrites comme les locuteurs l'ont décidé (finale/gsm7.csv). gardes : textes validés qui gardent leurs
+// accents parce que, sans eux, ils se confondraient avec un autre (finale/gsm7-gardes.csv, établi par l'import)
+export function versGsm7(texte: string, lettres: Map<string, string> = new Map(), gardes: Set<string> = new Set()): string {
   const typographie = signes as Record<string, string>;
-  return [...texte].map((c) => lettres.get(c) ?? typographie[c] ?? c).join('');
+  return texte.split('\n').map((ligne) => {
+    const table = gardes.has(ligne.trim()) ? new Map<string, string>() : lettres;
+    return [...ligne].map((c) => table.get(c) ?? typographie[c] ?? c).join('');
+  }).join('\n');
 }

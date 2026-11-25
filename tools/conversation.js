@@ -129,6 +129,7 @@ export function donneesDuContexte(code = choisirLangue(), { provisoire = false, 
     typesFacture: [{ type: 'electricite', ref: 'U14' }, { type: 'eau', ref: 'U15' }],
     vocabulaires: [...vocabulaires(code, pack, francais, locuteurs, modeles)].map(([langue, mots]) => [langue, [...mots]]),
     gsm7: existsSync(finale + 'gsm7.csv') ? lire(finale + 'gsm7.csv').filter((l) => deuxNoms(l.decide_par, l.verifie_par)).map((l) => [l.lettre, l.ecriture]) : [],
+    gsm7Gardes: existsSync(finale + 'gsm7-gardes.csv') ? lire(finale + 'gsm7-gardes.csv').map((l) => l.texte) : [],
   };
 }
 

@@ -60,6 +60,7 @@ export interface Contexte {
   vocabulaires?: Vocabulaires;
   // Lettre -> son écriture sur un canal à l'alphabet limité (USSD), décidée par les locuteurs
   gsm7?: Map<string, string>;
+  gsm7Gardes?: Set<string>;
 }
 
 // pret : devant un service relayé, l'opération complète à lui transmettre. transaction : l'opération de la banque

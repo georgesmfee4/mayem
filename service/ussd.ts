@@ -17,6 +17,7 @@ import { lirePhrase, sessionRelayee, type Phrase } from './phrase-relayee.ts';
 import type { LigneJournal } from './journal.ts';
 import type { Preferences } from './preferences.ts';
 import { traduireEcran, type Bilan } from './traduction.ts';
+import { versGsm7 } from './gsm7.ts';
 
 export interface ProfilUssd {
   // Adresse du service USSD existant ; absente : Mayem répond lui-même
@@ -26,6 +27,8 @@ export interface ProfilUssd {
   raccourcis?: Record<string, string[]>;
   // Écran qui demande un code secret : la saisie suivante n'est ni comprise ni journalisée
   secret?: string;
+  // true : les écrans de Mayem gardent les accents ; sinon les lettres s'écrivent comme les locuteurs l'ont décidé
+  garder_accents?: boolean;
   // Écran final qui dit que l'opération est faite (« Opération réussie ») : elle est notée exécutée
   succes?: string;
   // Mode conversation : choix du premier écran (libellé du tableur des menus et demande comprise par le noyau)
@@ -378,7 +381,8 @@ export async function converserUssd(a: Autonome, entree: EntreeUssd): Promise<So
   // Une opération abandonnée faute de réponse utile laisse la session ouverte : la personne peut redire sa demande
   const abandon = /sans suite/.test(tour.journal.validation);
   const fin = tour.journal.statut === 'executee' || tour.journal.intention === 'terminer' || (tour.journal.statut === 'annulee' && !abandon);
-  const texte = tenir(tour.texte);
+  // Les écrans de Mayem seulement : un écran du service relayé n'est jamais réécrit
+  const texte = tenir(versGsm7(tour.texte, a.profil.garder_accents ? new Map() : a.ctx.gsm7, a.ctx.gsm7Gardes));
   return { texte, fin, journal: { ...tour.journal, requete: saisie, reponse: texte } };
 }
 
