@@ -6,6 +6,7 @@
   python3 tools/kit_finale.py --gsm7     -> ecriture-ussd-<langue>.xlsx : écrire sur l'USSD les lettres absentes du téléphone
   python3 tools/kit_finale.py --complement -> finale-1b-demandes-<langue>.xlsx : demandes et mots pas encore recueillis
   python3 tools/kit_finale.py --test2    -> finale-4b-test-aveugle-2-<langue>.xlsx : second test, nouvelles situations
+  python3 tools/kit_finale.py --jury     -> finale-jury-<langue>.xlsx : les dix scénarios du jury, 15 façons par situation
   python3 tools/kit_finale.py --langue X -> s'il y a plusieurs langues
 
 Les textes français viennent de packs/<langue>/finale/*.csv. Une phrase déjà validée du corpus
@@ -43,7 +44,7 @@ DEJA = PatternFill('solid', fgColor='E8EEF0')
 P1 = PatternFill('solid', fgColor='FDE2E1')
 TROP_LONG = PatternFill('solid', fgColor='F4B4AE')
 MINUTES_PAR_LIGNE = {'demandes': 4, 'dialogue': 2, 'nombres': 1, 'reponses': 4, 'courtes': 2,
-                     'menus': 1, 'termes': 5, 'test': 2, 'gsm7': 3}
+                     'menus': 1, 'termes': 5, 'test': 2, 'gsm7': 3, 'jury': 12, 'vocabulaire': 3}
 
 
 def lire(nom):
@@ -455,6 +456,85 @@ def classeur_gsm7():
     return wb
 
 
+# Quinze façons de dire la même chose : ce qu'un linguiste fait varier (acte de langage, registre, mélange des langues,
+# ellipse, désignation de la personne, nombres, hésitation, écriture au clavier)
+FACONS = ['Comme à un proche, naturellement', 'Poliment, à un agent de la banque', 'Très court, comme un SMS',
+          'En mêlant le français, comme au quotidien', 'Sous forme de question', 'Sous forme d\'ordre direct',
+          'De façon indirecte (« je voudrais… »)', 'En commençant par la raison (« c\'est pour… »)',
+          "Avec un autre mot pour l'action principale", 'Avec la somme ou le nombre dit en mots',
+          'En désignant la personne autrement (nom, parent, numéro)', 'Comme une personne âgée au village',
+          'Comme un jeune en ville', 'Avec une hésitation ou une reprise (« euh… non, plutôt… »)',
+          'Comme vous le taperiez au clavier, sans accents ni tons']
+
+
+def deja_dit(intention, combien=3):
+    """Quelques formulations déjà signées pour cette intention : à ne pas refaire"""
+    if not (DOSSIER / 'finale' / 'formulations.csv').exists():
+        return ''
+    vues = [r['texte'] for r in lire('formulations.csv') if r['intention'] == intention and r['ecrit_par'].strip()
+            and r['verifie_par'].strip() and r['ecrit_par'].strip().lower() != r['verifie_par'].strip().lower()]
+    return ' | '.join(vues[:combien])
+
+
+def termes_valides(liste):
+    """Les termes du glossaire déjà validés pour ces mots français : à réutiliser tels quels"""
+    trouves = [f'{t} : {GLOSSAIRE[t.lower()]}' for t in (x.strip() for x in liste.split('/')) if t and t.lower() in GLOSSAIRE]
+    return ' ; '.join(trouves)
+
+
+def mots_valides(francais):
+    """Ce qui est déjà validé pour ce mot : terme du glossaire, ou façons déjà signées dans les mots du dialogue"""
+    cle = SANS_PARENTHESES.sub('', francais).strip().lower()
+    if cle in GLOSSAIRE:
+        return GLOSSAIRE[cle]
+    refs = {r['ref'] for r in lire('dialogue.csv') if r['fr'].strip().lower() == cle}
+    signes = [r['texte'] for r in lire('mots.csv') if r['ref'] in refs and r['ecrit_par'].strip() and r['verifie_par'].strip()] if refs else []
+    return ' / '.join(dict.fromkeys(signes))
+
+
+def classeur_jury():
+    wb = Workbook()
+    mode_emploi(wb, f"Les dix scénarios du jury, en {LANGUE}", [
+        "POURQUOI CE TABLEUR",
+        f"Le jury va parler à la machine en {LANGUE} dans dix situations : solde, envoi d'argent avec confirmation, frais, "
+        "historique, correction, demande incomplète, solde insuffisant, changement de langue, *123#, explication d'un mot. "
+        "Plus la machine connaît de façons réelles de demander, mieux elle comprend la personne, quelle que soit sa façon de parler.",
+        "CE QU'ON VOUS DEMANDE",
+        "• Onglet « Scénarios » : pour chaque situation, écrivez 15 façons de la dire, chacune selon la consigne de sa colonne. "
+        "Elles doivent être vraiment différentes : un autre mot, un autre ordre, une autre façon de s'adresser.",
+        "• Si une consigne ne convient pas à la situation (pas de somme, pas de personne), écrivez librement une autre façon.",
+        "• Colonne grise « Mots déjà validés » : réutilisez-les tels quels, c'est ce qui va le plus vite et garde la même langue partout.",
+        "• Colonne grise « Déjà recueilli » : des façons déjà écrites. Ne les recopiez pas : il en faut d'autres.",
+        "• Onglet « Vocabulaire » : les mots dont la machine a besoin pour chaque scénario. Écrivez jusqu'à trois façons de "
+        "les dire ; si un terme est déjà validé (gris), donnez seulement les autres façons qu'on entend vraiment.",
+        "• Ne reprenez jamais une phrase écrite pour un test à l'aveugle.",
+        "• Commencez par les lignes P1 (Réf. en rouge).",
+        "• Une ligne compte quand elle porte deux noms différents : celui qui écrit et celui qui vérifie « on dit vraiment ainsi ».",
+        *REGLES_COMMUNES,
+    ])
+    ws = feuille(wb, 'Scénarios', ['Réf.', 'Scénario du jury', 'Priorité', 'Intention', 'Situation', 'Exemple en français (ne pas traduire mot à mot)',
+                                    'Mots déjà validés (à réutiliser)', 'Déjà recueilli (ne pas répéter)',
+                                    *[f'Façon {i} : {c}' for i, c in enumerate(FACONS, 1)], 'Écrit par', 'Vérifié par (on dit vraiment ainsi)', 'Commentaire'],
+                 [7, 16, 8, 11, 40, 28, 30, 34, *[24] * 15, 12, 14, 24])
+    situations = lire('scenarios-jury.csv')
+    for r in situations:
+        ws.append([r['ref'], r['scenario'], r['priorite'], r['intention'], r['situation'], r['exemple_fr'],
+                   termes_valides(r['termes']), deja_dit(r['intention'])])
+    mettre_en_forme(ws, range(9, 26), 3)
+    griser(ws, [7, 8])
+    ws = feuille(wb, 'Vocabulaire', ['Réf.', 'Scénario du jury', 'Intention', 'Mot ou expression en français', "Exemple d'emploi",
+                                      'Déjà validé (ne pas changer)', 'Façon 1', 'Façon 2', 'Façon 3', 'Écrit par', 'Vérifié par', 'Commentaire'],
+                 [7, 18, 11, 30, 34, 30, 22, 22, 22, 12, 12, 24])
+    vocabulaire = lire('vocabulaire.csv')
+    for r in vocabulaire:
+        ws.append([r['ref'], r['scenario'], r['intention'], r['fr'], r['usage'], mots_valides(r['fr'])])
+    mettre_en_forme(ws, range(7, 12))
+    griser(ws, [6])
+    recapitulatif(wb, {'Scénarios': (len(situations), sum(r['priorite'] == 'P1' for r in situations), 'jury'),
+                       'Vocabulaire': (len(vocabulaire), 0, 'vocabulaire')})
+    return wb
+
+
 def griser(ws, colonnes):
     """Cases déjà validées ou sans objet : grises."""
     for ligne in ws.iter_rows(min_row=2):
@@ -517,7 +597,8 @@ def classeur_test(source='test.csv', onglet='Test'):
 
 def main():
     autres = {'--complement': ('finale-1b-demandes', lambda: classeur_demandes(complement=True)),
-              '--test2': ('finale-4b-test-aveugle-2', lambda: classeur_test('test-2.csv', 'Test 2'))}
+              '--test2': ('finale-4b-test-aveugle-2', lambda: classeur_test('test-2.csv', 'Test 2')),
+              '--jury': ('finale-jury', classeur_jury)}
     for option, (nom, fabriquer) in autres.items():
         if option in sys.argv:
             chemin = racine / f'{nom}-{LANGUE}.xlsx'

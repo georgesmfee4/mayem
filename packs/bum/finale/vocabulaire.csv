@@ -1,0 +1,112 @@
+ref,scenario,intention,fr,usage
+V001,1. Solde,solde,solde,« Mon solde »
+V002,1. Solde,solde,ce qui me reste,« Ce qui me reste sur le compte »
+V003,1. Solde,solde,il me reste combien,« Il me reste combien ? »
+V004,1. Solde,solde,l'argent sur mon compte,« L'argent qui est sur mon compte »
+V005,1. Solde,solde,consulter,« Consulter mon compte »
+V006,1. Solde,,compte,« Mon compte »
+V007,1. Solde,,vide,« Le compte est vide »
+V008,1. Solde,,vérifier,« Je vérifie »
+V009,1. Solde,,avoir (de l'argent),« J'ai combien ? »
+V010,2. Transfert et confirmation,transfert,envoyer,« Envoyer de l'argent »
+V011,2. Transfert et confirmation,transfert,transférer,« Transférer 5 000 »
+V012,2. Transfert et confirmation,transfert,faire parvenir,« Faire parvenir l'argent à ma mère »
+V013,2. Transfert et confirmation,transfert,mettre de l'argent à quelqu'un,« Mets-lui 2 000 »
+V014,2. Transfert et confirmation,transfert,transfert,« Faire un transfert »
+V015,2. Transfert et confirmation,,à (quelqu'un),« Envoie à Paul »
+V016,2. Transfert et confirmation,,le numéro,« Au numéro 690… »
+V017,2. Transfert et confirmation,,pour (quelqu'un),« C'est pour ma fille »
+V018,2. Transfert et confirmation,,maman / ma mère,« Envoie à maman »
+V019,2. Transfert et confirmation,,papa / mon père,« Envoie à papa »
+V020,2. Transfert et confirmation,,mon frère,« À mon frère »
+V021,2. Transfert et confirmation,,ma sœur,« À ma sœur »
+V022,2. Transfert et confirmation,,mon fils,« À mon fils »
+V023,2. Transfert et confirmation,,ma fille,« À ma fille »
+V024,2. Transfert et confirmation,,mon oncle,« À mon oncle »
+V025,2. Transfert et confirmation,,ma tante,« À ma tante »
+V026,2. Transfert et confirmation,,mon cousin / ma cousine,« À mon cousin »
+V027,2. Transfert et confirmation,,ma femme / mon mari,« À ma femme »
+V028,2. Transfert et confirmation,,mon ami,« À mon ami »
+V029,2. Transfert et confirmation,,grand-mère / grand-père,« À grand-mère »
+V030,2. Transfert et confirmation,oui,oui,« Oui »
+V031,2. Transfert et confirmation,oui,d'accord,« D'accord »
+V032,2. Transfert et confirmation,oui,c'est bon,« C'est bon »
+V033,2. Transfert et confirmation,oui,je confirme,« Je confirme »
+V034,2. Transfert et confirmation,oui,vas-y,"« Vas-y, envoie »"
+V035,2. Transfert et confirmation,oui,valider,« Je valide »
+V036,2. Transfert et confirmation,non,non,« Non »
+V037,2. Transfert et confirmation,non,pas d'accord,« Je ne suis pas d'accord »
+V038,2. Transfert et confirmation,non,refuser,« Je refuse »
+V039,2. Transfert et confirmation,annuler,annuler,« Annule l'envoi »
+V040,2. Transfert et confirmation,annuler,laisser tomber,« Laisse tomber »
+V041,2. Transfert et confirmation,annuler,abandonner,« J'abandonne »
+V042,3. Frais,frais,frais,« Les frais »
+V043,3. Frais,frais,coûter,« Ça coûte combien ? »
+V044,3. Frais,frais,commission,« La commission »
+V045,3. Frais,frais,prendre (des frais),« Vous prenez combien ? »
+V046,3. Frais,frais,couper (des frais),« On me coupe combien ? »
+V047,3. Frais,,total à débiter,« Le total à débiter »
+V048,3. Frais,,au total,"« Au total, ça fait combien ? »"
+V049,3. Frais,,cher,« C'est cher ? »
+V050,3. Frais,,gratuit,« C'est gratuit ? »
+V051,4. Historique,historique,historique,« Mon historique »
+V052,4. Historique,historique,dernières opérations,« Mes dernières opérations »
+V053,4. Historique,historique,ce que j'ai reçu,« Ce que j'ai reçu »
+V054,4. Historique,historique,ce que j'ai envoyé,« Ce que j'ai envoyé »
+V055,4. Historique,,recevoir,« J'ai reçu »
+V056,4. Historique,,arriver (pour l'argent),« L'argent est arrivé »
+V057,4. Historique,,hier,« Hier »
+V058,4. Historique,,aujourd'hui,« Aujourd'hui »
+V059,4. Historique,,ce matin,« Ce matin »
+V060,4. Historique,,cette semaine,« Cette semaine »
+V061,4. Historique,,ce mois-ci,« Ce mois-ci »
+V062,4. Historique,,la liste,« Donne-moi la liste »
+V063,4. Historique,,montrer,« Montre-moi »
+V064,5. Correction,corriger,corriger,« Je corrige »
+V065,5. Correction,corriger,se tromper,« Je me suis trompé »
+V066,5. Correction,corriger,à la place,« Mets 5 000 à la place »
+V067,5. Correction,corriger,changer,« Change le montant »
+V068,5. Correction,,plutôt,« Plutôt 5 000 »
+V069,5. Correction,,pas… mais…,« Pas Paul mais Pierre »
+V070,5. Correction,,erreur,« C'est une erreur »
+V071,5. Correction,,le bon numéro,"« Le bon numéro, c'est… »"
+V072,6. Demande ambiguë,,je ne sais pas,« Je ne sais pas »
+V073,6. Demande ambiguë,,peut-être,« Peut-être »
+V074,6. Demande ambiguë,,quelque chose,« Je veux faire quelque chose »
+V075,6. Demande ambiguë,,faire une opération,« Faire une opération »
+V076,7. Solde insuffisant,,pas assez,« Je n'ai pas assez »
+V077,7. Solde insuffisant,,insuffisant,« Solde insuffisant »
+V078,7. Solde insuffisant,,manquer,« Il me manque combien ? »
+V079,7. Solde insuffisant,,moins,« Envoie moins »
+V080,7. Solde insuffisant,,seulement,« Seulement 20 000 »
+V081,7. Solde insuffisant,,au maximum,« Au maximum »
+V082,7. Solde insuffisant,,plafond,« Le plafond »
+V083,8. Changement de langue,langue,langue,« La langue »
+V084,8. Changement de langue,langue,changer de langue,« Changer de langue »
+V085,8. Changement de langue,langue,parler (une langue),« Parle français »
+V086,8. Changement de langue,langue,notre langue,« Notre langue »
+V087,8. Changement de langue,,français,« En français »
+V088,8. Changement de langue,,anglais,« En anglais »
+V089,8. Changement de langue,,revenir,« Reviens au français »
+V090,8. Changement de langue,,comprendre,« Je ne comprends pas »
+V091,9. Multicanal (*123#),,taper,« Tape 1 »
+V092,9. Multicanal (*123#),,le menu,« Le menu »
+V093,9. Multicanal (*123#),,le code,« Le code *123# »
+V094,9. Multicanal (*123#),,le message,« Le message »
+V095,9. Multicanal (*123#),,le téléphone,« Le téléphone »
+V096,10. Terminologie,expliquer,c'est quoi,« C'est quoi ? »
+V097,10. Terminologie,expliquer,ça veut dire quoi,« Ça veut dire quoi ? »
+V098,10. Terminologie,expliquer,expliquer,« Explique-moi »
+V099,10. Terminologie,expliquer,signifier,« Ce mot signifie quoi ? »
+V100,10. Terminologie,,le mot,« Ce mot »
+V101,10. Terminologie,,bénéficiaire,« Le bénéficiaire »
+V102,10. Terminologie,,code PIN,« Le code PIN »
+V103,10. Terminologie,,référence,« La référence »
+V104,10. Terminologie,,frais,« Les frais »
+V105,Tous,,s'il te plaît / s'il vous plaît,"« Envoie, s'il te plaît »"
+V106,Tous,,merci,« Merci »
+V107,Tous,,je veux,« Je veux envoyer »
+V108,Tous,,je voudrais,« Je voudrais savoir »
+V109,Tous,,peux-tu,« Peux-tu m'aider ? »
+V110,Tous,,maintenant,« Maintenant »
+V111,Tous,,vite,« Vite »

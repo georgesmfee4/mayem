@@ -10,6 +10,8 @@ Chaque tableur est reconnu à ses onglets :
 - demandes, mots du dialogue, nombres : rangés pour la compréhension ; seules les lignes à deux noms serviront ;
 - explications des termes : rangées ; seules les lignes à deux noms s'afficheront ;
 - test à l'aveugle : rangé pour mesurer la compréhension (un seul nom suffit, ces phrases ne s'affichent jamais) ;
+- scénarios du jury (kit_finale.py --jury) : quinze façons par situation et vocabulaire, rangés pour comprendre ;
+  une phrase d'un test à l'aveugle est refusée ;
 - écriture sur l'USSD des lettres absentes du téléphone (kit_finale.py --gsm7) : deux noms, lettres de l'alphabet du
   téléphone seulement, et refusée si deux phrases validées devenaient identiques.
 Les termes déjà décidés remplacent un mot français resté dans une traduction (« facture » -> Faktur), et une
@@ -491,6 +493,38 @@ def importer_explications(wb, retours=False):
     (fusionner if retours else ranger)('explications-recues.csv', ['ref', 'terme', 'explication', 'courte', 'traduit_par', 'relu_par'], lignes)
 
 
+def phrases_de_test():
+    """Les phrases des tests à l'aveugle, écrites sans accents ni ponctuation : elles n'entrent jamais dans les formulations"""
+    simple = lambda t: re.sub(r'[^a-z0-9]+', ' ', sans_accents(t.lower())).strip()
+    return {simple(l[2]) for nom in ('test-recu.csv', 'test-recu-2.csv') for l in lire_csv(FINALE / nom)[1] if len(l) > 2}, simple
+
+
+def importer_scenarios(wb):
+    """Les dix scénarios du jury (kit_finale.py --jury) : quinze façons par situation, intention donnée par la ligne"""
+    tests, simple = phrases_de_test()
+    lignes = []
+    for r in list(wb['Scénarios'].iter_rows(values_only=True))[1:]:
+        ref, intention = texte(r[0]), texte(r[3])
+        for n in range(1, 16):
+            phrase = texte(r[7 + n]) if len(r) > 7 + n else ''
+            if not ref or not phrase:
+                continue
+            if simple(phrase) in tests:
+                R.refus.append(f'{ref} (façon {n}) : phrase d\'un test à l\'aveugle, jamais apprise | {phrase}')
+                continue
+            lignes.append([ref, intention, str(n), phrase, texte(r[23]), texte(r[24])])
+    if lignes:
+        fusionner('formulations.csv', ['ref', 'intention', 'facon', 'texte', 'ecrit_par', 'verifie_par'], lignes)
+
+
+def importer_vocabulaire(wb):
+    """Vocabulaire des scénarios : jusqu'à trois façons par mot ; son intention (finale/vocabulaire.csv) le rend parlant"""
+    lignes = [[texte(r[0]), texte(r[3]), str(n), texte(r[5 + n]), texte(r[9]), texte(r[10])]
+              for r in list(wb['Vocabulaire'].iter_rows(values_only=True))[1:] if texte(r[0]) for n in (1, 2, 3) if texte(r[5 + n])]
+    if lignes:
+        fusionner('mots.csv', ['ref', 'fr', 'facon', 'texte', 'ecrit_par', 'verifie_par'], lignes)
+
+
 def importer_gsm7(wb):
     """Écriture sur l'USSD des lettres que le téléphone n'affiche pas : deux noms, seulement des lettres de son
     alphabet. Un texte validé qui se confondrait avec un autre garde ses accents (finale/gsm7-gardes.csv) ; s'il
@@ -638,7 +672,11 @@ def main():
             importer_test(wb, 'Test 2', 'test-recu-2.csv')
         if 'Écriture USSD' in onglets:
             importer_gsm7(wb)
-        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test', 'Test 2', 'Écriture USSD'}:
+        if 'Scénarios' in onglets:
+            importer_scenarios(wb)
+        if 'Vocabulaire' in onglets:
+            importer_vocabulaire(wb)
+        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test', 'Test 2', 'Écriture USSD', 'Scénarios', 'Vocabulaire'}:
             print(f'{chemin} : tableur non reconnu, ignoré')
     if corpus:
         ajouter_corpus(corpus)

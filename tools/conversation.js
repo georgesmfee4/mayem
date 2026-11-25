@@ -53,7 +53,10 @@ export function lexiqueDesLocuteurs(code, { provisoire = false } = {}) {
   const finale = dossier(code) + 'finale/';
   if (!existsSync(finale + 'comprendre.json') || !existsSync(finale + 'formulations.csv')) return null;
   const retenues = (nom) => (existsSync(finale + nom) ? lire(finale + nom) : []).filter((l) => provisoire || deuxNoms(l.ecrit_par, l.verifie_par));
-  const { mots: sens, ignorer = {}, _lisez_moi, sources, ...marques } = lireJson(finale + 'comprendre.json');
+  const { mots: sensDialogue, ignorer = {}, _lisez_moi, sources, ...marques } = lireJson(finale + 'comprendre.json');
+  // Le vocabulaire des scénarios du jury dit lui-même l'intention de ses mots qui en portent une
+  const vocabulaire = existsSync(finale + 'vocabulaire.csv') ? lire(finale + 'vocabulaire.csv') : [];
+  const sens = { ...sensDialogue, ...Object.fromEntries(vocabulaire.filter((l) => l.intention).map((l) => [l.ref, l.intention])) };
   // Une demande qui mêle deux intentions (comprendre.json, « ignorer ») ne sert pas de modèle
   const formulations = retenues('formulations.csv').filter((l) => !ignorer[l.ref]).map(({ ref, intention, texte }) => ({ ref, intention, texte }));
   if (!formulations.length) return null;
