@@ -11,7 +11,7 @@ import { langueProbable, motsDe } from '../core/langue-probable.ts';
 import { banqueApi, type ProfilBanque } from './banque-api.ts';
 import { ecranDeChoix, langueChoisie, type Langue } from './choix-langue.ts';
 import { nouvelleSession, traiter, type Contexte, type Session, type Tour, type Transaction } from './conversation.ts';
-import { ajuster } from './gsm7.ts';
+import { ajuster, versGsm7 } from './gsm7.ts';
 import type { LigneJournal } from './journal.ts';
 import { empreinteNumero, type Preferences } from './preferences.ts';
 
@@ -33,7 +33,7 @@ interface TourRecu {
   phone: string;
   language: string | null;
   input?: { type?: string; text?: string };
-  constraints?: { max_chars?: number };
+  constraints?: { max_chars?: number; charset?: string };
 }
 
 // decidee : la langue a été donnée, choisie ou reconnue dans cette conversation ; choix : l'écran de choix est affiché ;
@@ -108,6 +108,10 @@ export function creerMiddleware(o: OptionsMiddleware) {
   const p = o.profil;
   const versService = Object.fromEntries(Object.entries(p.langues).map(([leur, notre]) => [notre, leur]));
 
+  // Le texte tel que le canal peut l'afficher : son alphabet, puis sa longueur
+  const ecran = (texte: string, tour: TourRecu, defaut: number) =>
+    ajuster(tour.constraints?.charset === 'gsm7' ? versGsm7(texte, o.ctx.gsm7) : texte, tour.constraints?.max_chars || defaut);
+
   // Corps de réponse au contrat du profil
   const corps = (s: Session, texte: string, cle: string, extra: { fin?: boolean; parametres?: Record<string, unknown>; tx?: Transaction | null } = {}) => ({
     response: { text: texte, end_session: extra.fin || false, options: [] },
@@ -150,17 +154,16 @@ export function creerMiddleware(o: OptionsMiddleware) {
   // l'opération en attente s'il y en a une (commencée sur un autre canal) ; sinon le menu
   async function debutUssd(etat: Etat, ctx: Contexte, tour: TourRecu) {
     const s = etat.session;
-    const limite = tour.constraints?.max_chars || 182;
     if (!tour.language && !etat.decidee && !(await o.preferences.lire(tour.phone))) {
       etat.choix = true;
-      return corps(s, ajuster(ecranDeChoix(ctx.reponses, o.langues, null), limite), 'question');
+      return corps(s, ecran(ecranDeChoix(ctx.reponses, o.langues, null), tour, 182), 'question');
     }
     if (s.attente) {
       const tx = s.brouillon?.transaction;
-      return corps(s, ajuster(s.derniere.map((m) => ctx.reponses.rendre(m, s.langue, 'ussd').texte).join('\n'), limite), 'question', { tx: tx ? { id: tx, etat: 'attente' } : null });
+      return corps(s, ecran(s.derniere.map((m) => ctx.reponses.rendre(m, s.langue, 'ussd').texte).join('\n'), tour, 182), 'question', { tx: tx ? { id: tx, etat: 'attente' } : null });
     }
-    const ecran = await menu(etat, ctx).catch(() => ctx.reponses.rendre({ ref: 'RF064' }, s.langue, 'ussd').texte);
-    return corps(s, ajuster(ecran, limite), 'inconnue');
+    const menuOuPanne = await menu(etat, ctx).catch(() => ctx.reponses.rendre({ ref: 'RF064' }, s.langue, 'ussd').texte);
+    return corps(s, ecran(menuOuPanne, tour, 182), 'inconnue');
   }
 
   // La réponse à l'écran de choix : le numéro ou le nom d'une langue la choisit ; une phrase le referme et sera comprise
@@ -171,8 +174,8 @@ export function creerMiddleware(o: OptionsMiddleware) {
     etat.decidee = true;
     etat.session.langue = code;
     await o.preferences.ecrire(tour.phone, code);
-    const ecran = await menu(etat, ctx).catch(() => ctx.reponses.rendre({ ref: 'RF064' }, code, 'ussd').texte);
-    return corps(etat.session, ajuster(ecran, tour.constraints?.max_chars || 182), 'langue');
+    const menuOuPanne = await menu(etat, ctx).catch(() => ctx.reponses.rendre({ ref: 'RF064' }, code, 'ussd').texte);
+    return corps(etat.session, ecran(menuOuPanne, tour, 182), 'langue');
   }
 
   async function comprendreEtRepondre(etat: Etat, ctx: Contexte, tour: TourRecu, texte: string, langueDebut: string) {
@@ -188,7 +191,7 @@ export function creerMiddleware(o: OptionsMiddleware) {
     }
     if (s.langue !== langueDebut) { etat.decidee = true; await o.preferences.ecrire(tour.phone, s.langue); }
     const j = t.journal;
-    const reponse = ajuster(t.texte, tour.constraints?.max_chars || (ussd ? 182 : 2000));
+    const reponse = ecran(t.texte, tour, ussd ? 182 : 2000);
     const operation = avant || s.brouillon?.intention || (ARGENT.has(j.intention || '') ? j.intention || undefined : undefined);
     const fin = ussd && (j.statut === 'executee' || j.intention === 'terminer' || (j.statut === 'annulee' && !/sans suite/.test(j.validation)));
     o.noter({ ...j, requete: texte, reponse });

@@ -70,6 +70,19 @@ test('longueurs USSD comptées en septets ; lettres hors de l\'alphabet GSM-7 re
   assert.equal(ajuster('une ligne trop longue', 5), 'une ligne trop longue', 'la première ligne n\'est jamais coupée');
 });
 
+test('écriture sur l\'USSD : signes typographiques remplacés, lettres de la langue comme les locuteurs l\'ont décidé, sur l\'USSD seulement', async () => {
+  const { versGsm7 } = await import('../service/gsm7.ts');
+  assert.equal(versGsm7('L’opération… « ok »'), 'L\'opération... " ok "', 'apostrophe, points, guillemets et espaces insécables');
+  assert.equal(versGsm7('abc', new Map([['b', 'x']])), 'axc');
+  const { tour, ctx } = monter();
+  const sansDecision = await tour('mebal môé', { canal: 'ussd', langue: 'bum' });
+  const lettres = horsGsm7(sansDecision.response.text);
+  assert.ok(lettres.length > 0, 'sans décision des locuteurs, les lettres restent telles que validées');
+  ctx.gsm7 = new Map(lettres.map((c) => [c, 'x']));
+  assert.deepEqual(horsGsm7((await tour('mebal môé', { canal: 'ussd', langue: 'bum' })).response.text), []);
+  assert.ok(horsGsm7((await tour('mebal môé', { canal: 'web', langue: 'bum' })).response.text).length > 0, 'sur le web, rien ne change');
+});
+
 test('consultation du solde : intention standard, réponse dans la langue, appel bancaire avec la clé et l\'identifiant du tour', async () => {
   const { tour, adresses } = monter();
   const fr = await tour('Quel est mon solde ?');

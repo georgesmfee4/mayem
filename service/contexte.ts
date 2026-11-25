@@ -20,6 +20,8 @@ export interface DonneesContexte {
   nationale: { code: string; nom: string };
   typesFacture: { type: string; ref: string }[];
   vocabulaires: [string, string[]][];
+  // Écriture des lettres absentes de l'alphabet des téléphones simples, décidée par les locuteurs
+  gsm7?: [string, string][];
 }
 
 export function contexteDepuis(d: DonneesContexte, banque: Banque): Contexte {
@@ -31,5 +33,6 @@ export function contexteDepuis(d: DonneesContexte, banque: Banque): Contexte {
     nationale: d.nationale,
     typesFacture: d.typesFacture,
     vocabulaires: new Map(d.vocabulaires.map(([langue, mots]) => [langue, new Set(mots)])),
+    gsm7: new Map(d.gsm7 || []),
   };
 }

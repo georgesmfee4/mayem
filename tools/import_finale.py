@@ -9,7 +9,9 @@ Chaque tableur est reconnu à ses onglets :
   cases {…} et les chiffres du français, et ne contredit pas le glossaire ; versions USSD, SMS et voix à part ;
 - demandes, mots du dialogue, nombres : rangés pour la compréhension ; seules les lignes à deux noms serviront ;
 - explications des termes : rangées ; seules les lignes à deux noms s'afficheront ;
-- test à l'aveugle : rangé pour mesurer la compréhension (un seul nom suffit, ces phrases ne s'affichent jamais).
+- test à l'aveugle : rangé pour mesurer la compréhension (un seul nom suffit, ces phrases ne s'affichent jamais) ;
+- écriture sur l'USSD des lettres absentes du téléphone (kit_finale.py --gsm7) : deux noms, lettres de l'alphabet du
+  téléphone seulement, et refusée si deux phrases validées devenaient identiques.
 Les termes déjà décidés remplacent un mot français resté dans une traduction (« facture » -> Faktur), et une
 explication entre parenthèses prend la forme « (français / anglais) ». Rien n'est effacé : une case vide ne
 remplace rien. Le rapport liste chaque refus, à renvoyer aux locuteurs. Ensuite : npm run pack
@@ -489,6 +491,35 @@ def importer_explications(wb, retours=False):
     (fusionner if retours else ranger)('explications-recues.csv', ['ref', 'terme', 'explication', 'courte', 'traduit_par', 'relu_par'], lignes)
 
 
+def importer_gsm7(wb):
+    """Écriture sur l'USSD des lettres que le téléphone n'affiche pas : deux noms, seulement des lettres de son
+    alphabet, et rien n'est gardé si deux phrases validées devenaient identiques"""
+    import gsm7
+    proposees = {}
+    for r in list(wb['Écriture USSD'].iter_rows(values_only=True))[1:]:
+        lettre, ecriture = texte(r[0]), texte(r[4])
+        if not lettre or not ecriture:
+            continue
+        if not deux_noms(r[5], r[6]):
+            R.attente.append(f'{lettre} : deux noms différents attendus (« Décidé par », « Vérifié par »)')
+            continue
+        hors = gsm7.hors_alphabet(ecriture)
+        if hors:
+            R.refus.append(f"{lettre} : « {ecriture} » a des lettres que le téléphone n'affiche pas ({' '.join(sorted(hors))})")
+            continue
+        proposees[lettre] = [lettre, ecriture, texte(r[5]), texte(r[6])]
+    if not proposees:
+        return
+    table = {l[0]: l for l in lire_csv(FINALE / 'gsm7.csv')[1]} | proposees
+    paires = gsm7.confusions(gsm7.textes_affichables(DOSSIER), {l: v[1] for l, v in table.items()})
+    if paires:
+        R.refus.append(f'écriture USSD : {len(paires)} paire(s) de phrases validées deviendraient identiques ; rien n\'est enregistré')
+        R.refus.extend(f'   « {a} » et « {b} »' for a, b in paires[:10])
+        return
+    ecrire_csv(FINALE / 'gsm7.csv', ['lettre', 'ecriture', 'decide_par', 'verifie_par'], sorted(table.values()), bom=False)
+    print(f'gsm7.csv : {len(proposees)} écriture(s) sur l\'USSD enregistrée(s)')
+
+
 def importer_test(wb):
     lignes = [[texte(r[0]), str(n), texte(r[c])] for r in list(wb['Test'].iter_rows(values_only=True))[1:] for n, c in ((1, 2), (2, 3)) if texte(r[c])]
     ecrire_csv(FINALE / 'test-recu.csv', ['ref', 'facon', 'texte'], lignes, bom=False)
@@ -599,7 +630,9 @@ def main():
             importer_explications(wb, retours)
         if 'Test' in onglets:
             importer_test(wb)
-        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test'}:
+        if 'Écriture USSD' in onglets:
+            importer_gsm7(wb)
+        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test', 'Écriture USSD'}:
             print(f'{chemin} : tableur non reconnu, ignoré')
     if corpus:
         ajouter_corpus(corpus)

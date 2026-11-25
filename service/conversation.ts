@@ -58,6 +58,8 @@ export interface Contexte {
   typesFacture: { type: string; ref: string }[];
   // Mots validés de chaque langue, pour reconnaître celle d'une demande quand le canal ne la dit pas
   vocabulaires?: Vocabulaires;
+  // Lettre -> son écriture sur un canal à l'alphabet limité (USSD), décidée par les locuteurs
+  gsm7?: Map<string, string>;
 }
 
 // pret : devant un service relayé, l'opération complète à lui transmettre. transaction : l'opération de la banque

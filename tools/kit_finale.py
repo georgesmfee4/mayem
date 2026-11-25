@@ -3,12 +3,13 @@
 
   python3 tools/kit_finale.py            -> quatre tableurs finale-*-<langue>.xlsx à la racine
   python3 tools/kit_finale.py --restants -> retours-finale-<langue>.xlsx : seulement ce qui manque encore
+  python3 tools/kit_finale.py --gsm7     -> ecriture-ussd-<langue>.xlsx : écrire sur l'USSD les lettres absentes du téléphone
   python3 tools/kit_finale.py --langue X -> s'il y a plusieurs langues
 
 Les textes français viennent de packs/<langue>/finale/*.csv. Une phrase déjà validée du corpus
 (colonne reprise, ou même français exactement) arrive pré-remplie : on ne la refait pas.
 """
-import csv, json, pathlib, re, sys
+import collections, csv, json, pathlib, re, sys
 try:
     from openpyxl import Workbook
 except ImportError:
@@ -40,7 +41,7 @@ DEJA = PatternFill('solid', fgColor='E8EEF0')
 P1 = PatternFill('solid', fgColor='FDE2E1')
 TROP_LONG = PatternFill('solid', fgColor='F4B4AE')
 MINUTES_PAR_LIGNE = {'demandes': 4, 'dialogue': 2, 'nombres': 1, 'reponses': 4, 'courtes': 2,
-                     'menus': 1, 'termes': 5, 'test': 2}
+                     'menus': 1, 'termes': 5, 'test': 2, 'gsm7': 3}
 
 
 def lire(nom):
@@ -375,6 +376,60 @@ def termes_a_refaire(wb, notes):
     return len(lignes)
 
 
+def classeur_gsm7():
+    """Une ligne par lettre que le téléphone simple n'affiche pas : où elle apparaît, et les mots validés qui se
+    confondraient si elle perdait son accent. Rien n'est proposé : les locuteurs décident de l'écriture."""
+    import gsm7
+    textes = gsm7.textes_affichables(DOSSIER)
+    deja = {l['lettre']: l for l in gsm7.lire(DOSSIER / 'finale' / 'gsm7.csv')}
+    compte, mots, tous = collections.Counter(), collections.defaultdict(collections.Counter), set()
+    for texte in textes:
+        lettres = gsm7.hors_alphabet(texte) - set(gsm7.SIGNES)
+        compte.update(lettres)
+        for mot in gsm7.MOT.findall(texte):
+            tous.add(mot)
+            for lettre in set(mot) & lettres:
+                mots[lettre][mot] += 1
+    wb = Workbook()
+    mode_emploi(wb, f"Écrire le {LANGUE} sur un téléphone simple (*123#)", [
+        "POURQUOI CE TABLEUR",
+        f"Sur un téléphone simple, l'écran du *123# n'affiche bien qu'un alphabet limité. Plusieurs lettres du {LANGUE} "
+        "n'y sont pas. Un écran qui en contient est envoyé autrement par le réseau : il est coupé à 70 signes au lieu de "
+        "182, ou il s'affiche mal.",
+        f"Sur le *123# seulement, la machine peut écrire chacune de ces lettres autrement. Sur l'application et le web, "
+        "rien ne change : les lettres restent telles que vous les avez écrites.",
+        "CE QU'ON VOUS DEMANDE",
+        "• Pour chaque lettre, écrivez dans la colonne jaune comment l'écrire sur le *123#, avec les lettres autorisées "
+        "ci-dessous. Une lettre peut s'écrire avec deux lettres si c'est plus clair.",
+        "• La colonne « Mots qui deviendraient identiques » montre les mots déjà validés qui se confondraient si la "
+        "lettre perdait son accent. Si cette confusion gêne la compréhension, choisissez une autre écriture, ou "
+        "dites-le en commentaire.",
+        "• Une majuscule a sa propre ligne quand elle apparaît dans les phrases.",
+        "• Deux noms différents par ligne : celui qui décide et celui qui vérifie.",
+        "• Avant d'utiliser votre choix, la machine vérifie qu'aucune phrase validée ne devient identique à une autre. "
+        "Sinon, le choix revient vers vous avec les phrases concernées.",
+        "LETTRES AUTORISÉES",
+        "a b c d e f g h i j k l m n o p q r s t u v w x y z et leurs majuscules ; é è ù ì ò à ä ö ü ñ É Ä Ö Ñ Ü Ç "
+        "Ø ø Å å Æ æ ß ; l'apostrophe ' et le tiret -.",
+        "RIEN À DÉCIDER",
+        "Les signes ’ … — « » sont remplacés tout seuls par ' ... - et des guillemets droits.",
+    ])
+    ws = feuille(wb, 'Écriture USSD', ['Lettre', 'Textes où elle apparaît', 'Mots où elle apparaît',
+                                        "Mots qui deviendraient identiques sans l'accent", 'ÉCRITURE SUR LE *123#',
+                                        'Décidé par', 'Vérifié par', 'Commentaire'], [8, 10, 40, 40, 18, 14, 14, 30])
+    for lettre, nombre in compte.most_common():
+        base = gsm7.sans_accent(lettre)
+        paires = [f'{m} / {m.replace(lettre, base)}' for m, _ in mots[lettre].most_common() if m.replace(lettre, base) in tous][:6]
+        ancien = deja.get(lettre, {})
+        ws.append([lettre, nombre, ', '.join(m for m, _ in mots[lettre].most_common(8)), ' ; '.join(paires) or 'aucun',
+                   ancien.get('ecriture', ''), ancien.get('decide_par', ''), ancien.get('verifie_par', '')])
+    mettre_en_forme(ws, [5, 6, 7])
+    for ligne in ws.iter_rows(min_row=2):
+        ligne[0].font = Font(size=16, bold=True)
+    recapitulatif(wb, {'Écriture USSD': (len(compte), 0, 'gsm7')})
+    return wb
+
+
 def griser(ws, colonnes):
     """Cases déjà validées ou sans objet : grises."""
     for ligne in ws.iter_rows(min_row=2):
@@ -433,6 +488,11 @@ def classeur_test():
 
 
 def main():
+    if '--gsm7' in sys.argv:
+        chemin = racine / f'ecriture-ussd-{LANGUE}.xlsx'
+        classeur_gsm7().save(chemin)
+        print(chemin.name)
+        return
     if '--restants' in sys.argv:
         chemin = racine / f'retours-finale-{LANGUE}.xlsx'
         classeur_retours().save(chemin)
