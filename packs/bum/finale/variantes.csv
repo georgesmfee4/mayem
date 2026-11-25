@@ -1,12 +1,12 @@
 ref,canal,cible,traduit_par,relu_par
 RF001,ussd,"{name} mbolo, bia bô jé den ?",Georges,Lesly
 RF002,voix,Wô yii na wô bô jé ?,Georges,Lesly
-RF010,sms,Mebal môé : {amount},Georges,Lesly
-RF010,ussd,Mebal môé : {amount},Georges,Lesly
-RF010,voix,Mebal môé : {amount},Georges,Lesly
-RF011,sms,Mebal môé ya {date} meine {amount},Georges,Lesly
-RF011,ussd,Mebal môé ya {date} meine {amount},Georges,Lesly
-RF011,voix,Mebal môé ya {date} meine {amount},Georges,Lesly
+RF010,sms,abime moné dôé ane : {amount},Georges,Ronald
+RF010,ussd,Abime moné dôé ane : {amount},Georges,Ronald
+RF010,voix,Abime moné dôé ane : {amount},Georges,Ronald
+RF011,sms,abime moné dôé ya {date} ene {amount},Georges,Ronald
+RF011,ussd,abime moné dôé ya {date} ene {amount},Georges,Ronald
+RF011,voix,abime moné dôé ya {date} ene {amount},Georges,Ronald
 RF042,ussd,"ok, ma kóm nombor : {phone}",Georges,Lesly
 RF052,ussd,Zà wô lôm {amount} ?,Georges,Lesly
 RF053,sms,Lôm moné nge ki kùs kredi ?,Georges,Lesly

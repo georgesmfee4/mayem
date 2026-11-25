@@ -12,6 +12,9 @@ import { chargerContexte } from '../tools/conversation.js';
 
 const lire = (chemin) => JSON.parse(readFileSync(new URL(chemin, import.meta.url), 'utf8'));
 const pack = lire('../packs/bum/pack.json');
+// Le texte attendu est la traduction validée du pack : une retraduction des locuteurs ne casse pas le test
+const valide = (fr, montant = '') => pack.phrases.find((p) => p.fr === fr).cible.replace('{amount}', montant);
+const enMotif = (texte) => texte.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 function monter(profil = lire('../profiles/banque-essai.json')) {
   const banque = banqueSimulee(lire('../service/banque-essai.json'));
@@ -49,7 +52,7 @@ test('USSD relayé : premier écran traduit ligne à ligne, numéros de choix ga
   const { telephone } = monter();
   const ecran = await ouvrir(telephone('s1'));
   assert.match(ecran, /^CON /);
-  assert.match(ecran, /\n1\. Yené mebal\n2\. E lôm moné\n/);
+  assert.match(ecran, new RegExp(`\\n1\\. ${enMotif(valide('Consulter le solde'))}\\n2\\. ${enMotif(valide('Envoyer de l\'argent'))}\\n`));
   assert.ok(ecran.length <= 4 + 182);
 });
 
@@ -58,7 +61,7 @@ test('USSD relayé : les chiffres passent tels quels, le solde revient traduit, 
   const appel = telephone('s2');
   await ouvrir(appel);
   const ecran = await appel('1');
-  assert.equal(ecran, 'END Mebal môé: 85 000 FCFA');
+  assert.equal(ecran, `END ${valide('Votre solde est de {amount}', '85 000 FCFA')}`);
   assert.match(appels.at(-1).corps, /text=1(&|$)/);
 });
 
@@ -117,7 +120,7 @@ test('la même opération a la même empreinte par l\'USSD relayé et par l\'ass
 test('API mobile relayée : messages traduits, valeurs et références intactes, langue au choix', async () => {
   const { demander } = monter();
   const traduit = await (await demander('/v1/relais/api/solde')).json();
-  assert.deepEqual(traduit, { titre: 'Mebal môé', message: 'Mebal môé: 85 000 FCFA', solde: 85000, devise: 'FCFA' });
+  assert.deepEqual(traduit, { titre: valide('Votre solde'), message: valide('Votre solde est de {amount}', '85 000 FCFA'), solde: 85000, devise: 'FCFA' });
   const francais = await (await demander('/v1/relais/api/solde', { headers: { 'x-mayem-langue': 'fr' } })).json();
   assert.equal(francais.message, 'Votre solde est de 85 000 FCFA');
   const recap = await demander('/v1/relais/api/transfert', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ telephone: '678901234', montant: 5000 }) });
@@ -132,7 +135,7 @@ test('API relayée : une erreur du service garde son code et son message est tra
   const { demander } = monter();
   const r = await demander('/v1/relais/api/transfert/confirmer', { method: 'POST', body: JSON.stringify({ telephone: '678901234', montant: 90000, pin: PIN_ESSAI }) });
   assert.equal(r.status, 400);
-  assert.deepEqual(await r.json(), { erreur: 'Mebal teké yiane' });
+  assert.deepEqual(await r.json(), { erreur: valide('Solde insuffisant') });
 });
 
 test('converser et traduire : demandes valides, refus clairs des demandes mal formées', async () => {
@@ -142,7 +145,7 @@ test('converser et traduire : demandes valides, refus clairs des demandes mal fo
   assert.match(ok.reponse, /85 000 FCFA/);
   assert.ok(ok.session);
   const textes = await (await demander('/v1/traduire', { method: 'POST', body: JSON.stringify({ textes: ['Solde', 'Texte jamais validé'] }) })).json();
-  assert.deepEqual(textes.textes, ['Mebal', 'Texte jamais validé']);
+  assert.deepEqual(textes.textes, [valide('Solde'), 'Texte jamais validé']);
   assert.equal((await demander('/v1/converser', { method: 'POST', body: '{pas du json' })).status, 400);
   assert.equal((await demander('/v1/converser', { method: 'POST', body: JSON.stringify({ texte: '' }) })).status, 400);
   assert.equal((await demander('/v1/converser', { method: 'POST', body: 'x'.repeat(70000) })).status, 413);
@@ -164,7 +167,7 @@ test('USSD sans service à relayer : Mayem répond lui-même, menu du profil com
   const appel = telephone('s6');
   const accueil = await ouvrir(appel);
   assert.match(accueil, /^CON .*Awa/);
-  assert.match(accueil, /\n1\. Mebal\n/);
+  assert.match(accueil, new RegExp(`\\n1\\. ${enMotif(valide('Solde'))}\\n`));
   const solde = await appel('1');
   assert.match(solde, /85 000 FCFA/);
 });
@@ -323,7 +326,7 @@ test('la langue choisie est gardée pour ce numéro : retrouvée au prochain app
   const api = await (await demander('/v1/relais/api/solde', { headers: { 'x-client-telephone': '690000001' } })).json();
   assert.equal(api.message, 'Votre solde est de 85 000 FCFA');
   const autreClient = await (await demander('/v1/relais/api/solde', { headers: { 'x-client-telephone': '699999999' } })).json();
-  assert.equal(autreClient.message, 'Mebal môé: 85 000 FCFA', 'un autre client garde la langue par défaut du profil');
+  assert.equal(autreClient.message, valide('Votre solde est de {amount}', '85 000 FCFA'), 'un autre client garde la langue par défaut du profil');
   const assistant = await (await demander('/v1/converser', { method: 'POST', body: JSON.stringify({ texte: 'Quel est mon solde ?', telephone: '+237 690 00 00 01' }) })).json();
   assert.equal(assistant.langue, 'fr');
   assert.match(assistant.reponse, /^Votre solde est de/);

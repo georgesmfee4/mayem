@@ -178,7 +178,8 @@ test('version d\'une réponse propre au canal : utilisée sur ce canal, la versi
   const reponses = creerReponses([{ ref: 'R1', fr: 'Votre solde est de {amount}' }], [], pack, [{ ref: 'R1', canal: 'ussd', cible: 'Court : {amount}' }]);
   const valeurs = { amount: '85 000 FCFA' };
   assert.equal(reponses.rendre({ ref: 'R1', valeurs }, 'bum', 'ussd').texte, 'Court : 85 000 FCFA');
-  assert.equal(reponses.rendre({ ref: 'R1', valeurs }, 'bum', 'web').texte, 'Mebal môé: 85 000 FCFA');
+  const complete = pack.phrases.find((p) => p.fr === 'Votre solde est de {amount}').cible.replace('{amount}', '85 000 FCFA');
+  assert.equal(reponses.rendre({ ref: 'R1', valeurs }, 'bum', 'web').texte, complete);
   assert.equal(reponses.rendre({ ref: 'R1', valeurs }, 'fr', 'ussd').texte, 'Votre solde est de 85 000 FCFA');
 });
 
