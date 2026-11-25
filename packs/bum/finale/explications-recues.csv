@@ -8,8 +8,8 @@ E06,transfert,"Nlomane moné ane moné a kôlo konte moné jôé na a ke konte m
 E07,historique,Mam ya ô bô ya ane b'operations bôé. A ne moné ô lôm ya a nyô ô bi ya.,Ane be moné ô lôm ya a ba ô bi ya,Georges,Lesly
 E08,code PIN / code secret,Nten bafili (code PIN / PIN) ane code a bikanga 4 wô yem. mge môt a sili wô nten bafili wôé; nyô a sili wo ane mvôl.,Nten bafili ane code a 4 chiffres wô yem; teké wô ve wo môt,Georges,Lesly
 E09,confirmer,"Ntiñ (confirmer / confirm) ane nkañesan ya operation. ntye ôsusua Ntiñ, yene jôé ya Nyô a bi, amú moné a kôlô mvús ya valé.","Ntiñ ane nkañesan ya operation. ntye ôsusua Ntiñ, yene jôé ya Nyô a bi, amú moné a kôlô mvús ya valé.",Georges,Lesly
-E10,annuler,"Fetek ane eyon wô téléoperation, moné ase a kôlô évôvôla moné jôé. Nge ô bo abé, Fetek.",Fetek ane ô bi ébômbo tyen a man.,Georges,Lesly
-E11,solde insuffisant,"abime moné jôé é ndi yiane ane moné a ne konte moné jôé te yian asù operation. Nge ô bili 4 000 F, ô yi na wô lôm 5 000 F, abime moné jôé é ndi yiane.",Mebal te yian ane moné a ne évôvôla moné jôé te yian asù operation,Georges,Ronald
+E10,annuler,"Fetek ane eyon wô lôm moné, moné ase a kôlô konte moné jôé. Nge ô bo abé, Fetek.",Fetek ane ô bi ébômbo tyen a man.,Georges,Ronald
+E11,solde insuffisant,"abime moné jôé é ndi yiane ane moné a ne konte moné jôé te yian asù operation. Nge ô bili 4 000 F, ô yi na wô lôm 5 000 F, abime moné jôé é ndi yiane.",be frais te yian ane moné a ne konte moné jôé te yian asù operation,Georges,Ronald
 E12,référence,Mendém ane code ya operation. Na'an Mendém asù ô kate service client nge jôm ya sili.,Mendém ane code ya operation.,Georges,Lesly
 E13,crédit de téléphone,kredi a ne jôm wo belan asù na wô lo'on bôt bôé,kredi a ne jôm wo belan asù na wô lo'on bôt bôé,Georges,Lesly
 E14,facture,faktur âne afep ya wô yiane ya'an asù ô ke ôsu a belan jôm dzing,faktur âne afep ya wô yiane ya'an asù ô ke ôsu a belan jôm dzing,Georges,Lesly

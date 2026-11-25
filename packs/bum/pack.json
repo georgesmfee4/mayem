@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "date": "2026-11-25",
-  "empreinte": "sha256-0efe3fd1da0ab08d5225c3e57b7d0cd3fcc4ec770e4bab00c068a6af7782884a",
+  "empreinte": "sha256-c518750c31667aad0c50111bf616eefbf73f42de8e2f47351eb50fe9161e154f",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -4844,10 +4844,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "Évôvôla e ndji bô mfomban",
+      "cible": "konte e ndji bô nfomban",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -5252,10 +5252,10 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Teké minkuk ya esaé",
+      "cible": "teké be frais",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": "Corrigé par le relecteur"
     },
     {
@@ -7207,7 +7207,7 @@
       "en": [
         "Your account"
       ],
-      "cible": "konnte wôé",
+      "cible": "konte wôé",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Ronald",
@@ -7342,7 +7342,7 @@
       "en": [
         "Current account"
       ],
-      "cible": "konnte wô nyoñ moné tyibi",
+      "cible": "Konte wô nyoñ moné tyibi",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Ronald",
@@ -8482,7 +8482,7 @@
       "en": [
         "Security warning: this beneficiary has never been used on this account."
       ],
-      "cible": "Fôé éne mfi : nyô a bi nyi a be ki tabe mblelan môs dzing a konnte moné nyii.",
+      "cible": "Fôé éne mfi : nyô a bi nyi a be ki tabe mblelan môs dzing a Konte moné nyii.",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Ronald",
@@ -9758,7 +9758,7 @@
       "id": "RF060",
       "fr": "Votre solde est insuffisant. Vous avez {amount}, mais il faut {amount_2} avec les frais.",
       "en": [],
-      "cible": "abime moné jôé é ndi yiane. Wô bili {amount}, wô yiane bi {amount_2} konnte jôé",
+      "cible": "abime moné jôé é ndi yiane. Wô bili {amount}, wô yiane bi {amount_2} Konte jôé",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Ronald",

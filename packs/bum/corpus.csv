@@ -9,14 +9,14 @@ G07,P1,Toutes,"Étape, titre et libellé de champ",1,1,Bénéficiaire,Beneficiar
 G08,P1,Toutes,Étape et titre,0,0,Récapitulatif,Summary,Mamesse,lesly / relu par Alexandre et Ronald,1,Résumé de l'opération avant confirmation
 G09,P1,Toutes,Étape du parcours,0,0,Confirmation,Confirmation,Ntiñtan,Georges / relu par Lesly,1,
 G10,P1,Toutes,Pied de page,1,0,Safinum Pay — environnement de démonstration. Ne saisissez aucune donnée personnelle réelle.,Safinum Pay — demonstration environment. Do not enter real personal data.,Safinum Pay — nlam ya démonstration. Teké futié mfi folâ woé.,Carrel / relu par John,1,« Safinum Pay » est un nom de marque : à garder tel quel
-A01,P1,1. Solde,Titre,0,0,Votre compte,Your account,konnte wôé,Georges / relu par Ronald,1,
+A01,P1,1. Solde,Titre,0,0,Votre compte,Your account,konte wôé,Georges / relu par Ronald,1,
 A02,P1,1. Solde,Salutation,0,0,"Bonjour, {name}","Hello, {name}","Mbolo, {name}",lesly / relu par Alexandre et Ronald,1,"{name} = prénom du client : ne pas traduire, garder {name}"
 A03,P1,1. Solde,Salutation seule,0,0,Bonjour,Hello,Mbamba tyé,Georges / relu par Lesly,1,
 A04,P1,1. Solde,Sous-titre,0,0,Consultez votre solde et lancez un transfert en toute sécurité.,Check your balance and start a secure transfer.,yene abime moné ô bili a lôm moné évôvôvo'é été,Georges / relu par Ronald,1,
 A05,P1,1. Solde,Libellé au-dessus du solde,1,1,Solde disponible,Available balance,abime moné ô bili,Georges / relu par Ronald,1,
 A06,P1,1. Solde,Numéro de compte,1,0,Numéro de compte : {account},Account number: {account},Nombor ya konte moné : {account},Georges / relu par Lesly,1,{account} = numéro de compte : ne pas traduire
 A07,P1,1. Solde,Libellé seul,0,1,Numéro de compte,Account number,Nombor ya konte moné,Georges / relu par Lesly,1,
-A08,P1,1. Solde,Type de compte,0,0,Compte courant,Current account,konnte wô nyoñ moné tyibi,Georges / relu par Ronald,1,
+A08,P1,1. Solde,Type de compte,0,0,Compte courant,Current account,Konte wô nyoñ moné tyibi,Georges / relu par Ronald,1,
 A09,P1,1. Solde,Bouton,1,0,Effectuer un transfert,Make a transfer,E bô nlomane moné,Lesly / relu par Carrel,1,Envoyer de l'argent à quelqu'un
 A10,P1,1. Solde,Bouton,0,0,Consulter les frais,View fees,Yené be frais,Georges / relu par Lesly,1,
 A11,P1,1. Solde,Titre,0,0,Transactions récentes,Recent transactions,Nlomane moné ya melú ma,Lesly / relu par Carrel,1,
@@ -70,7 +70,7 @@ E05,P1,Erreurs,Message AMOUNT_001,1,0,Le montant doit être supérieur à zéro.
 E06,P1,Erreurs,Message AMOUNT_002,1,0,Solde insuffisant pour effectuer ce transfert.,Insufficient balance for this transfer.,abime moné ô bili é ndji yiane asu nlomane moné.,Georges / relu par Ronald,1,
 E07,P1,Erreurs,Message BENEFICIARY_001,1,0,Veuillez renseigner le nom et le numéro du bénéficiaire.,Please provide the beneficiary name and phone number.,"Nyô a ya'a, futié yôlé jôé ai nombor nsinga ya nyô a bi.",Georges / relu par Lesly,1,
 E08,P1,Erreurs,Message SECURITY_001,1,0,Alerte de sécurité : vérifiez le numéro du bénéficiaire avant de continuer.,Security warning: verify the beneficiary phone number before continuing.,Fôé éne mfi : ô tuá fômbo nombor nsinga ya nyô a bi ôsusua na w'ake ôsu.,Lesly / relu par Carrel,1,Avertissement de sécurité : le sens doit rester aussi fort
-E09,P1,Erreurs,Message SECURITY_002,1,0,Alerte de sécurité : ce bénéficiaire n'a jamais été utilisé sur ce compte.,Security warning: this beneficiary has never been used on this account.,Fôé éne mfi : nyô a bi nyi a be ki tabe mblelan môs dzing a konnte moné nyii.,Georges / relu par Ronald,1,Avertissement de sécurité : le sens doit rester aussi fort
+E09,P1,Erreurs,Message SECURITY_002,1,0,Alerte de sécurité : ce bénéficiaire n'a jamais été utilisé sur ce compte.,Security warning: this beneficiary has never been used on this account.,Fôé éne mfi : nyô a bi nyi a be ki tabe mblelan môs dzing a Konte moné nyii.,Georges / relu par Ronald,1,Avertissement de sécurité : le sens doit rester aussi fort
 E10,P1,Erreurs,Message NETWORK_001,1,0,Erreur réseau : le service est temporairement indisponible. Réessayez.,Network error: the service is temporarily unavailable. Please try again.,Nkúán ya nsinga: teké e djom etó dji. Beta'a ve'ele.,Georges / relu par Carrel,1,
 E11,P1,Erreurs,Message CONFIRM_001,1,0,Vous devez confirmer les informations avant de valider le transfert.,You must confirm the details before validating the transfer.,W'ayiane ntiñ folâ ôsusua na w'ake ôsu a nlomane moné.,Georges / relu par Lesly,1,
 X01,P2,Autres services,Titre,0,0,Bienvenue,Welcome,Mbamba nsôàn,Georges / relu par Lesly,1,
@@ -151,7 +151,7 @@ RF054,P1,Finale,ambigu,1,0,Je n'ai pas bien compris le montant. Pouvez-vous le r
 RF055,P1,Finale,ambigu,1,1,Voulez-vous dire {amount} ?,,ô ne beta jô {amount} ?,Georges / relu par Lesly,1,
 RF056,P1,Finale,ambigu,0,0,Je n'ai pas compris votre demande. Pouvez-vous la dire autrement ?,,Me ndji kôm wôk jôm wô yii. Ô ne ma de kât aval éfe ?,Georges / relu par Lesly,1,
 RF057,P1,Finale,ambigu,1,0,Ce contact n'est pas dans votre carnet. Donnez son numéro de téléphone.,,môt nyô a ndjii ki bô carnet wôé. Futi'i nombor wé,Georges / relu par Lesly,1,
-RF060,P1,Finale,erreur,1,1,"Votre solde est insuffisant. Vous avez {amount}, mais il faut {amount_2} avec les frais.",,"abime moné jôé é ndi yiane. Wô bili {amount}, wô yiane bi {amount_2} konnte jôé",Georges / relu par Ronald,1,
+RF060,P1,Finale,erreur,1,1,"Votre solde est insuffisant. Vous avez {amount}, mais il faut {amount_2} avec les frais.",,"abime moné jôé é ndi yiane. Wô bili {amount}, wô yiane bi {amount_2} Konte jôé",Georges / relu par Ronald,1,
 RF061,P1,Finale,erreur,1,1,"Il vous manque {amount}. Vous pouvez envoyer moins, ou approvisionner votre compte.",,ô ndji bi {amount}. Ô ne lôm abime éfe nge ki e futi'i moné konte jôé,Georges / relu par Ronald,1,
 RF062,P2,Finale,erreur,1,1,Le montant maximal par opération est de {amount}.,,Abime moné da nnemban abui operation âse éne {amount},Georges / relu par Lesly,1,
 RF063,P1,Finale,erreur,1,0,Ce numéro de téléphone n'est pas valide. Vérifiez-le.,,Nombor nsinga nyô a lôt ki. Tuà nye beta fòmbo,Georges / relu par Lesly,1,
