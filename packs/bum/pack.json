@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.12.0",
-  "date": "2026-11-24",
-  "empreinte": "sha256-f6cc62a81861e3eaca66b8b08a2296bb938dac8b9dd337b96b09e03e1c7a209e",
+  "version": "0.13.0",
+  "date": "2026-11-25",
+  "empreinte": "sha256-52cd670dfc208afa3a8dee6e4e2ff561f92c169118a70618e02204ac6a4a1690",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -20,11 +20,11 @@
       "en": "balance",
       "sens": "L'argent disponible sur le compte",
       "critique": true,
-      "cible": "Mebal",
-      "a_eviter": "Éviter 'Évôvôla' seul qui désigne le compte lui-même et non la somme disponible.",
+      "cible": "Moné ô bili",
+      "a_eviter": "Quand le solde affiche un montant : « Abime ô bili ». Solde de crédit : « Abime kredi ô bili » (T86). Ne plus employer « Mebal ».",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T02",
@@ -32,11 +32,11 @@
       "en": "fee / fees",
       "sens": "La somme prise par le service pour faire une opération",
       "critique": true,
-      "cible": "Minkuk",
-      "a_eviter": "Éviter 'Aya'an' qui désigne plutôt le paiement lui-même.",
+      "cible": "Be frais",
+      "a_eviter": "Éviter 'Aya'an' qui désigne plutôt le paiement lui-même. Ne plus employer « Minkuk ».",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T03",
@@ -92,11 +92,11 @@
       "en": "account",
       "sens": "Le compte bancaire de la personne",
       "critique": false,
-      "cible": "Évôvôla moné",
-      "a_eviter": "Éviter 'Alang' qui se rapporte au calcul ou à l'action de compter.",
+      "cible": "Konte moné",
+      "a_eviter": "Éviter 'Alang' qui se rapporte au calcul ou à l'action de compter. Compte d'argent : « Konte moné » ; « Konte » seul ; pluriel « Be konte ». Ne plus employer « Évôvôla ».",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T07",
@@ -1532,11 +1532,11 @@
       "en": "deposit",
       "sens": "Mettre de l'argent sur le compte.",
       "critique": true,
-      "cible": "tele moné évôvôla (mettre de l'argent dans le compte ; périphrase)",
+      "cible": "tele moné konte",
       "a_eviter": "Éviter de présenter cette périphrase comme un verbe unique déjà normalisé. Faire valider l'ordre des mots et les accords par un locuteur Bene.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T36",
@@ -1554,13 +1554,13 @@
       "ref": "T37",
       "terme": "commission",
       "en": "commission",
-      "sens": "Même terme que « frais » (Minkuk) ? Si oui, écrire Minkuk.",
+      "sens": "Même terme que « frais » (Be frais) si la commission est le prélèvement appelé « frais ».",
       "critique": true,
-      "cible": "Minkuk (si commission = frais prélevés)",
+      "cible": "Be frais",
       "a_eviter": "Éviter un terme différent si la commission est exactement le prélèvement déjà appelé « frais » (T02). Si elle rémunère un agent, le sens est différent et doit être validé.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T38",
@@ -2101,6 +2101,18 @@
       "traduit_par": "Georges",
       "relu_par": "Lesly",
       "commentaire": "Traduction validée par l'équipe le 23/11/2026."
+    },
+    {
+      "ref": "T86",
+      "terme": "solde de crédit",
+      "en": "airtime balance",
+      "sens": "Le crédit téléphonique qui reste.",
+      "critique": true,
+      "cible": "Abime kredi ô bili",
+      "a_eviter": "Pour le solde d'argent : « Moné ô bili » (T01).",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "TP01",
@@ -2756,11 +2768,11 @@
       "en": "",
       "sens": "le compte",
       "critique": false,
-      "cible": "Évôvôla moné",
+      "cible": "Konte moné",
       "a_eviter": "Nous devons éviter d'utiliser le mot seul \"moné\" (argent) pour un compte, l'expression \"évôvôla moné\" désigne précisément le réceptacle financier.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "NM02",
@@ -2768,11 +2780,11 @@
       "en": "",
       "sens": "les comptes",
       "critique": false,
-      "cible": "Mevôvôla me moné",
+      "cible": "Be konte moné",
       "a_eviter": "Évitons de calquer le pluriel français ; en bulu, le passage du singulier \"é-\" au pluriel \"me-\" modifie radicalement le préfixe de classe nominale.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "NM03",
@@ -4544,11 +4556,11 @@
       "en": "",
       "sens": "« Ouvrez un compte en 2 minutes. »",
       "critique": false,
-      "cible": "E yieôye évôvôla",
+      "cible": "E yieôye konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "CPT002",
@@ -4568,11 +4580,11 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "E té évôvôla",
+      "cible": "E té konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "CPT004",
@@ -4616,11 +4628,11 @@
       "en": "",
       "sens": "La personne à qui appartient le compte.",
       "critique": true,
-      "cible": "Nyô a bili évôvôla",
+      "cible": "Nyô a bili konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "CPT010",
@@ -4880,11 +4892,11 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "E tyam évôvôla",
+      "cible": "E tyam konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "CPT034",
@@ -7087,12 +7099,12 @@
         "Fee",
         "Fees"
       ],
-      "cible": "Minkuk",
+      "cible": "Be frais",
       "critique": true,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "John",
-      "retraduction": "Frais.",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Frais appliqués",
@@ -7291,12 +7303,12 @@
       "en": [
         "Account number: {account}"
       ],
-      "cible": "Nombor ya évôvôla moné : {account}",
+      "cible": "Nombor ya konte moné : {account}",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "John",
-      "retraduction": "Numéro de compte : {account}",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Numéro de votre compte : {account}",
@@ -7311,7 +7323,7 @@
       "en": [
         "Account number"
       ],
-      "cible": "Nombor ya évôvôla moné",
+      "cible": "Nombor ya konte moné",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -7373,7 +7385,7 @@
       "en": [
         "View fees"
       ],
-      "cible": "Yené minkuk",
+      "cible": "Yené be frais",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -9170,12 +9182,12 @@
       "id": "MSG002",
       "fr": "Transfert de {amount} vers {name} effectué. Frais : {fee}.",
       "en": [],
-      "cible": "Nlomane moné ya {amount} e be {name}. Minkuk : {fee}",
+      "cible": "Nlomane moné ya {amount} e be {name}. Be frais : {fee}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "retraduit_par": "Carrel",
-      "retraduction": "Même sens que le français, confirmé à l'oral",
+      "relu_par": "Lesly",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -9614,7 +9626,7 @@
       "id": "RF035",
       "fr": "Votre nouveau solde est de {amount}.",
       "en": [],
-      "cible": "Mféfé mebal (nouveau solde / new balance) : {amount}",
+      "cible": "Mféfé mebal : {amount}",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -9746,7 +9758,7 @@
       "id": "RF060",
       "fr": "Votre solde est insuffisant. Vous avez {amount}, mais il faut {amount_2} avec les frais.",
       "en": [],
-      "cible": "Mebal (solde / balance) môé teké yiane. Wô bili {amount}, wô yiane bi {amount_2} évôvôla (compte / account) a minkuk (frais / fee)",
+      "cible": "Mebal môé teké yiane. Wô bili {amount}, wô yiane bi {amount_2} évôvôla a minkuk",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -9818,7 +9830,7 @@
       "id": "RF070",
       "fr": "Pour envoyer {amount}, les frais sont de {fee}. Au total, {amount_2} seront retirés de votre compte.",
       "en": [],
-      "cible": "Asù na wô lôm {amount}, minkuk mine {fee}. Mabal máte wùlù ya évôvôla (compte / account) wôé mene {amount_2}",
+      "cible": "Asù na wô lôm {amount}, minkuk mine {fee}. Mabal máte wùlù ya évôvôla wôé mene {amount_2}",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -9830,7 +9842,7 @@
       "id": "RF071",
       "fr": "Les envois vers un compte de la même banque sont gratuits.",
       "en": [],
-      "cible": "Nlomane moné évôvôla ya nda noné dia éne bua, teké minkuk (frais / fee)",
+      "cible": "Nlomane moné évôvôla ya nda noné dia éne bua, teké minkuk",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -9854,7 +9866,7 @@
       "id": "RF073",
       "fr": "Les frais sont l'argent que la banque prend pour faire l'opération. Ils s'ajoutent au montant envoyé.",
       "en": [],
-      "cible": "Minkuk (frais / fee) ane moné ya nda moné (banque / bank) a nyon asù na e bô operation. Mia betebe e yôp moné wô lôm",
+      "cible": "Minkuk ane moné ya nda moné (banque / bank) a nyon asù na e bô operation. Mia betebe e yôp moné wô lôm",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -10226,7 +10238,7 @@
       "id": "MV01",
       "fr": "Pour connaître votre solde, tapez 1.",
       "en": [],
-      "cible": "asù na ô yem mebal (solde / balance) môé, futi'i 1",
+      "cible": "asù na ô yem mebal môé, futi'i 1",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Carrel",

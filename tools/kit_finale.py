@@ -7,12 +7,13 @@
   python3 tools/kit_finale.py --complement -> finale-1b-demandes-<langue>.xlsx : demandes et mots pas encore recueillis
   python3 tools/kit_finale.py --test2    -> finale-4b-test-aveugle-2-<langue>.xlsx : second test, nouvelles situations
   python3 tools/kit_finale.py --jury     -> finale-jury-<langue>.xlsx : les dix scénarios du jury, 15 façons par situation
+  python3 tools/kit_finale.py --termes-revus -> termes-revus-<langue>.xlsx : phrases qui emploient encore un terme abandonné
   python3 tools/kit_finale.py --langue X -> s'il y a plusieurs langues
 
 Les textes français viennent de packs/<langue>/finale/*.csv. Une phrase déjà validée du corpus
 (colonne reprise, ou même français exactement) arrive pré-remplie : on ne la refait pas.
 """
-import collections, csv, json, pathlib, re, sys
+import collections, csv, json, pathlib, re, sys, unicodedata
 try:
     from openpyxl import Workbook
 except ImportError:
@@ -44,7 +45,7 @@ DEJA = PatternFill('solid', fgColor='E8EEF0')
 P1 = PatternFill('solid', fgColor='FDE2E1')
 TROP_LONG = PatternFill('solid', fgColor='F4B4AE')
 MINUTES_PAR_LIGNE = {'demandes': 4, 'dialogue': 2, 'nombres': 1, 'reponses': 4, 'courtes': 2,
-                     'menus': 1, 'termes': 5, 'test': 2, 'gsm7': 3, 'jury': 12, 'vocabulaire': 3}
+                     'menus': 1, 'termes': 5, 'test': 2, 'gsm7': 3, 'jury': 12, 'vocabulaire': 3, 'revus': 4}
 
 
 def lire(nom):
@@ -100,6 +101,27 @@ def glossaire():
 
 
 GLOSSAIRE = glossaire()
+
+
+def sans_accents(mot):
+    return ''.join(c for c in unicodedata.normalize('NFD', mot.lower()) if unicodedata.category(c) != 'Mn')
+
+
+def abandonnes():
+    """Termes que l'équipe n'emploie plus (finale/termes-abandonnes.csv, signé de deux noms) : mot -> (français, remplaçant)"""
+    if not (DOSSIER / 'finale' / 'termes-abandonnes.csv').exists():
+        return {}
+    return {sans_accents(r['ancien']): (r['francais'], r['remplace_par']) for r in lire('termes-abandonnes.csv')
+            if r['decide_par'].strip() and r['relu_par'].strip() and r['decide_par'].strip().lower() != r['relu_par'].strip().lower()}
+
+
+ABANDONNES = abandonnes()
+
+
+def anciens_termes(traduction):
+    """Les termes abandonnés présents dans une traduction"""
+    simple = sans_accents(traduction)
+    return [mot for mot in ABANDONNES if re.search(r'(?<![a-z])' + re.escape(mot), simple)]
 
 
 def deja_valide(reprise, francais):
@@ -471,14 +493,20 @@ def deja_dit(intention, combien=3):
     """Quelques formulations déjà signées pour cette intention : à ne pas refaire"""
     if not (DOSSIER / 'finale' / 'formulations.csv').exists():
         return ''
-    vues = [r['texte'] for r in lire('formulations.csv') if r['intention'] == intention and r['ecrit_par'].strip()
+    # Une façon qui emploie un terme abandonné n'est pas montrée en exemple
+    vues = [r['texte'] for r in lire('formulations.csv') if r['intention'] == intention and not anciens_termes(r['texte']) and r['ecrit_par'].strip()
             and r['verifie_par'].strip() and r['ecrit_par'].strip().lower() != r['verifie_par'].strip().lower()]
     return ' | '.join(vues[:combien])
 
 
+def a_jour(traduction):
+    """Un terme validé qui emploie un terme abandonné n'est plus proposé : il est à refaire"""
+    return 'à refaire avec les nouveaux termes (tableur des termes revus)' if anciens_termes(traduction) else traduction
+
+
 def termes_valides(liste):
     """Les termes du glossaire déjà validés pour ces mots français : à réutiliser tels quels"""
-    trouves = [f'{t} : {GLOSSAIRE[t.lower()]}' for t in (x.strip() for x in liste.split('/')) if t and t.lower() in GLOSSAIRE]
+    trouves = [f'{t} : {a_jour(GLOSSAIRE[t.lower()])}' for t in (x.strip() for x in liste.split('/')) if t and t.lower() in GLOSSAIRE]
     return ' ; '.join(trouves)
 
 
@@ -486,10 +514,10 @@ def mots_valides(francais):
     """Ce qui est déjà validé pour ce mot : terme du glossaire, ou façons déjà signées dans les mots du dialogue"""
     cle = SANS_PARENTHESES.sub('', francais).strip().lower()
     if cle in GLOSSAIRE:
-        return GLOSSAIRE[cle]
+        return a_jour(GLOSSAIRE[cle])
     refs = {r['ref'] for r in lire('dialogue.csv') if r['fr'].strip().lower() == cle}
     signes = [r['texte'] for r in lire('mots.csv') if r['ref'] in refs and r['ecrit_par'].strip() and r['verifie_par'].strip()] if refs else []
-    return ' / '.join(dict.fromkeys(signes))
+    return ' / '.join(dict.fromkeys(s for s in signes if not anciens_termes(s)))
 
 
 def classeur_jury():
@@ -570,6 +598,57 @@ def classeur_termes():
     return wb
 
 
+def textes_a_revoir():
+    """Chaque texte validé qui emploie encore un terme abandonné : (réf., où, priorité, français, traduction)"""
+    textes = [(r['id'], 'Phrase', r['priorite'], r['fr'], r['cible']) for r in CORPUS.values()]
+    glossaire = lire_pack('glossaire.csv')
+    if glossaire:
+        fr, critique, cible = list(glossaire[0])[1], list(glossaire[0])[4], next(k for k in glossaire[0] if 'TRADUCTION' in k.upper())
+        textes += [(r[list(r)[0]], 'Terme', 'P1' if r[critique].strip().lower() == 'oui' else 'P2', r[fr], r[cible]) for r in glossaire]
+    modeles = {r['ref']: r for r in lire('reponses.csv')}
+    canaux = {'sms': 'Réponse SMS', 'ussd': 'Réponse USSD', 'voix': 'Réponse voix'}
+    textes += [(r['ref'], canaux.get(r['canal'], r['canal']), modeles.get(r['ref'], {}).get('priorite', 'P1'),
+                modeles.get(r['ref'], {}).get('fr', ''), r['cible']) for r in lire('variantes.csv')]
+    termes = {r['ref']: r for r in lire('termes.csv')}
+    for r in lire('explications-recues.csv'):
+        t = termes.get(r['ref'], {})
+        francais = f"{t.get('explication_fr', '')} Exemple : {t.get('exemple', '')}".strip()
+        textes += [(r['ref'], 'Explication', t.get('priorite', 'P1'), francais, r['explication']),
+                   (r['ref'], 'Explication courte', t.get('priorite', 'P1'), t.get('explication_fr', ''), r['courte'])]
+    return [t for t in textes if t[4] and anciens_termes(t[4])]
+
+
+def classeur_termes_revus():
+    wb = Workbook()
+    mode_emploi(wb, f"Phrases à refaire avec les nouveaux termes, en {LANGUE}", [
+        "POURQUOI CE TABLEUR",
+        "L'équipe a changé des termes (colonne « Termes décidés »). Les phrases ci-dessous emploient encore l'ancien terme : "
+        "en attendant, la machine les affiche telles qu'elles sont.",
+        "CE QU'ON VOUS DEMANDE",
+        "• Réécrivez toute la phrase avec le nouveau terme, en accordant les mots qui l'accompagnent comme on le dit vraiment.",
+        "• Gardez le sens de la traduction actuelle (grise) et du français : seul le terme change, avec ce qui s'accorde avec lui.",
+        "• Pour le solde, choisissez la forme qui convient à la phrase (voir « Termes décidés »).",
+        "• N'ajoutez pas d'explication française entre parenthèses : elle serait retirée.",
+        "• Une phrase qui garde un ancien terme est refusée à l'import.",
+        "• « Où » dit à quoi sert le texte : phrase affichée, terme du glossaire, réponse sur un canal, explication d'un mot. Ne le changez pas.",
+        *REGLES_COMMUNES,
+    ])
+    ws = feuille(wb, 'Termes revus', ['Réf.', 'Où', 'Priorité', 'Français', 'Traduction actuelle (à refaire)', 'Termes décidés',
+                                      f'NOUVELLE TRADUCTION {MAJ}', 'Écrit par', 'Vérifié par', 'Commentaire'],
+                 [8, 14, 8, 44, 44, 40, 48, 12, 14, 24])
+    textes = sorted(textes_a_revoir(), key=lambda t: (t[2] != 'P1', ['Phrase', 'Réponse SMS', 'Réponse USSD', 'Réponse voix',
+                                                                    'Explication', 'Explication courte', 'Terme'].index(t[1]) if t[1] in
+                                                       ['Phrase', 'Réponse SMS', 'Réponse USSD', 'Réponse voix', 'Explication',
+                                                        'Explication courte', 'Terme'] else 9, t[0]))
+    for ref, ou, priorite, francais, traduction in textes:
+        decides = dict.fromkeys(f'{ABANDONNES[m][0]} : {ABANDONNES[m][1]}' for m in anciens_termes(traduction))
+        ws.append([ref, ou, priorite, francais, traduction, ' | '.join(decides)])
+    mettre_en_forme(ws, [7, 8, 9], 3)
+    griser(ws, [5, 6])
+    recapitulatif(wb, {'Termes revus': (len(textes), sum(t[2] == 'P1' for t in textes), 'revus')})
+    return wb
+
+
 def classeur_test(source='test.csv', onglet='Test'):
     """source, onglet : le second test (test-2.csv, onglet « Test 2 ») a ses propres situations et son propre import"""
     wb = Workbook()
@@ -598,7 +677,8 @@ def classeur_test(source='test.csv', onglet='Test'):
 def main():
     autres = {'--complement': ('finale-1b-demandes', lambda: classeur_demandes(complement=True)),
               '--test2': ('finale-4b-test-aveugle-2', lambda: classeur_test('test-2.csv', 'Test 2')),
-              '--jury': ('finale-jury', classeur_jury)}
+              '--jury': ('finale-jury', classeur_jury),
+              '--termes-revus': ('termes-revus', classeur_termes_revus)}
     for option, (nom, fabriquer) in autres.items():
         if option in sys.argv:
             chemin = racine / f'{nom}-{LANGUE}.xlsx'

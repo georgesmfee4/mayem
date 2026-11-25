@@ -60,7 +60,7 @@ function indexTermesDe(pack: Pack): IndexTermes {
   return index;
 }
 
-// Majuscule initiale reprise du texte d'origine : « Solde » -> « Mebal », « solde » -> « mebal »
+// Majuscule initiale reprise du texte d'origine : « Frais » -> « Be frais », « frais » -> « be frais »
 function commeLOrigine(origine: string, traduction: string): string {
   const initiale = origine.match(/\p{L}/u)?.[0] || '';
   if (initiale && initiale === initiale.toUpperCase()) return traduction.charAt(0).toUpperCase() + traduction.slice(1);

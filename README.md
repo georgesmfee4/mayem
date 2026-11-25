@@ -265,7 +265,7 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Libellé court qui est un terme du glossaire relu par deux personnes (« Solde », « Annuler »,
   « Frais : 500 FCFA ») : traduit par ce terme, la valeur reste telle quelle (`core/termes.ts`).
 - Phrase inconnue : jamais composée mot à mot (classes nominales, négation et tons la rendraient
-  fausse). Elle reste en français ; ses termes validés sont donnés à côté, en CSS (en bulu : « solde : Mebal »),
+  fausse). Elle reste en français ; ses termes validés sont donnés à côté, en CSS (en bulu : « frais : Be frais »),
   et peuvent être masqués depuis le panneau.
 - Interface de l'extension dans un Shadow DOM séparé, utilisable au clavier.
 - Shadow DOM ouverts parcourus et surveillés comme la page ; cadres du même site traduits, un seul bouton

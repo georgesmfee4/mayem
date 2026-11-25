@@ -12,6 +12,8 @@ Chaque tableur est reconnu à ses onglets :
 - test à l'aveugle : rangé pour mesurer la compréhension (un seul nom suffit, ces phrases ne s'affichent jamais) ;
 - scénarios du jury (kit_finale.py --jury) : quinze façons par situation et vocabulaire, rangés pour comprendre ;
   une phrase d'un test à l'aveugle est refusée ;
+- termes revus (kit_finale.py --termes-revus) : après un changement de terme, la nouvelle traduction signée de deux
+  noms remplace l'ancienne ; un terme abandonné (finale/termes-abandonnes.csv) est refusé partout ;
 - écriture sur l'USSD des lettres absentes du téléphone (kit_finale.py --gsm7) : deux noms, lettres de l'alphabet du
   téléphone seulement, et refusée si deux phrases validées devenaient identiques.
 Les termes déjà décidés remplacent un mot français resté dans une traduction (« facture » -> Faktur), et une
@@ -99,6 +101,32 @@ def glossaire():
 
 
 GLOSSAIRE = glossaire()
+
+
+def abandonnes():
+    """Termes que l'équipe n'emploie plus (finale/termes-abandonnes.csv, décision signée de deux noms) : mot abandonné
+    -> ce qui le remplace, et l'explication française entre parenthèses qui les accompagnait, retirée"""
+    lignes = [l for l in lire_csv(FINALE / 'termes-abandonnes.csv')[1] if len(l) > 4 and deux_noms(l[3], l[4])]
+    mots = {sans_accents(l[0]): (l[0], l[2]) for l in lignes}
+    francais = sorted({re.escape(l[1].strip().lower()) for l in lignes})
+    glose = re.compile(r'\s*\((?:[^()\d]*\s)?(?:' + '|'.join(francais) + r')\b[^()\d]*\)', re.IGNORECASE) if francais else None
+    return mots, glose
+
+
+ABANDONNES, GLOSE_RETIREE = abandonnes()
+
+
+def nettoyer(ref, colonne, traduction):
+    """Sans les explications retirées ; None (avec la raison au rapport) si un terme abandonné y reste"""
+    if GLOSE_RETIREE:
+        traduction = re.sub(r'  +', ' ', GLOSE_RETIREE.sub('', traduction)).strip()
+    if ABANDONNES:
+        reste = re.search(r'(?<![a-z])(' + '|'.join(map(re.escape, ABANDONNES)) + ')', sans_accents(traduction))
+        if reste:
+            ancien, nouveau = ABANDONNES[reste.group(1)]
+            R.refus.append(f'{ref} ({colonne}) : « {ancien} » n\'est plus employé, l\'équipe a décidé : {nouveau} | {traduction}')
+            return None
+    return traduction
 
 
 def aligner(traduction, notes):
@@ -192,7 +220,9 @@ def preparer(ref, colonne, francais, brute):
     if ref in EXCLUSIONS and EXCLUSIONS_ACTIVES:
         R.refus.append(f'{ref} ({colonne}) : écarté à la relecture, {EXCLUSIONS[ref]}')
         return None
-    traduction = re.sub(r'\s+', ' ', brute.replace('´', "'")).strip()
+    traduction = nettoyer(ref, colonne, re.sub(r'\s+', ' ', brute.replace('´', "'")).strip())
+    if traduction is None:
+        return None
     notes = []
     # Contrôle avant la mise en forme des gloses : « Mebal (frais) » doit être vu tel que le locuteur l'a écrit
     traduction = aligner(traduction, notes)
@@ -483,14 +513,69 @@ def importer_explications(wb, retours=False):
         if not ref or not texte(r[6]):
             continue
         notes = []
-        explication = gloser(aligner(re.sub(r'\s+', ' ', texte(r[6])), notes), notes)
-        courte = gloser(aligner(re.sub(r'\s+', ' ', texte(r[7])), notes), notes)
+        explication = nettoyer(ref, 'explication', re.sub(r'\s+', ' ', texte(r[6])))
+        courte = nettoyer(ref, 'version courte', re.sub(r'\s+', ' ', texte(r[7])))
+        if explication is None or courte is None:
+            continue
+        explication = gloser(aligner(explication, notes), notes)
+        courte = gloser(aligner(courte, notes), notes)
         if notes:
             R.alignes.append(f'{ref} (explication) : {", ".join(notes)}')
         if retours and ref in EXCLUSIONS and deux_noms(r[8], r[9]):
             LEVEES.add(ref)
         lignes.append([ref, texte(r[2]), explication, courte, texte(r[8]), texte(r[9])])
     (fusionner if retours else ranger)('explications-recues.csv', ['ref', 'terme', 'explication', 'courte', 'traduit_par', 'relu_par'], lignes)
+
+
+# Tableur des termes revus (kit_finale.py --termes-revus) : « Où » dit dans quel fichier et quelle colonne est le texte
+OU_REVU = {'Phrase': ('corpus', None), 'Terme': ('glossaire', None), 'Réponse SMS': ('variante', 'sms'),
+           'Réponse USSD': ('variante', 'ussd'), 'Réponse voix': ('variante', 'voix'),
+           'Explication': ('explication', 'explication'), 'Explication courte': ('explication', 'courte')}
+
+
+def importer_termes_revus(wb):
+    """Après un changement de terme décidé par l'équipe, la nouvelle traduction signée de deux noms remplace l'ancienne
+    là où elle se trouve, même hors finale : c'est l'équipe qui a demandé de la refaire"""
+    nouvelles = {}
+    for r in list(wb['Termes revus'].iter_rows(values_only=True))[1:]:
+        ref, ou, francais, brute = texte(r[0]), texte(r[1]), texte(r[3]), texte(r[6])
+        if not ref or not brute or ou not in OU_REVU or not deux_noms(r[7], r[8]):
+            continue
+        if OU_REVU[ou][0] == 'explication':
+            notes = []
+            traduction = nettoyer(ref, ou, re.sub(r'\s+', ' ', brute))
+            traduction = traduction and gloser(aligner(traduction, notes), notes)
+        else:
+            traduction = preparer(ref, ou, francais, brute)
+        if traduction:
+            nouvelles.setdefault(OU_REVU[ou][0], {})[(ref, OU_REVU[ou][1])] = (traduction, texte(r[7]), texte(r[8]))
+            if ref in EXCLUSIONS:
+                LEVEES.add(ref)
+    for quoi, textes in nouvelles.items():
+        remplacer_revus(quoi, textes)
+
+
+def remplacer_revus(quoi, textes):
+    chemin, cle, colonne, signes = {
+        'corpus': (DOSSIER / 'corpus.csv', 'id', lambda c: 'cible', ('valide_par',)),
+        'glossaire': (DOSSIER / 'glossaire.csv', 0, lambda c: 5, (7, 8)),
+        'variante': (FINALE / 'variantes.csv', 'ref', lambda c: 'cible', ('traduit_par', 'relu_par')),
+        'explication': (FINALE / 'explications-recues.csv', 'ref', lambda c: c, ('traduit_par', 'relu_par'))}[quoi]
+    entetes, lignes = lire_csv(chemin)
+    i = {e: n for n, e in enumerate(entetes)}
+    position = lambda c: c if isinstance(c, int) else i[c]
+    for l in lignes:
+        canal = l[i['canal']] if quoi == 'variante' else None
+        for (ref, ou), (traduction, ecrit, verifie) in textes.items():
+            if l[position(cle)] != ref or (quoi == 'variante' and canal != ou):
+                continue
+            l[position(colonne(ou))] = traduction
+            if len(signes) == 1:
+                l[position(signes[0])] = f'{ecrit} / relu par {verifie}'
+            else:
+                l[position(signes[0])], l[position(signes[1])] = ecrit, verifie
+            R.entrees.append(f'{ref} ({quoi}{", " + ou if ou else ""})')
+    ecrire_csv(chemin, entetes, lignes, bom=chemin.name in ('corpus.csv', 'glossaire.csv'))
 
 
 def phrases_de_test():
@@ -643,7 +728,7 @@ def main():
         onglets = set(wb.sheetnames)
         # Un tableur de retours peut réunir réponses, nombres et explications : chacun n'y remplace que ses lignes
         retours = 'Retours' in onglets
-        EXCLUSIONS_ACTIVES = not retours
+        EXCLUSIONS_ACTIVES = not (retours or 'Termes revus' in onglets)
         if 'Écrans' in onglets:
             service = service_du_classeur(wb, chemin)
             c, v, releves = importer_ecrans(wb)
@@ -676,7 +761,9 @@ def main():
             importer_scenarios(wb)
         if 'Vocabulaire' in onglets:
             importer_vocabulaire(wb)
-        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test', 'Test 2', 'Écriture USSD', 'Scénarios', 'Vocabulaire'}:
+        if 'Termes revus' in onglets:
+            importer_termes_revus(wb)
+        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test', 'Test 2', 'Écriture USSD', 'Scénarios', 'Vocabulaire', 'Termes revus'}:
             print(f'{chemin} : tableur non reconnu, ignoré')
     if corpus:
         ajouter_corpus(corpus)

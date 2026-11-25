@@ -68,7 +68,7 @@ export function lexiqueDesLocuteurs(code, { provisoire = false } = {}) {
   return { intentions, secondaires: ['oui', 'non', 'terminer', 'repeter'], devises: [], multiplicateurs: {}, ...marques, formulations };
 }
 
-// « solde » se reconnaît aussi sous sa traduction validée (« c'est quoi, mebal ? ») : formes ajoutées au terme
+// « solde » se reconnaît aussi sous sa traduction validée (« c'est quoi, be frais ? ») : formes ajoutées au terme
 function avecTermeNational(terme, pack) {
   const traductions = pack.glossaire.filter(termeUtilisable)
     .filter((t) => t.terme.split('/').some((f) => terme.split('/').some((g) => souple(f.trim()) === souple(g.trim()))))
