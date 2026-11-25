@@ -4,6 +4,8 @@
   python3 tools/kit_finale.py            -> quatre tableurs finale-*-<langue>.xlsx à la racine
   python3 tools/kit_finale.py --restants -> retours-finale-<langue>.xlsx : seulement ce qui manque encore
   python3 tools/kit_finale.py --gsm7     -> ecriture-ussd-<langue>.xlsx : écrire sur l'USSD les lettres absentes du téléphone
+  python3 tools/kit_finale.py --complement -> finale-1b-demandes-<langue>.xlsx : demandes et mots pas encore recueillis
+  python3 tools/kit_finale.py --test2    -> finale-4b-test-aveugle-2-<langue>.xlsx : second test, nouvelles situations
   python3 tools/kit_finale.py --langue X -> s'il y a plusieurs langues
 
 Les textes français viennent de packs/<langue>/finale/*.csv. Une phrase déjà validée du corpus
@@ -175,9 +177,26 @@ REGLES_COMMUNES = [
 ]
 
 
-def classeur_demandes():
+def signees(nom):
+    """Références qui ont déjà au moins une ligne signée de deux noms dans un fichier reçu"""
+    if not (DOSSIER / 'finale' / nom).exists():
+        return set()
+    return {r['ref'] for r in lire(nom) if r.get('ecrit_par', '').strip() and r.get('verifie_par', '').strip()
+            and r['ecrit_par'].strip().lower() != r['verifie_par'].strip().lower()}
+
+
+COMPLEMENT = [
+    "CE TABLEUR COMPLÈTE LE PREMIER",
+    "Il ne contient que des situations et des mots pas encore recueillis. Écrivez ce que vous diriez vraiment, sans "
+    "reprendre une phrase que vous auriez écrite pour le test à l'aveugle.",
+    "IMPORTANT : la personne qui remplira le second test à l'aveugle ne doit pas voir ce tableur.",
+]
+
+
+def classeur_demandes(complement=False):
+    """complement : seulement les demandes et les mots sans réponse signée de deux noms, pas les nombres"""
     wb = Workbook()
-    mode_emploi(wb, f"Comment les gens demandent, en {LANGUE}", [
+    mode_emploi(wb, f"Comment les gens demandent, en {LANGUE}", [*(COMPLEMENT if complement else []),
         "POURQUOI CE TABLEUR",
         f"La machine doit comprendre ce qu'une personne dit ou écrit en {LANGUE} pour consulter son solde, envoyer de "
         "l'argent, payer une facture… Pour cela, elle a besoin de nombreuses façons réelles de le demander.",
@@ -198,17 +217,23 @@ def classeur_demandes():
                                   'Façon 3 : très courte, comme un SMS', 'Façon 4 : en mêlant le français, comme on parle vraiment',
                                   'Façon 5 : autre façon', 'Écrit par', 'Vérifié par (on dit vraiment ainsi)', 'Commentaire'],
                  [7, 8, 12, 42, 32, 24, 30, 30, 26, 30, 26, 12, 14, 24])
-    demandes = lire('demandes.csv')
+    deja = signees('formulations.csv') if complement else set()
+    demandes = [r for r in lire('demandes.csv') if r['ref'] not in deja]
     for r in demandes:
         ws.append([r['ref'], r['priorite'], r['intention'], r['situation'], r['exemple_fr'], r['a_noter']])
     mettre_en_forme(ws, a_remplir, 2)
 
     ws = feuille(wb, 'Mots du dialogue', ['Réf.', 'En français', 'Quand on l\'emploie', 'Façon 1', 'Façon 2', 'Façon 3',
                                           'Écrit par', 'Vérifié par', 'Commentaire'], [7, 26, 36, 22, 22, 22, 12, 12, 24])
-    dialogue = lire('dialogue.csv')
+    deja = signees('mots.csv') if complement else set()
+    dialogue = [r for r in lire('dialogue.csv') if r['ref'] not in deja]
     for r in dialogue:
         ws.append([r['ref'], r['fr'], r['usage']])
     mettre_en_forme(ws, range(4, 9))
+    if complement:
+        recapitulatif(wb, {'Demandes': (len(demandes), sum(r['priorite'] == 'P1' for r in demandes), 'demandes'),
+                           'Mots du dialogue': (len(dialogue), 0, 'dialogue')})
+        return wb
 
     ws = feuille(wb, 'Nombres', ['Réf.', 'Nombre', 'À savoir', f'En {LANGUE}, en entier', 'Comme les gens le disent vraiment pour l\'argent',
                                  'Écrit par', 'Vérifié par', 'Commentaire'], [7, 14, 24, 34, 34, 12, 12, 24])
@@ -465,9 +490,11 @@ def classeur_termes():
     return wb
 
 
-def classeur_test():
+def classeur_test(source='test.csv', onglet='Test'):
+    """source, onglet : le second test (test-2.csv, onglet « Test 2 ») a ses propres situations et son propre import"""
     wb = Workbook()
-    mode_emploi(wb, f"Test à l'aveugle, en {LANGUE}", [
+    second = source != 'test.csv'
+    mode_emploi(wb, f"Test à l'aveugle{' n° 2' if second else ''}, en {LANGUE}", [
         "QUI REMPLIT CE TABLEUR",
         "Une personne qui N'A PAS VU le tableur « Comment les gens demandent ». C'est indispensable : ce tableur sert à vérifier "
         "que la machine comprend des phrases qu'elle n'a jamais vues, comme ce sera le cas devant le jury.",
@@ -476,18 +503,27 @@ def classeur_test():
         "• Puis, si une autre façon vous vient, écrivez-la à côté.",
         "• Ne montrez pas vos réponses aux autres locuteurs avant la fin.",
         "• Ici un seul nom suffit : ces phrases servent à tester la machine, elles ne seront jamais affichées.",
+        *(["• Ce second test doit être rempli par une personne qui n'a vu ni le premier test, ni aucun autre tableur."] if second else []),
     ])
-    ws = feuille(wb, 'Test', ['Réf.', 'Situation', 'Ce que vous diriez (première idée)', 'Une autre façon', 'Écrit par', 'Commentaire'],
+    ws = feuille(wb, onglet, ['Réf.', 'Situation', 'Ce que vous diriez (première idée)', 'Une autre façon', 'Écrit par', 'Commentaire'],
                  [7, 60, 44, 44, 14, 24])
-    test = lire('test.csv')
+    test = lire(source)
     for r in test:
         ws.append([r['ref'], r['situation']])
     mettre_en_forme(ws, [3, 4, 5])
-    recapitulatif(wb, {'Test': (len(test), 0, 'test')})
+    recapitulatif(wb, {onglet: (len(test), 0, 'test')})
     return wb
 
 
 def main():
+    autres = {'--complement': ('finale-1b-demandes', lambda: classeur_demandes(complement=True)),
+              '--test2': ('finale-4b-test-aveugle-2', lambda: classeur_test('test-2.csv', 'Test 2'))}
+    for option, (nom, fabriquer) in autres.items():
+        if option in sys.argv:
+            chemin = racine / f'{nom}-{LANGUE}.xlsx'
+            fabriquer().save(chemin)
+            print(chemin.name)
+            return
     if '--gsm7' in sys.argv:
         chemin = racine / f'ecriture-ussd-{LANGUE}.xlsx'
         classeur_gsm7().save(chemin)

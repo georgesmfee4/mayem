@@ -154,3 +154,31 @@ test('intentions de l\'argent mobile et de la téléphonie, comprises en frança
     else assert.equal(c.intention, s.intention, `${s.ref} « ${s.exemple_fr} »`);
   }
 });
+
+// Lexique d'essai aux mots inventés : les règles valent pour toute langue, sans en nommer aucune
+const essai = (formulations = [], intentions = {}, textes = []) => ({ intentions, secondaires: [], periodes: {}, factures: {}, langues: {}, devises: [], multiplicateurs: {}, formulations, textes });
+
+test('une lettre près, seulement sur un mot long inconnu, et jamais deux fois pour le même mot', () => {
+  const lexiques = [essai([], { facture: { zorblak: 3 }, transfert: { kavu: 3, envoyer: 3, envoyez: 3 } })];
+  assert.equal(comprendre('je veux zorbllak', { lexiques }).intention, 'facture', 'une lettre de plus sur un mot long');
+  assert.equal(comprendre('je veux kavo', { lexiques }).intention, null, 'un mot court à une lettre près est un autre mot');
+  assert.equal(comprendre('envoyer', { lexiques }).score, 3, '« envoyer » reconnu ne compte pas une seconde fois pour « envoyez »');
+});
+
+test('demande d\'explication : le terme compte comme une case, mais seulement si la demande nomme un terme', () => {
+  // « ne », « je » : courants dans la langue ; sans la règle, une formulation privée de son terme ne garderait qu'eux
+  const courants = Array.from({ length: 10 }, (_, i) => `ne je mot${i}`);
+  const lexiques = [essai([{ ref: 'D1', intention: 'expliquer', texte: 'zorblak kopa lim ne je' }, { ref: 'D2', intention: 'aide', texte: 'pakul tef' }], {}, courants)];
+  const termesEssai = [{ ref: 'E1', terme: 'zorblak / kopa lim' }, { ref: 'E2', terme: 'plafond' }];
+  assert.equal(comprendre('ne je plafond', { lexiques, termes: termesEssai }).intention, 'expliquer', 'un autre terme, la même demande');
+  assert.equal(comprendre('ne je mipo', { lexiques, termes: termesEssai }).intention, null, 'sans terme, de petits mots ne suffisent pas');
+});
+
+test('les mots courants dans les textes validés de la langue pèsent peu dans la comparaison des demandes', () => {
+  const formulations = [{ ref: 'D1', intention: 'transfert', texte: 'te wo zorba moni' }, { ref: 'D2', intention: 'solde', texte: 'kelim moni ane' }];
+  const courants = Array.from({ length: 30 }, (_, i) => `te wo mot${i}`);
+  const sans = comprendre('te wo pakul', { lexiques: [essai(formulations)] });
+  const avec = comprendre('te wo pakul', { lexiques: [essai(formulations, {}, courants)] });
+  assert.equal(sans.intention, 'transfert', 'sans textes, deux petits mots communs suffisent');
+  assert.equal(avec.intention, null, 'avec les textes validés, ils ne décident plus seuls');
+});

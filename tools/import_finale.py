@@ -520,10 +520,10 @@ def importer_gsm7(wb):
     print(f'gsm7.csv : {len(proposees)} écriture(s) sur l\'USSD enregistrée(s)')
 
 
-def importer_test(wb):
-    lignes = [[texte(r[0]), str(n), texte(r[c])] for r in list(wb['Test'].iter_rows(values_only=True))[1:] for n, c in ((1, 2), (2, 3)) if texte(r[c])]
-    ecrire_csv(FINALE / 'test-recu.csv', ['ref', 'facon', 'texte'], lignes, bom=False)
-    print(f'test-recu.csv : {len(lignes)} phrase(s) de test à l\'aveugle')
+def importer_test(wb, onglet='Test', fichier='test-recu.csv'):
+    lignes = [[texte(r[0]), str(n), texte(r[c])] for r in list(wb[onglet].iter_rows(values_only=True))[1:] for n, c in ((1, 2), (2, 3)) if texte(r[c])]
+    ecrire_csv(FINALE / fichier, ['ref', 'facon', 'texte'], lignes, bom=False)
+    print(f'{fichier} : {len(lignes)} phrase(s) de test à l\'aveugle')
 
 
 # Page du téléphone (tools/kit_service.py --page) : le travail renvoyé (fichier .html, ou texte « MAYEM-TRAVAIL ») est
@@ -630,9 +630,11 @@ def main():
             importer_explications(wb, retours)
         if 'Test' in onglets:
             importer_test(wb)
+        if 'Test 2' in onglets:
+            importer_test(wb, 'Test 2', 'test-recu-2.csv')
         if 'Écriture USSD' in onglets:
             importer_gsm7(wb)
-        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test', 'Écriture USSD'}:
+        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test', 'Test 2', 'Écriture USSD'}:
             print(f'{chemin} : tableur non reconnu, ignoré')
     if corpus:
         ajouter_corpus(corpus)

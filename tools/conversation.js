@@ -89,6 +89,10 @@ export function variantesValidees(code) {
   return existsSync(chemin) ? lire(chemin).filter((v) => deuxNoms(v.traduit_par, v.relu_par)).map(({ ref, canal, cible }) => ({ ref, canal, cible })) : [];
 }
 
+// Traductions et termes validés de la langue nationale, sans les gloses entre parenthèses ni les cases
+const textesValides = (pack) => [...pack.phrases.filter((p) => p.valide && p.cible).map((p) => p.cible), ...pack.glossaire.filter(termeUtilisable).map((t) => t.cible)]
+  .map((t) => String(t).replace(/\([^)]*\)/g, ' ').replace(/\{\w+\}/g, ' '));
+
 // Mots de chaque langue, pour reconnaître celle d'une demande quand le canal ne la dit pas. Français : phrases du
 // pack, modèles de réponse, lexique, termes. Langue nationale : traductions validées (sans les gloses entre
 // parenthèses ni les cases), glossaire, et ce que les locuteurs ont signé de deux noms.
@@ -111,6 +115,8 @@ export function donneesDuContexte(code = choisirLangue(), { provisoire = false, 
   const explications = lire(finale + 'termes.csv').map(({ ref, terme, explication_fr, exemple }) => ({ ref, terme, explication_fr, exemple }));
   const francais = lexiqueFrancais(pack.nom);
   const locuteurs = lexiqueDesLocuteurs(code, { provisoire });
+  // Les textes validés de la langue disent quels mots sont courants : ils pèsent peu dans la comparaison des demandes
+  if (locuteurs) locuteurs.textes = textesValides(pack);
   return {
     pack,
     modeles,

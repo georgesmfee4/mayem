@@ -1,0 +1,21 @@
+ref,situation,intention
+T21,Vous rentrez du marché et vous voulez connaître l'argent qui vous reste.,solde
+T22,"Un ami vous demande de lui prêter de l'argent. Avant de répondre, vous regardez ce que vous avez.",solde
+T23,Vous envoyez 15 000 F à votre mère pour le marché.,transfert
+T24,"Vous payez le menuisier : vous lui envoyez 40 000 F sur son numéro, le 699 88 77 66.",transfert
+T25,"Vous voulez envoyer de l'argent à votre fils qui est à l'école, sans dire encore la somme.",transfert
+T26,Vous envoyez vingt-cinq mille francs à votre tante.,transfert
+T27,Vous voulez savoir combien coûte un envoi de 5 000 F.,frais
+T28,Vous voulez connaître le coût d'un envoi de 200 000 F.,frais
+T29,Vous voulez revoir les deux derniers envois que vous avez faits.,historique
+T30,Votre tante vous a promis de l'argent. Vous demandez s'il est déjà là.,historique
+T31,Vous achetez du crédit de 500 F pour le téléphone de votre femme.,credit
+T32,"La facture d'eau est arrivée, vous voulez la payer maintenant.",facture
+T33,Le mot « bénéficiaire » s'affiche. Vous demandez ce que c'est.,expliquer
+T34,"Au moment de confirmer, vous préférez tout arrêter.",annuler
+T35,"Vous vous êtes trompé de personne : c'est à Jean qu'il faut envoyer, pas à Marie.",corriger
+T36,"Vous aviez dit 10 000 F, mais c'est 1 000 F.",corriger
+T37,Vous voulez que la suite de la conversation se passe dans votre langue.,langue
+T38,Vous demandez au téléphone de redire le montant.,repeter
+T39,Vous ne savez pas comment faire et vous demandez de l'aide.,aide
+T40,Vous voulez savoir combien vous avez dépensé cette semaine.,depenses
