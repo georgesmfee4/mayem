@@ -25,6 +25,8 @@ export interface Lexique {
   negations?: string[];
   // Formulations recueillies auprès des locuteurs : une demande proche de l'une d'elles en prend l'intention
   formulations?: { ref: string; intention: string; texte: string }[];
+  // Textes validés de la langue (traductions, termes) : ils disent quels mots sont courants, donc peu parlants
+  textes?: string[];
 }
 
 export interface Contact { id: string; nom: string; alias: string[]; telephone: string; type: string }
@@ -166,8 +168,10 @@ function negation(normal: string, lexiques: Lexique[]): boolean {
 
 interface Note { intention: string; score: number; mots: string[] }
 
-// Formulations des locuteurs : chaque mot pèse d'autant plus qu'il est rare dans l'ensemble (« lôm » dit peu,
-// « mvolan » dit beaucoup). Les chiffres et les noms du carnet ne comptent pas : seule la façon de demander compte.
+// Formulations des locuteurs : chaque mot pèse d'autant plus qu'il est rare dans la langue (« lôm » dit peu,
+// « mvolan » dit beaucoup). La rareté se compte sur les formulations et sur tous les textes validés de la langue :
+// les petits mots courants (« ma », « a », « te ») ne décident plus seuls. Les chiffres et les noms du carnet ne
+// comptent pas : seule la façon de demander compte.
 const SEUIL_PROCHE = 0.5;
 const motsDe = (texte: string, ignores: Set<string>) =>
   new Set(normaliser(texte).split(' ').filter((m) => /[a-z]/.test(m) && m.length > 1 && !ignores.has(m)));
@@ -176,13 +180,27 @@ const poidsParLexique = new WeakMap<Lexique, Map<string, number>>();
 function poidsDes(lexique: Lexique): Map<string, number> {
   let poids = poidsParLexique.get(lexique);
   if (!poids) {
-    const formulations = lexique.formulations || [];
+    const documents = [...(lexique.formulations || []).map((f) => f.texte), ...(lexique.textes || [])];
     const compte = new Map<string, number>();
-    for (const f of formulations) for (const m of motsDe(f.texte, new Set())) compte.set(m, (compte.get(m) || 0) + 1);
-    poids = new Map([...compte].map(([m, n]) => [m, Math.log(1 + formulations.length / n)]));
+    for (const texte of documents) for (const m of motsDe(texte, new Set())) compte.set(m, (compte.get(m) || 0) + 1);
+    poids = new Map([...compte].map(([m, n]) => [m, Math.log(1 + documents.length / n)]));
     poidsParLexique.set(lexique, poids);
   }
   return poids;
+}
+
+// Un terme à expliquer joue le même rôle d'une demande à l'autre (« plafond, c'est quoi ? », « bénéficiaire, c'est
+// quoi ? ») : pour comparer une demande aux formulations d'explication, chaque terme devient une même case
+const CASE_TERME = '0terme';
+const motifsParTermes = new WeakMap<Terme[], RegExp[]>();
+function avecCaseTerme(normal: string, termes: Terme[]): string {
+  let motifs = motifsParTermes.get(termes);
+  if (!motifs) {
+    const formes = termes.flatMap((t) => t.terme.split('/').map((f) => normaliser(f))).filter((f) => f.length > 2);
+    motifs = [...new Set(formes)].sort((a, b) => b.length - a.length).map((f) => motif(f));
+    motifsParTermes.set(termes, motifs);
+  }
+  return motifs.reduce((texte, m) => texte.replace(m, CASE_TERME), normal);
 }
 
 // Écart minimal entre la meilleure intention et la suivante : en dessous, deux intentions sont plausibles et
@@ -190,14 +208,19 @@ function poidsDes(lexique: Lexique): Map<string, number> {
 const ECART_PROCHE = 0.1;
 
 // La formulation validée la plus proche de la demande, si elle l'est assez et sans rivale d'une autre intention
-export function plusProche(normal: string, lexiques: Lexique[], ignores: Set<string>) {
+export function plusProche(normal: string, lexiques: Lexique[], ignores: Set<string>, termes: Terme[] = []) {
   const parIntention = new Map<string, { ref: string; intention: string; texte: string; proximite: number }>();
+  // Seulement si la demande nomme elle-même un terme : sans terme, une formulation d'explication privée du sien ne
+  // garde que de petits mots, qui ressembleraient à n'importe quoi
+  const remplacee = termes.length ? avecCaseTerme(normal, termes) : normal;
+  const avecCase = remplacee.includes(CASE_TERME) ? motsDe(remplacee, ignores) : null;
   for (const lexique of lexiques) {
     const poids = poidsDes(lexique);
-    const demande = motsDe(normal, ignores);
     const masse = (mots: Set<string>) => [...mots].reduce((t, m) => t + (poids.get(m) ?? Math.log(2)), 0);
     for (const f of lexique.formulations || []) {
-      const mots = motsDe(f.texte, ignores);
+      const explication = f.intention === 'expliquer' && avecCase;
+      const demande = explication ? avecCase : motsDe(normal, ignores);
+      const mots = explication ? motsDe(avecCaseTerme(normaliser(f.texte), termes), ignores) : motsDe(f.texte, ignores);
       const communs = new Set([...mots].filter((m) => demande.has(m)));
       if (!communs.size) continue;
       const proximite = (2 * masse(communs)) / (masse(mots) + masse(demande));
@@ -209,15 +232,39 @@ export function plusProche(normal: string, lexiques: Lexique[], ignores: Set<str
   return seconde && premiere.proximite - seconde.proximite < ECART_PROCHE ? null : premiere;
 }
 
-function noter(normal: string, lexiques: Lexique[], bonus: Record<string, number>, ignores: Set<string>): Note[] {
+// Une lettre de plus, de moins ou changée (« facktur » pour « faktur ») : seulement entre mots longs, où une
+// lettre ne change pas le sens ; entre mots courts, une lettre en fait un autre mot
+const LONGUEUR_TOLEREE = 6;
+function uneLettre(a: string, b: string): boolean {
+  if (a === b || Math.abs(a.length - b.length) > 1) return a === b;
+  let i = 0;
+  while (i < Math.min(a.length, b.length) && a[i] === b[i]) i++;
+  const [reste1, reste2] = [a.slice(i), b.slice(i)];
+  return reste1.slice(1) === reste2.slice(1) || reste1.slice(1) === reste2 || reste1 === reste2.slice(1);
+}
+// Seul un mot de la demande que le moteur ne connaît pas peut être un mot connu mal écrit : un mot déjà reconnu
+// (« envoyer ») ne compte jamais une seconde fois pour un voisin (« envoyez »)
+function malEcrits(normal: string, lexiques: Lexique[]): Set<string> {
+  const connus = new Set(lexiques.flatMap((l) => Object.values(l.intentions).flatMap(Object.keys)).map((m) => normaliser(m)));
+  return new Set(normal.split(' ').filter((m) => m.length >= LONGUEUR_TOLEREE && !connus.has(m)));
+}
+
+function noter(normal: string, lexiques: Lexique[], bonus: Record<string, number>, ignores: Set<string>, termes: Terme[] = []): Note[] {
   const notes = new Map<string, Note>();
-  const proche = plusProche(normal, lexiques, ignores);
+  const proche = plusProche(normal, lexiques, ignores, termes);
+  const inconnus = malEcrits(normal, lexiques);
   if (proche) notes.set(proche.intention, { intention: proche.intention, score: Math.round(proche.proximite * 6), mots: [`proche de ${proche.ref} « ${proche.texte} »`] });
   for (const lexique of lexiques) {
     for (const [intention, mots] of Object.entries(lexique.intentions)) {
       const note = notes.get(intention) || { intention, score: 0, mots: [] };
       for (const [mot, poids] of Object.entries(mots)) {
-        if (motif(mot).test(normal) && !note.mots.includes(mot)) { note.score += poids; note.mots.push(mot); }
+        if (note.mots.some((m) => m === mot || m.startsWith(`${mot} `))) continue;
+        const cherche = normaliser(mot);
+        const voisin = cherche.length >= LONGUEUR_TOLEREE && !cherche.includes(' ') ? [...inconnus].find((m) => uneLettre(m, cherche)) : undefined;
+        if (motif(mot).test(normal)) { note.score += poids; note.mots.push(mot); } else if (voisin && !note.mots.some((m) => m.endsWith(`(${voisin})`))) {
+          note.score += poids;
+          note.mots.push(`${mot} (${voisin})`);
+        }
       }
       notes.set(intention, note);
     }
@@ -256,7 +303,7 @@ export function comprendre(texte: string, { lexiques, carnet = [], termes = [] }
   const trouve = terme(normal, termes);
   const secondaires = new Set(lexiques.flatMap((l) => l.secondaires));
   const ignores = new Set(carnet.flatMap((c) => [c.nom, ...c.alias]).flatMap((n) => normaliser(n).split(' ')));
-  const notes = noter(normal, lexiques, trouve ? { expliquer: 2 } : {}, ignores);
+  const notes = noter(normal, lexiques, trouve ? { expliquer: 2 } : {}, ignores, termes);
   const { note, hesitation } = choisir(notes, secondaires);
   const montants = toutes.filter((v) => v.monnaie);
   const mentions = contacts(normal, carnet, ecartee);

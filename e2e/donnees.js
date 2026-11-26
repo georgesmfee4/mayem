@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 
 const pack = JSON.parse(readFileSync(new URL('../packs/bum/pack.json', import.meta.url), 'utf8'));
 
-// Première traduction d'un terme du glossaire (« Mebal » pour T01 solde)
+// Première traduction d'un terme du glossaire (« Be frais » pour T02 frais)
 export const terme = (ref) => pack.glossaire.find((t) => t.ref === ref).cible.split('/')[0].trim();
 
 export const bulu = (id, valeurs = {}) =>

@@ -22,9 +22,10 @@ function npx() {
   return { programme: 'npx', debut: [], shell: process.platform === 'win32' };
 }
 
-export function wrangler(args, { afficher = true } = {}) {
+// config : l'API publique par défaut ; la couche intermédiaire a la sienne (hebergement/passerelle/wrangler.json)
+export function wrangler(args, { afficher = true, config = CONFIG } = {}) {
   const { programme, debut, shell } = npx();
-  const resultat = spawnSync(programme, [...debut, '--yes', WRANGLER, ...args, '--config', CONFIG], {
+  const resultat = spawnSync(programme, [...debut, '--yes', WRANGLER, ...args, '--config', config], {
     cwd: racine, encoding: 'utf8', shell, stdio: afficher ? ['inherit', 'pipe', 'inherit'] : 'pipe',
   });
   if (afficher && resultat.stdout) process.stdout.write(resultat.stdout);

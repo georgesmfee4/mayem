@@ -12,6 +12,9 @@ import { chargerContexte } from '../tools/conversation.js';
 
 const lire = (chemin) => JSON.parse(readFileSync(new URL(chemin, import.meta.url), 'utf8'));
 const pack = lire('../packs/bum/pack.json');
+// Le texte attendu est la traduction validée du pack : une retraduction des locuteurs ne casse pas le test
+const valide = (fr, montant = '') => pack.phrases.find((p) => p.fr === fr).cible.replace('{amount}', montant);
+const enMotif = (texte) => texte.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 function monter(profil = lire('../profiles/banque-essai.json')) {
   const banque = banqueSimulee(lire('../service/banque-essai.json'));
@@ -49,7 +52,7 @@ test('USSD relayé : premier écran traduit ligne à ligne, numéros de choix ga
   const { telephone } = monter();
   const ecran = await ouvrir(telephone('s1'));
   assert.match(ecran, /^CON /);
-  assert.match(ecran, /\n1\. Yené mebal\n2\. E lôm moné\n/);
+  assert.match(ecran, new RegExp(`\\n1\\. ${enMotif(valide('Consulter le solde'))}\\n2\\. ${enMotif(valide('Envoyer de l\'argent'))}\\n`));
   assert.ok(ecran.length <= 4 + 182);
 });
 
@@ -58,7 +61,7 @@ test('USSD relayé : les chiffres passent tels quels, le solde revient traduit, 
   const appel = telephone('s2');
   await ouvrir(appel);
   const ecran = await appel('1');
-  assert.equal(ecran, 'END Mebal môé: 85 000 FCFA');
+  assert.equal(ecran, `END ${valide('Votre solde est de {amount}', '85 000 FCFA')}`);
   assert.match(appels.at(-1).corps, /text=1(&|$)/);
 });
 
@@ -117,7 +120,7 @@ test('la même opération a la même empreinte par l\'USSD relayé et par l\'ass
 test('API mobile relayée : messages traduits, valeurs et références intactes, langue au choix', async () => {
   const { demander } = monter();
   const traduit = await (await demander('/v1/relais/api/solde')).json();
-  assert.deepEqual(traduit, { titre: 'Mebal môé', message: 'Mebal môé: 85 000 FCFA', solde: 85000, devise: 'FCFA' });
+  assert.deepEqual(traduit, { titre: valide('Votre solde'), message: valide('Votre solde est de {amount}', '85 000 FCFA'), solde: 85000, devise: 'FCFA' });
   const francais = await (await demander('/v1/relais/api/solde', { headers: { 'x-mayem-langue': 'fr' } })).json();
   assert.equal(francais.message, 'Votre solde est de 85 000 FCFA');
   const recap = await demander('/v1/relais/api/transfert', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ telephone: '678901234', montant: 5000 }) });
@@ -132,7 +135,7 @@ test('API relayée : une erreur du service garde son code et son message est tra
   const { demander } = monter();
   const r = await demander('/v1/relais/api/transfert/confirmer', { method: 'POST', body: JSON.stringify({ telephone: '678901234', montant: 90000, pin: PIN_ESSAI }) });
   assert.equal(r.status, 400);
-  assert.deepEqual(await r.json(), { erreur: 'Mebal teké yiane' });
+  assert.deepEqual(await r.json(), { erreur: valide('Solde insuffisant') });
 });
 
 test('converser et traduire : demandes valides, refus clairs des demandes mal formées', async () => {
@@ -142,7 +145,7 @@ test('converser et traduire : demandes valides, refus clairs des demandes mal fo
   assert.match(ok.reponse, /85 000 FCFA/);
   assert.ok(ok.session);
   const textes = await (await demander('/v1/traduire', { method: 'POST', body: JSON.stringify({ textes: ['Solde', 'Texte jamais validé'] }) })).json();
-  assert.deepEqual(textes.textes, ['Mebal', 'Texte jamais validé']);
+  assert.deepEqual(textes.textes, [valide('Solde'), 'Texte jamais validé']);
   assert.equal((await demander('/v1/converser', { method: 'POST', body: '{pas du json' })).status, 400);
   assert.equal((await demander('/v1/converser', { method: 'POST', body: JSON.stringify({ texte: '' }) })).status, 400);
   assert.equal((await demander('/v1/converser', { method: 'POST', body: 'x'.repeat(70000) })).status, 413);
@@ -164,9 +167,31 @@ test('USSD sans service à relayer : Mayem répond lui-même, menu du profil com
   const appel = telephone('s6');
   const accueil = await ouvrir(appel);
   assert.match(accueil, /^CON .*Awa/);
-  assert.match(accueil, /\n1\. Mebal\n/);
+  assert.match(accueil, new RegExp(`\\n1\\. ${enMotif(valide('Solde'))}\\n`));
   const solde = await appel('1');
   assert.match(solde, /85 000 FCFA/);
+});
+
+test('USSD sans service à relayer : chaque écran tient en 182 signes ; le récapitulatif garde ses valeurs et les deux choix', async () => {
+  const { telephone } = monter(lire('../profiles/mayem-seul.json'));
+  const parcours = [['envoie 50000 à Clarisse'], ['envoie 2000 à paul', 'Essomba', 'non, 3000', 'répète', 'bulu'], ['ma lôm 655 12 44 55 moné', '100'],
+    ['achète du crédit', '1000'], ['payer facture', '1'], ['3'], ['6'], ['frais pour 50000'], ['envoie 90000 à Pierre'], ['envoie à Pierre', 'beaucoup', 'rien', 'toto']];
+  let n = 0;
+  for (const langue of ['1', '2']) {
+    for (const saisies of parcours) {
+      const appel = telephone(`long${n}`, `+2376950000${String(n++).padStart(2, '0')}`);
+      await ouvrir(appel, langue);
+      for (const saisie of saisies) {
+        const ecran = (await appel(saisie)).replace(/^(CON|END) /, '');
+        assert.ok(ecran.length <= 182, `${saisies.join(' / ')} > ${saisie} : ${ecran.length} signes`);
+      }
+    }
+  }
+  const appel = telephone('long-recap', '+237695000099');
+  await ouvrir(appel, '1');
+  assert.equal(await appel('envoie 50000 à Clarisse'), 'CON Vous allez envoyer 50 000 FCFA à Clarisse Ndzana\nNuméro du bénéficiaire : 680 11 22 33\n'
+    + 'Frais de l\'opération : 500 FCFA\nTotal à débiter : 50 500 FCFA\n1. Confirmer\n2. Annuler');
+  assert.match(await appel('1'), /^END /, 'la touche 1 confirme');
 });
 
 test('navigation à la main, touche par touche : la même opération est reconnue, avec la même empreinte', async () => {
@@ -202,30 +227,32 @@ test('interaction multicanale : le même transfert a la même empreinte par l\'U
 
 test('premier appel : l\'écran de choix de la langue, sans rien demander au service', async () => {
   const { telephone, appels } = monter();
-  const ecran = await telephone('c1')();
-  assert.match(ecran, /^CON Choisissez votre langue\.\nfiale nkôbo\n1\. Français\n2\. Bulu$/);
+  const titre = chargerContexte('bum', banqueSimulee(lire('../service/banque-essai.json'))).reponses.rendre({ ref: 'RF102' }, 'bum');
+  assert.ok(titre.traduit);
+  const choix = `CON Choisissez votre langue.\n${titre.texte}\n1. Français\n2. Bulu`;
+  assert.equal(await telephone('c1')(), choix);
   assert.equal(appels.length, 0);
   const appel = telephone('c1b');
   await appel();
-  assert.match(await appel('7'), /^CON Choisissez votre langue\.\nfiale nkôbo\n1\. Français\n2\. Bulu$/, 'un choix inconnu redemande la langue');
+  assert.equal(await appel('7'), choix, 'un choix inconnu redemande la langue');
   assert.equal(appels.length, 0);
 });
 
-test('la ligne « Langue » ne nomme aucune langue, s\'écrit dans la langue en cours et n\'est jamais envoyée au service', async () => {
-  const { telephone, appels } = monter();
+test('écrire le nom d\'une langue change de langue à tout moment ; le service ne reçoit rien', async () => {
+  const { telephone, appels, passerelle } = monter();
   const appel = telephone('c2');
-  const menu = await ouvrir(appel);
-  const derniere = menu.split('\n').at(-1);
-  assert.match(derniere, /^0\. /);
-  assert.doesNotMatch(derniere, /bulu|français/i);
+  const menu = await ouvrir(appel, '1');
+  assert.equal(menu, 'CON Bienvenue\n1. Consulter le solde\n2. Envoyer de l\'argent\n3. Historique des transactions\n4. Acheter du crédit', 'aucune ligne ajoutée au menu du service');
   const avant = appels.length;
-  const choix = await appel('0');
-  assert.match(choix, /\n1\. Français\n2\. Bulu$/);
-  const repris = await appel('1');
-  assert.equal(appels.length, avant, 'changer de langue ne dérange pas le service');
-  assert.match(repris, /^CON Bienvenue\n1\. Consulter le solde\n2\. Envoyer de l'argent\n3\. Historique des transactions\n4\. Acheter du crédit\n0\. Langue$/);
+  const enBulu = await appel('Bulu');
+  assert.equal(appels.length, avant, 'le service n\'a rien reçu');
+  assert.doesNotMatch(enBulu, /Bienvenue|Consulter le solde/, 'le menu est réaffiché dans la langue écrite');
+  assert.match(passerelle.journal.at(-1).validation, /le service n'a rien reçu/);
+  const enFrancais = await appel('en français');
+  assert.equal(appels.length, avant);
+  assert.match(enFrancais, /\nBienvenue\n1\. Consulter le solde\n2\. Envoyer de l'argent\n3\. Historique des transactions\n4\. Acheter du crédit$/);
   assert.equal(await appel('1'), 'END Votre solde est de 85 000 FCFA');
-  assert.ok(appels.every((a) => !/text=[^&]*0(&|$)/.test(a.corps)), 'la touche 0 n\'est jamais partie au service');
+  assert.match(appels.at(-1).corps, /text=1(&|$)/, 'le service reçoit la touche 1, comme sans Mayem');
 });
 
 test('changer de langue en cours de route reprend l\'écran quitté, au même endroit du parcours', async () => {
@@ -234,23 +261,60 @@ test('changer de langue en cours de route reprend l\'écran quitté, au même en
   await ouvrir(appel, '1');
   await appel('envoie 5000 au 678901234');
   const avant = appels.length;
-  await appel('0');
-  const repris = await appel('2');
-  assert.equal(appels.length, avant);
-  assert.match(repris, /^CON wô zu lôm 5 000 FCFA asù Pierre Owona/);
+  assert.match(await appel('bulu'), /wô zu lôm 5 000 FCFA asù Pierre Owona/);
+  // « langue » seul rouvre le choix ; le numéro ou le nom de la langue y répond
+  assert.match(await appel('langue'), /\n1\. Français\n2\. Bulu$/);
+  assert.match(await appel('Français'), /Pierre Owona/);
+  assert.equal(appels.length, avant, 'changer de langue ne dérange pas le service');
   assert.match(await appel('1'), /^CON /, 'le parcours continue : écran du code PIN');
   assert.match(appels.at(-1).corps, /text=2\*678901234\*5000\*1(&|$)/);
 });
 
-test('hors d\'un menu, la touche 0 n\'est pas interceptée : elle va au service', async () => {
+test('sans service à relayer : la langue s\'écrit aussi, et le menu quitté est repris', async () => {
+  const { telephone } = monter(lire('../profiles/mayem-seul.json'));
+  const appel = telephone('s1', '+237690000009');
+  const menu = await ouvrir(appel, '1');
+  assert.match(menu, /^CON Bonjour Awa\. Que voulez-vous faire \?\n1\. Solde\n/);
+  assert.match(await appel('langue'), /\n1\. Français\n2\. Bulu$/);
+  assert.doesNotMatch(await appel('2'), /Que voulez-vous faire|Français/, 'le menu revient, dans la langue choisie');
+  assert.match(await appel('français'), /\nBonjour Awa\. Que voulez-vous faire \?\n1\. Solde\n/);
+  assert.match(await appel('1'), /85 000 FCFA/, 'la touche 1 du menu repris donne le solde');
+});
+
+test('la touche 0 va toujours au service : Mayem ne la réserve plus', async () => {
   const { telephone, appels } = monter();
   const appel = telephone('c4');
-  await ouvrir(appel);
-  const montant = await appel('2');
-  assert.doesNotMatch(montant, /\n0\. /, 'pas de ligne « Langue » sous une demande de saisie');
-  await appel('678901234');
-  assert.match(await appel('0'), /^END /);
-  assert.match(appels.at(-1).corps, /text=2\*678901234\*0(&|$)/);
+  await ouvrir(appel, '1');
+  await appel('0');
+  assert.match(appels.at(-1).corps, /text=0(&|$)/);
+});
+
+test('preuve : le service reçoit les requêtes de l\'opérateur comme sans Mayem, et en français l\'écran est le sien à l\'octet près', async () => {
+  const { demander, appels } = monter();
+  const champs = (session, text) => new URLSearchParams({ sessionId: session, serviceCode: '*123#', phoneNumber: '+237690000001', networkCode: '62401', text });
+  const operateur = async (session, saisies) => (await demander('/v1/ussd', { method: 'POST', body: champs(session, saisies.join('*')) })).text();
+  const parcours = ['2', '678901234', '5000'];
+  // Sans Mayem : l'opérateur appelle le service lui-même
+  const direct = serviceBanque(banqueSimulee(lire('../service/banque-essai.json')));
+  const sansMayem = [];
+  for (let i = 0; i <= parcours.length; i++) {
+    const reponse = await direct.traiter(new Request('http://127.0.0.1:8788/ussd', { method: 'POST', body: champs('p1', parcours.slice(0, i).join('*')) }));
+    sansMayem.push((await reponse.text()).trim());
+  }
+  const attendues = (session) => parcours.map((_, i) => champs(session, parcours.slice(0, i).join('*')).toString()).concat(champs(session, parcours.join('*')).toString());
+  // Avec Mayem, en français : premier appel (écran de choix de Mayem, le service n'est pas appelé), puis les mêmes touches
+  await operateur('p1', []);
+  assert.equal(appels.length, 0);
+  const tapees = ['1'];
+  const avecMayem = [await operateur('p1', tapees)];
+  for (const touche of parcours) { tapees.push(touche); avecMayem.push(await operateur('p1', tapees)); }
+  assert.deepEqual(avecMayem, sansMayem, 'chaque écran est celui du service, sans une ligne de plus');
+  assert.deepEqual(appels.map((a) => a.corps), attendues('p1'), 'numéro, session, code et champs en plus arrivent tels que l\'opérateur les a envoyés');
+  // Même parcours en écrivant une langue au milieu : ni une requête de plus, ni une de moins
+  appels.length = 0;
+  const saisies = ['2', 'bulu', '678901234', 'français', '5000'];
+  for (let i = 0; i <= saisies.length; i++) await operateur('p2', saisies.slice(0, i));
+  assert.deepEqual(appels.map((a) => a.corps), attendues('p2'));
 });
 
 test('la langue choisie est gardée pour ce numéro : retrouvée au prochain appel, dans l\'application et par l\'assistant', async () => {
@@ -262,7 +326,7 @@ test('la langue choisie est gardée pour ce numéro : retrouvée au prochain app
   const api = await (await demander('/v1/relais/api/solde', { headers: { 'x-client-telephone': '690000001' } })).json();
   assert.equal(api.message, 'Votre solde est de 85 000 FCFA');
   const autreClient = await (await demander('/v1/relais/api/solde', { headers: { 'x-client-telephone': '699999999' } })).json();
-  assert.equal(autreClient.message, 'Mebal môé: 85 000 FCFA', 'un autre client garde la langue par défaut du profil');
+  assert.equal(autreClient.message, valide('Votre solde est de {amount}', '85 000 FCFA'), 'un autre client garde la langue par défaut du profil');
   const assistant = await (await demander('/v1/converser', { method: 'POST', body: JSON.stringify({ texte: 'Quel est mon solde ?', telephone: '+237 690 00 00 01' }) })).json();
   assert.equal(assistant.langue, 'fr');
   assert.match(assistant.reponse, /^Votre solde est de/);
@@ -278,11 +342,135 @@ test('préférences : seule la langue est gardée, rattachée à l\'empreinte du
   assert.equal(await empreinteNumero('+237677123456'), await empreinteNumero('677 12 34 56'));
 });
 
-test('ligne « Langue » : absente si la touche est déjà prise par le menu ou si l\'écran déborderait', async () => {
-  const { ligneLangue } = await import('../service/choix-langue.ts');
-  const reponses = { rendre: (m) => ({ texte: (m.prefixe || '') + 'Langue' }) };
-  assert.equal(ligneLangue(reponses, '0', 'fr', '1. Solde\n2. Envoyer', '1. Solde\n2. Envoyer', 182), '0. Langue');
-  assert.equal(ligneLangue(reponses, '0', 'fr', '1. Solde\n0. Retour', '1. Solde\n0. Retour', 182), null);
-  assert.equal(ligneLangue(reponses, '0', 'fr', 'Montant', 'Montant', 182), null);
-  assert.equal(ligneLangue(reponses, '0', 'fr', '1. ' + 'x'.repeat(175), '1. ' + 'x'.repeat(175), 182), null);
+test('écran de choix : le numéro ou le nom de la langue, sans souci de casse ni d\'accents', async () => {
+  const { langueChoisie } = await import('../service/choix-langue.ts');
+  const langues = [{ code: 'fr', nom: 'Français' }, { code: 'bum', nom: 'Bulu' }];
+  assert.equal(langueChoisie('2', langues), 'bum');
+  for (const saisie of ['bulu', 'BULU', ' Bulu ', 'en bulu']) assert.equal(langueChoisie(saisie, langues), 'bum', saisie);
+  for (const saisie of ['francais', 'Français', 'en français']) assert.equal(langueChoisie(saisie, langues), 'fr', saisie);
+  for (const saisie of ['3', 'bul', 'anglais', '']) assert.equal(langueChoisie(saisie, langues), null, saisie);
+});
+
+test('relais : la phrase passe par le noyau ; un contact du carnet, même donné après coup, complète l\'opération', async () => {
+  const { telephone, appels } = monter();
+  const appel = telephone('q1');
+  await ouvrir(appel, '2');
+  assert.match(await appel('lôm jean 10 000'), /Jean Bekono/);
+  assert.match(appels.at(-1).corps, /text=2\*691234567\*10000(&|$)/);
+  const autre = telephone('q2', '+237690000002');
+  await ouvrir(autre, '2');
+  const avant = appels.length;
+  assert.equal(await autre('lôm 10 000'), 'CON Zà wô lôm 10 000 FCFA ?');
+  assert.equal(appels.length, avant, 'une question de Mayem ne dérange pas le service');
+  await autre('jean');
+  assert.match(appels.at(-1).corps, /text=2\*691234567\*10000(&|$)/);
+});
+
+test('relais : homonymes, contact inconnu, numéro faux ; chaque fois une question précise et validée', async () => {
+  const { telephone, appels, passerelle } = monter();
+  const appel = telephone('q3');
+  await ouvrir(appel, '2');
+  assert.match(await appel('lôm Paul 2000'), /\n1\. Paul Mbarga, 677 12 34 56\n2\. Paul Essomba, 699 11 22 33$/);
+  assert.ok(passerelle.journal.at(-1).reponses.filter((x) => x.ref !== 'faits').every((x) => x.traduit));
+  await appel('Essomba');
+  assert.match(appels.at(-1).corps, /text=2\*699112233\*2000(&|$)/);
+  const autre = telephone('q4', '+237690000003');
+  await ouvrir(autre, '2');
+  await autre('lôm Zorro 5000');
+  for (const [saisie, ref] of [['Zorro', 'RF057'], ['12345', 'RF063']]) {
+    await autre(saisie);
+    assert.deepEqual(passerelle.journal.at(-1).reponses.map((x) => [x.ref, x.traduit]), [[ref, true]], saisie);
+  }
+  await autre('677123456');
+  assert.match(appels.at(-1).corps, /text=2\*677123456\*5000(&|$)/);
+});
+
+test('relais : personne ne reste bloqué', async () => {
+  const { telephone, appels, passerelle } = monter();
+  // Une touche de menu pendant une question de Mayem revient au service
+  const a = telephone('q5');
+  await ouvrir(a, '1');
+  await a('envoie à Pierre');
+  assert.match(await a('3'), /^END Historique des transactions/);
+  assert.match(appels.at(-1).corps, /text=3(&|$)/);
+  // Trois réponses sans suite : rien n'est fait, Mayem le dit, et les touches vont de nouveau au service
+  const b = telephone('q6', '+237690000004');
+  await ouvrir(b, '1');
+  await b('envoie à Pierre');
+  await b('beaucoup');
+  await b('rien');
+  const avant = appels.length;
+  await b('toto');
+  assert.equal(passerelle.journal.at(-1).statut, 'annulee');
+  assert.equal(appels.length, avant);
+  assert.equal(await b('1'), 'END Votre solde est de 85 000 FCFA');
+  // « annuler » pendant une question, et l'écran de choix ouvert en cours de route qu'une phrase referme
+  const c = telephone('q7', '+237690000005');
+  await ouvrir(c, '1');
+  await c('envoie à Pierre');
+  assert.match(await c('annuler'), /^CON Opération annulée\. Aucun montant n'a été débité\.\nBienvenue/);
+  await c('langue');
+  assert.equal(await c('solde'), 'END Votre solde est de 85 000 FCFA');
+});
+
+test('relais : la négation n\'envoie rien ; « oui » et « non » répondent à l\'écran du service ; le crédit va à l\'appelant', async () => {
+  const { telephone, appels } = monter();
+  const a = telephone('q9');
+  await ouvrir(a, '1');
+  const avant = appels.length;
+  assert.match(await a('n\'envoie pas 5000 à Pierre'), /^CON D'accord, je ne fais rien\./);
+  assert.equal(appels.length, avant, 'une demande négative n\'envoie rien au service');
+  await a('envoie 5000 à Pierre');
+  assert.match(await a('oui'), /^CON Saisissez votre code PIN/);
+  assert.match(appels.at(-1).corps, /text=2\*678901234\*5000\*1(&|$)/);
+  const b = telephone('q10', '+237690000007');
+  await ouvrir(b, '1');
+  await b('envoie 5000 à Pierre');
+  await b('non');
+  assert.match(appels.at(-1).corps, /text=2\*678901234\*5000\*2(&|$)/);
+  const c = telephone('q11', '+237670000008');
+  await ouvrir(c, '1');
+  await c('achète 1000 de crédit');
+  assert.match(appels.at(-1).corps, /text=4\*670000008\*1000(&|$)/);
+});
+
+test('relais : un numéro hors du carnet ; la question et l\'écran de la banque sont traduits en entier, total « à débiter »', async () => {
+  const { telephone, appels, demander } = monter();
+  const ctx = chargerContexte('bum', banqueSimulee(lire('../service/banque-essai.json')));
+  const valide = (ref, valeurs) => ctx.reponses.rendre({ ref, valeurs }, 'bum', 'ussd').texte;
+  const appel = telephone('q12', '+237690000009');
+  await ouvrir(appel, '2');
+  assert.equal(await appel('ma lôm 655 12 44 55 moné'), `CON ${valide('RF030')}`);
+  const ecran = (await appel('100')).replace(/^CON /, '').split('\n');
+  assert.match(appels.at(-1).corps, /text=2\*655124455\*100(&|$)/);
+  const banque = serviceBanque();
+  const francais = (await (await banque.traiter(new Request('http://banque.test/ussd', { method: 'POST', body: new URLSearchParams({ text: '2*655124455*100' }) }))).text()).replace(/^CON /, '').split('\n');
+  assert.deepEqual(francais.slice(0, 4), ['Montant : 100 FCFA', 'Numéro du bénéficiaire : 655124455', 'Frais de l\'opération : 100 FCFA', 'Total à débiter : 200 FCFA']);
+  assert.equal(ecran.length, francais.length);
+  francais.forEach((ligne, i) => assert.notEqual(ecran[i], ligne, `ligne traduite : ${ligne}`));
+  assert.equal(ecran[3], valide('RF134', { amount: '200 FCFA' }), 'avant la confirmation, le total est celui qui sera débité');
+  const recap = await (await demander('/v1/relais/api/transfert', { method: 'POST', body: JSON.stringify({ telephone: '655124455', montant: 100 }) })).json();
+  assert.equal(recap.beneficiaire, valide('RF132', { phone: '655124455' }));
+  assert.equal(recap.total, valide('RF134', { amount: '200 FCFA' }));
+});
+
+test('relais : un service muet ou en erreur ne laisse rien en suspens ; message validé, session terminée', async () => {
+  const ctx = chargerContexte('bum', banqueSimulee(lire('../service/banque-essai.json')));
+  const attendu = ctx.reponses.rendre({ ref: 'RF064' }, 'bum', 'ussd');
+  assert.ok(attendu.traduit);
+  for (const appeler of [async () => { throw new Error('connexion refusée'); }, async () => new Response('erreur', { status: 500 })]) {
+    const passerelle = creerPasserelle({ ctx, pack, profil: lire('../profiles/banque-essai.json'), appeler, pages: {} });
+    const corps = (text) => new URLSearchParams({ sessionId: 'panne', serviceCode: '*123#', phoneNumber: '+237690000001', text });
+    await passerelle.traiter(new Request('http://mayem.test/v1/ussd', { method: 'POST', body: corps('') }));
+    const ecran = await (await passerelle.traiter(new Request('http://mayem.test/v1/ussd', { method: 'POST', body: corps('2') }))).text();
+    assert.equal(ecran, `END ${attendu.texte}`);
+    assert.equal(passerelle.journal.at(-1).statut, 'erreur');
+    assert.match(passerelle.journal.at(-1).validation, /rien exécuté/);
+  }
+});
+
+test('profil d\'un service : les touches relevées deviennent les raccourcis de la passerelle', async () => {
+  const { lireTouches } = await import('../tools/passerelle.js');
+  assert.deepEqual(lireTouches('*126# puis 1 > {telephone} > {montant}', '*126#'), ['1', '{telephone}', '{montant}']);
+  assert.deepEqual(lireTouches('2 > 1', '*126#'), ['2', '1']);
 });

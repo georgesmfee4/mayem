@@ -88,7 +88,8 @@ const VUES = {
       const pin = el('input', { id: 'pin', type: 'password', inputMode: 'numeric', autocomplete: 'off', placeholder: 'PIN' });
       const confirmer = el('button', { className: 'bouton', type: 'button', textContent: corps.actions[0] });
       const annuler = el('button', { className: 'bouton second', type: 'button', textContent: corps.actions[1] });
-      zone.replaceChildren(el('div', { className: 'titre', textContent: corps.titre }), el('div', { textContent: corps.message }), el('div', { textContent: corps.frais }),
+      zone.replaceChildren(el('div', { className: 'titre', textContent: corps.titre }), el('div', { textContent: corps.message }),
+        ...(corps.beneficiaire ? [el('div', { textContent: corps.beneficiaire })] : []), el('div', { textContent: corps.frais }),
         el('b', { textContent: corps.total }), el('div', { className: 'doux', textContent: corps.avertissement }), pin, confirmer, annuler);
       annuler.onclick = () => zone.replaceChildren();
       confirmer.onclick = async () => {

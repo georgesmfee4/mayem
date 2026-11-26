@@ -1,0 +1,24 @@
+ref,intention,priorite,situation,exemple_fr,a_noter
+S01,retrait,P1,Vous êtes chez un agent et vous voulez retirer 20 000 F.,Je veux retirer 20 000.,
+S02,frais,P2,Vous demandez combien coûte un retrait de 50 000 F.,Ça coûte combien pour retirer 50 000 ?,Réponse attendue : les frais.
+S03,approbation,P1,Un agent vous a demandé de valider un retrait sur votre téléphone. Vous voulez l'approuver.,Valide le retrait de l'agent.,
+S04,approbation,P1,Vous recevez une demande de retrait que vous n'avez jamais faite. Vous la refusez.,"Refuse ce retrait, ce n'est pas moi.",Piège : la machine ne doit rien approuver.
+S05,depot,P2,Vous voulez savoir comment mettre de l'argent sur votre compte.,Comment déposer de l'argent ?,
+S06,paiement_marchand,P1,Vous payez 3 500 F au boutiquier dont le code marchand est 123456.,Paie 3 500 au marchand 123456.,
+S07,forfait_internet,P1,Vous voulez un forfait internet pour la journée.,Mets-moi un forfait internet du jour.,
+S08,forfait_internet,P2,"Vous voulez un forfait internet pour le mois, payé avec votre argent mobile.","Je veux le forfait internet du mois, paie avec mon compte.",
+S09,forfait_appel,P2,Vous voulez des minutes pour appeler votre famille.,Achète-moi un forfait d'appels.,
+S10,solde_credit,P1,Vous voulez savoir combien de crédit d'appel il vous reste (pas l'argent du compte).,Combien de crédit il me reste ?,Bien distinguer le crédit d'appel et le solde du compte.
+S11,solde_internet,P1,Vous voulez savoir combien d'internet il vous reste.,Il me reste combien de mégas ?,
+S12,transfert_credit,P2,Vous voulez donner 500 F de votre crédit d'appel à votre sœur.,Transfère 500 de crédit à ma sœur.,Phrase ambiguë (achat ou transfert de crédit) : Mayem doit demander lequel.
+S13,changer_pin,P1,Vous voulez changer votre code secret.,Je veux changer mon code secret.,
+S14,pin_oublie,P1,Vous avez oublié votre code secret.,J'ai oublié mon code.,
+S15,pret,P2,Vous voulez emprunter 10 000 F jusqu'à la fin du mois.,Je veux un prêt de 10 000.,
+S16,remboursement,P2,Vous voulez rembourser votre prêt.,Je veux rembourser mon prêt.,
+S17,epargne,P2,Vous voulez mettre 5 000 F de côté sur votre épargne.,Mets 5 000 dans mon épargne.,
+S18,transfert_autre_reseau,P2,Vous voulez envoyer 10 000 F sur un numéro d'un autre opérateur.,Envoie 10 000 sur un numéro d'un autre réseau.,
+S19,annuler_operation,P1,Vous avez envoyé de l'argent au mauvais numéro et vous voulez le récupérer.,"Je me suis trompé de numéro, il faut annuler l'envoi.",
+S20,service_client,P2,Vous voulez parler à quelqu'un du service client.,Je veux parler au service client.,
+S21,carte_virtuelle,P2,Vous voulez une carte pour payer sur internet.,Je veux une carte pour payer en ligne.,
+S22,ouvrir_compte,P2,Vous voulez ouvrir un compte d'argent mobile.,Comment ouvrir un compte ?,
+S23,facture,P1,Vous voulez payer l'abonnement de votre décodeur de télévision.,Je veux payer mon abonnement télé.,

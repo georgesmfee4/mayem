@@ -19,8 +19,11 @@ export function serviceBanque(banque = banqueSimulee(donnees())) {
   async function recapitulatif(telephone, montant) {
     const contact = await nomDe(telephone);
     const frais = await banque.frais(montant, contact?.type || 'mobile');
-    return { nom: contact?.nom || telephone, type: contact?.type || 'mobile', frais, total: montant + frais };
+    return { nom: contact?.nom || telephone, connu: Boolean(contact), type: contact?.type || 'mobile', frais, total: montant + frais };
   }
+
+  // Avant la confirmation, rien n'est retiré : « Total à débiter ». Un numéro hors du carnet n'a pas de nom à afficher.
+  const envoi = (r, montant, numero) => (r.connu ? [`Vous allez envoyer ${fcfa(montant)} à ${r.nom}`] : [`Montant : ${fcfa(montant)}`, `Numéro du bénéficiaire : ${numero}`]);
 
   async function ussd(texte) {
     const t = texte ? texte.split('*') : [];
@@ -40,7 +43,7 @@ export function serviceBanque(banque = banqueSimulee(donnees())) {
     const r = await recapitulatif(numero, montant);
     if (t.length === 3) {
       return choix === '2'
-        ? `CON Vous allez envoyer ${fcfa(montant)} à ${r.nom}\nFrais de l'opération : ${fcfa(r.frais)}\nTotal débité : ${fcfa(r.total)}\n1. Confirmer\n2. Annuler`
+        ? `CON ${[...envoi(r, montant, numero), `Frais de l'opération : ${fcfa(r.frais)}`, `Total à débiter : ${fcfa(r.total)}`].join('\n')}\n1. Confirmer\n2. Annuler`
         : `CON Montant : ${fcfa(montant)}\nNuméro de téléphone : ${numero}\n1. Confirmer\n2. Annuler`;
     }
     if (decision === '2') return 'END Opération annulée. Aucun montant n\'a été débité.';
@@ -71,9 +74,10 @@ export function serviceBanque(banque = banqueSimulee(donnees())) {
       if (!montantValide(String(montant))) return json({ erreur: 'Montant invalide' }, 400);
       const r = await recapitulatif(String(telephone), Number(montant));
       if (chemin === 'transfert') {
+        const [message, beneficiaire] = envoi(r, Number(montant), String(telephone));
         return json({
-          statut: 'recapitulatif', titre: 'Récapitulatif de l\'opération', message: `Vous allez envoyer ${fcfa(Number(montant))} à ${r.nom}`,
-          frais: `Frais de l'opération : ${fcfa(r.frais)}`, total: `Total débité : ${fcfa(r.total)}`, avertissement: 'Cette opération est irréversible',
+          statut: 'recapitulatif', titre: 'Récapitulatif de l\'opération', message, ...(beneficiaire ? { beneficiaire } : {}),
+          frais: `Frais de l'opération : ${fcfa(r.frais)}`, total: `Total à débiter : ${fcfa(r.total)}`, avertissement: 'Cette opération est irréversible',
           actions: ['Confirmer', 'Annuler'],
         });
       }

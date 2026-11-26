@@ -35,3 +35,25 @@ D33,aide,P2,Vous demandez ce que vous pouvez faire avec ce service.,Qu'est-ce qu
 D34,saluer,P2,Vous commencez la conversation en saluant.,Bonjour.,
 D35,terminer,P2,Vous terminez en remerciant.,"Merci, au revoir.",
 D36,transfert,P2,Vous dites clairement que vous ne voulez PAS envoyer d'argent à Paul.,N'envoie pas l'argent à Paul.,Piège de négation : la machine ne doit surtout pas envoyer.
+D37,frais,P1,"Avant d'envoyer de l'argent à votre fille, vous voulez savoir combien la banque va prendre.",Combien vous prenez pour envoyer ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D38,frais,P1,Vous voulez savoir ce que coûte un envoi de 30 000 F.,Ça coûte combien d'envoyer 30 000 ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D39,frais,P1,Vous trouvez qu'on vous a pris beaucoup sur votre dernier envoi. Vous demandez combien on prend d'habitude.,Vous coupez combien sur chaque envoi ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D40,frais,P2,Vous voulez savoir si acheter du crédit coûte quelque chose en plus.,Il y a des frais pour le crédit ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D41,historique,P1,Votre frère dit qu'il vous a envoyé de l'argent hier. Vous voulez vérifier.,Est-ce que l'argent de mon frère est venu ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D42,historique,P1,Vous voulez voir les opérations de votre semaine.,Montre-moi ce que j'ai fait cette semaine.,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D43,historique,P1,Vous voulez revoir le dernier envoi que vous avez fait.,C'était quoi mon dernier envoi ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D44,historique,P2,Vous attendez le paiement d'un client et vous voulez savoir s'il est arrivé.,Mon client a payé ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D45,aide,P1,Vous ne savez pas ce que ce service peut faire. Vous le lui demandez.,Qu'est-ce que tu sais faire ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D46,aide,P1,Vous êtes perdu au milieu d'une opération et vous demandez qu'on vous guide.,"Je ne comprends pas, guide-moi.",Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D47,aide,P2,Vous demandez de l'aide comme vous le feriez à un voisin.,Viens m'aider s'il te plaît.,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D48,expliquer,P1,Le mot « solde » apparaît à l'écran et vous ne savez pas ce qu'il veut dire.,"Solde, ça veut dire quoi ?",Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D49,expliquer,P1,On vous donne une « référence » après un envoi. Vous demandez ce que c'est.,C'est quoi la référence ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D50,expliquer,P2,Vous demandez à quoi servent les frais.,"Les frais, c'est pour quoi ?",Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D51,annuler,P1,"Après avoir vu le récapitulatif, vous changez d'avis et vous voulez tout arrêter.","Arrête, je ne veux plus.",Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D52,annuler,P1,"Vous avez commencé un achat de crédit, mais vous préférez abandonner.",Laisse tomber le crédit.,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D53,annuler,P1,Vous dites que vous n'envoyez plus l'argent.,Je n'envoie plus.,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D54,solde,P1,Vous voulez savoir si votre argent suffit pour payer le loyer de 40 000 F.,Mon argent suffit pour 40 000 ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D55,solde,P2,"Après vos achats de la journée, vous demandez combien il vous reste.",Il me reste combien maintenant ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D56,corriger,P1,"Pendant le récapitulatif, vous voyez que le numéro est faux et vous le corrigez.","Non, ce n'est pas ce numéro, c'est le 677 00 11 22.",Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D57,corriger,P1,"Vous aviez dit 5 000 F, mais vous voulez finalement 3 000 F.",Mets plutôt 3 000.,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.
+D58,depenses,P2,Vous voulez savoir combien vous avez dépensé ce mois-ci.,J'ai dépensé combien ce mois ?,Situation ajoutée pour apprendre : ne pas reprendre une phrase du test à l'aveugle.

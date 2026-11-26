@@ -6,7 +6,7 @@ RF011,solde,P1,1,Votre solde disponible au {date} est de {amount}.,"complet,ussd
 RF012,solde,P1,1,"Après cette opération, il vous restera {amount}.","complet,ussd,sms,voix",80,,
 RF014,historique,P2,1,"Aujourd'hui, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
 RF015,historique,P2,1,"Hier, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
-RF016,historique,P1,1,"Ces sept derniers jours, vous avez dépensé {amount}.","complet,ussd,sms,voix",70,,
+RF016,historique,P1,1,"Ces 7 derniers jours, vous avez dépensé {amount}.","complet,ussd,sms,voix",70,,
 RF017,historique,P2,1,"Ce mois-ci, vous avez dépensé {amount}.","complet,ussd,sms,voix",60,,
 RF020,historique,P1,0,Voici vos {count} dernières opérations.,"complet,ussd,sms,voix",60,,
 RF021,historique,P1,1,{date} : vous avez envoyé {amount} à {name}.,"complet,ussd,sms,voix",60,,Une ligne d'historique.
@@ -18,11 +18,13 @@ RF026,historique,P1,1,"Oui, l'argent de {name} est arrivé : {amount}, le {date}
 RF027,historique,P2,0,"Pour voir la suite, tapez 9.","ussd,voix",40,,
 RF030,transfert,P1,1,Combien voulez-vous envoyer ?,"complet,ussd,sms,voix",50,,
 RF031,transfert,P1,1,À qui voulez-vous envoyer l'argent ?,"complet,ussd,sms,voix",50,,
-RF032,transfert,P1,1,"Vous allez envoyer {amount} à {name}, au {phone}. Frais : {fee}. Total retiré de votre compte : {amount_2}. Confirmez-vous ?","complet,ussd,sms,voix",150,,Phrase la plus importante de la démonstration. Le sens de « retiré » doit être sans ambiguïté.
+RF032,transfert,P1,1,"Vous allez envoyer {amount} à {name}, au {phone}. Frais : {fee}. Total qui sera retiré de votre compte : {amount_2}. Confirmez-vous ?","complet,ussd,sms,voix",150,,"Phrase la plus importante de la démonstration. Rien n'est encore retiré : la personne n'a pas confirmé. Le total se dit avec le terme du glossaire pour « total à débiter » (avant l'opération), pas celui de « total débité » (après). Les frais : le terme du glossaire pour « frais »."
 RF033,transfert,P1,1,"Pour confirmer, dites oui ou tapez 1. Pour annuler, dites non ou tapez 2.","complet,ussd,voix",90,,
 RF034,transfert,P1,1,C'est fait. {name} a reçu {amount}. Référence : {ref}.,"complet,ussd,sms,voix",90,,
 RF035,transfert,P1,1,Votre nouveau solde est de {amount}.,"complet,ussd,sms,voix",60,,
 RF036,securite,P1,1,"Pour valider, entrez votre code PIN.","complet,ussd,sms,voix",50,,
+RF037,transfert,P1,1,Vous allez envoyer {amount} au {phone}. Frais : {fee}. Total qui sera retiré de votre compte : {amount_2}. Confirmez-vous ?,"complet,ussd,sms,voix",150,,"Comme RF032, pour un numéro qui n'est pas dans le carnet (pas de nom). Rien n'est encore retiré : même terme que RF032 pour le total."
+RF038,transfert,P1,1,C'est fait. Vous avez envoyé {amount} au {phone}. Référence : {ref}.,"complet,ussd,sms,voix",90,,"Comme RF034, pour un numéro qui n'est pas dans le carnet (pas de nom)."
 RF040,correction,P1,1,"D'accord, je corrige : {amount} au lieu de {amount_2}.","complet,ussd,sms,voix",70,,"{amount} est le nouveau montant, {amount_2} l'ancien."
 RF041,correction,P1,1,"D'accord, je corrige : vous envoyez maintenant à {name}.","complet,ussd,sms,voix",70,,
 RF042,correction,P1,1,"D'accord, je corrige le numéro : {phone}.","complet,ussd,sms,voix",60,,
@@ -67,3 +69,11 @@ RF111,aide,P2,0,Je répète.,"complet,voix",0,,
 RF112,terminer,P1,0,Merci. À bientôt.,"complet,ussd,sms,voix",30,,
 RF113,attente,P2,0,"Un instant, je vérifie.","complet,voix",0,,Pendant que le service répond.
 RF114,securite,P1,1,"Ne donnez jamais votre code PIN à personne, même à un agent de la banque.","complet,ussd,sms,voix",90,,
+RF120,aide,P1,0,"J'ai compris votre demande, mais je ne peux pas encore la faire ici.","complet,ussd,sms,voix",70,,Demande comprise mais que ce service ne propose pas encore.
+RF130,transfert,P1,1,Vous allez envoyer {amount} à {name},"complet,ussd,sms,voix",60,X13,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF131,transfert,P1,1,Montant : {amount},"complet,ussd,sms,voix",40,R02,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF132,transfert,P1,1,Numéro du bénéficiaire : {phone},"complet,ussd,sms,voix",60,X11,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF133,transfert,P1,1,Frais de l'opération : {amount},"complet,ussd,sms,voix",50,X12,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF134,transfert,P1,1,Total à débiter : {amount},"complet,ussd,sms,voix",50,F11,Ligne du récapitulatif affiché ligne à ligne tant que RF032 ou RF037 n'a pas de traduction validée.
+RF135,transfert,P1,1,Transfert effectué,"complet,ussd,sms,voix",30,C01,Affiché avec RF136 tant que RF034 ou RF038 n'a pas de traduction validée.
+RF136,transfert,P1,1,Référence de l'opération : {ref},"complet,ussd,sms,voix",50,X19,Affiché avec RF135 tant que RF034 ou RF038 n'a pas de traduction validée.

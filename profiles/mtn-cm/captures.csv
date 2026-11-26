@@ -1,0 +1,290 @@
+ref,releve_le,heure,code,chemin,certitude,texte,textes,a_verifier
+C01,24/11/2026,17:54,*123#,*123#,sûr,"Bienvenue aux offres MTN
+
+0. TopDeals
+1. Mes Offres
+2. MTN MoMo
+3. Forfaits Appels & Internet
+4. Communautés
+5. SMS & Digital
+6. Mon compte
+7. English","IU009, IU010, IU011, IU012, IU013, IU074",Ce que montrent 4 (Communautés) et 6 (Mon compte)
+C02,24/11/2026,17:50,*123#,*123# > 2,sûr,"MTN MoMo
+1) Transfert d argent
+2) Payer factures/services
+3) Achat Credit/Forfaits
+4) MoMoPay
+5) Operations bancaires
+6) Prets
+7) Mon Compte
+8) Aide
+9) Promo","IU013, IU014, IU015, IU016, IU021, IU051, IU070, IU112",Est-ce que *126# ouvre directement ce même menu ? Ce que montrent 5 (Operations bancaires) et 7 (Mon Compte)
+C03,24/11/2026,17:50,*123#,*123# > 2 > 1,sûr,"Transfert d argent
+1) Vers compte MOMO
+2) Vers autres operateurs (GIMACPAY)
+3) Vers client sans compte
+4) Transfert international
+5) Initier le retrait
+00. Next","IU002, IU021, IU024, IU025, IU026, IU027, IU047",La page 00 (Next)
+C04,24/11/2026,18:25,*123#,*123# > 2 > 1 > 1,sûr,Entrez le numero ou tapez 1 pour choisir parmi les favoris,IU029,"Les écrans suivants : montant, récapitulatif, code secret, succès (sans envoyer d'argent : annuler avant le code secret)"
+C05,24/11/2026,18:27,*123#,"*123# > 2 > 1 > 2 > 3 > 1, puis un numéro mal tapé",probable,"Numero incorrect, essayer encore svp",IU030,
+C06,24/11/2026,18:26,*123#,*123# > 2 > 1 > 2,sûr,"Vers autres operateurs - GIMACPAY
+1) Cameroun
+2) Gabon
+3) Congo Braz
+4) RCA
+5) Tchad
+6) Guinee Equatoriale
+7) Au Numéro IBAN","IU025, IU028",La suite de l'écran (une ligne Retour ou Next est peut-être cachée sous le champ de saisie). Ce que montre 1 (Cameroun)
+C07,24/11/2026,18:26,*123#,*123# > 2 > 1 > 2 > 2,sûr,"Gabon
+1) Airtel Gabon
+2) MOOV Gabon
+3) CLIKPAY Money
+4) Sodec Mobile
+5) Express Union Mobile
+0) Retour",IU001,
+C08,24/11/2026,18:26,*123#,*123# > 2 > 1 > 2 > 3,sûr,"Congo Braz
+1) MTN Congo
+2) Airtel Congo
+0) Retour",IU001,
+C09,24/11/2026,18:26,*123#,*123# > 2 > 1 > 2 > 3 > 1,sûr,Entrez le numero ou tapez 1 pour choisir parmi les favoris,IU029,Même invite que vers un compte MoMo
+C10,24/11/2026,18:30,*123#,*123# > 2 > 8,sûr,"Aide
+1) Qu'est-ce que MTN MoMo ?
+2) Comment envoyer de l'argent ?
+3) J'ai envoye de l'argent a un mauvais numero
+4) Comment reinitialiser mon code PIN
+00. Next","IU002, IU014, IU120, IU122, IU123, IU124",Le texte qui s'affiche après chaque question
+C11,24/11/2026,18:30,*123#,*123# > 2 > 8 > 00,sûr,"?
+5) quels sont les frais de MTN MoMo ?
+6) Voir mes dernières transactions
+7) Contactez MTN
+0) Retour","IU099, IU125, IU126",Le haut de l'écran est coupé : remonter pour lire la ligne qui finit par « ? »
+C12,24/11/2026,18:30,*123#,"*123# > 2 > 9 (ou 3, à confirmer)",probable,"1) Achat Credit/Forfaits
+2) MoMo Promo
+0) Retour","IU001, IU070",Par quelle touche du menu MoMo on arrive ici (9 Promo ou 3 Achat Credit/Forfaits)
+C13,24/11/2026,18:31,*123#,écran C12 > 1,probable,"Voici les types d'offres disponibles pour vous, veuillez selectionner:
+1) Bundle
+0) Retour","IU001, IU075, IU076",Ce que montre 1 (Bundle)
+C14,24/11/2026,18:23,*123#,*123# > 1,sûr,"Mes Offres
+00. Favorite
+1.  Bon Plans (*222#)
+2. 500U=1.12Go/30J
+3. 199U=210Mo/30J
+4. Solde
+
+97. Retour","IU001, IU010, IU092, IU095","Les offres chiffrées changent souvent : ne pas les traduire une à une. Relevé deux fois (18:23 et 18:28), identique"
+C15,24/11/2026,17:54,*123#,"*123# > 0 (TopDeals), à confirmer",probable,"0. Favorite
+1. 100U=1320U/24H+ 700U MTN/24H
+2. 500U=7500U+500Mo/7J
+3. 500U=1.2GB/30J+ 100Mo BONUS/30J
+4. 150U=550U+75MO/3Jrs+ 1000U MTN/3J
+5. 250U=3100
+00. Next","IU002, IU092",La touche qui mène ici. La ligne 5 est coupée à l'écran
+C16,24/11/2026,18:29,*123#,*123# > 3,sûr,"MTN Plus Forfaits. Tous reseaux au MEME PRIX
+
+0.  TopDeals
+1. Tous reseaux
+2. MTN Uniquement
+3. Tous reseaux et Internet
+4.  Internet
+99. Solde
+10
+00. Next","IU002, IU077, IU079, IU080, IU081, IU082, IU095","La ligne « 10 » est coupée : lire son libellé. Attention : la page d'aide MTN dit que *123*3*2# mène aux forfaits internet, mais ici 3 > 2 est « MTN Uniquement » et Internet est en 4"
+C17,24/11/2026,18:29,*123#,*123# > 3 > 1,sûr,"Vos forfaits MTN Plus pour appeler tous reseaux au Cameroun
+
+1. 250U=1100U/24H
+2. 500U=2500U/3Jrs
+3. 1000U=5550U/7Jrs
+4. 3000U=18950U/30Jrs",IU078,"La suite de l'écran (Retour, Next)"
+C18,24/11/2026,18:13,*123#,*123# > 5,sûr,"SMS & Digital
+
+1. Offers SMS
+2. Prolongation
+3. Yabadoo
+4. Solde
+
+
+97. Retour","IU001, IU012, IU090, IU091, IU095",Ce que fait 2 (Prolongation)
+C19,24/11/2026,17:59,*123#,inconnu,inconnu,"Verifiez les Forfaits Continent
+1) Verifier le solde du forfait Continent
+2) Comment ca marche?
+0) Retour","IU001, IU093, IU094, IU127",Le chemin qui mène à cet écran
+A01,24/11/2026,19:17,Application MoMo,Accueil (haut),sûr,"Portefeuille
+[numéro du compte, non recopié]
+0 FCFA
+Retrait
+Relevés
+POUR VOUS
+PAYER
+ACHETER
+Destinataires MoMo favoris
+Nouveau
+Envoyer de l'argent
+Forfait de Données
+Crédit
+Commerçants
+Accueil
+Envoyer
+Scanner QR
+Top Deals+
+Plus","IU005, IU006, IU007, IU008, IU020, IU022, IU023, IU031, IU048, IU052, IU053, IU064, IU071, IU072, IU073, IU096",Les onglets PAYER et ACHETER (leur contenu)
+A02,24/11/2026,19:17,Application MoMo,Accueil (défilé),sûr,"Envoyer de l'argent
+Forfait de Données
+Crédit
+Commerçants
+Services Publics
+Services Bancaires
+Prêts et Avances
+Billetterie
+Recommandez M[…]
+et recevez 200 F[…]
+Accueil
+Envoyer
+Scanner QR
+Top Deals+
+Plus","IU017, IU018, IU019, IU022, IU113",La bannière « Recommandez… » est cachée par le bouton : la relever en entier
+A03,24/11/2026,19:18,Application MoMo,Accueil (bas),sûr,"Dernières Transactions
+Aucunes transactions trouvées
+Accueil
+Envoyer
+Scanner QR
+Top Deals+
+Plus","IU005, IU097, IU098",Une ligne de transaction (après une opération)
+A04,24/11/2026,19:18,Application MoMo,Accueil > Top Deals+,sûr,"Offres Spéciales
+TOP DEALS +
+INTERNET
+APPELS
+INTE[…]
+Quotidien
+Hebdomadaire
+Mensuel
+550U+75MB/3+2000U/3 | 150 FCFA | Valable 3 jours
+3100U+75MB/3+2500U/3 | 250 FCFA | Valable 3 jours
+7500U+500MB/7+2500U/7 | 500 FCFA | Valable 7 jours
+2.5GB/30+350MB/30 | 1 000 FCFA | Valable 30 jours","IU082, IU083, IU085, IU086, IU087, IU088, IU089",Les offres chiffrées changent souvent : ne pas les traduire une à une. L'écran qui suit le choix d'une offre
+A05,24/11/2026,19:18,Application MoMo,Accueil > Top Deals+ > INTERNET + APPELS,sûr,"Offres Spéciales
+INTERNET
+APPELS
+INTERNET + APPELS
+Quotidien
+Hebdomadaire
+Mensuel
+400MB/30D+500U | 250 FCFA | Valable 30 jours","IU082, IU083, IU084, IU085, IU086, IU087, IU088, IU089",
+A06,24/11/2026,19:18,Application MoMo,Accueil > Plus,sûr,"Plus
+Tarifs
+Calculateur de Frais
+Centre de Connaissances","IU006, IU133, IU134, IU135",Le contenu de Tarifs et de Centre de Connaissances
+A07,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Factures,sûr,"Calculateur de frais
+Factures
+Virements
+Retrait
+Paiements Commerçants
+Type de facture
+Électricité (ENEO)
+Eau (Camwater)
+TV
+Facture MTN","IU042, IU048, IU054, IU055, IU056, IU057, IU058, IU059, IU060, IU135",
+A08,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Factures > Électricité (ENEO),sûr,"Calculateur de frais
+Factures
+Virements
+Retrait
+Paiements Commerçants
+Type de facture
+Électricité (ENEO)
+Type de compteur
+Prépayé
+Postpaid","IU056, IU057, IU061, IU062, IU063, IU135",Le résultat du calcul (frais affichés)
+A09,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Virements,sûr,"Calculateur de frais
+Factures
+Virements
+Retrait
+Paiements Commerçants
+Type de transfert
+Utilisateur MoMo
+Utilisateur non-MoMo
+Banque vers MoMo
+Transfert International","IU027, IU042, IU043, IU044, IU045, IU046, IU135",
+A10,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Retrait,sûr,"Calculateur de frais
+Factures
+Virements
+Retrait
+Paiements Commerçants
+Montant | FCFA
+Solde disponible:  0 FCFA
+CONTINUE","IU004, IU039, IU104, IU135",Le résultat après avoir tapé un montant
+A11,24/11/2026,19:19,Application MoMo,Accueil > Plus > Calculateur de Frais > Paiements Commerçants,sûr,"Calculateur de frais
+Factures
+Virements
+Retrait
+Paiements Commerçants
+Montant | FCFA
+Solde disponible:  0 FCFA
+EFFECTUER LE TRANSFERT","IU039, IU041, IU104, IU135",
+A12,24/11/2026,19:20,Application MoMo,"Transfert international, Portefeuille (chemin à confirmer : Envoyer ?)",probable,"Transfert international
+Comment souhaitez-vous payer ?
+Portefeuille
+Banque
+[drapeau du Ghana]
+Numéro de téléphone *
+Sélectionner le réseau
+MTN
+Montant * | FCFA
+Solde disponible:  0 FCFA
+Référence
+Enregistrer comme favori","IU020, IU027, IU032, IU033, IU034, IU035, IU037, IU039, IU040, IU104",Le chemin qui mène ici ; le bouton du bas (coupé) ; la liste des pays
+A13,24/11/2026,19:20,Application MoMo,"Transfert international, Banque",probable,"Transfert international
+Portefeuille
+Banque
+[drapeau du Ghana]
+Numéro de compte *
+Sélectionner la banque
+Ecobank
+Montant * | FCFA
+Solde disponible:  0 FCFA
+Référence
+Enregistrer comme favori
+CONTINUER (coupé)","IU004, IU020, IU027, IU032, IU034, IU036, IU038, IU039, IU040, IU104",La liste des banques
+A14,24/11/2026,19:20,Application MoMo,Accueil > Retrait,sûr,"Retrait
+Retrait Agent
+Retirez de l'argent chez l'agent le plus proche","IU048, IU049, IU050",Les écrans après « Retrait Agent »
+A15,24/11/2026,19:21,Application MoMo,Accueil > Scanner QR,sûr,"Scanner QR
+Scanner QR
+Mon Code QR
+Pour scanner les codes QR, activez l'appareil photo dans les paramètres Autoriser l'accès
+Saisir l'ID manuellement","IU064, IU065, IU066, IU067, IU068","Relevé deux fois, identique. L'onglet Mon Code QR"
+A16,24/11/2026,19:21,Application MoMo,Accueil > Scanner QR > Saisir l'ID manuellement,sûr,"Saisissez numéro de mobile/ID *
+SUIVANT","IU003, IU069",L'écran après SUIVANT
+A17,24/11/2026,19:21,Application MoMo,Accueil > profil (icône en haut à gauche),sûr,"[prénom et numéro du titulaire, non recopiés]
+COMPTE
+Paramètres de sécurité
+Biométrie, Modifier le code PIN et plus
+Changer de Compte
+Déconnectez-vous et utilisez un autre com[…]
+Carte Virtuelle
+Afficher ou gérer votre carte
+ASSISTANCE
+Obtenir de l'aide
+Trouver un agent ou signaler un problème
+Évaluer MoMo
+Que pensez-vous de MoMo ? Donnez votre […]
+PLUS","IU106, IU107, IU108, IU110, IU111, IU115, IU116, IU128, IU129, IU130, IU131, IU132","Les textes coupés (« Déconnectez-vous… », « Donnez votre… ») et la partie PLUS en bas"
+A18,24/11/2026,19:21,Application MoMo,Accueil > profil > Paramètres de sécurité (à confirmer),probable,"Paramètres
+Aperçu du Solde
+Changer la langue
+Désactiver l'authentification Biométrique
+Gestion du PIN
+Supprimer Mon Compte
+Notifications","IU105, IU109, IU114, IU117, IU118, IU119, IU121",Les langues proposées dans « Changer la langue »
+A19,24/11/2026,19:22,Application MoMo,Accueil > Relevés,sûr,"Relevés
+Solde actuel: | 0 FCFA
+Dépôt: | +0.00 FCFA
+Retrait: | -0.00 FCFA
+Pour novembre 2026
+Relevés
+Dernières transactions
+Aucunes transactions trouvées
+Accueil
+Envoyer
+Scanner QR
+Top Deals+
+Plus","IU005, IU096, IU097, IU098, IU100, IU101, IU102, IU103",L'écran du bouton « Relevés » (choix de la période)

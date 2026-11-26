@@ -1,23 +1,23 @@
 ref,terme,explication,courte,traduit_par,relu_par
-E01,solde,Nge ô mbe ô bili 30 000 F évôvôla (compte / account) jôé. ô lômé 20 000 F. Mebal âne jom ya lyii (10 000 F),Mebal (solde / balance) ane jom ya lyii évôvôla (compte / account) moné jôé.,Georges,Lesly
-E02,frais,"Minkuk (frais / fee) ane moné ya nda moné ya beté yôp abime moné éyon operation. Nge ô lômé 10 000 F na Minkuk 200 F, moné a kôlô évôvôla moné jôé ane 10 200 F.",Minkuk (frais / fee) ane moné ya beté yôp ya abime moné wô lôm.,Georges,Lesly
+E01,solde,Nge ô mbe ô bili 30 000 F konte jôé. ô lômé 20 000 F. abime moné âne jom ya lyii (10 000 F),moné ane konte jôé éto dji,Georges,Ronald
+E02,frais,"be frais ane moné nda moné ya bete yôp abime moné éyon operation. Nge ô lômé 10 000 F , be frais 200 F, moné a kôlô konte moné jôé ane 10 200 F.",be frais ane moné a bete yôp ya abime moné wô lôm.,Georges,Ronald
 E03,montant,"Abime moné ane moné ô lôm asù operation. Nge ô lômé 5 000 F, abime moné ane 5 000 F",Abime moné ane moné ya operation ô lôm.,Georges,Lesly
-E04,total débité,"Mabal máte wùlù ane abime moné ya Minkuk mia kôlô évôvôla moné jôé. Nge ô lômé 5 000 F a Minkuk 100 F, Mabal máte wùlù ane 5 100 F.",Mabal máte wùlù ane abime moné a Minkuk mia kôlô.,Georges,Lesly
+E04,total débité,"abime moné d'ate kôlo ane abime moné ya be frais ba kôlô konte moné jôé. Nge ô lômé 5 000 F a be frais 100 F, abime moné da kôlo ane 5 100 F.",abime moné da kôlo ane abime moné a be frais ba kôlô.,Georges,Ronald
 E05,bénéficiaire,"Nyô a bi ane nyô a nyoñ moné ô lôm. Nge ô lômé moné asù nyiá wôé, nyiá wôé ane Nyô a bi.",Nyô a bi ane nyô a nyoñ moné ô lôm.,Georges,Lesly
-E06,transfert,"Nlomane moné ane moné a kôlo évôvôla moné jôé na a ke évôvôla moné ya Nyô a bi. Nge ô lom 2 000 F be môt dzing, a ne Nlomane moné.",Nlomane moné ane moné wô lôm Nyô a bi,Georges,Lesly
+E06,transfert,"Nlomane moné ane moné a kôlo konte moné jôé na a ke konte moné ya Nyô a bi. Nge ô lôm 2 000 F be môt dzing, a ne Nlomane moné.",Nlomane moné ane moné wô lôm Nyô a bi,Georges,Ronald
 E07,historique,Mam ya ô bô ya ane b'operations bôé. A ne moné ô lôm ya a nyô ô bi ya.,Ane be moné ô lôm ya a ba ô bi ya,Georges,Lesly
 E08,code PIN / code secret,Nten bafili (code PIN / PIN) ane code a bikanga 4 wô yem. mge môt a sili wô nten bafili wôé; nyô a sili wo ane mvôl.,Nten bafili ane code a 4 chiffres wô yem; teké wô ve wo môt,Georges,Lesly
 E09,confirmer,"Ntiñ (confirmer / confirm) ane nkañesan ya operation. ntye ôsusua Ntiñ, yene jôé ya Nyô a bi, amú moné a kôlô mvús ya valé.","Ntiñ ane nkañesan ya operation. ntye ôsusua Ntiñ, yene jôé ya Nyô a bi, amú moné a kôlô mvús ya valé.",Georges,Lesly
-E10,annuler,"Fetek ane eyon wô téléoperation, moné ase a kôlô évôvôla moné jôé. Nge ô bo abé, Fetek.",Fetek ane ô bi ébômbo tyen a man.,Georges,Lesly
-E11,solde insuffisant,"Mebaln (solde / balance) te yian ane moné a ne évôvôla moné jôé te yian asù operation. Nge ô bili 4 000 F, ô yi na wô lôm 5 000 F, mebal te yian.",Mebal te yian ane moné a ne évôvôla moné jôé te yian asù operation,Georges,Lesly
+E10,annuler,"Fetek ane eyon wô lôm moné, moné ase a kôlô konte moné jôé. Nge ô bo abé, Fetek.",Fetek ane ô bi ébômbo tyen a man.,Georges,Ronald
+E11,solde insuffisant,"abime moné jôé é ndi yiane ane moné a ne konte moné jôé te yian asù operation. Nge ô bili 4 000 F, ô yi na wô lôm 5 000 F, abime moné jôé é ndi yiane.",be frais te yian ane moné a ne konte moné jôé te yian asù operation,Georges,Ronald
 E12,référence,Mendém ane code ya operation. Na'an Mendém asù ô kate service client nge jôm ya sili.,Mendém ane code ya operation.,Georges,Lesly
 E13,crédit de téléphone,kredi a ne jôm wo belan asù na wô lo'on bôt bôé,kredi a ne jôm wo belan asù na wô lo'on bôt bôé,Georges,Lesly
 E14,facture,faktur âne afep ya wô yiane ya'an asù ô ke ôsu a belan jôm dzing,faktur âne afep ya wô yiane ya'an asù ô ke ôsu a belan jôm dzing,Georges,Lesly
 E15,plafond,Afap âne abime moné da su'ulane ô ne lôm môt wôé,Afap âne abime moné da su'ulane ô ne lôm môt wôé,Georges,Lesly
-E16,retrait,Mvà'àn âne eyon wô bô na moné a kôlo évôvôla jôé asù na ô bi nyô mò été,Mvà'àn âne eyon wô bô na moné a kôlo évôvôla jôé asù na ô bi nyô mò été,Georges,Lesly
-E17,dépôt,e tele moné évôvôla âne eyon w'ake be môt ésaé wongan ézin asù na a bôé moné évôvôla jôé,e tele moné évôvôla âne eyon moné a bô'ôbane évôvôla jôé,Georges,Lesly
-E18,opération / transaction,operation âne jôm wô bô a moné ya évôvola moné jôé,operation âne jôm wô bô a moné ya évôvola moné jôé,Georges,Lesly
-E19,compte,Évôvôla (compte / account) moné âne vôm moné wôé a nyiin. Évôvôla moné jôé a bili nombor,Évôvôla (compte / account) moné âne vôm moné wôé a nyiin. Évôvôla moné jôé a bili nombor,Georges,Lesly
+E16,retrait,Mvà'àn âne eyon wô bô na moné a kôlo konte jôé asù na ô bi nyô mò été,Mvà'àn âne eyon wô bô na moné a kôlo konte jôé asù na ô bi nyô mò été,Georges,Ronald
+E17,dépôt,e tele moné konte âne eyon w'ake be môt ésaé wongan ézin asù na a bôé moné konte jôé,e tele moné konte âne éyon moné a bô'ôbane konte jôé,Georges,Ronald
+E18,opération / transaction,operation âne jôm wô bô a moné ya konte moné jôé,operation âne jôm wô bô a moné ya konte moné jôé,Georges,Ronald
+E19,compte,konte moné âne vôm moné wôé a nyiin. konte moné wôé a bili nombor,konte moné âne vôm moné wôé a nyiin. konte moné jôé a bili nombor,Georges,Ronald
 E20,arnaque,"Mvôl ane jôm môt a bô asù na a wup moné wôé, amú a ye ve moné mingi. Nge môt a kat « wô bi 1 000 000 F, nge ô lômé 5 000 F », e ne mvôl.","Nge môt a kat « wô bi 1 000 000 F, nge ô lômé 5 000 F », e ne mvôl.",Georges,Lesly
 E21,gratuit,bua (gratuit / free) ane jôm ése wô yiane ki,bua (gratuit / free) ane jôm ése wô yiane ki,Georges,Lesly
 E22,reçu,Resu âne afep ya wô bi eyon ô mane ya ya'an jôm dzing,Resu âne afep ya wô bi eyon ô mane ya ya'an jôm dzing,Georges,Lesly

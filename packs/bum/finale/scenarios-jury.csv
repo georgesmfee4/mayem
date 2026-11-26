@@ -1,0 +1,35 @@
+ref,scenario,priorite,intention,situation,exemple_fr,termes
+J01,1. Solde,P1,solde,Vous voulez simplement connaître votre solde.,Quel est mon solde ?,solde
+J02,1. Solde,P1,solde,"Avant d'aller à la pharmacie, vous vérifiez combien vous avez sur votre compte.",Combien j'ai sur mon compte ?,solde / compte
+J03,1. Solde,P2,solde,Vous craignez que votre compte soit vide et vous le demandez.,Il ne reste plus rien sur mon compte ?,solde / compte
+J04,2. Transfert et confirmation,P1,transfert,Vous envoyez 10 000 F à Paul pour son anniversaire.,Envoie 10 000 à Paul.,transfert / montant
+J05,2. Transfert et confirmation,P1,transfert,Vous lisez un numéro sur un papier et vous y envoyez 3 500 F : le 690 12 34 56.,Envoie 3 500 au 690 12 34 56.,transfert / numéro de téléphone
+J06,2. Transfert et confirmation,P1,transfert,Vous envoyez 2 000 F à votre fille en l'appelant « ma fille ».,Envoie 2 000 à ma fille.,transfert
+J07,2. Transfert et confirmation,P1,oui,Le téléphone vous a lu le récapitulatif de l'envoi. Vous êtes d'accord et vous confirmez.,"Oui, je confirme.",confirmer
+J08,2. Transfert et confirmation,P1,non,Le récapitulatif ne vous convient pas : vous refusez l'envoi.,"Non, n'envoie pas.",annuler
+J09,3. Frais,P1,frais,Vous voulez connaître les frais d'un envoi de 20 000 F.,Quels sont les frais pour 20 000 ?,frais
+J10,3. Frais,P1,frais,"Vous demandez combien coûte un envoi, sans dire de somme.","Envoyer de l'argent, ça coûte combien ?",frais
+J11,3. Frais,P2,frais,Vous voulez savoir le total qui sera retiré si vous envoyez 50 000 F.,"Au total, on va me retirer combien pour 50 000 ?",frais / total à débiter
+J12,4. Historique,P1,historique,Vous voulez voir vos dernières opérations.,Montre-moi mes dernières opérations.,historique / opération
+J13,4. Historique,P1,historique,Vous voulez savoir ce que vous avez envoyé hier.,Qu'est-ce que j'ai envoyé hier ?,historique
+J14,4. Historique,P2,historique,Vous demandez qui vous a envoyé de l'argent ce mois-ci.,Qui m'a envoyé de l'argent ce mois ?,historique
+J15,5. Correction,P1,corriger,"Vous aviez demandé d'envoyer à Paul, mais c'est à votre frère que vous vouliez envoyer.","Non, pas à Paul, à mon frère.",bénéficiaire
+J16,5. Correction,P1,corriger,Vous changez le montant : ce n'est pas 15 000 F mais 5 000 F.,"Pas 15 000, plutôt 5 000.",montant
+J17,5. Correction,P1,corriger,Vous corrigez un chiffre du numéro de téléphone que vous aviez donné.,"Je me suis trompé de numéro, c'est le 677 12 34 57.",numéro de téléphone
+J18,6. Demande ambiguë,P1,transfert,"Vous dites seulement que vous voulez envoyer de l'argent, sans dire à qui ni combien.",Je veux envoyer de l'argent.,transfert
+J19,6. Demande ambiguë,P1,transfert,"Vous donnez seulement un prénom et une somme, sans dire ce qu'il faut faire.","Paul, 5 000.",transfert
+J20,6. Demande ambiguë,P2,transfert,"Vous demandez d'envoyer à « Paul », alors que vous avez deux Paul dans votre carnet.",Envoie 3 000 à Paul.,transfert / bénéficiaire
+J21,7. Solde insuffisant,P1,transfert,"Vous voulez envoyer une grosse somme, 300 000 F, à votre oncle.",Envoie 300 000 à mon oncle.,transfert
+J22,7. Solde insuffisant,P1,transfert,Le téléphone vous dit que vous n'avez pas assez. Vous proposez d'envoyer moins.,Alors envoie seulement 20 000.,solde insuffisant
+J23,7. Solde insuffisant,P2,solde,"Après ce refus, vous demandez combien vous avez vraiment.",J'ai combien alors ?,solde / solde insuffisant
+J24,8. Changement de langue,P1,langue,"Au milieu de la conversation, vous voulez passer au français.",Parle-moi en français.,langue
+J25,8. Changement de langue,P1,langue,Quelqu'un a mis votre téléphone en français ; vous demandez votre langue.,Parle-moi dans ma langue.,langue
+J26,8. Changement de langue,P2,langue,Vous demandez au téléphone quelles langues il sait parler.,Tu parles quelles langues ?,langue
+J27,9. Multicanal (*123#),P1,transfert,"Sur un vieux téléphone (*123#), vous tapez une demande d'envoi la plus courte possible.",envoi 5000 paul,transfert
+J28,9. Multicanal (*123#),P1,solde,"Sur le *123#, vous tapez une demande de solde la plus courte possible.",solde,solde
+J29,9. Multicanal (*123#),P2,oui,"Sur le *123#, vous confirmez en un seul mot.",ok,confirmer
+J30,10. Terminologie,P1,expliquer,Vous demandez ce que veut dire « frais ».,"C'est quoi, les frais ?",frais
+J31,10. Terminologie,P1,expliquer,Vous demandez ce que veut dire « total à débiter ».,"Total à débiter, ça veut dire quoi ?",total à débiter
+J32,10. Terminologie,P1,expliquer,Vous demandez ce qu'est le « code PIN ».,"Le code PIN, c'est quoi ?",code PIN
+J33,10. Terminologie,P2,expliquer,Vous demandez ce que veut dire « solde insuffisant ».,"Solde insuffisant, ça veut dire quoi ?",solde insuffisant
+J34,10. Terminologie,P2,expliquer,Vous demandez ce qu'est un « compte ».,"Un compte, c'est quoi ?",compte

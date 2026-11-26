@@ -1,0 +1,10 @@
+{
+  "name": "mayem-passerelle",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-20",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": false },
+  "durable_objects": { "bindings": [{ "name": "CONVERSATIONS", "class_name": "Conversation" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Conversation"] }]
+}

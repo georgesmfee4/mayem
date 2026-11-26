@@ -121,6 +121,28 @@ compréhension, test à l'aveugle rangé pour la mesure. Le rapport liste chaque
 `npm run mesure` donne le taux d'intentions justes sur le test à l'aveugle (`-- --provisoire` compte aussi les lignes
 pas encore signées, pour mesurer seulement).
 
+### Brancher un service réel (MTN, Orange…)
+`python3 tools/kit_service.py mtn-cm` produit `service-mtn-cm-<langue>.xlsx` : services (noms qui ne se traduisent
+pas), codes USSD avec fiabilité et source, touches de chaque opération, écrans de l'USSD, de l'application, des SMS et
+du serveur vocal, mots du métier, demandes à dire de cinq façons. L'équipe relève d'abord le texte exact des écrans et
+vérifie les codes sur un vrai téléphone ; les locuteurs traduisent ensuite. Le socle (`flux/argent-mobile/`) est commun
+à tous les services ; seul le dossier `profiles/<service>/` change. Retour : `python3 tools/import_finale.py <classeur>`
+(écrans au corpus, mots au glossaire, demandes aux formulations, codes vérifiés et touches au profil, que la passerelle
+lit : `npm run passerelle -- --profil profiles/mtn-cm.json`).
+Les textes lus sur des écrans photographiés entrent dans le socle commun (`flux/argent-mobile/textes.csv`) : un texte de
+référence par sens, écrit en bon français, avec ses autres écritures vues à l'écran (sans accent, en majuscules, en
+anglais), son genre (bouton, choix de menu, erreur…), son thème, son sens pour le traducteur et sa portée (commun ou
+propre au service). Les noms de service y sont la case `{name}` : « Bienvenue aux offres {name} » traduit aussi bien
+l'écran de MTN que celui d'Orange. Les captures elles-mêmes (texte complet, chemin, certitude) restent dans le profil
+(`profiles/<service>/captures.csv`) comme source et contexte ; les images ne vont pas dans le dépôt. Dans le classeur,
+l'onglet « Textes relevés » montre pour chaque texte les autres lignes du même écran, les termes déjà validés qu'il
+contient, un lien vers sa capture, et calcule longueur, cases {…} et état ; le Récapitulatif suit l'avancement par thème.
+`python3 tools/kit_service.py mtn-cm --page` fait aussi `service-mtn-cm-<langue>.html`, la même chose pour le
+téléphone, sans internet : mêmes parties, mêmes contextes (sens, même écran, capture, termes validés), mêmes contrôles
+(cases, chiffres, longueur). Le travail reste sur l'appareil ; le traducteur envoie le fichier (WhatsApp), qui emporte
+son travail ; le relecteur, une autre personne, confirme ou corrige chaque ligne et signe, puis renvoie le résultat.
+`python3 tools/import_finale.py traduction-*.html` le reporte dans le classeur du service et l'importe comme lui.
+
 ### Passerelle : la couche d'API branchée devant un service existant
 `npm run passerelle` lance la passerelle (`service/passerelle.ts`) et, sans autre profil, la banque d'essai
 (`fixtures/services/banque.js`) : tout tourne sur ce poste, avec un seul compte simulé pour tous les canaux.
@@ -131,9 +153,10 @@ pas encore signées, pour mesurer seulement).
 - `/v1/relais/api/<chemin>` : l'application mobile ou le site appellent leur API à travers la passerelle ; les réponses
   JSON reviennent traduites (en-tête `x-mayem-langue`, `fr` pour l'original), valeurs et références intactes.
 - Langue : au premier appel USSD d'un numéro, l'écran « Choisissez votre langue » ; la langue est ensuite retrouvée
-  pour ce numéro sur tous les canaux. Sous chaque menu, la ligne « 0. Langue » (dans la langue en cours) rouvre le
-  choix et reprend l'écran quitté, sans que le service reçoive rien. Seule la langue est gardée, rattachée à
-  l'empreinte du numéro (`service/preferences.ts`).
+  pour ce numéro sur tous les canaux. Mayem n'ajoute rien aux menus du service : pour changer de langue, on écrit
+  son nom à tout moment (« bulu », « français »), ou « langue » pour revoir le choix ; l'écran quitté est repris et le
+  service ne reçoit rien. Il reçoit la requête de l'opérateur à l'identique (seul « text » change, quand une phrase
+  devient des touches). Seule la langue est gardée, rattachée à l'empreinte du numéro (`service/preferences.ts`).
 - `POST /v1/converser` (assistant), `POST /v1/traduire`, `GET /v1/journal`, `GET /sante`.
 - Pages : `/tableau` (journal en direct aux colonnes du jury, même couleur pour une même empreinte),
   `/essai/telephone` (téléphone simple qui compose *123#), `/essai/application` (application mobile, `?canal=web`).
@@ -242,7 +265,7 @@ Une seule fois : `python -m pip install openpyxl` (lecture des tableurs, voir `T
 - Libellé court qui est un terme du glossaire relu par deux personnes (« Solde », « Annuler »,
   « Frais : 500 FCFA ») : traduit par ce terme, la valeur reste telle quelle (`core/termes.ts`).
 - Phrase inconnue : jamais composée mot à mot (classes nominales, négation et tons la rendraient
-  fausse). Elle reste en français ; ses termes validés sont donnés à côté, en CSS (en bulu : « solde : Mebal »),
+  fausse). Elle reste en français ; ses termes validés sont donnés à côté, en CSS (en bulu : « frais : Be frais »),
   et peuvent être masqués depuis le panneau.
 - Interface de l'extension dans un Shadow DOM séparé, utilisable au clavier.
 - Shadow DOM ouverts parcourus et surveillés comme la page ; cadres du même site traduits, un seul bouton

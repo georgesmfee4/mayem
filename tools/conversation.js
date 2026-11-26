@@ -8,11 +8,12 @@ import { existsSync, readFileSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { pathToFileURL } from 'node:url';
 import { normaliser } from '../core/comprendre.ts';
+import { motsDe } from '../core/langue-probable.ts';
 import { souple } from '../core/langage.ts';
 import { termeUtilisable } from '../core/termes.ts';
 import { banqueSimulee } from '../service/banque.ts';
+import { contexteDepuis } from '../service/contexte.ts';
 import { nouvelleSession, traiter } from '../service/conversation.ts';
-import { creerReponses } from '../service/reponses.ts';
 import { lireCsv } from './csv.js';
 import { choisirLangue, dossier, racine } from './langues.js';
 
@@ -52,7 +53,10 @@ export function lexiqueDesLocuteurs(code, { provisoire = false } = {}) {
   const finale = dossier(code) + 'finale/';
   if (!existsSync(finale + 'comprendre.json') || !existsSync(finale + 'formulations.csv')) return null;
   const retenues = (nom) => (existsSync(finale + nom) ? lire(finale + nom) : []).filter((l) => provisoire || deuxNoms(l.ecrit_par, l.verifie_par));
-  const { mots: sens, ignorer = {}, _lisez_moi, sources, ...marques } = lireJson(finale + 'comprendre.json');
+  const { mots: sensDialogue, ignorer = {}, _lisez_moi, sources, ...marques } = lireJson(finale + 'comprendre.json');
+  // Le vocabulaire des scénarios du jury dit lui-même l'intention de ses mots qui en portent une
+  const vocabulaire = existsSync(finale + 'vocabulaire.csv') ? lire(finale + 'vocabulaire.csv') : [];
+  const sens = { ...sensDialogue, ...Object.fromEntries(vocabulaire.filter((l) => l.intention).map((l) => [l.ref, l.intention])) };
   // Une demande qui mêle deux intentions (comprendre.json, « ignorer ») ne sert pas de modèle
   const formulations = retenues('formulations.csv').filter((l) => !ignorer[l.ref]).map(({ ref, intention, texte }) => ({ ref, intention, texte }));
   if (!formulations.length) return null;
@@ -64,7 +68,7 @@ export function lexiqueDesLocuteurs(code, { provisoire = false } = {}) {
   return { intentions, secondaires: ['oui', 'non', 'terminer', 'repeter'], devises: [], multiplicateurs: {}, ...marques, formulations };
 }
 
-// « solde » se reconnaît aussi sous sa traduction validée (« c'est quoi, mebal ? ») : formes ajoutées au terme
+// « solde » se reconnaît aussi sous sa traduction validée (« c'est quoi, be frais ? ») : formes ajoutées au terme
 function avecTermeNational(terme, pack) {
   const traductions = pack.glossaire.filter(termeUtilisable)
     .filter((t) => t.terme.split('/').some((f) => terme.split('/').some((g) => souple(f.trim()) === souple(g.trim()))))
@@ -88,20 +92,52 @@ export function variantesValidees(code) {
   return existsSync(chemin) ? lire(chemin).filter((v) => deuxNoms(v.traduit_par, v.relu_par)).map(({ ref, canal, cible }) => ({ ref, canal, cible })) : [];
 }
 
-export function chargerContexte(code = choisirLangue(), banque = banqueSimulee(lireJson(racine + 'service/banque-essai.json')), { provisoire = false } = {}) {
-  const pack = lireJson(dossier(code) + 'pack.json');
+// Traductions et termes validés de la langue nationale, sans les gloses entre parenthèses ni les cases
+const textesValides = (pack) => [...pack.phrases.filter((p) => p.valide && p.cible).map((p) => p.cible), ...pack.glossaire.filter(termeUtilisable).map((t) => t.cible)]
+  .map((t) => String(t).replace(/\([^)]*\)/g, ' ').replace(/\{\w+\}/g, ' '));
+
+// Mots de chaque langue, pour reconnaître celle d'une demande quand le canal ne la dit pas. Français : phrases du
+// pack, modèles de réponse, lexique, termes. Langue nationale : traductions validées (sans les gloses entre
+// parenthèses ni les cases), glossaire, et ce que les locuteurs ont signé de deux noms.
+export function vocabulaires(code, pack, francais, locuteurs, modeles) {
+  const mots = (textes) => new Set(textes.flatMap((t) => motsDe(String(t).replace(/\([^)]*\)/g, ' ').replace(/\{\w+\}/g, ' '))));
+  const cles = (objet) => Object.keys(objet || {});
+  const fr = mots([...pack.phrases.flatMap((p) => [p.fr, ...(p.variantes || [])]), ...modeles.map((m) => m.fr), ...pack.glossaire.map((t) => t.terme),
+    ...Object.values(francais.intentions).flatMap(cles), ...cles(francais.periodes), ...cles(francais.factures), ...cles(francais.langues)]);
+  const nationale = mots([...pack.phrases.filter((p) => p.valide && p.cible).map((p) => p.cible), ...pack.glossaire.filter(termeUtilisable).map((t) => t.cible),
+    ...(locuteurs ? [...locuteurs.formulations.map((f) => f.texte), ...Object.values(locuteurs.intentions).flatMap(cles),
+      ...(locuteurs.negations || []), ...(locuteurs.ecartent || []), ...cles(locuteurs.periodes), ...cles(locuteurs.factures), ...cles(locuteurs.langues)] : [])]);
+  return new Map([['fr', fr], [code, nationale]]);
+}
+
+// Tout ce que le noyau lit dans le dépôt pour une langue, prêt à être embarqué (service/contexte.ts l'assemble).
+// pack : pour un hébergement, sa version publique (tools/public.js), sans aucun nom de traducteur.
+export function donneesDuContexte(code = choisirLangue(), { provisoire = false, pack = lireJson(dossier(code) + 'pack.json') } = {}) {
   const finale = dossier(code) + 'finale/';
   const modeles = [...lire(finale + 'reponses.csv'), ...lire(finale + 'menus.csv')].map(({ ref, fr }) => ({ ref, fr }));
-  const explications = lire(finale + 'termes.csv');
+  const explications = lire(finale + 'termes.csv').map(({ ref, terme, explication_fr, exemple }) => ({ ref, terme, explication_fr, exemple }));
   const francais = lexiqueFrancais(pack.nom);
+  const locuteurs = lexiqueDesLocuteurs(code, { provisoire });
+  // Les textes validés de la langue disent quels mots sont courants : ils pèsent peu dans la comparaison des demandes
+  if (locuteurs) locuteurs.textes = textesValides(pack);
   return {
-    banque,
-    reponses: creerReponses(modeles, explications, pack, variantesValidees(code), explicationsValidees(code)),
-    lexiques: [francais, lexiqueDuGlossaire(francais, pack), lexiqueDesLocuteurs(code, { provisoire })].filter(Boolean),
+    pack,
+    modeles,
+    explications,
+    variantes: variantesValidees(code),
+    fixes: [...explicationsValidees(code)],
+    lexiques: [francais, lexiqueDuGlossaire(francais, pack), locuteurs].filter(Boolean),
     termes: explications.map(({ ref, terme }) => ({ ref, terme: avecTermeNational(terme, pack) })),
     nationale: { code, nom: pack.nom },
     typesFacture: [{ type: 'electricite', ref: 'U14' }, { type: 'eau', ref: 'U15' }],
+    vocabulaires: [...vocabulaires(code, pack, francais, locuteurs, modeles)].map(([langue, mots]) => [langue, [...mots]]),
+    gsm7: existsSync(finale + 'gsm7.csv') ? lire(finale + 'gsm7.csv').filter((l) => deuxNoms(l.decide_par, l.verifie_par)).map((l) => [l.lettre, l.ecriture]) : [],
+    gsm7Gardes: existsSync(finale + 'gsm7-gardes.csv') ? lire(finale + 'gsm7-gardes.csv').map((l) => l.texte) : [],
   };
+}
+
+export function chargerContexte(code = choisirLangue(), banque = banqueSimulee(lireJson(racine + 'service/banque-essai.json')), { provisoire = false } = {}) {
+  return contexteDepuis(donneesDuContexte(code, { provisoire }), banque);
 }
 
 async function converser() {

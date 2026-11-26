@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Traduction Mayem</title>
+<style>
+  /* Page des locuteurs, pensée pour le téléphone et sans internet : tout est dans ce fichier. Le travail reste sur
+     l'appareil jusqu'à ce que la personne l'envoie elle-même. */
+  :root {
+    color-scheme: light;
+    --fond: #f6f3ec; --carte: #ffffff; --encre: #13262b; --doux: #50656c; --ligne: #e2d9c6;
+    --marque: #0f4c5c; --marque-doux: #e2edf0; --ok: #1d6f3a; --ok-doux: #e2f2e7; --alerte: #9a3b12; --alerte-doux: #fbebe2;
+    --jaune: #fff6d6; --gris: #eceef0; --nom: #6a3d9a; --nom-doux: #efe7f7;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    color-scheme: dark;
+    --fond: #0c1c20; --carte: #13282d; --encre: #e7eff1; --doux: #a1b4ba; --ligne: #26424a;
+    --marque: #7fc5d5; --marque-doux: #173a43; --ok: #72d394; --ok-doux: #163322; --alerte: #f2a47e; --alerte-doux: #3a2319;
+    --jaune: #332c12; --gris: #1d3238; --nom: #c9a8ef; --nom-doux: #2c2140; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  .page { max-width: 760px; margin: 0 auto; padding: 16px 16px 140px; display: grid; gap: 14px; }
+  h1 { font-size: 1.45rem; line-height: 1.2; margin: 0; }
+  h2 { font-size: 1.05rem; margin: 0; }
+  p { margin: 0; }
+  .doux { color: var(--doux); }
+  .petit { font-size: 0.85rem; }
+  .bloc { background: var(--carte); border: 1px solid var(--ligne); border-radius: 12px; padding: 14px; display: grid; gap: 10px; }
+  .bloc.alerte { border-color: var(--alerte); background: var(--alerte-doux); }
+  label.champ { display: grid; gap: 4px; font-weight: 700; font-size: 0.92rem; }
+  input[type=text], textarea { font: inherit; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--ligne); background: var(--fond); color: var(--encre); }
+  textarea { min-height: 3.2em; resize: vertical; }
+  :focus-visible { outline: 3px solid var(--marque); outline-offset: 2px; }
+  button { font: inherit; font-weight: 700; border-radius: 10px; border: 1px solid var(--marque); background: var(--carte); color: var(--marque); padding: 10px 14px; min-height: 44px; cursor: pointer; }
+  button.plein { background: var(--marque); color: var(--carte); }
+  button.ok { border-color: var(--ok); color: var(--ok); }
+  button.ok.plein { background: var(--ok); color: var(--carte); }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  button[aria-pressed=true] { background: var(--marque); color: var(--carte); }
+  .rangee { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .roles button { flex: 1; }
+  .moi { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  details > summary { cursor: pointer; font-weight: 700; }
+  ol.etapes { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 6px; }
+  .jauge { height: 8px; border-radius: 4px; background: var(--ligne); overflow: hidden; }
+  .jauge > i { display: block; height: 100%; background: var(--ok); width: 0; }
+  .onglets { position: sticky; top: 0; z-index: 5; background: var(--fond); padding: 8px 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .onglets button { padding: 6px 4px; font-size: 0.85rem; line-height: 1.2; min-height: 52px; }
+  .onglets small { display: block; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .filtres { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .filtres button { padding: 6px 12px; min-height: 36px; font-size: 0.85rem; white-space: nowrap; border-radius: 18px; }
+  .groupes { display: grid; gap: 10px; }
+  .groupe { background: var(--carte); border: 1px solid var(--ligne); border-radius: 12px; }
+  .groupe > summary { padding: 12px 14px; display: flex; justify-content: space-between; gap: 8px; list-style: none; }
+  .groupe > summary::-webkit-details-marker { display: none; }
+  .groupe > summary::after { content: '+'; font-weight: 400; color: var(--doux); }
+  .groupe[open] > summary::after { content: '−'; }
+  .groupe .compte { font-weight: 400; color: var(--doux); font-variant-numeric: tabular-nums; margin-left: auto; }
+  .liste { display: grid; gap: 10px; padding: 0 10px 12px; }
+  .carte { border: 1px solid var(--ligne); border-radius: 10px; padding: 12px; display: grid; gap: 8px; background: var(--carte); }
+  .carte.critique { border-left: 5px solid var(--alerte); }
+  .carte.faite { border-color: var(--ok); }
+  .etiquettes { display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.75rem; }
+  .etiquettes span { padding: 1px 8px; border-radius: 10px; background: var(--gris); color: var(--doux); }
+  .etiquettes .rouge { background: var(--alerte-doux); color: var(--alerte); font-weight: 700; }
+  .etiquettes .jaune { background: var(--jaune); color: var(--encre); }
+  .francais { font-size: 1.15rem; font-weight: 700; line-height: 1.35; }
+  .case { color: var(--nom); background: var(--nom-doux); border-radius: 4px; padding: 0 3px; font-weight: 700; white-space: nowrap; }
+  .info { font-size: 0.88rem; display: grid; gap: 3px; }
+  .info b { color: var(--doux); font-weight: 700; }
+  .ecran-vu { font-family: ui-monospace, 'Courier New', monospace; font-size: 0.82rem; white-space: pre-wrap; background: #1f2a2e; color: #e8f0f2; border-radius: 10px; padding: 10px 12px; }
+  .deja { background: var(--gris); border-radius: 8px; padding: 8px 10px; font-size: 0.92rem; }
+  .proposee { background: var(--marque-doux); border-radius: 8px; padding: 8px 10px; }
+  .proposee .texte { font-size: 1.05rem; font-weight: 700; }
+  .controle { font-size: 0.82rem; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .controle .mal { color: var(--alerte); font-weight: 700; }
+  .controle .bien { color: var(--ok); }
+  .statut { font-size: 0.82rem; color: var(--ok); font-weight: 700; }
+  .statut.attente { color: var(--doux); font-weight: 400; }
+  .barre { position: fixed; left: 0; right: 0; bottom: 0; background: var(--carte); border-top: 1px solid var(--ligne); padding: 10px 16px; z-index: 6; }
+  .barre .dedans { max-width: 760px; margin: 0 auto; display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+  .barre .etat { font-size: 0.8rem; color: var(--doux); }
+  .voile { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 10; display: none; align-items: flex-end; justify-content: center; }
+  .voile.ouvert { display: flex; }
+  .panneau { background: var(--fond); width: 100%; max-width: 760px; max-height: 92vh; overflow-y: auto; border-radius: 16px 16px 0 0; padding: 16px; display: grid; gap: 12px; }
+  .panneau button { width: 100%; }
+  .vide { text-align: center; color: var(--doux); padding: 18px; }
+  #sans-js { padding: 16px; font-weight: 700; }
+</style>
+</head>
+<body>
+<p id="sans-js">Si vous ne voyez que ce message, ouvrez ce fichier avec Chrome (ou le navigateur du téléphone), pas avec une visionneuse.</p>
+<main id="app"></main>
+<script id="donnees" type="application/json">{{DONNEES}}</script>
+<script id="travail" type="application/json">{}</script>
+<script>
+'use strict';
+const D = JSON.parse(document.getElementById('donnees').textContent);
+const CLE = `mayem-page-${D.service}-${D.langue}`;
+const LANGUE = D.nom_langue;
+const app = document.getElementById('app');
+document.getElementById('sans-js').hidden = true;
+document.title = `Traduction : ${D.titre}`;
+
+// Stockage du téléphone : peut manquer (fichier ouvert depuis une visionneuse, navigation privée) ; la page marche quand même
+let stockageOk = true;
+function lireStockage(cle) {
+  try { return JSON.parse(localStorage.getItem(cle) || 'null'); } catch (e) { stockageOk = false; return null; }
+}
+function ecrireStockage(cle, valeur) {
+  try { localStorage.setItem(cle, JSON.stringify(valeur)); return true; } catch (e) { stockageOk = false; return false; }
+}
+
+// Le travail : une entrée par ligne (section:réf.), la plus récente gagne quand deux travaux se rejoignent
+function fusionner(a, b) {
+  const tout = { ...a };
+  let conflits = 0;
+  for (const [cle, x] of Object.entries(b || {})) {
+    const y = tout[cle];
+    if (!y || (x.m || 0) > (y.m || 0)) {
+      if (y && y.t && x.t && y.t !== x.t) conflits++;
+      tout[cle] = x;
+    }
+  }
+  return { tout, conflits };
+}
+const embarque = (() => { try { return JSON.parse(document.getElementById('travail').textContent).items || {}; } catch (e) { return {}; } })();
+const items = fusionner(lireStockage(CLE) || {}, embarque).tout;
+const moi = lireStockage(CLE + '-moi') || { nom: '', role: '' };
+let derniere = null;
+function garder() {
+  derniere = new Date();
+  ecrireStockage(CLE, items);
+  majBarre();
+}
+
+const vue = { section: 'textes', filtre: 'afaire', cherche: '' };
+const section = () => D.sections.find((s) => s.id === vue.section);
+const cle = (s, it) => `${s.id}:${it.ref}`;
+const travail = (s, it) => items[cle(s, it)] || {};
+
+// Une ligne est traduite quand elle a un texte (ou au moins une façon pour une demande)
+function traduite(s, it) {
+  const w = travail(s, it);
+  return s.facons ? (w.f || []).some((x) => x && x.trim()) : !!(w.t && w.t.trim());
+}
+const relue = (s, it) => ['confirme', 'corrige'].includes(travail(s, it).s);
+const bloquee = (it, texte) => controles(it, texte || '', 0).some((c) => c.bloque);
+const aFaire = (s, it) => !it.deja;
+
+// Contrôles repris du classeur et de l'import : cases {…}, chiffres, longueur
+const cases = (t) => (t.match(/\{\w+\}/g) || []).sort().join(' ');
+const chiffres = (t) => (t.match(/\d+/g) || []).sort().join(' ');
+const simple = (t) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9{}]+/g, ' ').trim();
+function controles(it, texte, limite) {
+  if (!texte || !texte.trim()) return [];
+  const sortie = [];
+  if (cases(texte) !== cases(it.fr)) sortie.push({ mal: true, bloque: true, txt: `Cases : il faut exactement ${cases(it.fr) || 'aucune case'}` });
+  else if (cases(it.fr)) sortie.push({ mal: false, txt: 'Cases {…} : bien' });
+  if (chiffres(texte) !== chiffres(it.fr)) sortie.push({ mal: true, bloque: true, txt: `Chiffres : il faut les mêmes qu'en français (${chiffres(it.fr) || 'aucun'})` });
+  if (simple(texte) === simple(it.fr)) sortie.push({ mal: true, txt: 'Identique au français : est-ce voulu ?' });
+  if (limite) sortie.push({ mal: texte.length > limite, txt: `${texte.length} / ${limite} signes` });
+  return sortie;
+}
+function aRevoir(s, it) {
+  if (s.facons || it.deja) return false;
+  const w = travail(s, it);
+  return controles(it, w.t || '', it.limite).some((c) => c.mal) || controles(it, w.c || '', 160).some((c) => c.mal);
+}
+
+function el(nom, attrs = {}, ...enfants) {
+  const e = document.createElement(nom);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') e.className = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const x of enfants.flat()) if (x != null && x !== false) e.append(x.nodeType ? x : document.createTextNode(String(x)));
+  return e;
+}
+// Le français, avec les cases {name}, {amount}… mises en évidence : elles restent telles quelles
+function avecCases(texte) {
+  return texte.split(/(\{\w+\})/).filter(Boolean).map((m) => (/^\{\w+\}$/.test(m) ? el('span', { class: 'case' }, m) : m));
+}
+
+function entete() {
+  return el('div', { class: 'bloc' },
+    el('h1', {}, `Traduction : ${D.titre}`),
+    el('p', { class: 'doux' }, `Langue : ${LANGUE}. Ce que vous traduisez ici servira pour tous les services d'argent mobile qui affichent les mêmes textes.`),
+    el('details', {},
+      el('summary', {}, 'Comment ça marche'),
+      el('ol', { class: 'etapes' },
+        el('li', {}, 'Écrivez votre nom et choisissez « Je traduis » ou « Je relis ».'),
+        el('li', {}, `Traduisez le texte en gras. Lisez d'abord « Sens », « Sur le même écran » et « Voir l'écran » : on traduit le sens, jamais mot à mot.`),
+        el('li', {}, avecCases('Les cases comme {name} ou {amount} restent telles quelles, une fois chacune : ce sont le nom du service, une somme, une date.')),
+        el('li', {}, 'Tout s\'enregistre sur ce téléphone. Vous pouvez fermer et revenir.'),
+        el('li', {}, 'Traducteur : à la fin, « Envoyer » puis « Envoyer au relecteur ». Le fichier part par WhatsApp.'),
+        el('li', {}, 'Relecteur : ouvrez le fichier reçu avec Chrome, choisissez « Je relis », puis pour chaque ligne « C\'est juste » ou « Corriger ». À la fin, « Envoyer le résultat ».'),
+        el('li', {}, 'Une ligne ne compte que si deux personnes différentes l\'ont traduite et relue.'))),
+    !stockageOk || !testStockage() ? el('p', { class: 'bloc alerte' }, 'Ce téléphone ne garde pas le travail dans cette page. Ouvrez le fichier avec Chrome, ou utilisez souvent « Envoyer » puis « Sauvegarder une copie ».') : null);
+}
+function testStockage() {
+  try { localStorage.setItem(CLE + '-essai', '1'); localStorage.removeItem(CLE + '-essai'); return true; } catch (e) { return false; }
+}
+
+function blocMoi() {
+  if (moi.nom && moi.role) {
+    return el('div', { class: 'bloc moi' },
+      el('p', {}, el('b', {}, moi.nom), moi.role === 'traduire' ? ' · je traduis' : ' · je relis'),
+      el('button', { onclick: () => { moi.role = ''; ecrireStockage(CLE + '-moi', moi); rendre(); } }, 'Changer'));
+  }
+  const nom = el('input', { type: 'text', value: moi.nom, autocomplete: 'name', placeholder: 'Votre prénom' });
+  const choisir = (role) => {
+    const n = nom.value.trim();
+    if (!n) { nom.focus(); nom.setAttribute('aria-invalid', 'true'); return; }
+    moi.nom = n; moi.role = role;
+    ecrireStockage(CLE + '-moi', moi);
+    vue.filtre = 'afaire';
+    rendre();
+  };
+  return el('div', { class: 'bloc' },
+    el('h2', {}, 'Qui êtes-vous ?'),
+    el('label', { class: 'champ' }, 'Votre nom (il signe vos lignes)', nom),
+    el('div', { class: 'rangee roles' },
+      el('button', { class: 'plein', onclick: () => choisir('traduire') }, 'Je traduis'),
+      el('button', { onclick: () => choisir('relire') }, 'Je relis')));
+}
+
+function compter(s) {
+  const utiles = s.items.filter((it) => aFaire(s, it));
+  const faites = utiles.filter((it) => traduite(s, it)).length;
+  const relues = utiles.filter((it) => relue(s, it)).length;
+  return { total: utiles.length, faites, relues, deja: s.items.length - utiles.length };
+}
+function onglets() {
+  return el('nav', { class: 'onglets', 'aria-label': 'Parties' }, D.sections.map((s) => {
+    const c = compter(s);
+    const chiffre = moi.role === 'relire' ? `${c.relues}/${c.faites} relues` : `${c.faites}/${c.total}`;
+    return el('button', { 'aria-pressed': String(vue.section === s.id), onclick: () => { vue.section = s.id; rendre(); } }, s.court, el('small', {}, chiffre));
+  }));
+}
+function avancement() {
+  const s = section();
+  const c = compter(s);
+  const part = moi.role === 'relire' ? (c.faites ? c.relues / c.faites : 0) : (c.total ? c.faites / c.total : 0);
+  const jauge = el('div', { class: 'jauge' }, el('i'));
+  jauge.firstChild.style.width = `${Math.round(part * 100)}%`;
+  return el('div', { class: 'bloc' },
+    el('h2', {}, s.titre),
+    el('p', { class: 'petit doux' }, moi.role === 'relire'
+      ? `${c.relues} relues sur ${c.faites} traduites. ${c.total - c.faites} pas encore traduites. ${c.deja} déjà validées avant (rien à faire).`
+      : `${c.faites} traduites sur ${c.total}. ${c.deja} déjà validées avant (rien à faire).`),
+    jauge);
+}
+
+const FILTRES = { afaire: 'À faire', fait: 'Fait', revoir: 'À revoir', tout: 'Tout' };
+function filtrer(s, it) {
+  if (vue.cherche) {
+    const q = simple(vue.cherche);
+    const w = travail(s, it);
+    if (![it.fr, it.ref, it.sens || '', w.t || ''].some((x) => simple(x).includes(q))) return false;
+  }
+  const relecteur = moi.role === 'relire';
+  if (vue.filtre === 'tout') return true;
+  if (vue.filtre === 'revoir') return aRevoir(s, it);
+  if (it.deja) return false;
+  const fait = relecteur ? relue(s, it) : traduite(s, it);
+  if (vue.filtre === 'fait') return fait;
+  return relecteur ? traduite(s, it) && !fait : !fait;
+}
+function barreFiltres() {
+  const cherche = el('input', { type: 'text', value: vue.cherche, placeholder: 'Chercher un mot, une réf.', 'aria-label': 'Chercher' });
+  cherche.addEventListener('input', () => { vue.cherche = cherche.value; rendreGroupes(); });
+  return el('div', { class: 'bloc' },
+    el('div', { class: 'filtres', role: 'group', 'aria-label': 'Afficher' }, Object.entries(FILTRES).map(([k, v]) =>
+      el('button', { 'aria-pressed': String(vue.filtre === k), onclick: () => { vue.filtre = k; rendre(); } }, v))),
+    cherche);
+}
+
+let zoneGroupes = null;
+function rendreGroupes() {
+  const s = section();
+  zoneGroupes.replaceChildren();
+  const groupes = new Map();
+  for (const it of s.items) if (filtrer(s, it)) (groupes.get(it.groupe) || groupes.set(it.groupe, []).get(it.groupe)).push(it);
+  if (!groupes.size) {
+    zoneGroupes.append(el('p', { class: 'vide' }, vue.filtre === 'afaire' ? 'Rien à faire ici avec ce filtre. Essayez « Tout » ou une autre partie.' : 'Aucune ligne.'));
+    return;
+  }
+  let premier = true;
+  for (const [nom, liste] of groupes) {
+    const tous = s.items.filter((it) => it.groupe === nom && aFaire(s, it));
+    const faits = tous.filter((it) => (moi.role === 'relire' ? relue(s, it) : traduite(s, it))).length;
+    const corps = el('div', { class: 'liste' });
+    const d = el('details', { class: 'groupe' }, el('summary', {}, nom, el('span', { class: 'compte' }, `${faits}/${tous.length}`)), corps);
+    const remplir = () => { if (!corps.childElementCount) liste.forEach((it) => corps.append(carte(s, it))); };
+    d.addEventListener('toggle', () => { if (d.open) remplir(); });
+    if (premier && (groupes.size === 1 || vue.cherche)) { d.open = true; remplir(); }
+    premier = false;
+    zoneGroupes.append(d);
+  }
+}
+
+function infos(s, it) {
+  const lignes = [];
+  const ligne = (titre, valeur) => valeur && lignes.push(el('p', {}, el('b', {}, `${titre} : `), ...avecCases(valeur)));
+  ligne('Autres écritures vues', it.formes && it.formes.split('|').map((x) => x.trim()).join(' · '));
+  ligne('Ce que la personne veut', it.intention);
+  ligne('Situation', it.situation);
+  ligne('Anglais', it.anglais);
+  ligne('Sens, à savoir', it.sens);
+  ligne(s.id === 'ecrans' ? 'Autour, dans le même parcours' : 'Sur le même écran', it.ecran);
+  ligne('Vu dans', it.vu);
+  ligne('Termes déjà validés à garder', it.termes);
+  return el('div', { class: 'info' }, lignes);
+}
+function voirEcrans(it) {
+  if (!it.captures || !it.captures.length) return null;
+  const zone = el('div', { class: 'info' });
+  const bouton = el('button', { onclick: () => {
+    if (zone.childElementCount) { zone.replaceChildren(); bouton.textContent = 'Voir l\'écran'; return; }
+    for (const ref of it.captures.slice(0, 3)) {
+      const c = D.captures[ref];
+      if (!c) continue;
+      zone.append(el('p', { class: 'petit doux' }, `${ref} · ${c.code} · ${c.chemin}${c.certitude !== 'sûr' ? ` (chemin ${c.certitude})` : ''}`),
+        el('div', { class: 'ecran-vu' }, c.texte));
+    }
+    bouton.textContent = 'Cacher l\'écran';
+  } }, 'Voir l\'écran');
+  return el('div', { class: 'info' }, el('div', { class: 'rangee' }, bouton), zone);
+}
+function etiquettes(s, it) {
+  return el('div', { class: 'etiquettes' },
+    el('span', {}, it.ref),
+    it.genre && el('span', {}, it.genre),
+    it.ou && el('span', {}, it.ou),
+    it.critique && el('span', { class: 'rouge' }, s.id === 'demandes' ? 'prioritaire' : 'à soigner'),
+    it.portee && it.portee !== 'commun' && el('span', { class: 'jaune' }, 'propre au service'));
+}
+
+function zoneControles(it, texte, limite) {
+  const z = el('div', { class: 'controle' });
+  const maj = (t) => z.replaceChildren(...controles(it, t, limite).map((c) => el('span', { class: c.mal ? 'mal' : 'bien' }, c.txt)));
+  maj(texte);
+  return { z, maj };
+}
+function champTexte(libelle, valeur, surSaisie, it, limite) {
+  const zone = el('textarea', { rows: 2, lang: D.langue, spellcheck: 'false' });
+  zone.value = valeur || '';
+  const ctl = it ? zoneControles(it, zone.value, limite) : null;
+  zone.addEventListener('input', () => { surSaisie(zone.value); if (ctl) ctl.maj(zone.value); });
+  return el('label', { class: 'champ' }, libelle, zone, ctl && ctl.z);
+}
+function noter(s, it, changement) {
+  const k = cle(s, it);
+  items[k] = { ...(items[k] || {}), ...changement, m: Date.now() };
+  garder();
+}
+function signature(w) {
+  const parts = [];
+  if (w.tp) parts.push(`Traduit par ${w.tp}`);
+  if (w.rp) parts.push(`${w.s === 'corrige' ? 'Corrigé et relu' : 'Relu'} par ${w.rp}`);
+  return parts.join(' · ');
+}
+
+function carte(s, it) {
+  const w = travail(s, it);
+  const c = el('article', { class: `carte${it.critique ? ' critique' : ''}${relue(s, it) ? ' faite' : ''}` });
+  const statut = el('p', { class: 'statut' });
+  const majStatut = () => {
+    const x = travail(s, it);
+    statut.textContent = signature(x) || 'Pas encore traduit';
+    statut.className = `statut${signature(x) ? '' : ' attente'}`;
+    c.classList.toggle('faite', relue(s, it));
+  };
+  c.append(etiquettes(s, it), el('p', { class: 'francais' }, avecCases(it.fr)), infos(s, it));
+  const ecrans = voirEcrans(it);
+  if (ecrans) c.append(ecrans);
+  if (it.deja) {
+    c.append(el('p', { class: 'deja' }, el('b', {}, `Déjà validé (${it.deja.id}) : `), it.deja.cible, el('br'), el('span', { class: 'petit doux' }, 'Rien à faire, ne pas changer.')));
+    return c;
+  }
+  if (moi.role === 'traduire') c.append(...saisie(s, it, w, majStatut));
+  else c.append(...relecture(s, it, majStatut));
+  majStatut();
+  c.append(statut);
+  return c;
+}
+
+function saisie(s, it, w, majStatut) {
+  const signer = () => ({ tp: moi.nom, s: 'traduit', rp: '' });
+  if (s.facons) {
+    return s.facons.map((libelle, n) => champTexte(libelle, (w.f || [])[n], (v) => {
+      const f = [...(travail(s, it).f || ['', '', '', '', ''])];
+      f[n] = v;
+      noter(s, it, { f, ...signer() });
+      majStatut();
+    }));
+  }
+  const champs = [champTexte(`Traduction en ${LANGUE}`, w.t, (v) => { noter(s, it, { t: v, ...signer() }); majStatut(); }, it, it.limite)];
+  if (it.court) champs.push(champTexte('Version USSD courte (facultatif, si la traduction est trop longue)', w.c, (v) => { noter(s, it, { c: v }); }, it, 160));
+  champs.push(champTexte('Remarque (facultatif)', w.n, (v) => noter(s, it, { n: v })));
+  return champs;
+}
+
+function relecture(s, it, majStatut) {
+  const zone = el('div', { class: 'info' });
+  let enCorrection = false;
+  const garderCorrection = (changement, inchange) => {
+    noter(s, it, inchange ? { s: 'confirme', rp: moi.nom } : { ...changement, s: 'corrige', rp: moi.nom });
+    enCorrection = false;
+    majStatut();
+    dessiner();
+  };
+  const correction = (avant) => {
+    const edit = el('div', { class: 'info' });
+    if (s.facons) {
+      const f = [...(avant.f || ['', '', '', '', ''])];
+      s.facons.forEach((libelle, n) => edit.append(champTexte(libelle, f[n], (v) => { f[n] = v; })));
+      edit.append(el('div', { class: 'rangee' },
+        el('button', { class: 'ok plein', onclick: () => garderCorrection({ f, f0: avant.f0 || avant.f }, JSON.stringify(f) === JSON.stringify(avant.f)) }, 'Garder ma correction'),
+        el('button', { onclick: () => { enCorrection = false; dessiner(); } }, 'Annuler')));
+    } else {
+      let t = avant.t;
+      edit.append(champTexte(`Traduction corrigée en ${LANGUE}`, t, (v) => { t = v; }, it, it.limite),
+        el('div', { class: 'rangee' },
+          el('button', { class: 'ok plein', onclick: () => {
+            if (bloquee(it, t)) { alert('Les cases {…} et les chiffres doivent être les mêmes qu\'en français.'); return; }
+            garderCorrection({ t, t0: avant.t0 || avant.t }, t.trim() === (avant.t || '').trim());
+          } }, 'Garder ma correction'),
+          el('button', { onclick: () => { enCorrection = false; dessiner(); } }, 'Annuler')));
+    }
+    return edit;
+  };
+  const dessiner = () => {
+    const w = travail(s, it);
+    zone.replaceChildren();
+    if (!traduite(s, it)) { zone.append(el('p', { class: 'doux' }, 'Pas encore traduit : rien à relire.')); return; }
+    const proposee = s.facons ? (w.f || []).map((x, n) => x && x.trim() ? `${n + 1}. ${x}` : null).filter(Boolean).join('\n') : w.t;
+    zone.append(el('div', { class: 'proposee' },
+      el('p', { class: 'petit doux' }, w.s === 'corrige' ? `Traduction de ${w.tp || '?'}, corrigée par ${w.rp}` : `Traduction de ${w.tp || '?'}`),
+      el('p', { class: 'texte', style: 'white-space:pre-wrap' }, proposee)));
+    if (!s.facons) {
+      zone.append(zoneControles(it, w.t, it.limite).z);
+      if (w.c) zone.append(el('p', { class: 'petit' }, el('b', {}, 'Version USSD courte : '), w.c));
+    }
+    if (w.n) zone.append(el('p', { class: 'petit' }, el('b', {}, 'Remarque du traducteur : '), w.n));
+    if (w.tp && w.tp.toLowerCase() === moi.nom.toLowerCase()) {
+      zone.append(el('p', { class: 'bloc alerte petit' }, 'Vous avez traduit cette ligne : une autre personne doit la relire.'));
+      return;
+    }
+    if (enCorrection) zone.append(correction(w));
+    else {
+      const impossible = !s.facons && bloquee(it, w.t);
+      zone.append(el('div', { class: 'rangee' },
+        el('button', { class: `ok${relue(s, it) ? ' plein' : ''}`, disabled: impossible, onclick: () => { noter(s, it, { s: 'confirme', rp: moi.nom }); majStatut(); dessiner(); } },
+          relue(s, it) ? 'Relu, c\'est juste' : 'C\'est juste'),
+        el('button', { onclick: () => { enCorrection = true; dessiner(); } }, 'Corriger')));
+      if (impossible) zone.append(el('p', { class: 'petit', style: 'color:var(--alerte);font-weight:700' }, 'Cases ou chiffres faux : corrigez avant de confirmer.'));
+    }
+    zone.append(champTexte('Remarque du relecteur (facultatif)', w.nr, (v) => noter(s, it, { nr: v })));
+  };
+  dessiner();
+  return [zone];
+}
+
+// Envoi : le fichier repart avec le travail dedans ; le relecteur ou l'équipe l'ouvre et retrouve tout
+function fichierAvecTravail() {
+  const copie = document.documentElement.cloneNode(true);
+  copie.querySelector('#app').replaceChildren();
+  copie.querySelector('#voile')?.remove();
+  copie.querySelector('#sans-js').removeAttribute('hidden');
+  copie.querySelector('#travail').textContent = JSON.stringify({ service: D.service, langue: D.langue, items }).replace(/<\//g, '<\\/');
+  return '<!doctype html>\n' + copie.outerHTML;
+}
+function nomFichier(quoi) {
+  const d = new Date();
+  const date = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}-${String(d.getHours()).padStart(2, '0')}${String(d.getMinutes()).padStart(2, '0')}`;
+  const nom = (moi.nom || 'sans-nom').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '-');
+  return `traduction-${D.service}-${quoi}-${nom}-${date}.html`;
+}
+async function envoyer(quoi) {
+  const nom = nomFichier(quoi);
+  const fichier = new File([fichierAvecTravail()], nom, { type: 'text/html' });
+  if (navigator.canShare && navigator.canShare({ files: [fichier] })) {
+    try { await navigator.share({ files: [fichier], title: nom }); return; } catch (e) { if (e.name === 'AbortError') return; }
+  }
+  telecharger(fichier, nom);
+}
+function telecharger(fichier, nom) {
+  const lien = el('a', { href: URL.createObjectURL(fichier), download: nom });
+  document.body.append(lien);
+  lien.click();
+  setTimeout(() => { URL.revokeObjectURL(lien.href); lien.remove(); }, 2000);
+  alert(`Fichier enregistré dans Téléchargements : ${nom}. Envoyez-le par WhatsApp (trombone, Document).`);
+}
+function texteDuTravail() {
+  return 'MAYEM-TRAVAIL ' + JSON.stringify({ service: D.service, langue: D.langue, items });
+}
+function lireTravailRecu(texte) {
+  const m = texte.match(/<script id="travail" type="application\/json">([\s\S]*?)<\/script>/);
+  const brut = m ? m[1] : texte.replace(/^[\s\S]*?MAYEM-TRAVAIL\s*/, '');
+  const recu = JSON.parse(brut.replace(/<\\\//g, '</'));
+  if (recu.service && recu.service !== D.service) throw new Error('Ce travail est pour un autre service.');
+  return recu.items || {};
+}
+function ajouterTravail(texte) {
+  try {
+    const { tout, conflits } = fusionner(items, lireTravailRecu(texte));
+    const avant = Object.keys(items).length;
+    Object.assign(items, tout);
+    garder();
+    alert(`Travail ajouté : ${Object.keys(items).length - avant} nouvelle(s) ligne(s)${conflits ? `, ${conflits} ligne(s) remplacée(s) par une version plus récente` : ''}.`);
+    fermerPanneau();
+    rendre();
+  } catch (e) {
+    alert('Ce fichier ou ce texte ne contient pas de travail lisible. ' + (e.message || ''));
+  }
+}
+
+function bilan() {
+  const lignes = D.sections.map((s) => {
+    const c = compter(s);
+    const revoir = s.items.filter((it) => traduite(s, it) && aRevoir(s, it)).length;
+    return el('p', { class: 'petit' }, el('b', {}, `${s.court} : `), `${c.faites}/${c.total} traduites, ${c.relues} relues`, revoir ? el('span', { class: 'mal', style: 'color:var(--alerte);font-weight:700' }, ` · ${revoir} à revoir`) : null);
+  });
+  return el('div', { class: 'bloc' }, el('h2', {}, 'Où en est le travail'), lignes);
+}
+function ouvrirPanneau() {
+  const voile = document.getElementById('voile');
+  const recu = el('input', { type: 'file', accept: '.html,.htm,.txt,.json,text/html,text/plain', style: 'display:none' });
+  recu.addEventListener('change', async () => { if (recu.files[0]) ajouterTravail(await recu.files[0].text()); });
+  const colle = el('textarea', { rows: 3, placeholder: 'Collez ici un travail reçu en texte (commence par MAYEM-TRAVAIL)' });
+  const relecteur = moi.role === 'relire';
+  voile.replaceChildren(el('div', { class: 'panneau', role: 'dialog', 'aria-label': 'Envoyer' },
+    bilan(),
+    el('div', { class: 'bloc' },
+      el('h2', {}, relecteur ? 'Relecture finie ?' : 'Traduction finie ?'),
+      el('p', { class: 'petit doux' }, relecteur
+        ? 'Le fichier part avec vos relectures et vos noms. Envoyez-le à l\'équipe.'
+        : 'Le fichier part avec vos traductions et votre nom. Envoyez-le à la personne qui relit.'),
+      el('button', { class: 'plein', onclick: () => envoyer(relecteur ? 'relu' : 'a-relire') }, relecteur ? 'Envoyer le résultat à l\'équipe' : 'Envoyer au relecteur'),
+      el('button', { onclick: () => telecharger(new File([fichierAvecTravail()], nomFichier('copie'), { type: 'text/html' }), nomFichier('copie')) }, 'Sauvegarder une copie sur ce téléphone'),
+      el('button', { onclick: async () => {
+        try { await navigator.clipboard.writeText(texteDuTravail()); alert('Travail copié. Collez-le dans un message WhatsApp.'); }
+        catch (e) { colle.value = texteDuTravail(); colle.select(); alert('Copiez le texte affiché dans la case ci-dessous.'); }
+      } }, 'Si le fichier ne part pas : copier le travail en texte')),
+    el('div', { class: 'bloc' },
+      el('h2', {}, 'Ajouter le travail de quelqu\'un d\'autre'),
+      el('p', { class: 'petit doux' }, 'Par exemple, le relecteur ajoute le fichier de chaque traducteur. Les lignes déjà faites ici ne sont remplacées que par une version plus récente.'),
+      el('button', { onclick: () => recu.click() }, 'Choisir un fichier reçu'), recu,
+      colle,
+      el('button', { onclick: () => colle.value.trim() && ajouterTravail(colle.value) }, 'Ajouter le texte collé')),
+    el('button', { onclick: fermerPanneau }, 'Fermer')));
+  voile.classList.add('ouvert');
+}
+function fermerPanneau() { document.getElementById('voile').classList.remove('ouvert'); }
+
+let zoneEtat = null;
+function majBarre() {
+  if (!zoneEtat) return;
+  const h = derniere ? `${String(derniere.getHours()).padStart(2, '0')}:${String(derniere.getMinutes()).padStart(2, '0')}` : null;
+  zoneEtat.textContent = !stockageOk ? 'Non gardé sur ce téléphone : envoyez souvent' : h ? `Enregistré sur ce téléphone à ${h}` : 'Tout s\'enregistre sur ce téléphone';
+}
+
+function rendre() {
+  const y = window.scrollY;
+  app.replaceChildren();
+  const page = el('div', { class: 'page' }, entete(), blocMoi());
+  app.append(page);
+  if (moi.nom && moi.role) {
+    zoneGroupes = el('div', { class: 'groupes' });
+    page.append(onglets(), avancement(), barreFiltres(), zoneGroupes);
+    rendreGroupes();
+    zoneEtat = el('span', { class: 'etat' });
+    app.append(el('div', { class: 'barre' }, el('div', { class: 'dedans' }, zoneEtat, el('button', { class: 'plein', onclick: ouvrirPanneau }, 'Envoyer'))));
+    majBarre();
+  }
+  app.append(el('div', { class: 'voile', id: 'voile', onclick: (e) => { if (e.target.id === 'voile') fermerPanneau(); } }));
+  window.scrollTo(0, y);
+}
+rendre();
+</script>
+</body>
+</html>

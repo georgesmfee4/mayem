@@ -2,13 +2,20 @@
 """Import des tableurs de la finale remplis par les locuteurs (tools/kit_finale.py les a produits).
 
   python3 tools/import_finale.py FICHIER.xlsx [FICHIER.xlsx …] [--langue X]
+  python3 tools/import_finale.py traduction-<service>-relu-<nom>.html [autres .html ou .txt reçus]
 
 Chaque tableur est reconnu à ses onglets :
 - réponses et menus : une traduction entre dans le corpus si elle porte deux noms différents, garde exactement les
   cases {…} et les chiffres du français, et ne contredit pas le glossaire ; versions USSD, SMS et voix à part ;
 - demandes, mots du dialogue, nombres : rangés pour la compréhension ; seules les lignes à deux noms serviront ;
 - explications des termes : rangées ; seules les lignes à deux noms s'afficheront ;
-- test à l'aveugle : rangé pour mesurer la compréhension (un seul nom suffit, ces phrases ne s'affichent jamais).
+- test à l'aveugle : rangé pour mesurer la compréhension (un seul nom suffit, ces phrases ne s'affichent jamais) ;
+- scénarios du jury (kit_finale.py --jury) : quinze façons par situation et vocabulaire, rangés pour comprendre ;
+  une phrase d'un test à l'aveugle est refusée ;
+- termes revus (kit_finale.py --termes-revus) : après un changement de terme, la nouvelle traduction signée de deux
+  noms remplace l'ancienne ; un terme abandonné (finale/termes-abandonnes.csv) est refusé partout ;
+- écriture sur l'USSD des lettres absentes du téléphone (kit_finale.py --gsm7) : deux noms, lettres de l'alphabet du
+  téléphone seulement, et refusée si deux phrases validées devenaient identiques.
 Les termes déjà décidés remplacent un mot français resté dans une traduction (« facture » -> Faktur), et une
 explication entre parenthèses prend la forme « (français / anglais) ». Rien n'est effacé : une case vide ne
 remplace rien. Le rapport liste chaque refus, à renvoyer aux locuteurs. Ensuite : npm run pack
@@ -57,7 +64,9 @@ def lire_csv(chemin):
 
 def ecrire_csv(chemin, entetes, lignes, bom=True):
     sortie = io.StringIO()
-    csv.writer(sortie, lineterminator='\n').writerows([entetes, *lignes])
+    # Les fins de ligne du fichier existant sont gardées : un import ne doit changer que les lignes touchées
+    fin = '\r\n' if pathlib.Path(chemin).exists() and b'\r\n' in pathlib.Path(chemin).read_bytes()[:4096] else '\n'
+    csv.writer(sortie, lineterminator=fin).writerows([entetes, *lignes])
     open(chemin, 'w', encoding='utf-8-sig' if bom else 'utf-8', newline='').write(sortie.getvalue())
 
 
@@ -92,6 +101,32 @@ def glossaire():
 
 
 GLOSSAIRE = glossaire()
+
+
+def abandonnes():
+    """Termes que l'équipe n'emploie plus (finale/termes-abandonnes.csv, décision signée de deux noms) : mot abandonné
+    -> ce qui le remplace, et l'explication française entre parenthèses qui les accompagnait, retirée"""
+    lignes = [l for l in lire_csv(FINALE / 'termes-abandonnes.csv')[1] if len(l) > 4 and deux_noms(l[3], l[4])]
+    mots = {sans_accents(l[0]): (l[0], l[2]) for l in lignes}
+    francais = sorted({re.escape(l[1].strip().lower()) for l in lignes})
+    glose = re.compile(r'\s*\((?:[^()\d]*\s)?(?:' + '|'.join(francais) + r')\b[^()\d]*\)', re.IGNORECASE) if francais else None
+    return mots, glose
+
+
+ABANDONNES, GLOSE_RETIREE = abandonnes()
+
+
+def nettoyer(ref, colonne, traduction):
+    """Sans les explications retirées ; None (avec la raison au rapport) si un terme abandonné y reste"""
+    if GLOSE_RETIREE:
+        traduction = re.sub(r'  +', ' ', GLOSE_RETIREE.sub('', traduction)).strip()
+    if ABANDONNES:
+        reste = re.search(r'(?<![a-z])(' + '|'.join(map(re.escape, ABANDONNES)) + ')', sans_accents(traduction))
+        if reste:
+            ancien, nouveau = ABANDONNES[reste.group(1)]
+            R.refus.append(f'{ref} ({colonne}) : « {ancien} » n\'est plus employé, l\'équipe a décidé : {nouveau} | {traduction}')
+            return None
+    return traduction
 
 
 def aligner(traduction, notes):
@@ -170,16 +205,24 @@ class Rapport:
 R = Rapport()
 
 
-# Lignes écartées après relecture (exclusions.csv) : un contresens qu'aucun contrôle automatique ne voit
+# Lignes écartées après relecture (exclusions.csv) : un contresens qu'aucun contrôle automatique ne voit. Elles ne
+# reviennent que par un tableur de retours (kit_finale.py --restants, premier onglet « Retours ») : la ligne y a été
+# renvoyée aux locuteurs, avec la raison, pour être refaite.
 EXCLUSIONS = {l[0]: l[1] for l in lire_csv(FINALE / 'exclusions.csv')[1]}
+EXCLUSIONS_ACTIVES = True
+# Lignes écartées refaites par les locuteurs dans un tableur de retours, signées de deux noms : la mise de côté
+# visait l'ancienne traduction, elle est levée
+LEVEES = set()
 
 
 def preparer(ref, colonne, francais, brute):
     """Traduction alignée et glosée, ou None si elle est refusée (le rapport dit pourquoi)"""
-    if ref in EXCLUSIONS:
+    if ref in EXCLUSIONS and EXCLUSIONS_ACTIVES:
         R.refus.append(f'{ref} ({colonne}) : écarté à la relecture, {EXCLUSIONS[ref]}')
         return None
-    traduction = re.sub(r'\s+', ' ', brute.replace('´', "'")).strip()
+    traduction = nettoyer(ref, colonne, re.sub(r'\s+', ' ', brute.replace('´', "'")).strip())
+    if traduction is None:
+        return None
     notes = []
     # Contrôle avant la mise en forme des gloses : « Mebal (frais) » doit être vu tel que le locuteur l'a écrit
     traduction = aligner(traduction, notes)
@@ -188,6 +231,8 @@ def preparer(ref, colonne, francais, brute):
     if raison:
         R.refus.append(f'{ref} ({colonne}) : {raison} | {brute.strip()}')
         return None
+    if ref in EXCLUSIONS:
+        LEVEES.add(ref)
     if notes:
         R.alignes.append(f'{ref} ({colonne}) : {", ".join(notes)}')
     return traduction
@@ -313,6 +358,21 @@ def ranger(nom, entetes, lignes):
         R.attente.append(f'{nom} : {len(lignes) - signees} ligne(s) sans deux noms différents, gardées mais pas utilisées')
 
 
+def fusionner(nom, entetes, nouvelles):
+    """Les lignes d'une référence reçue remplacent celles de la même référence, à leur place ; les autres restent"""
+    par_ref = {}
+    for l in nouvelles:
+        par_ref.setdefault(l[0], []).append(l)
+    gardees = []
+    for l in lire_csv(FINALE / nom)[1]:
+        if not l or l[0] not in par_ref:
+            gardees.append(l)
+        elif par_ref[l[0]]:
+            gardees += par_ref[l[0]]
+            par_ref[l[0]] = []
+    ranger(nom, entetes, [l for l in gardees if l] + [l for reste in par_ref.values() for l in reste])
+
+
 def importer_demandes(wb):
     intentions = {k: v['intention'] for k, v in sources('demandes.csv').items()}
     formulations = []
@@ -321,62 +381,399 @@ def importer_demandes(wb):
         for n, colonne in enumerate(range(6, 11), 1):
             if texte(r[colonne]):
                 formulations.append([ref, intentions.get(ref, texte(r[2])), str(n), texte(r[colonne]), texte(r[11]), texte(r[12])])
-    ranger('formulations.csv', ['ref', 'intention', 'facon', 'texte', 'ecrit_par', 'verifie_par'], formulations)
-    mots = [[texte(r[0]), texte(r[1]), str(n), texte(r[c]), texte(r[6]), texte(r[7])]
-            for r in list(wb['Mots du dialogue'].iter_rows(values_only=True))[1:] for n, c in enumerate((3, 4, 5), 1) if texte(r[c])]
-    ranger('mots.csv', ['ref', 'fr', 'facon', 'texte', 'ecrit_par', 'verifie_par'], mots)
+    fusionner('formulations.csv', ['ref', 'intention', 'facon', 'texte', 'ecrit_par', 'verifie_par'], formulations)
+    if 'Mots du dialogue' in wb.sheetnames:
+        mots = [[texte(r[0]), texte(r[1]), str(n), texte(r[c]), texte(r[6]), texte(r[7])]
+                for r in list(wb['Mots du dialogue'].iter_rows(values_only=True))[1:] for n, c in enumerate((3, 4, 5), 1) if texte(r[c])]
+        fusionner('mots.csv', ['ref', 'fr', 'facon', 'texte', 'ecrit_par', 'verifie_par'], mots)
+    if 'Nombres' in wb.sheetnames:
+        importer_nombres(wb)
+
+
+def importer_nombres(wb):
     nombres = [[texte(r[0]), texte(r[1]), texte(r[3]), texte(r[4]), texte(r[5]), texte(r[6])]
                for r in list(wb['Nombres'].iter_rows(values_only=True))[1:] if texte(r[0])]
-    ranger('nombres-recus.csv', ['ref', 'valeur', 'en_entier', 'a_l_oral', 'ecrit_par', 'verifie_par'], nombres)
+    fusionner('nombres-recus.csv', ['ref', 'valeur', 'en_entier', 'a_l_oral', 'ecrit_par', 'verifie_par'], nombres)
 
 
-def importer_explications(wb):
+# Classeur d'un service (tools/kit_service.py) : écrans, mots du métier, codes et touches vérifiés, demandes
+TYPES_CRITIQUES = {'recapitulatif', 'alerte', 'erreur'}
+
+
+def service_du_classeur(wb, chemin):
+    sujet = (wb.properties.subject or '').strip()
+    m = re.match(r'service-(.+)-[^-]+\.xlsx$', pathlib.Path(chemin).name)
+    return sujet or (m.group(1) if m else None)
+
+
+def importer_ecrans(wb):
+    corpus, variantes, releves = {}, [], []
+    for r in list(wb['Écrans'].iter_rows(values_only=True))[1:]:
+        ref, releve, traduction = texte(r[0]), texte(r[7]), texte(r[9])
+        if releve:
+            releves.append([ref, releve, texte(r[16]) if len(r) > 16 else '', texte(r[15]) if len(r) > 15 else ''])
+        if not ref or not traduction:
+            continue
+        if not deux_noms(r[12], r[13]):
+            if not texte(r[8]).startswith('Déjà validé'):
+                R.attente.append(f'{ref} : deux noms différents attendus')
+            continue
+        francais = releve or texte(r[6])
+        valide_par = f'{texte(r[12])} / relu par {texte(r[13])}'
+        complete = preparer(ref, 'écran', francais, traduction)
+        if complete:
+            corpus[ref] = {'fr': francais, 'cible': complete, 'critique': '1' if texte(r[4]) in TYPES_CRITIQUES else '0',
+                           'element': f'{texte(r[1])} : {texte(r[2])}', 'valide_par': valide_par}
+        courte = texte(r[10])
+        if courte and courte.lower() not in SANS_OBJET:
+            version = preparer(ref, 'ussd', francais, courte)
+            if version and version != complete:
+                variantes.append([ref, 'ussd', version, texte(r[12]), texte(r[13])])
+    return corpus, variantes, releves
+
+
+# Textes vus sur de vrais écrans : un texte de référence, valable aussi pour ses autres écritures vues à l'écran
+def importer_textes(wb):
+    corpus = {}
+    for r in list(wb['Textes relevés'].iter_rows(values_only=True))[1:]:
+        ref, francais, traduction = texte(r[0]), texte(r[4]), texte(r[11])
+        if not ref or not traduction or texte(r[18]).startswith('Déjà validé'):
+            continue
+        if not deux_noms(r[15], r[16]):
+            R.attente.append(f'{ref} : deux noms différents attendus')
+            continue
+        complete = preparer(ref, 'texte', francais, traduction)
+        if not complete:
+            continue
+        valide_par = f'{texte(r[15])} / relu par {texte(r[16])}'
+        commun = {'cible': complete, 'critique': '1' if texte(r[2]) in ("message d'erreur", 'invite') else '0',
+                  'element': f'{texte(r[2])} : {texte(r[1])}', 'valide_par': valide_par}
+        corpus[ref] = dict(commun, fr=francais)
+        formes = [f.strip() for f in texte(r[5]).split('|') if f.strip() and f.strip() != francais]
+        for n, forme in enumerate(formes, 1):
+            if preparer(f'{ref}V{n}', 'forme vue', forme, complete):
+                corpus[f'{ref}V{n}'] = dict(commun, fr=forme)
+    return corpus
+
+
+def importer_mots_metier(wb):
+    entetes, lignes = lire_csv(DOSSIER / 'glossaire.csv')
+    refs = {l[0] for l in lignes if l}
+    ajoutes = 0
+    for r in list(wb['Mots du métier'].iter_rows(values_only=True))[1:]:
+        ref, terme, traduction = texte(r[0]), texte(r[1]), texte(r[6])
+        if not traduction or not deux_noms(r[7], r[8]):
+            continue
+        if ref in refs:
+            R.attente.append(f'{ref} : déjà au glossaire, gardé tel quel')
+            continue
+        if sans_accents(terme) in GLOSSAIRE:
+            R.attente.append(f'{ref} « {terme} » : terme déjà traduit au glossaire (« {GLOSSAIRE[sans_accents(terme)][0]} ») ; gardé tel quel')
+            continue
+        lignes.append([ref, terme, texte(r[2]), texte(r[3]), 'Oui' if texte(r[4]) == 'oui' else 'Non', traduction, '', texte(r[7]), texte(r[8]), texte(r[9])])
+        R.entrees.append(ref)
+        ajoutes += 1
+    if ajoutes:
+        ecrire_csv(DOSSIER / 'glossaire.csv', entetes, lignes)
+
+
+def mettre_a_jour_profil(service, wb, releves):
+    dossier = racine / 'profiles' / service
+    if not dossier.is_dir():
+        R.attente.append(f'profiles/{service}/ introuvable : codes et touches non enregistrés')
+        return
+    if releves:
+        ecrire_csv(dossier / 'releves.csv', ['ref', 'texte_exact', 'capture', 'chemin'], releves, bom=False)
+        print(f'profiles/{service}/releves.csv : {len(releves)} texte(s) exact(s) relevé(s)')
+    entetes, codes = lire_csv(dossier / 'codes.csv')
+    for colonne in ('premier_ecran', 'verifie_par'):
+        if colonne not in entetes:
+            entetes.append(colonne)
+            codes = [l + [''] for l in codes]
+    i = {e: n for n, e in enumerate(entetes)}
+    verifies = {texte(r[0]): r for r in list(wb['Codes'].iter_rows(values_only=True))[1:] if texte(r[6]).lower() == 'oui' and texte(r[8])}
+    for l in codes:
+        r = verifies.get(l[i['code']])
+        if r:
+            l[i['fiabilite']], l[i['premier_ecran']], l[i['verifie_par']] = 'vérifié', texte(r[7]), texte(r[8])
+    ecrire_csv(dossier / 'codes.csv', entetes, codes, bom=False)
+    touches = {texte(r[0]): (texte(r[4]), texte(r[6])) for r in list(wb['Touches'].iter_rows(values_only=True))[1:] if texte(r[4]) and texte(r[6])}
+    entetes, raccourcis = lire_csv(dossier / 'raccourcis.csv')
+    for l in raccourcis:
+        if l[0] in touches:
+            l[1], l[2] = touches[l[0]]
+    ecrire_csv(dossier / 'raccourcis.csv', entetes, raccourcis, bom=False)
+    print(f'profiles/{service} : {len(verifies)} code(s) vérifié(s), {len(touches)} parcours de touches relevé(s)')
+
+
+def importer_explications(wb, retours=False):
     lignes = []
     for r in list(wb['Termes à expliquer'].iter_rows(values_only=True))[1:]:
         ref = texte(r[0])
         if not ref or not texte(r[6]):
             continue
         notes = []
-        explication = gloser(aligner(re.sub(r'\s+', ' ', texte(r[6])), notes), notes)
-        courte = gloser(aligner(re.sub(r'\s+', ' ', texte(r[7])), notes), notes)
+        explication = nettoyer(ref, 'explication', re.sub(r'\s+', ' ', texte(r[6])))
+        courte = nettoyer(ref, 'version courte', re.sub(r'\s+', ' ', texte(r[7])))
+        if explication is None or courte is None:
+            continue
+        explication = gloser(aligner(explication, notes), notes)
+        courte = gloser(aligner(courte, notes), notes)
         if notes:
             R.alignes.append(f'{ref} (explication) : {", ".join(notes)}')
+        if retours and ref in EXCLUSIONS and deux_noms(r[8], r[9]):
+            LEVEES.add(ref)
         lignes.append([ref, texte(r[2]), explication, courte, texte(r[8]), texte(r[9])])
-    ranger('explications-recues.csv', ['ref', 'terme', 'explication', 'courte', 'traduit_par', 'relu_par'], lignes)
+    (fusionner if retours else ranger)('explications-recues.csv', ['ref', 'terme', 'explication', 'courte', 'traduit_par', 'relu_par'], lignes)
 
 
-def importer_test(wb):
-    lignes = [[texte(r[0]), str(n), texte(r[c])] for r in list(wb['Test'].iter_rows(values_only=True))[1:] for n, c in ((1, 2), (2, 3)) if texte(r[c])]
-    ecrire_csv(FINALE / 'test-recu.csv', ['ref', 'facon', 'texte'], lignes, bom=False)
-    print(f'test-recu.csv : {len(lignes)} phrase(s) de test à l\'aveugle')
+# Tableur des termes revus (kit_finale.py --termes-revus) : « Où » dit dans quel fichier et quelle colonne est le texte
+OU_REVU = {'Phrase': ('corpus', None), 'Terme': ('glossaire', None), 'Réponse SMS': ('variante', 'sms'),
+           'Réponse USSD': ('variante', 'ussd'), 'Réponse voix': ('variante', 'voix'),
+           'Explication': ('explication', 'explication'), 'Explication courte': ('explication', 'courte')}
+
+
+def importer_termes_revus(wb):
+    """Après un changement de terme décidé par l'équipe, la nouvelle traduction signée de deux noms remplace l'ancienne
+    là où elle se trouve, même hors finale : c'est l'équipe qui a demandé de la refaire"""
+    nouvelles = {}
+    for r in list(wb['Termes revus'].iter_rows(values_only=True))[1:]:
+        ref, ou, francais, brute = texte(r[0]), texte(r[1]), texte(r[3]), texte(r[6])
+        if not ref or not brute or ou not in OU_REVU or not deux_noms(r[7], r[8]):
+            continue
+        if OU_REVU[ou][0] == 'explication':
+            notes = []
+            traduction = nettoyer(ref, ou, re.sub(r'\s+', ' ', brute))
+            traduction = traduction and gloser(aligner(traduction, notes), notes)
+        else:
+            traduction = preparer(ref, ou, francais, brute)
+        if traduction:
+            nouvelles.setdefault(OU_REVU[ou][0], {})[(ref, OU_REVU[ou][1])] = (traduction, texte(r[7]), texte(r[8]))
+            if ref in EXCLUSIONS:
+                LEVEES.add(ref)
+    for quoi, textes in nouvelles.items():
+        remplacer_revus(quoi, textes)
+
+
+def remplacer_revus(quoi, textes):
+    chemin, cle, colonne, signes = {
+        'corpus': (DOSSIER / 'corpus.csv', 'id', lambda c: 'cible', ('valide_par',)),
+        'glossaire': (DOSSIER / 'glossaire.csv', 0, lambda c: 5, (7, 8)),
+        'variante': (FINALE / 'variantes.csv', 'ref', lambda c: 'cible', ('traduit_par', 'relu_par')),
+        'explication': (FINALE / 'explications-recues.csv', 'ref', lambda c: c, ('traduit_par', 'relu_par'))}[quoi]
+    entetes, lignes = lire_csv(chemin)
+    i = {e: n for n, e in enumerate(entetes)}
+    position = lambda c: c if isinstance(c, int) else i[c]
+    for l in lignes:
+        canal = l[i['canal']] if quoi == 'variante' else None
+        for (ref, ou), (traduction, ecrit, verifie) in textes.items():
+            if l[position(cle)] != ref or (quoi == 'variante' and canal != ou):
+                continue
+            l[position(colonne(ou))] = traduction
+            if len(signes) == 1:
+                l[position(signes[0])] = f'{ecrit} / relu par {verifie}'
+            else:
+                l[position(signes[0])], l[position(signes[1])] = ecrit, verifie
+            R.entrees.append(f'{ref} ({quoi}{", " + ou if ou else ""})')
+    ecrire_csv(chemin, entetes, lignes, bom=chemin.name in ('corpus.csv', 'glossaire.csv'))
+
+
+def phrases_de_test():
+    """Les phrases des tests à l'aveugle, écrites sans accents ni ponctuation : elles n'entrent jamais dans les formulations"""
+    simple = lambda t: re.sub(r'[^a-z0-9]+', ' ', sans_accents(t.lower())).strip()
+    return {simple(l[2]) for nom in ('test-recu.csv', 'test-recu-2.csv') for l in lire_csv(FINALE / nom)[1] if len(l) > 2}, simple
+
+
+def importer_scenarios(wb):
+    """Les dix scénarios du jury (kit_finale.py --jury) : quinze façons par situation, intention donnée par la ligne"""
+    tests, simple = phrases_de_test()
+    lignes = []
+    for r in list(wb['Scénarios'].iter_rows(values_only=True))[1:]:
+        ref, intention = texte(r[0]), texte(r[3])
+        for n in range(1, 16):
+            phrase = texte(r[7 + n]) if len(r) > 7 + n else ''
+            if not ref or not phrase:
+                continue
+            if simple(phrase) in tests:
+                R.refus.append(f'{ref} (façon {n}) : phrase d\'un test à l\'aveugle, jamais apprise | {phrase}')
+                continue
+            lignes.append([ref, intention, str(n), phrase, texte(r[23]), texte(r[24])])
+    if lignes:
+        fusionner('formulations.csv', ['ref', 'intention', 'facon', 'texte', 'ecrit_par', 'verifie_par'], lignes)
+
+
+def importer_vocabulaire(wb):
+    """Vocabulaire des scénarios : jusqu'à trois façons par mot ; son intention (finale/vocabulaire.csv) le rend parlant"""
+    lignes = [[texte(r[0]), texte(r[3]), str(n), texte(r[5 + n]), texte(r[9]), texte(r[10])]
+              for r in list(wb['Vocabulaire'].iter_rows(values_only=True))[1:] if texte(r[0]) for n in (1, 2, 3) if texte(r[5 + n])]
+    if lignes:
+        fusionner('mots.csv', ['ref', 'fr', 'facon', 'texte', 'ecrit_par', 'verifie_par'], lignes)
+
+
+def importer_gsm7(wb):
+    """Écriture sur l'USSD des lettres que le téléphone n'affiche pas : deux noms, seulement des lettres de son
+    alphabet. Un texte validé qui se confondrait avec un autre garde ses accents (finale/gsm7-gardes.csv) ; s'il
+    restait une confusion malgré cela, rien n'est enregistré."""
+    import gsm7
+    proposees = {}
+    for r in list(wb['Écriture USSD'].iter_rows(values_only=True))[1:]:
+        lettre, ecriture = texte(r[0]), texte(r[4])
+        if not lettre or not ecriture:
+            continue
+        if not deux_noms(r[5], r[6]):
+            R.attente.append(f'{lettre} : deux noms différents attendus (« Décidé par », « Vérifié par »)')
+            continue
+        hors = gsm7.hors_alphabet(ecriture)
+        if hors:
+            R.refus.append(f"{lettre} : « {ecriture} » a des lettres que le téléphone n'affiche pas ({' '.join(sorted(hors))})")
+            continue
+        proposees[lettre] = [lettre, ecriture, texte(r[5]), texte(r[6])]
+    if not proposees:
+        return
+    table = {l[0]: l for l in lire_csv(FINALE / 'gsm7.csv')[1]} | proposees
+    gardes, paires = gsm7.gardes_necessaires(gsm7.textes_affichables(DOSSIER), {l: v[1] for l, v in table.items()})
+    if paires:
+        R.refus.append(f'écriture USSD : {len(paires)} paire(s) de phrases validées deviendraient identiques ; rien n\'est enregistré')
+        R.refus.extend(f'   « {a} » et « {b} »' for a, b in paires[:10])
+        return
+    ecrire_csv(FINALE / 'gsm7.csv', ['lettre', 'ecriture', 'decide_par', 'verifie_par'], sorted(table.values()), bom=False)
+    ecrire_csv(FINALE / 'gsm7-gardes.csv', ['texte'], [[t] for t in sorted(gardes)], bom=False)
+    print(f'gsm7.csv : {len(proposees)} écriture(s) sur l\'USSD enregistrée(s)')
+    for t in sorted(gardes):
+        R.alignes.append(f'« {t} » garde ses accents sur l\'USSD : sans eux, il se confondrait avec un autre texte validé')
+
+
+def importer_test(wb, onglet='Test', fichier='test-recu.csv'):
+    lignes = [[texte(r[0]), str(n), texte(r[c])] for r in list(wb[onglet].iter_rows(values_only=True))[1:] for n, c in ((1, 2), (2, 3)) if texte(r[c])]
+    ecrire_csv(FINALE / fichier, ['ref', 'facon', 'texte'], lignes, bom=False)
+    print(f'{fichier} : {len(lignes)} phrase(s) de test à l\'aveugle')
+
+
+# Page du téléphone (tools/kit_service.py --page) : le travail renvoyé (fichier .html, ou texte « MAYEM-TRAVAIL ») est
+# reporté dans le classeur du service, puis importé comme lui, avec les mêmes contrôles
+def travail_de_page(chemin):
+    contenu = pathlib.Path(chemin).read_text(encoding='utf-8')
+    m = re.search(r'<script id="travail" type="application/json">(.*?)</script>', contenu, re.S)
+    brut = m.group(1) if m else re.sub(r'^.*?MAYEM-TRAVAIL\s*', '', contenu, flags=re.S)
+    return json.loads(brut.replace('<\\/', '</'))
+
+
+def fusionner_travaux(travaux):
+    items = {}
+    for t in travaux:
+        for cle, x in t.get('items', {}).items():
+            if cle not in items or x.get('m', 0) > items[cle].get('m', 0):
+                items[cle] = x
+    return items
+
+
+COLONNES_PAGE = {  # section -> onglet, colonne de la traduction, du traducteur, du relecteur, du commentaire (1 = A)
+    'textes': ('Textes relevés', 12, 16, 17, 19), 'mots': ('Mots du métier', 7, 8, 9, 10),
+    'demandes': ('Demandes', 7, 12, 13, 14), 'ecrans': ('Écrans', 10, 13, 14, 15)}
+
+
+def classeur_de_page(fichiers):
+    import subprocess, tempfile
+    travaux = [travail_de_page(f) for f in fichiers]
+    service = travaux[0].get('service')
+    dossier = pathlib.Path(tempfile.mkdtemp())
+    subprocess.run([sys.executable, str(racine / 'tools' / 'kit_service.py'), service, '--langue', DOSSIER.name, '--dossier', str(dossier)],
+                   check=True, stdout=subprocess.DEVNULL)
+    chemin = next(dossier.glob('service-*.xlsx'))
+    wb = load_workbook(chemin)
+    items = fusionner_travaux(travaux)
+    for section, (onglet, c_trad, c_tp, c_rp, c_note) in COLONNES_PAGE.items():
+        ws = wb[onglet]
+        lignes = {ws.cell(n, 1).value: n for n in range(2, ws.max_row + 1)}
+        traduites = relues = 0
+        for cle, x in items.items():
+            sec, ref = cle.split(':', 1)
+            if sec != section or ref not in lignes:
+                continue
+            n = lignes[ref]
+            if section == 'demandes':
+                for i, facon in enumerate((x.get('f') or [])[:5]):
+                    ws.cell(n, c_trad + i, (facon or '').strip() or None)
+            else:
+                ws.cell(n, c_trad, (x.get('t') or '').strip() or None)
+                if section == 'ecrans' and (x.get('c') or '').strip():
+                    ws.cell(n, 11, x['c'].strip())
+            ws.cell(n, c_tp, x.get('tp') or None)
+            relu = x.get('s') in ('confirme', 'corrige') and x.get('rp')
+            ws.cell(n, c_rp, x['rp'] if relu else None)
+            notes = [x.get('n'), x.get('nr'), 'corrigé à la relecture' if x.get('s') == 'corrige' else None]
+            ancien = texte(ws.cell(n, c_note).value)
+            if not ancien.startswith('Déjà validé') and any(notes):
+                ws.cell(n, c_note, ' ; '.join(t for t in notes if t))
+            traduites += 1
+            relues += bool(relu)
+        print(f'page du téléphone, {onglet} : {traduites} ligne(s) reçue(s), {relues} relue(s) par une autre personne')
+    return wb, chemin
 
 
 def main():
+    global EXCLUSIONS_ACTIVES
     fichiers = [a for a in ARGS if not a.startswith('--')]
     if not fichiers:
         sys.exit(__doc__)
     corpus, variantes = {}, []
+    pages = [f for f in fichiers if not f.endswith('.xlsx')]
+    if pages:
+        fichiers = [f for f in fichiers if f.endswith('.xlsx')] + [classeur_de_page(pages)]
     for chemin in fichiers:
-        wb = load_workbook(chemin, data_only=True)
+        if isinstance(chemin, tuple):
+            wb, chemin = chemin
+        else:
+            wb = load_workbook(chemin, data_only=True)
         onglets = set(wb.sheetnames)
+        # Un tableur de retours peut réunir réponses, nombres et explications : chacun n'y remplace que ses lignes
+        retours = 'Retours' in onglets
+        EXCLUSIONS_ACTIVES = not (retours or 'Termes revus' in onglets)
+        if 'Écrans' in onglets:
+            service = service_du_classeur(wb, chemin)
+            c, v, releves = importer_ecrans(wb)
+            corpus.update(c); variantes += v
+            if 'Textes relevés' in onglets:
+                corpus.update(importer_textes(wb))
+            importer_mots_metier(wb)
+            importer_demandes(wb)
+            if service:
+                mettre_a_jour_profil(service, wb, releves)
+            continue
         if 'Réponses' in onglets:
             c, v = importer_reponses(wb)
             corpus.update(c); variantes += v
             corpus.update(importer_menus(wb))
             variantes += importer_courtes(wb)
-        elif 'Demandes' in onglets:
+        if 'Demandes' in onglets:
             importer_demandes(wb)
-        elif 'Termes à expliquer' in onglets:
-            importer_explications(wb)
-        elif 'Test' in onglets:
+        elif retours and 'Nombres' in onglets:
+            importer_nombres(wb)
+        if 'Termes à expliquer' in onglets:
+            importer_explications(wb, retours)
+        if 'Test' in onglets:
             importer_test(wb)
-        else:
+        if 'Test 2' in onglets:
+            importer_test(wb, 'Test 2', 'test-recu-2.csv')
+        if 'Écriture USSD' in onglets:
+            importer_gsm7(wb)
+        if 'Scénarios' in onglets:
+            importer_scenarios(wb)
+        if 'Vocabulaire' in onglets:
+            importer_vocabulaire(wb)
+        if 'Termes revus' in onglets:
+            importer_termes_revus(wb)
+        if not onglets & {'Réponses', 'Demandes', 'Nombres', 'Termes à expliquer', 'Test', 'Test 2', 'Écriture USSD', 'Scénarios', 'Vocabulaire', 'Termes revus'}:
             print(f'{chemin} : tableur non reconnu, ignoré')
     if corpus:
         ajouter_corpus(corpus)
     if variantes:
         ajouter_variantes(variantes)
         print(f'variantes.csv : {len(variantes)} version(s) USSD, SMS ou voix')
+    if LEVEES:
+        entetes, lignes = lire_csv(FINALE / 'exclusions.csv')
+        ecrire_csv(FINALE / 'exclusions.csv', entetes, [l for l in lignes if l[0] not in LEVEES], bom=False)
+        print(f'exclusions.csv : mise de côté levée pour {", ".join(sorted(LEVEES))} (nouvelle traduction signée)')
     R.afficher()
 
 

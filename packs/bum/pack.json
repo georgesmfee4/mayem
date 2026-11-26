@@ -2,9 +2,9 @@
   "format": 2,
   "langue": "bum",
   "nom": "Bulu",
-  "version": "0.10.0",
-  "date": "2026-11-24",
-  "empreinte": "sha256-46b61b51e380524b5035ce1123ef454d2ddcd94fd587af737d137fc998438517",
+  "version": "0.13.2",
+  "date": "2026-11-25",
+  "empreinte": "sha256-c518750c31667aad0c50111bf616eefbf73f42de8e2f47351eb50fe9161e154f",
   "producteur": "Équipe Mayem",
   "droits": "Tous droits réservés",
   "orthographe": "Alphabet de l'Église presbytérienne",
@@ -20,11 +20,11 @@
       "en": "balance",
       "sens": "L'argent disponible sur le compte",
       "critique": true,
-      "cible": "Mebal",
-      "a_eviter": "Éviter 'Évôvôla' seul qui désigne le compte lui-même et non la somme disponible.",
+      "cible": "Moné ô bili",
+      "a_eviter": "Quand le solde affiche un montant : « Abime ô bili ». Solde de crédit : « Abime kredi ô bili » (T86). Ne plus employer « Mebal ».",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T02",
@@ -32,11 +32,11 @@
       "en": "fee / fees",
       "sens": "La somme prise par le service pour faire une opération",
       "critique": true,
-      "cible": "Minkuk",
-      "a_eviter": "Éviter 'Aya'an' qui désigne plutôt le paiement lui-même.",
+      "cible": "Be frais",
+      "a_eviter": "Éviter 'Aya'an' qui désigne plutôt le paiement lui-même. Ne plus employer « Minkuk ».",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T03",
@@ -68,10 +68,10 @@
       "en": "total debited / amount debited",
       "sens": "La somme déjà retirée du compte (montant + frais)",
       "critique": true,
-      "cible": "Mabal máte wùlù",
+      "cible": "abime moné d'ate kôlo",
       "a_eviter": "Ne pas confondre avec « total à débiter » (T83, Mebal mazù wulu), avant l’opération. Mebal tout court qui est le montant, il faut une expression qui désigne que le solde ne sera plus le même (soustraction).",
       "traduit_par": "Georges",
-      "relu_par": "Carrel",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -80,10 +80,10 @@
       "en": "total to debit / amount to debit",
       "sens": "La somme qui sera retirée du compte (montant + frais)",
       "critique": true,
-      "cible": "Mebal mazù wulu",
+      "cible": "abime moné d'azu kôlo",
       "a_eviter": "Ne pas confondre avec « total débité » (T05, Mabal máte wùlù), après l’opération.",
       "traduit_par": "Georges",
-      "relu_par": "Carrel",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -92,11 +92,11 @@
       "en": "account",
       "sens": "Le compte bancaire de la personne",
       "critique": false,
-      "cible": "Évôvôla moné",
-      "a_eviter": "Éviter 'Alang' qui se rapporte au calcul ou à l'action de compter.",
+      "cible": "Konte moné",
+      "a_eviter": "Éviter 'Alang' qui se rapporte au calcul ou à l'action de compter. Compte d'argent : « Konte moné » ; « Konte » seul ; pluriel « Be konte ». Ne plus employer « Évôvôla ».",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T07",
@@ -1532,11 +1532,11 @@
       "en": "deposit",
       "sens": "Mettre de l'argent sur le compte.",
       "critique": true,
-      "cible": "tele moné évôvôla (mettre de l'argent dans le compte ; périphrase)",
+      "cible": "tele moné konte",
       "a_eviter": "Éviter de présenter cette périphrase comme un verbe unique déjà normalisé. Faire valider l'ordre des mots et les accords par un locuteur Bene.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T36",
@@ -1554,13 +1554,13 @@
       "ref": "T37",
       "terme": "commission",
       "en": "commission",
-      "sens": "Même terme que « frais » (Minkuk) ? Si oui, écrire Minkuk.",
+      "sens": "Même terme que « frais » (Be frais) si la commission est le prélèvement appelé « frais ».",
       "critique": true,
-      "cible": "Minkuk (si commission = frais prélevés)",
+      "cible": "Be frais",
       "a_eviter": "Éviter un terme différent si la commission est exactement le prélèvement déjà appelé « frais » (T02). Si elle rémunère un agent, le sens est différent et doit être validé.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "T38",
@@ -2096,11 +2096,23 @@
       "en": "insufficient balance",
       "sens": "Il n'y a pas assez d'argent sur le compte pour faire l'opération, frais compris.",
       "critique": true,
-      "cible": "Mebal teké yiane",
+      "cible": "Abime moné é ndji yiane",
       "a_eviter": "Ne plus employer « Mebal teké njalan » ni « Mebal na yian ki ».",
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "commentaire": "Traduction validée par l'équipe le 23/11/2026."
+    },
+    {
+      "ref": "T86",
+      "terme": "solde de crédit",
+      "en": "airtime balance",
+      "sens": "Le crédit téléphonique qui reste.",
+      "critique": true,
+      "cible": "Abime kredi ô bili",
+      "a_eviter": "Pour le solde d'argent : « Moné ô bili » (T01).",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "TP01",
@@ -2756,11 +2768,11 @@
       "en": "",
       "sens": "le compte",
       "critique": false,
-      "cible": "Évôvôla moné",
+      "cible": "Konte moné",
       "a_eviter": "Nous devons éviter d'utiliser le mot seul \"moné\" (argent) pour un compte, l'expression \"évôvôla moné\" désigne précisément le réceptacle financier.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "NM02",
@@ -2768,11 +2780,11 @@
       "en": "",
       "sens": "les comptes",
       "critique": false,
-      "cible": "Mevôvôla me moné",
+      "cible": "Be konte moné",
       "a_eviter": "Évitons de calquer le pluriel français ; en bulu, le passage du singulier \"é-\" au pluriel \"me-\" modifie radicalement le préfixe de classe nominale.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "NM03",
@@ -3020,10 +3032,10 @@
       "en": "",
       "sens": "ce compte",
       "critique": false,
-      "cible": "Évôvôla moné ôyo",
+      "cible": "kont moné nyô",
       "a_eviter": "Nous rappelons que le démonstratif \"ôyo\" se place obligatoirement après le nom en bulu, contrairement au français où il se situe avant.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -3032,10 +3044,10 @@
       "en": "",
       "sens": "ces comptes",
       "critique": false,
-      "cible": "Mevôvôla me moné mance",
+      "cible": "be konte",
       "a_eviter": "Nous devons accorder le démonstratif au pluriel qui devient \"mance\" pour suivre l'harmonisation de la classe nominale des comptes.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -3044,10 +3056,10 @@
       "en": "",
       "sens": "votre compte",
       "critique": true,
-      "cible": "Évôvôla moné wôé",
+      "cible": "konte jôé",
       "a_eviter": "Conformément à notre choix de politesse \"Wo\", nous utilisons le possessif singulier \"wôé\" (ton compte de respect) pour le client.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -3056,10 +3068,10 @@
       "en": "",
       "sens": "vos comptes",
       "critique": true,
-      "cible": "Mevôvôla me moné môé",
+      "cible": "be konte bôé",
       "a_eviter": "Nous veillons à modifier le possessif qui passe de \"wôé\" à \"môé\" pour s'accorder avec la classe pluriel \"me-\" des comptes ouverts.",
       "traduit_par": "Georges",
-      "relu_par": "Alexandre et Ronald",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4136,10 +4148,10 @@
       "en": "",
       "sens": "Le compte a de l'argent.",
       "critique": true,
-      "cible": "Mebal mene mvo'é",
+      "cible": "ô bili moné",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4148,10 +4160,10 @@
       "en": "",
       "sens": "Le compte est en négatif.",
       "critique": true,
-      "cible": "Mebal me ndji bô mvo'é",
+      "cible": "ô bili ki moné",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4160,10 +4172,10 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Minkuk asù mbà'àlàn évôvôla jôé",
+      "cible": "be frais ya mba'alane konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4544,11 +4556,11 @@
       "en": "",
       "sens": "« Ouvrez un compte en 2 minutes. »",
       "critique": false,
-      "cible": "E yieôye évôvôla",
+      "cible": "E yieôye konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "CPT002",
@@ -4568,11 +4580,11 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "E té évôvôla",
+      "cible": "E té konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "CPT004",
@@ -4616,11 +4628,11 @@
       "en": "",
       "sens": "La personne à qui appartient le compte.",
       "critique": true,
-      "cible": "Nyô a bili évôvôla",
+      "cible": "Nyô a bili konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "CPT010",
@@ -4628,10 +4640,10 @@
       "en": "",
       "sens": "Compte où l'on met l'argent de côté.",
       "critique": false,
-      "cible": "Évôvôla ya ésouane",
+      "cible": "konte ya ésouane",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4640,10 +4652,10 @@
       "en": "",
       "sens": "Compte partagé par deux personnes.",
       "critique": false,
-      "cible": "Évôvôla ya abui bôt",
+      "cible": "konte ya abui bôt",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4652,10 +4664,10 @@
       "en": "",
       "sens": "Compte d'un commerçant qui reçoit des paiements.",
       "critique": false,
-      "cible": "Évôvôla moné a sùane wô mban",
+      "cible": "konte moné a sùane wô mban",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4664,10 +4676,10 @@
       "en": "",
       "sens": "Garder « RIB » si c'est l'usage.",
       "critique": false,
-      "cible": "Afep y'a vo'ôlo na biyem évôvôla jôé",
+      "cible": "Afep da vo'ôlo na biyem konte jôé",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4820,10 +4832,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "Évôvôla éne mfòmban",
+      "cible": "konte éne mfòmban",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4832,10 +4844,10 @@
       "en": "",
       "sens": "",
       "critique": false,
-      "cible": "Évôvôla e ndji bô mfomban",
+      "cible": "konte e ndji bô nfomban",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4844,10 +4856,10 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Évôvôla joé ya wulu",
+      "cible": "konte wôé a ve",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4856,10 +4868,10 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Évôvôla jôé éne mfetán",
+      "cible": "konte wôé a ve ki",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4868,10 +4880,10 @@
       "en": "",
       "sens": "Bloqué pour un temps.",
       "critique": true,
-      "cible": "Évôvôla jôé éne mfetán asù moné éyôñ",
+      "cible": "konte wôé ane tyí'ìbàn",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -4880,11 +4892,11 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "E tyam évôvôla",
+      "cible": "E tyam konte",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "commentaire": ""
+      "relu_par": "Lesly",
+      "commentaire": "Terminologie décidée par Georges et Lesly le 25/11/2026."
     },
     {
       "ref": "CPT034",
@@ -5240,10 +5252,10 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Teké minkuk ya esaé",
+      "cible": "teké be frais",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": "Corrigé par le relecteur"
     },
     {
@@ -5924,10 +5936,10 @@
       "en": "",
       "sens": "Le solde après l'opération.",
       "critique": true,
-      "cible": "Mféfé mabal",
+      "cible": "abime moné y'ate lyi",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -5936,10 +5948,10 @@
       "en": "",
       "sens": "Le solde avant l'opération.",
       "critique": true,
-      "cible": "Enoma mebal",
+      "cible": "abime moné y'ate ke",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -5948,10 +5960,10 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Minkuk ya nvà'àn moné",
+      "cible": "be frais ya mva'ane moné",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -6284,10 +6296,10 @@
       "en": "",
       "sens": "",
       "critique": true,
-      "cible": "Évôvôla bate wùb",
+      "cible": "konte bate wùb",
       "a_eviter": "",
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
+      "relu_par": "Ronald",
       "commentaire": ""
     },
     {
@@ -7072,10 +7084,10 @@
       "en": [
         "Balance"
       ],
-      "cible": "Mebal",
+      "cible": "Abime moné ô bili",
       "critique": false,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -7087,12 +7099,12 @@
         "Fee",
         "Fees"
       ],
-      "cible": "Minkuk",
+      "cible": "Be frais",
       "critique": true,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "John",
-      "retraduction": "Frais.",
+      "traduit_par": "Georges",
+      "relu_par": "Lesly",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Frais appliqués",
@@ -7195,10 +7207,10 @@
       "en": [
         "Your account"
       ],
-      "cible": "Évôvôla moné ya èn jôé",
+      "cible": "konte wôé",
       "critique": false,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -7244,12 +7256,12 @@
       "en": [
         "Check your balance and start a secure transfer."
       ],
-      "cible": "Yené mebal môé, kele ôsu nlomane moné évovoé été.",
+      "cible": "yene abime moné ô bili a lôm moné évôvôvo'é été",
       "critique": false,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "Joseph",
-      "retraduction": "Consultez votre solde, continuer vers les transferts en toute sécurité",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Consultez votre solde et effectuez un transfert en toute sécurité.",
@@ -7269,12 +7281,12 @@
       "en": [
         "Available balance"
       ],
-      "cible": "Mebal mené",
+      "cible": "abime moné ô bili",
       "critique": true,
-      "traduit_par": "lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "John",
-      "retraduction": "Solde disponible",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Fonds disponibles",
@@ -7291,12 +7303,12 @@
       "en": [
         "Account number: {account}"
       ],
-      "cible": "Nombor ya évôvôla moné : {account}",
+      "cible": "Nombor ya konte moné : {account}",
       "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
-      "retraduit_par": "John",
-      "retraduction": "Numéro de compte : {account}",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Numéro de votre compte : {account}",
@@ -7311,7 +7323,7 @@
       "en": [
         "Account number"
       ],
-      "cible": "Nombor ya évôvôla moné",
+      "cible": "Nombor ya konte moné",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -7330,10 +7342,10 @@
       "en": [
         "Current account"
       ],
-      "cible": "Évôvôla moné ya amane ngôn",
+      "cible": "Konte wô nyoñ moné tyibi",
       "critique": false,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -7373,7 +7385,7 @@
       "en": [
         "View fees"
       ],
-      "cible": "Yené minkuk",
+      "cible": "Yené be frais",
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
@@ -7558,12 +7570,12 @@
       "en": [
         "Transfer fees"
       ],
-      "cible": "Minkuk ya nlomane moné",
+      "cible": "Be frais ya nlomane moné",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "Carrel",
-      "retraduction": "frais de transfert",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Coût du transfert",
@@ -7579,12 +7591,12 @@
       "en": [
         "Choose the transfer type and amount. Fees are calculated automatically."
       ],
-      "cible": "Fialé aval nlomane moné ai abime moné. Minkuk miaye tabe mve'ane ana-ana.",
+      "cible": "Fialé aval nlomane moné ai abime moné. Be frais baye tabe mve'ane ana-ana.",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "Joseph",
-      "retraduction": "Choisir le type de transfert. Les frais sont calculés automatiquement",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Sélectionnez le type de transfert et le montant. Les frais sont calculés automatiquement.",
@@ -7623,10 +7635,10 @@
       "en": [
         "Safinum account"
       ],
-      "cible": "Évôvôla moné Safinum",
+      "cible": "konte moné Safinum",
       "critique": false,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -7686,12 +7698,12 @@
       "en": [
         "{percent} fee (min. {amount_1}, max. {amount_2})"
       ],
-      "cible": "Minkuk ya {percent} (min. {amount_1}, max. {amount_2})",
+      "cible": "be frais ya {percent} (ôsu. {amount_1}, nnemba'ane. {amount_2})",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "Carrel",
-      "retraduction": "frais de{pourcent} (ôsu {montant}, afap {montant2})",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -7764,12 +7776,12 @@
       "en": [
         "Total to debit"
       ],
-      "cible": "Mebal mazù wulu",
+      "cible": "abime moné ya lôm",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "John",
-      "retraduction": "Solde à débiter",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Montant total à débiter",
@@ -7786,12 +7798,12 @@
       "en": [
         "Balance after transfer"
       ],
-      "cible": "Mebal ya mvùs nlomane moné",
+      "cible": "moné a lyii ya wô",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "John",
-      "retraduction": "Solde après le transfert",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Solde après le transfert",
@@ -7874,12 +7886,12 @@
       "en": [
         "This beneficiary has never been used on this account. Verify the number before continuing."
       ],
-      "cible": "Nyô a bi nyi a be ki tabe mbelan évôvôla moné dji. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.",
+      "cible": "Nyô a bi nyi a be ki tabe mbelan konte moné nyii. ô tuá fômbo nombor nsinga ôsusua na w'ake ôsu.",
       "critique": true,
-      "traduit_par": "Carrel",
-      "relu_par": "John",
-      "retraduit_par": "Joseph",
-      "retraduction": "Ce bénéficiaire n'a jamais étéutilisé sur ce compte. Vérifiz le numéro de téléphone avant de continuer",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Vous n'avez jamais envoyé d'argent à ce bénéficiaire depuis ce compte. Vérifiez le numéro avant de continuer.",
@@ -8053,12 +8065,12 @@
       "en": [
         "Total debited"
       ],
-      "cible": "Mabal máte wùlù",
+      "cible": "abime moné d'ate kôlo",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Carrel",
-      "retraduit_par": "John",
-      "retraduction": "Solde débité",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Montant total débité",
@@ -8401,10 +8413,10 @@
       "en": [
         "Insufficient balance for this transfer."
       ],
-      "cible": "Mebal teké yiane asu nlomane moné.",
+      "cible": "abime moné ô bili é ndji yiane asu nlomane moné.",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -8470,12 +8482,12 @@
       "en": [
         "Security warning: this beneficiary has never been used on this account."
       ],
-      "cible": "Fôé éne mfi : nyô a bi nyi a be ki tabe mblelan môs dzing a évôvôla moné dji.",
+      "cible": "Fôé éne mfi : nyô a bi nyi a be ki tabe mblelan môs dzing a Konte moné nyii.",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Carrel",
-      "retraduit_par": "John",
-      "retraduction": "Attention : Ce bénéficiaire n'a jamais été utilisé sur ce compte.",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Avertissement de sécurité : ce bénéficiaire n'a jamais été utilisé sur ce compte.",
@@ -8561,10 +8573,10 @@
       "en": [
         "My account"
       ],
-      "cible": "Évôvôla moné jàm",
+      "cible": "konte wôm",
       "critique": false,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -8654,10 +8666,10 @@
       "en": [
         "Check balance"
       ],
-      "cible": "Yené mebal",
+      "cible": "e yen abime moné ô bili",
       "critique": false,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -8676,12 +8688,12 @@
       "en": [
         "Your balance is {amount}"
       ],
-      "cible": "Mebal môé: {amount}",
+      "cible": "abime moné dôé ane : {amount}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "John",
-      "retraduction": "Votre solde : {amount}",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Votre solde actuel est de {amount}",
@@ -8762,12 +8774,12 @@
       "en": [
         "Transaction fee: {amount}"
       ],
-      "cible": "Minkuk ya nlomane moné : {amount}",
+      "cible": "be frais ya operation : {amount}",
       "critique": true,
-      "traduit_par": "Lesly",
-      "relu_par": "Alexandre et Ronald",
-      "retraduit_par": "John",
-      "retraduction": "Frais de transfert : {amount}",
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Frais appliqués : {amount}",
@@ -8799,12 +8811,12 @@
       "en": [
         "Total debited: {amount}"
       ],
-      "cible": "Mabal máte wùlù : {amount}",
+      "cible": "abime moné d'ate kôlo : {amount}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Carrel",
-      "retraduit_par": "John",
-      "retraduction": "Solde débité : {amount}",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Montant total débité : {amount}",
@@ -8932,10 +8944,10 @@
       "en": [
         "Insufficient balance"
       ],
-      "cible": "Mebal teké yiane",
+      "cible": "Abime moné é ndji yiane",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -9050,10 +9062,10 @@
       "en": [
         "Enter your PIN"
       ],
-      "cible": "Yôlé nten bafili ya èn jôé",
+      "cible": "Futi'i nten bafili (code PIN / PIN) wôé",
       "critique": false,
-      "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true,
@@ -9139,12 +9151,12 @@
       "en": [
         "Your balance"
       ],
-      "cible": "Mebal môé",
+      "cible": "abime moné dôé",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "Carrel",
-      "retraduction": "Votre solde",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true,
       "variantes": [
         "Solde de votre compte",
@@ -9158,48 +9170,48 @@
       "id": "MSG001",
       "fr": "Vous avez reçu {amount} de {name}. Nouveau solde : {amount_2}.",
       "en": [],
-      "cible": "Wa te bi {amount} ya {name}. Mféfé mebal : {amount_2}",
+      "cible": "Wa te bi {amount} ya {name}. Abime moné ô bili ya : {amount_2}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "retraduit_par": "Carrel",
-      "retraduction": "Même sens que le français, confirmé à l'oral",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
       "id": "MSG002",
       "fr": "Transfert de {amount} vers {name} effectué. Frais : {fee}.",
       "en": [],
-      "cible": "Nlomane moné ya {amount} e be {name}. Minkuk : {fee}",
+      "cible": "Nlomane moné ya {amount} e be {name}. Be frais : {fee}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "retraduit_par": "Carrel",
-      "retraduction": "Même sens que le français, confirmé à l'oral",
+      "relu_par": "Lesly",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
       "id": "MSG003",
       "fr": "Retrait de {amount} effectué. Frais : {fee}. Nouveau solde : {amount_2}.",
       "en": [],
-      "cible": "Mvà'àn moné ya {amount} ô te bo'oban mvo'é. Minkuk : {fee}. Mféfé mebal : {amount_2}.",
+      "cible": "Mvà'àn moné ya {amount} ô te bo'oban mvo'é. Be frais : {fee}. Abime moné ô bili ya : {amount_2}.",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "retraduit_par": "Carrel",
-      "retraduction": "Même sens que le français, confirmé à l'oral",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
       "id": "MSG004",
       "fr": "Dépôt de {amount} effectué sur votre compte.",
       "en": [],
-      "cible": "Mboà'àne moné ya {amount} ô te bo'oban évôvôla jôé",
+      "cible": "Mboà'àne moné ya {amount} ô te bo'oban konte jôé",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "retraduit_par": "Carrel",
-      "retraduction": "Même sens que le français, confirmé à l'oral",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -9254,22 +9266,22 @@
       "id": "MSG010",
       "fr": "Votre compte est bloqué. Contactez le service client.",
       "en": [],
-      "cible": "Évôvôla jôé éne mfetán. Lo'on service client",
+      "cible": "konte jôé éne mfetán. Lo'on service client",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "retraduit_par": "Carrel",
-      "retraduction": "Même sens que le français, confirmé à l'oral",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
       "id": "MSG011",
       "fr": "Solde insuffisant. Votre solde est de {amount}.",
       "en": [],
-      "cible": "Mebal teké yiane. Mebal moé mene : {amount}",
+      "cible": "Abime moné é ndji yiane. Moné wôé ane {amount}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9434,12 +9446,12 @@
       "id": "MSG026",
       "fr": "Frais compris : {fee}. Montant total : {amount}.",
       "en": [],
-      "cible": "Minkuk ya été : {fee}. Abime moné ése : {amount}",
+      "cible": "be frais : {fee}. Abimemoné ése : {amount}.",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Sylvie",
-      "retraduit_par": "Carrel",
-      "retraduction": "Même sens que le français, confirmé à l'oral",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
       "valide": true
     },
     {
@@ -9470,10 +9482,10 @@
       "id": "RF011",
       "fr": "Votre solde disponible au {date} est de {amount}.",
       "en": [],
-      "cible": "Mebal môé ya {date} mene {amount}",
+      "cible": "Abime moné ô mbe ô bili {date} é mbe {amount}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9614,22 +9626,10 @@
       "id": "RF035",
       "fr": "Votre nouveau solde est de {amount}.",
       "en": [],
-      "cible": "Mféfé mebal (nouveau solde / new balance) : {amount}",
+      "cible": "abime moné é lyii ya {amount}.",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
-    },
-    {
-      "id": "RF036",
-      "fr": "Pour valider, entrez votre code PIN.",
-      "en": [],
-      "cible": "asù na ô ntiñti (confirmer / confirm), ,futi'i nten bafilli (code PIN / PIN) wôé",
-      "critique": true,
-      "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9758,10 +9758,10 @@
       "id": "RF060",
       "fr": "Votre solde est insuffisant. Vous avez {amount}, mais il faut {amount_2} avec les frais.",
       "en": [],
-      "cible": "Mebal (solde / balance) môé teké yiane. Wô bili {amount}, wô yiane bi {amount_2} évôvôla (compte / account) a minkuk (frais / fee)",
+      "cible": "abime moné jôé é ndi yiane. Wô bili {amount}, wô yiane bi {amount_2} Konte jôé",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9770,10 +9770,10 @@
       "id": "RF061",
       "fr": "Il vous manque {amount}. Vous pouvez envoyer moins, ou approvisionner votre compte.",
       "en": [],
-      "cible": "a sili wô {amount}. Ô ndji bô étôm na ô lôm âse. Ô ne fe jalé évôvôla jôé",
+      "cible": "ô ndji bi {amount}. Ô ne lôm abime éfe nge ki e futi'i moné konte jôé",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9830,10 +9830,10 @@
       "id": "RF070",
       "fr": "Pour envoyer {amount}, les frais sont de {fee}. Au total, {amount_2} seront retirés de votre compte.",
       "en": [],
-      "cible": "Asù na wô lôm {amount}, minkuk mine {fee}. Mabal máte wùlù ya évôvôla (compte / account) wôé mene {amount_2}",
+      "cible": "Asù na wô lôm {amount}, be frais bene {fee}. Abime moné ése d'ake éne {amount_2}",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9842,10 +9842,10 @@
       "id": "RF071",
       "fr": "Les envois vers un compte de la même banque sont gratuits.",
       "en": [],
-      "cible": "Nlomane moné évôvôla ya nda noné dia éne bua, teké minkuk (frais / fee)",
+      "cible": "Minlomane mi moné be bôt befe ya nda moné nyii mine dassé",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9854,10 +9854,10 @@
       "id": "RF072",
       "fr": "Les frais sont de {percent} du montant, au moins {amount} et au plus {amount_2}.",
       "en": [],
-      "cible": "Minkuk mine {percent} ya abime moné; ôsu (minimum / minimum) {amount}, afap (maximum / maximum) {amount_2}.",
+      "cible": "be frais bene {percent} ya abime moné; ôsu {amount}, nnemba'ane {amount_2}.",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9866,10 +9866,10 @@
       "id": "RF073",
       "fr": "Les frais sont l'argent que la banque prend pour faire l'opération. Ils s'ajoutent au montant envoyé.",
       "en": [],
-      "cible": "Minkuk (frais / fee) ane moné ya nda moné (banque / bank) a nyon asù na e bô operation. Mia betebe e yôp moné wô lôm",
+      "cible": "be frais moné ya nda moné a nyon asù na e bô operation. Mia betebe e yôp moné wô lôm",
       "critique": true,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -9971,37 +9971,13 @@
       "valide": true
     },
     {
-      "id": "RF101",
-      "fr": "Vous pouvez changer de langue à tout moment : dites « langue » ou tapez 8.",
-      "en": [],
-      "cible": "ô ne tyendé nkôbo awolo ése : futi'i 8",
-      "critique": false,
-      "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
-    },
-    {
-      "id": "RF102",
-      "fr": "Choisissez votre langue.",
-      "en": [],
-      "cible": "fiale nkôbo",
-      "critique": false,
-      "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
-    },
-    {
       "id": "RF110",
       "fr": "Vous pouvez consulter votre solde, envoyer de l'argent, voir vos opérations, acheter du crédit ou payer une facture.",
       "en": [],
-      "cible": "Ô ne yen mebal môé, e lôm moné, e yen b'operations bôé, e kùs kredi nge ki ya'an faktur",
+      "cible": "Ô ne yen abime moné jôé, e lôm moné, e yen b'operations bôé, e kùs kredi nge ki ya'an faktur",
       "critique": false,
       "traduit_par": "Georges",
-      "relu_par": "Lesly",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -10036,18 +10012,6 @@
       "en": [],
       "cible": "ma fòmbo",
       "critique": false,
-      "traduit_par": "Georges",
-      "relu_par": "Lesly",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
-    },
-    {
-      "id": "RF114",
-      "fr": "Ne donnez jamais votre code PIN à personne, même à un agent de la banque.",
-      "en": [],
-      "cible": "Fôé éne mfi: wô ve ki môt nten bafili (code PIN / PIN) wôé, ja'a atañ môt 'ésaé ya nda moné.",
-      "critique": true,
       "traduit_par": "Georges",
       "relu_par": "Lesly",
       "retraduit_par": "",
@@ -10211,18 +10175,6 @@
       "valide": true
     },
     {
-      "id": "MG02",
-      "fr": "Choisissez votre langue",
-      "en": [],
-      "cible": "Fial nkôbo wôé",
-      "critique": false,
-      "traduit_par": "Georges",
-      "relu_par": "Carrel",
-      "retraduit_par": "",
-      "retraduction": "",
-      "valide": true
-    },
-    {
       "id": "MG03",
       "fr": "Retrait",
       "en": [],
@@ -10286,10 +10238,10 @@
       "id": "MV01",
       "fr": "Pour connaître votre solde, tapez 1.",
       "en": [],
-      "cible": "asù na ô yem mebal (solde / balance) môé, futi'i 1",
+      "cible": "asù na ô yem abime moné jôé, futi'i 1",
       "critique": false,
       "traduit_par": "Georges",
-      "relu_par": "Carrel",
+      "relu_par": "Ronald",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true
@@ -10350,6 +10302,294 @@
       "critique": false,
       "traduit_par": "Georges",
       "relu_par": "Carrel",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF032",
+      "fr": "Vous allez envoyer {amount} à {name}, au {phone}. Frais : {fee}. Total qui sera retiré de votre compte : {amount_2}. Confirmez-vous ?",
+      "en": [],
+      "cible": "Wô zu lôm {name} {amount} e {phone}. Be frais : {fee}. Abime yà kôlo konte jôé : {amount_2}. Wô ntiñti ?",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Ronald",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF026",
+      "fr": "Oui, l'argent de {name} est arrivé : {amount}, le {date}.",
+      "en": [],
+      "cible": "Moné ya be {name} a nga kui {amount}, môs {date}",
+      "critique": true,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF034",
+      "fr": "C'est fait. {name} a reçu {amount}. Référence : {ref}.",
+      "en": [],
+      "cible": "é bo'obane ya. {name} a'te bi {amount}. Ndem : {ref}",
+      "critique": true,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF042",
+      "fr": "D'accord, je corrige le numéro : {phone}.",
+      "en": [],
+      "cible": "Ma kañesse, ma kóm nombor nsinga : {phone}",
+      "critique": true,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF052",
+      "fr": "Vous n'avez pas dit à qui envoyer {amount}. À qui voulez-vous l'envoyer ?",
+      "en": [],
+      "cible": "ô ndji ki kát , zà wô yane lôm {amount}",
+      "critique": true,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF114",
+      "fr": "Ne donnez jamais votre code PIN à personne, même à un agent de la banque.",
+      "en": [],
+      "cible": "te ve môt ézin nten bafili (code PIN / PIN) wôé, ja'a mbô ésaé ya nda moné",
+      "critique": true,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF036",
+      "fr": "Pour valider, entrez votre code PIN.",
+      "en": [],
+      "cible": "asù na ô ntiñti (valider / validate), futi'i nten bafili (code PIN / PIN) wôé",
+      "critique": true,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF102",
+      "fr": "Choisissez votre langue.",
+      "en": [],
+      "cible": "Fial nkôbo wôé",
+      "critique": false,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF101",
+      "fr": "Vous pouvez changer de langue à tout moment : dites « langue » ou tapez 8.",
+      "en": [],
+      "cible": "ô ne tyendé nkôbo wôé éyôñ ése : jô \"nkôbo\" nge ki futi'i 8",
+      "critique": false,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF014",
+      "fr": "Aujourd'hui, vous avez dépensé {amount}.",
+      "en": [],
+      "cible": "den , ô te belan {amount}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF015",
+      "fr": "Hier, vous avez dépensé {amount}.",
+      "en": [],
+      "cible": "a'ñgô'é, ô nga belan {amount}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF016",
+      "fr": "Ces 7 derniers jours, vous avez dépensé {amount}.",
+      "en": [],
+      "cible": "mimôs 7 mi, ô nga belan {amount}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF017",
+      "fr": "Ce mois-ci, vous avez dépensé {amount}.",
+      "en": [],
+      "cible": "ngôn nyii, ô te belan {amount}",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF044",
+      "fr": "D'accord. Quel est le bon numéro ?",
+      "en": [],
+      "cible": "Ok, mbamba nombor âne jé ?",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF067",
+      "fr": "D'accord, je ne fais rien. Aucun argent n'a été envoyé.",
+      "en": [],
+      "cible": "ok. Ma tebe valé. Teké moné ézin ma'ate lôm",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF068",
+      "fr": "Il n'y a aucune opération en cours.",
+      "en": [],
+      "cible": "operation ézin a bo'obane ki awolo ji",
+      "critique": false,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF083",
+      "fr": "Pour combien voulez-vous acheter du crédit ?",
+      "en": [],
+      "cible": "wô kùs kredi tañ ya ?",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "RF095",
+      "fr": "Cette facture est déjà payée.",
+      "en": [],
+      "cible": "faktur nyô a tebe ya yiane",
+      "critique": true,
+      "traduit_par": "Georges",
+      "relu_par": "Sylvie",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MG07",
+      "fr": "Prenez vos billets",
+      "en": [],
+      "cible": "Nyôñ mefep me moné wôé",
+      "critique": false,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MV06",
+      "fr": "Pour réécouter, tapez étoile.",
+      "en": [],
+      "cible": "asù na ô bet'a vo'olo, bisik *",
+      "critique": false,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MV07",
+      "fr": "Pour revenir au menu, tapez dièse.",
+      "en": [],
+      "cible": "asù na ô bulan menu, bisik #",
+      "critique": false,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MU20",
+      "fr": "Entrez votre code PIN",
+      "en": [],
+      "cible": "Futi'i nten bafili (code PIN / PIN) wôé",
+      "critique": false,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MU16",
+      "fr": "Autre",
+      "en": [],
+      "cible": "mfé",
+      "critique": false,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
+      "retraduit_par": "",
+      "retraduction": "",
+      "valide": true
+    },
+    {
+      "id": "MG02",
+      "fr": "Choisissez votre langue",
+      "en": [],
+      "cible": "Fial nkôbo wôé",
+      "critique": false,
+      "traduit_par": "Sylvie",
+      "relu_par": "Georges",
       "retraduit_par": "",
       "retraduction": "",
       "valide": true

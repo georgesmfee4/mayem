@@ -1,0 +1,58 @@
+ref,terme,anglais,sens,critique
+W01,agent,agent,La personne ou la boutique où l'on dépose et retire de l'argent liquide,1
+W02,retrait,withdrawal,Sortir de l'argent liquide de son compte,1
+W03,dépôt,deposit,Mettre de l'argent liquide sur son compte,1
+W04,marchand,merchant,Un commerçant qu'on paie avec son compte,0
+W05,code marchand,merchant code,Le numéro qui identifie un commerçant,1
+W06,approbation,approval,Validation par le client d'un retrait demandé par un agent,1
+W07,en attente,pending,"Pas encore fait, attend une décision",0
+W08,approuver,approve,Dire oui à une demande,1
+W09,rejeter,reject,Dire non à une demande,1
+W10,forfait,bundle,"Un lot d'internet, d'appels ou de SMS acheté pour une durée",0
+W11,internet,internet / data,La connexion pour aller sur internet,0
+W12,méga / mégaoctet,megabyte,L'unité de la quantité d'internet,0
+W13,validité,validity,Jusqu'à quand un forfait ou un crédit peut servir,0
+W14,expiré,expired,"Qui ne peut plus servir, la date est passée",0
+W15,crédit de communication,airtime,L'argent sur le téléphone pour appeler,0
+W16,bonus,bonus,Crédit ou internet offert en plus,0
+W17,carte de recharge,top-up card,Carte à gratter pour mettre du crédit,0
+W18,réseau / opérateur,network / operator,La compagnie de téléphone,0
+W19,mini relevé,mini statement,La liste courte des dernières opérations,0
+W20,code secret oublié,forgotten PIN,Quand on ne se souvient plus de son code secret,1
+W21,réinitialiser,reset,"Remettre à zéro, recréer",1
+W22,pièce d'identité,ID document,Carte nationale d'identité ou passeport,0
+W23,compte bloqué,blocked account,Compte qu'on ne peut plus utiliser pour le moment,1
+W24,plafond journalier,daily limit,La somme la plus grande permise en un jour,1
+W25,frais de retrait,withdrawal fee,Ce que coûte un retrait,1
+W26,prêt,loan,De l'argent emprunté qu'il faut rendre,1
+W27,rembourser,repay,Rendre l'argent emprunté,1
+W28,échéance,due date,La date à laquelle il faut payer,1
+W29,épargne,savings,L'argent mis de côté,0
+W30,intérêts,interest,"L'argent en plus à payer sur un prêt, ou gagné sur une épargne",1
+W31,carte virtuelle,virtual card,Une carte de paiement qui n'existe que sur le téléphone,0
+W32,code QR,QR code,Le carré à scanner pour payer ou recevoir,0
+W33,scanner,scan,Lire un code QR avec l'appareil photo,0
+W34,notification,notification,Message qui prévient d'une opération,0
+W35,code de vérification,verification code,Code reçu par SMS pour prouver que c'est bien vous,1
+W36,session expirée,session expired,"La connexion s'est arrêtée, il faut recommencer",0
+W37,service client,customer service,Les personnes qui aident les clients,0
+W38,réclamation,complaint,Signaler un problème pour qu'il soit réglé,0
+W39,abonnement,subscription,"Paiement régulier pour un service, comme la télévision",0
+W40,numéro de contrat,contract number,Le numéro qui identifie un client d'électricité ou d'eau,0
+W41,compteur,meter,L'appareil qui compte l'électricité ou l'eau,0
+W42,favoris,favourites,Les bénéficiaires gardés pour aller plus vite,0
+W43,empreinte digitale,fingerprint,Le doigt qui sert à ouvrir l'application,0
+W44,se déconnecter,log out,Fermer son compte sur l'application,0
+W45,transaction échouée,failed transaction,Opération qui n'a pas marché,1
+W46,U (unités),units,Unités de crédit dans les offres : 250U = 250 unités,1
+W47,"J / Jrs (jours), H (heures)","days, hours","Durée de validité d'une offre : 30J = 30 jours, 24H = 24 heures",1
+W48,"Mo / Go (mégaoctet, gigaoctet)",MB / GB,"Quantité d'internet : 500Mo, 1.2GB",0
+W49,tous réseaux,all networks,"Appels vers tous les opérateurs, pas seulement le même",0
+W50,personne sans compte,non-registered user,Bénéficiaire qui n'a pas de compte d'argent mobile,1
+W51,transfert international,international transfer,Envoi d'argent vers un autre pays,1
+W52,promotion,promotion,Offre à prix réduit pour un temps,0
+W53,"MB / GB, D (anglais)","MB / GB, days",Abréviations anglaises des offres de l'application : 400MB/30D = 400 mégaoctets pour 30 jours,0
+W54,portefeuille,wallet,Le compte d'argent mobile dans l'application,1
+W55,prépayé / postpayé,prepaid / postpaid,"Compteur qu'on recharge avant, ou facture qu'on paie après",1
+W56,virement,transfer,Envoi d'argent d'un compte à un autre,1
+W57,calculateur de frais,fee calculator,Outil qui dit les frais avant l'opération,0
